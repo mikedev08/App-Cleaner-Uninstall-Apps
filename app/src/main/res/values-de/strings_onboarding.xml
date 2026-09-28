@@ -6,9 +6,9 @@
     <string name="onboarding_page_indicator">Seite %1$d von %2$d</string>
     <string name="onboarding_1_title">Viele Apps auf einmal entfernen</string>
     <string name="onboarding_1_body">Auswählen, bestätigen, fertig – ohne Suchen in den Einstellungen.</string>
-    <string name="onboarding_2_title">Sieh, was deinen Speicher frisst</string>
+    <string name="onboarding_2_title">Sieh, was Platz belegt</string>
     <string name="onboarding_2_body">Die Größe jeder App, die größten zuerst.</string>
     <string name="onboarding_3_title">Finde die Apps, die du vergessen hast</string>
-    <string name="onboarding_3_body">Wir zeigen dir, was du seit Monaten nicht geöffnet hast.</string>
+    <string name="onboarding_3_body">Sieh die Apps, die du seit Monaten nicht geöffnet hast.</string>
     <string name="onboarding_gauge_caption">voll</string>
 </resources>

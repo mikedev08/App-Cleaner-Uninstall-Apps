@@ -5,21 +5,21 @@
     <string name="apps_summary">%1$s · %2$s</string>
     <string name="apps_tab_all">全部</string>
     <string name="apps_section_rest">其他应用</string>
-    <string name="apps_details_whats_using">空间占用明细</string>
-    <string name="apps_details_unlock_teaser">查看空间占用明细</string>
+    <string name="apps_details_whats_using">空间都用在哪了</string>
+    <string name="apps_details_unlock_teaser">看看空间都用在哪了</string>
     <string name="apps_details_total_caption">总大小</string>
     <string name="apps_details_apk_caption">应用大小</string>
     <string name="apps_details_app_info">应用信息</string>
     <string name="apps_details_play">Play 商店</string>
-    <string name="apps_details_cache_hint">如需清除此应用的缓存，请打开“应用信息”，再进入“存储”。</string>
+    <string name="apps_details_cache_hint">要清除这个应用的临时文件，请点“应用信息”，再点“存储”。</string>
     <!-- Design review 2026-09: All · Unused · Large · Cache. -->
-    <string name="apps_tab_unused">未使用</string>
-    <string name="apps_tab_large">大型</string>
-    <string name="apps_tab_cache">缓存</string>
-    <string name="apps_section_large">大型应用</string>
-    <string name="apps_chip_large">大型</string>
+    <string name="apps_tab_unused">不常用</string>
+    <string name="apps_tab_large">大应用</string>
+    <string name="apps_tab_cache">临时文件</string>
+    <string name="apps_section_large">大应用</string>
+    <string name="apps_chip_large">大应用</string>
     <plurals name="apps_chip_idle_months_short">
-        <item quantity="other">%d 个月未打开</item>
+        <item quantity="other">%d 个月没打开</item>
     </plurals>
-    <string name="apps_chip_idle_year_short">超过 1 年未打开</string>
+    <string name="apps_chip_idle_year_short">一年没打开</string>
 </resources>

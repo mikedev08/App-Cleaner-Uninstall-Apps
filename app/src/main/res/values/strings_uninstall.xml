@@ -1,21 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Batch uninstall: Confirm Sheet, resume banner, Progress and Result (PRD §4 Screens 8–10). -->
-    <string name="uninstall_confirm_expectation">Android will ask you to confirm each app.</string>
+    <string name="uninstall_confirm_expectation">Android will ask you to confirm each one.</string>
     <string name="uninstall_size_about">about %1$s</string>
     <string name="uninstall_size_unavailable">Size unavailable</string>
-    <string name="uninstall_warning_device_admin">Device admin — deactivate first</string>
-    <string name="uninstall_warning_keyboard">Your current keyboard — you\'ll need to pick another</string>
-    <string name="uninstall_warning_launcher">Your current home screen app — you\'ll need to pick another</string>
-    <string name="uninstall_warning_sms">Your current SMS app — you\'ll need to pick another</string>
-    <string name="uninstall_warning_dialer">Your current phone app — you\'ll need to pick another</string>
-    <string name="uninstall_warning_always_running">Runs in the background — removing it may change how your phone works</string>
-    <string name="uninstall_resume_body">App Cleaner closed before your last batch finished.</string>
-    <string name="uninstall_resume_discard">Discard</string>
+    <string name="uninstall_warning_device_admin">Has special access to your phone. Turn it off first.</string>
+    <string name="uninstall_warning_keyboard">Your keyboard — you\'ll need to pick another</string>
+    <string name="uninstall_warning_launcher">Your home screen app — you\'ll need to pick another</string>
+    <string name="uninstall_warning_sms">Your texting app — you\'ll need to pick another</string>
+    <string name="uninstall_warning_dialer">Your phone app — you\'ll need to pick another</string>
+    <string name="uninstall_warning_always_running">Always running — removing it may change how your phone works</string>
+    <string name="uninstall_resume_body">App Cleaner closed before it finished removing your apps.</string>
+    <string name="uninstall_resume_discard">No thanks</string>
     <string name="uninstall_progress_title">Removing apps</string>
     <string name="uninstall_progress_count">Removing %1$d of %2$d</string>
     <string name="uninstall_state_waiting">Waiting</string>
-    <string name="uninstall_state_confirming">Waiting for your confirmation</string>
+    <string name="uninstall_state_confirming">Waiting for you to confirm</string>
     <string name="uninstall_state_removed">Removed</string>
     <string name="uninstall_state_skipped">Skipped</string>
     <string name="uninstall_state_failed">Not removed</string>
@@ -25,25 +25,25 @@
     <string name="uninstall_stop_title">Stop removing apps?</string>
     <string name="uninstall_stop_body">Apps already removed stay removed. The rest stay installed.</string>
     <string name="uninstall_stop_keep_going">Keep going</string>
-    <string name="uninstall_stalled_title">Don\'t see Android\'s dialog?</string>
+    <string name="uninstall_stalled_title">Don\'t see Android\'s pop-up?</string>
     <string name="uninstall_stalled_action">Show it again</string>
-    <string name="uninstall_result_freed">%1$s freed</string>
+    <string name="uninstall_result_freed">%1$s freed up</string>
     <string name="uninstall_result_none_title">No apps were removed</string>
     <string name="uninstall_result_none_body">Everything you selected is still installed.</string>
     <string name="uninstall_result_stopped_note">You stopped early. The remaining apps are still installed.</string>
     <string name="uninstall_reason_cancelled">You cancelled</string>
-    <string name="uninstall_reason_not_attempted">Not attempted — you stopped</string>
-    <string name="uninstall_reason_blocked">Your device doesn\'t allow removing this app</string>
-    <string name="uninstall_reason_device_admin">Turn off its admin access first</string>
+    <string name="uninstall_reason_not_attempted">Not tried — you stopped</string>
+    <string name="uninstall_reason_blocked">Your phone doesn\'t let you remove this app</string>
+    <string name="uninstall_reason_device_admin">Turn off its special access first</string>
     <string name="uninstall_reason_not_removed">Android didn\'t remove this app</string>
     <string name="uninstall_reason_other">Android couldn\'t remove this app (code %1$d)</string>
     <string name="uninstall_retry_all">Try all again</string>
-    <string name="uninstall_result_teaser_action">Review unused apps</string>
+    <string name="uninstall_result_teaser_action">See unused apps</string>
     <string name="uninstall_cd_show_details">Show details</string>
     <string name="uninstall_cd_hide_details">Hide details</string>
     <plurals name="uninstall_confirm_button">
-        <item quantity="one">Uninstall %1$d app</item>
-        <item quantity="other">Uninstall %1$d apps</item>
+        <item quantity="one">Remove %1$d app</item>
+        <item quantity="other">Remove %1$d apps</item>
     </plurals>
     <plurals name="uninstall_resume_title">
         <item quantity="one">Finish removing %1$d app?</item>
@@ -61,25 +61,25 @@
         <item quantity="one">%1$d app was already removed</item>
         <item quantity="other">%1$d apps were already removed</item>
     </plurals>
-    <string name="uninstall_confirm_info">Android asks you to confirm each one. You can reinstall from History.</string>
-    <string name="uninstall_confirm_data_short">App data is deleted with the app.</string>
-    <string name="uninstall_confirm_free">You\'ll free %1$s</string>
-    <string name="uninstall_chip_device_admin">Device admin</string>
+    <string name="uninstall_confirm_info">Android will ask you to confirm each one. You can get them back from History.</string>
+    <string name="uninstall_confirm_data_short">Anything saved in these apps is deleted too.</string>
+    <string name="uninstall_confirm_free">You\'ll get back %1$s</string>
+    <string name="uninstall_chip_device_admin">Special access</string>
     <string name="uninstall_chip_keyboard">Your keyboard</string>
     <string name="uninstall_chip_launcher">Your home screen</string>
-    <string name="uninstall_chip_sms">Your SMS app</string>
+    <string name="uninstall_chip_sms">Your texting app</string>
     <string name="uninstall_chip_dialer">Your phone app</string>
-    <string name="uninstall_chip_always_running">Runs in background</string>
+    <string name="uninstall_chip_always_running">Always running</string>
     <string name="uninstall_progress_of">%1$d of %2$d</string>
     <string name="uninstall_result_now_full">Your phone is now %1$d%% full</string>
-    <string name="uninstall_result_gauge_caption">used</string>
+    <string name="uninstall_result_gauge_caption">full</string>
     <plurals name="uninstall_confirm_headline">
-        <item quantity="one">Uninstall %1$d app?</item>
-        <item quantity="other">Uninstall %1$d apps?</item>
+        <item quantity="one">Remove %1$d app?</item>
+        <item quantity="other">Remove %1$d apps?</item>
     </plurals>
     <plurals name="uninstall_result_teaser_loss">
-        <item quantity="one">%1$d more app you haven\'t opened is still using %2$s</item>
-        <item quantity="other">%1$d more apps you haven\'t opened are still using %2$s</item>
+        <item quantity="one">%1$d more app you haven\'t opened still takes up %2$s</item>
+        <item quantity="other">%1$d more apps you haven\'t opened still take up %2$s</item>
     </plurals>
     <plurals name="uninstall_result_teaser_days">
         <item quantity="one">Not opened in %1$d day</item>

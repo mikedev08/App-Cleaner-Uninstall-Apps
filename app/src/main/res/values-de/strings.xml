@@ -8,6 +8,6 @@
     <string name="action_not_now">Nicht jetzt</string>
     <string name="action_back">Zurück</string>
     <string name="action_open_settings">Einstellungen öffnen</string>
-    <string name="label_premium">Premium</string>
+    <string name="label_premium">Pro</string>
     <string name="cd_pro_feature">Pro-Funktion</string>
 </resources>

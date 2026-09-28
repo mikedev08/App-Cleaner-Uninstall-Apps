@@ -11,16 +11,16 @@
     <string name="apps_details_apk_caption">ऐप का साइज़</string>
     <string name="apps_details_app_info">ऐप की जानकारी</string>
     <string name="apps_details_play">Play Store</string>
-    <string name="apps_details_cache_hint">इस ऐप का कैश साफ़ करने के लिए, ऐप की जानकारी खोलें, फिर स्टोरेज।</string>
+    <string name="apps_details_cache_hint">इस ऐप की टेम्प फ़ाइलें साफ़ करने के लिए, ऐप की जानकारी पर टैप करें, फिर स्टोरेज पर।</string>
     <!-- Design review 2026-09: All · Unused · Large · Cache. -->
-    <string name="apps_tab_unused">अप्रयुक्त</string>
+    <string name="apps_tab_unused">बंद पड़े</string>
     <string name="apps_tab_large">बड़े</string>
-    <string name="apps_tab_cache">कैश</string>
+    <string name="apps_tab_cache">टेम्प फ़ाइलें</string>
     <string name="apps_section_large">बड़े ऐप</string>
     <string name="apps_chip_large">बड़ा</string>
     <plurals name="apps_chip_idle_months_short">
-        <item quantity="one">%d माह से नहीं खुला</item>
-        <item quantity="other">%d माह से नहीं खुला</item>
+        <item quantity="one">%d महीने से नहीं खुला</item>
+        <item quantity="other">%d महीने से नहीं खुला</item>
     </plurals>
-    <string name="apps_chip_idle_year_short">1 साल+ से नहीं खुला</string>
+    <string name="apps_chip_idle_year_short">एक साल से नहीं खुला</string>
 </resources>

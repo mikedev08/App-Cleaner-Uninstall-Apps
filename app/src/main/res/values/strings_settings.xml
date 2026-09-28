@@ -2,10 +2,10 @@
 <resources>
     <string name="settings_title">Settings</string>
 
-    <string name="settings_premium_upgrade_title">Unlock App Cleaner Pro</string>
-    <string name="settings_pro_benefit_unused">Find apps you never open</string>
-    <string name="settings_pro_benefit_storage">See every app\'s real size</string>
-    <string name="settings_pro_benefit_reminders">Get reminders to clean up</string>
+    <string name="settings_premium_upgrade_title">Get App Cleaner Pro</string>
+    <string name="settings_pro_benefit_unused">Find apps you don\'t use</string>
+    <string name="settings_pro_benefit_storage">No ads</string>
+    <string name="settings_pro_benefit_reminders">Get weekly cleanup reminders</string>
     <string name="settings_premium_upgrade_cta">Try it free</string>
     <string name="settings_premium_see_plans">See Pro plans</string>
     <string name="settings_premium_active_title">Pro is active</string>
@@ -23,8 +23,8 @@
     <string name="settings_size_apk_short" translatable="false">APK</string>
     <string name="settings_size_total_short">Total</string>
     <string name="settings_size_needs_access">Needs Usage Access</string>
-    <string name="settings_usage_access">Usage Access</string>
-    <string name="settings_usage_access_body">Finds unused apps. Nothing leaves your phone.</string>
+    <string name="settings_usage_access">Usage access</string>
+    <string name="settings_usage_access_body">Lets App Cleaner see which apps you haven\'t opened. Nothing leaves your phone.</string>
     <string name="settings_usage_access_granted">Allowed</string>
     <string name="settings_usage_access_denied">Not allowed</string>
     <string name="settings_usage_access_allow">Allow</string>
@@ -40,7 +40,7 @@
     </plurals>
     <string name="settings_notifications_off">Notifications are off for App Cleaner.</string>
     <string name="settings_notifications_allow">Allow notifications</string>
-    <string name="settings_reminders_needs_access">Reminders need Usage Access to find unused apps.</string>
+    <string name="settings_reminders_needs_access">Reminders need Usage access to find unused apps.</string>
 
     <string name="settings_section_subscription">Subscription</string>
     <string name="settings_restore">Restore purchases</string>

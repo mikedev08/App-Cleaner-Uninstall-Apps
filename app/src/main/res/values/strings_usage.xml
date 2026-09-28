@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Usage Access prominent disclosure (PRD §4 Screen 11, Play User Data policy). -->
-    <string name="usage_title">Allow Usage Access</string>
-    <string name="usage_what_label">What we read</string>
-    <string name="usage_what_body">When each app was last opened, and how much space it uses.</string>
+    <string name="usage_title">Turn on Usage access</string>
+    <string name="usage_what_label">What we see</string>
+    <string name="usage_what_body">When you last opened each app, and how much space it takes.</string>
     <string name="usage_why_label">Why</string>
-    <string name="usage_why_body">To find unused apps and big apps.</string>
+    <string name="usage_why_body">To find apps you don\'t use and big apps.</string>
     <string name="usage_where_label">Where it goes</string>
-    <string name="usage_hint_caption">On the next screen, switch this on:</string>
+    <string name="usage_hint_caption">On the next screen, turn this on:</string>
     <!-- Mimics the system toggle label; OEMs word it differently, so keep it generic. -->
     <string name="usage_hint_toggle">Permit usage access</string>
-    <string name="usage_continue">Continue to Settings</string>
+    <string name="usage_continue">Go to Settings</string>
     <string name="usage_fallback_toast">Find App Cleaner in the list and turn it on</string>
-    <string name="usage_settings_unavailable">Your phone didn’t open the Usage Access page. Open Settings and search for “Usage access”.</string>
+    <string name="usage_settings_unavailable">Your phone didn\'t open the Usage access page. Open Settings and search for “Usage access”.</string>
     <string name="usage_illustration_description">A phone showing apps, with the ones you haven’t opened faded</string>
     <string name="usage_hint_description">Animation: the App Cleaner switch being turned on in Settings</string>
 
     <!-- Design system v2 redesign. -->
-    <string name="usage_subtitle">One permission lets App Cleaner find the apps you don’t use and measure how much space they take.</string>
-    <string name="usage_where_body">It never leaves your phone. Nothing is uploaded.</string>
+    <string name="usage_subtitle">This lets App Cleaner see which apps you haven\'t opened, and how much space they take.</string>
+    <string name="usage_where_body">It stays on your phone. Nothing is uploaded.</string>
 </resources>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="settings_title">Paramètres</string>
-    <string name="settings_premium_upgrade_title">Débloquez App Cleaner Pro</string>
+    <string name="settings_premium_upgrade_title">Passez à App Cleaner Pro</string>
     <string name="settings_premium_upgrade_cta">Essayer gratuitement</string>
     <string name="settings_premium_see_plans">Voir les offres Pro</string>
     <string name="settings_premium_active_title">Pro est actif</string>
@@ -15,15 +15,15 @@
     <string name="settings_size_display">Taille des applis affichée</string>
     <string name="settings_size_total_short">Totale</string>
     <string name="settings_size_needs_access">Nécessite l\'accès aux données d\'utilisation</string>
-    <string name="settings_usage_access">Accès aux données d\'utilisation</string>
-    <string name="settings_usage_access_body">Trouve les applis inutilisées. Rien ne quitte votre téléphone.</string>
+    <string name="settings_usage_access">Accès aux données d’utilisation</string>
+    <string name="settings_usage_access_body">Permet à App Cleaner de voir les applis que vous n’ouvrez plus. Rien ne quitte votre téléphone.</string>
     <string name="settings_usage_access_granted">Autorisé</string>
     <string name="settings_usage_access_denied">Non autorisé</string>
     <string name="settings_usage_access_allow">Autoriser</string>
     <string name="settings_section_reminders">Rappels de nettoyage</string>
     <string name="settings_reminders_toggle">Rappel hebdomadaire</string>
-    <string name="settings_reminders_body">Seulement si des applis inutilisées s\'accumulent.</string>
-    <string name="settings_reminders_threshold">Considérer une appli comme inutilisée après</string>
+    <string name="settings_reminders_body">Seulement si des applis oubliées s’accumulent.</string>
+    <string name="settings_reminders_threshold">Une appli est oubliée après</string>
     <plurals name="settings_threshold_days">
         <item quantity="one">%d jour</item>
         <item quantity="many">%d jours</item>
@@ -31,13 +31,13 @@
     </plurals>
     <string name="settings_notifications_off">Les notifications d\'App Cleaner sont désactivées.</string>
     <string name="settings_notifications_allow">Autoriser les notifications</string>
-    <string name="settings_reminders_needs_access">Les rappels ont besoin de l\'accès aux données d\'utilisation pour trouver les applis inutilisées.</string>
+    <string name="settings_reminders_needs_access">Les rappels ont besoin de l’accès aux données d’utilisation pour trouver les applis oubliées.</string>
     <string name="settings_section_subscription">Abonnement</string>
     <string name="settings_restore">Restaurer les achats</string>
     <string name="settings_rate">Noter App Cleaner</string>
-    <string name="settings_pro_benefit_unused">Trouvez les applis jamais ouvertes</string>
-    <string name="settings_pro_benefit_storage">Voyez la vraie taille des applis</string>
-    <string name="settings_pro_benefit_reminders">Recevez des rappels de nettoyage</string>
+    <string name="settings_pro_benefit_unused">Trouvez les applis oubliées</string>
+    <string name="settings_pro_benefit_storage">Sans pub</string>
+    <string name="settings_pro_benefit_reminders">Recevez un rappel de ménage chaque semaine</string>
     <string name="settings_section_preferences">Préférences</string>
     <string name="settings_footer_privacy">Confidentialité</string>
     <string name="settings_footer_terms">Conditions</string>

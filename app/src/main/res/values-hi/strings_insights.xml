@@ -9,44 +9,44 @@
         <item quantity="other">%d ऐप</item>
     </plurals>
 
-    <string name="insights_large_access_title">देखें कि असल में कौन से ऐप आपका स्टोरेज भर रहे हैं</string>
-    <string name="insights_allow_access">ऐक्सेस की अनुमति दें</string>
+    <string name="insights_large_access_title">देखें कौन-से ऐप सबसे ज़्यादा जगह लेते हैं</string>
+    <string name="insights_allow_access">ऐक्सेस दें</string>
 
     <plurals name="insights_unused_teaser_caption">
         <item quantity="one">पिछले %d दिन में नहीं खोले गए</item>
         <item quantity="other">पिछले %d दिनों में नहीं खोले गए</item>
     </plurals>
-    <string name="insights_locked_rows_description">प्रीमियम अनलॉक करने तक ऐप की सूची छिपी रहेगी</string>
+    <string name="insights_locked_rows_description">ऐप की सूची देखने के लिए Pro लें</string>
 
-    <string name="insights_not_opened_since">कम से कम %1$s से नहीं खोला गया</string>
+    <string name="insights_not_opened_since">%1$s से नहीं खोला</string>
     <plurals name="insights_select_all">
         <item quantity="one">%d ऐप चुनें</item>
         <item quantity="other">सभी %d चुनें</item>
     </plurals>
     <plurals name="insights_unused_empty">
-        <item quantity="one">बढ़िया — पिछले %d दिन में हर ऐप इस्तेमाल हुआ है।</item>
-        <item quantity="other">बढ़िया — पिछले %d दिनों में हर ऐप इस्तेमाल हुआ है।</item>
+        <item quantity="one">बढ़िया! आपने पिछले %d दिन में हर ऐप खोला है।</item>
+        <item quantity="other">बढ़िया! आपने पिछले %d दिनों में हर ऐप खोला है।</item>
     </plurals>
     <string name="insights_no_match">“%1$s” से मेल खाने वाला कोई ऐप नहीं मिला</string>
     <string name="insights_loading_unused">उन ऐप को ढूंढा जा रहा है जिन्हें आप इस्तेमाल नहीं करते…</string>
-    <string name="insights_loading_large">आपके ऐप मापे जा रहे हैं…</string>
+    <string name="insights_loading_large">ऐप के साइज़ जांच रहे हैं…</string>
 
     <string name="insights_legend_app">ऐप</string>
-    <string name="insights_legend_data">डेटा</string>
-    <string name="insights_legend_cache">कैश</string>
-    <string name="insights_size_breakdown">ऐप %1$s · डेटा %2$s · कैश %3$s</string>
-    <string name="insights_size_unavailable">साइज़ उपलब्ध नहीं है</string>
-    <string name="insights_size_measuring">मापा जा रहा है…</string>
+    <string name="insights_legend_data">सेव की गई फ़ाइलें</string>
+    <string name="insights_legend_cache">टेम्प फ़ाइलें</string>
+    <string name="insights_size_breakdown">ऐप %1$s · फ़ाइलें %2$s · टेम्प फ़ाइलें %3$s</string>
+    <string name="insights_size_unavailable">साइज़ उपलब्ध नहीं</string>
+    <string name="insights_size_measuring">जांच रहे हैं…</string>
     <string name="insights_large_empty_title">अभी दिखाने के लिए कोई साइज़ नहीं है</string>
-    <string name="insights_large_empty_body">App Cleaner अभी आपके ऐप नहीं माप सका। थोड़ी देर में फिर से कोशिश करें।</string>
+    <string name="insights_large_empty_body">App Cleaner अभी ऐप के साइज़ नहीं जांच सका। थोड़ी देर में फिर से कोशिश करें।</string>
 
     <string name="insights_reminder_channel_name">सफ़ाई रिमाइंडर</string>
     <string name="insights_reminder_channel_description">जब इस्तेमाल न होने वाले ऐप जमा हो जाएं, तब एक सूचना, और कभी-कभी सफ़ाई करने की याद।</string>
     <plurals name="insights_reminder_title">
-        <item quantity="one">%1$d ऐप %2$d+ दिनों से इस्तेमाल नहीं हुआ · %3$s</item>
-        <item quantity="other">%1$d ऐप %2$d+ दिनों से इस्तेमाल नहीं हुए · %3$s</item>
+        <item quantity="one">%1$d ऐप %2$d दिनों से नहीं खोला · %3$s</item>
+        <item quantity="other">%1$d ऐप %2$d दिनों से नहीं खोले · %3$s</item>
     </plurals>
-    <string name="insights_reminder_text">इन्हें देखें?</string>
+    <string name="insights_reminder_text">एक नज़र डालें?</string>
     <string name="insights_nudge_title">सफ़ाई का समय हो गया?</string>
     <plurals name="insights_nudge_text">
         <item quantity="one">आपके फ़ोन में %d ऐप इंस्टॉल है</item>
@@ -54,29 +54,29 @@
     </plurals>
 
     <string name="insights_unused_access_title">वे ऐप देखें जिन्हें आप भूल गए हैं</string>
-    <string name="insights_unused_access_body">उपयोग एक्सेस की अनुमति दें और App Cleaner उन ऐप को ढूंढेगा जिन्हें आपने हफ़्तों या महीनों से नहीं खोला है, और यह भी कि वे कितनी जगह घेरते हैं।</string>
-    <string name="insights_large_access_body">हर ऐप का पूरा साइज़ मापने के लिए उपयोग एक्सेस की अनुमति दें: ऐप, डेटा और कैश।</string>
-    <string name="insights_private_note">सब कुछ आपके फ़ोन पर ही रहता है</string>
-    <string name="insights_unused_teaser_loss">यानी आपके फ़ोन पर %1$s बेकार पड़ा है।</string>
-    <string name="insights_unused_teaser_body">देखें कि ये कौन से ऐप हैं और इन्हें एक साथ हटाएं।</string>
-    <string name="insights_large_teaser_loss">यह आपके फ़ोन के स्टोरेज का %1$s है।</string>
-    <string name="insights_large_teaser_body">हर ऐप का साइज़ देखें, ऐप, डेटा और कैश में बंटा हुआ।</string>
+    <string name="insights_unused_access_body">इस्तेमाल का ऐक्सेस चालू करें, ताकि App Cleaner देख सके कि आपने कौन-से ऐप नहीं खोले, और वे कितनी जगह लेते हैं।</string>
+    <string name="insights_large_access_body">हर ऐप का पूरा साइज़ देखने के लिए इस्तेमाल का ऐक्सेस चालू करें, सेव की गई और टेम्प फ़ाइलों के साथ।</string>
+    <string name="insights_private_note">कुछ भी आपके फ़ोन से बाहर नहीं जाता</string>
+    <string name="insights_unused_teaser_loss">ये %1$s जगह ले रहे हैं, जो आप वापस पा सकते हैं।</string>
+    <string name="insights_unused_teaser_body">देखें ये कौन-से ऐप हैं और सबको एक साथ हटाएं।</string>
+    <string name="insights_large_teaser_loss">यह आपके फ़ोन की %1$s जगह है।</string>
+    <string name="insights_large_teaser_body">देखें हर ऐप कितनी जगह लेता है।</string>
     <string name="insights_see_which_apps">देखें कौन से ऐप</string>
     <string name="insights_last_opened_date">आख़िरी बार %1$s में खोला गया</string>
     <string name="insights_idle_for">%1$s से नहीं खोला गया</string>
-    <string name="insights_no_use_on_record">इस्तेमाल का कोई रिकॉर्ड नहीं</string>
+    <string name="insights_no_use_on_record">हाल में नहीं खोला</string>
     <string name="insights_unused_empty_body">अभी यहां साफ़ करने को कुछ नहीं है।</string>
-    <string name="insights_cache_callout_body">कैश अस्थायी फ़ाइलें होती हैं जिन्हें ऐप ज़रूरत पड़ने पर दोबारा बना लेता है। आप इसे ऐप को अनइंस्टॉल किए बिना उसके “ऐप की जानकारी” पेज से साफ़ कर सकते हैं।</string>
+    <string name="insights_cache_callout_body">टेम्प फ़ाइलें वो फ़ाइलें हैं जो ऐप जल्दी खुलने के लिए रखते हैं। ज़रूरत पड़ने पर ऐप इन्हें फिर से बना लेते हैं, इसलिए आप ऐप हटाए बिना इन्हें “ऐप की जानकारी” में साफ़ कर सकते हैं।</string>
     <!-- Design review 2026-09: one Large rule, the Cache filter. -->
-    <string name="insights_large_caption">%1$s या उससे ज़्यादा वाले ऐप</string>
+    <string name="insights_large_caption">%1$s या उससे ज़्यादा जगह लेने वाले ऐप</string>
     <string name="insights_large_none_title">कोई बड़ा ऐप नहीं</string>
     <string name="insights_large_none_body">आपका कोई भी ऐप %1$s या उससे ज़्यादा जगह नहीं लेता।</string>
-    <string name="insights_cache_access_title">देखें किन ऐप में सबसे ज़्यादा कैश है</string>
+    <string name="insights_cache_access_title">देखें किन ऐप में सबसे ज़्यादा टेम्प फ़ाइलें हैं</string>
     <plurals name="insights_cache_caption">
-        <item quantity="one">%d ऐप का कैश</item>
-        <item quantity="other">%d ऐप का कैश</item>
+        <item quantity="one">%d ऐप में टेम्प फ़ाइलें</item>
+        <item quantity="other">%d ऐप में टेम्प फ़ाइलें</item>
     </plurals>
-    <string name="insights_cache_teaser_body">देखें कि ये कौन से ऐप हैं, फिर “ऐप की जानकारी” से कैश साफ़ करें।</string>
-    <string name="insights_cache_row_meta">कुल %1$s</string>
-    <string name="insights_cache_none_title">साफ़ करने के लिए कोई कैश नहीं</string>
+    <string name="insights_cache_teaser_body">देखें ये किन ऐप में हैं, फिर “ऐप की जानकारी” में इन्हें साफ़ करें।</string>
+    <string name="insights_cache_row_meta">पूरा ऐप: %1$s</string>
+    <string name="insights_cache_none_title">साफ़ करने के लिए कोई टेम्प फ़ाइल नहीं</string>
 </resources>

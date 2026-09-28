@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="billing_restore_success">تمت استعادة بريميوم. مرحبًا بعودتك!</string>
-    <string name="billing_restore_nothing">لم يتم العثور على عملية شراء سابقة لحساب Google هذا.</string>
+    <string name="billing_restore_success">تمت استعادة Pro. مرحبًا بعودتك!</string>
+    <string name="billing_restore_nothing">لم نجد عملية شراء سابقة على حساب Google هذا.</string>
     <string name="billing_restore_failed">تعذّرت استعادة المشتريات. يُرجى المحاولة مرة أخرى.</string>
     <string name="billing_purchase_failed">لم تكتمل عملية الشراء. يُرجى المحاولة مرة أخرى.</string>
-    <string name="billing_purchase_pending">الدفع قيد المعالجة. سيتم تفعيل بريميوم فور تأكيده من Google Play.</string>
+    <string name="billing_purchase_pending">لم يكتمل الدفع بعد. سيعمل Pro بمجرد أن يؤكّده Google Play.</string>
     <string name="billing_network_error">تعذّر الاتصال بـ Google Play. تحقق من اتصالك وحاول مرة أخرى.</string>
     <string name="billing_not_available">الاشتراكات غير متاحة بعد.</string>
     <string name="billing_link_unavailable">لا يوجد تطبيق على هذا الهاتف يمكنه فتح هذا الرابط.</string>

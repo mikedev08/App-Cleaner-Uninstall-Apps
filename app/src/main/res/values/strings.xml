@@ -10,7 +10,7 @@
     <string name="action_not_now">Not now</string>
     <string name="action_back">Back</string>
     <string name="action_open_settings">Open settings</string>
-    <string name="label_premium">Premium</string>
+    <string name="label_premium">Pro</string>
     <!-- Screen-reader label for the small lock on Pro-only controls. -->
     <string name="cd_pro_feature">Pro feature</string>
 </resources>

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="usage_title">开启使用情况访问权限</string>
-    <string name="usage_what_label">我们读取什么</string>
-    <string name="usage_what_body">每个应用上次打开的时间，以及它占用了多少空间。</string>
+    <string name="usage_what_label">我们会看到什么</string>
+    <string name="usage_what_body">每个应用上次打开的时间，以及它占了多少空间。</string>
     <string name="usage_why_label">用途</string>
-    <string name="usage_why_body">找出不用的应用和占空间大的应用。</string>
-    <string name="usage_where_label">数据去向</string>
-    <string name="usage_hint_caption">在下一个界面中，开启这个开关：</string>
+    <string name="usage_why_body">为了找出不常用的应用和大应用。</string>
+    <string name="usage_where_label">信息会去哪</string>
+    <string name="usage_hint_caption">在下一个页面，打开这个开关：</string>
     <string name="usage_hint_toggle">允许访问使用记录</string>
     <string name="usage_continue">前往设置</string>
     <string name="usage_fallback_toast">在列表中找到 App Cleaner 并开启</string>
-    <string name="usage_settings_unavailable">你的手机未能打开“使用情况访问权限”页面。请打开“设置”，搜索“使用情况访问权限”。</string>
+    <string name="usage_settings_unavailable">你的手机没能打开“使用情况访问权限”页面。请打开“设置”，搜索“使用情况访问权限”。</string>
     <string name="usage_illustration_description">一部显示应用的手机，你没打开过的应用显示为淡色</string>
     <string name="usage_hint_description">动画：在设置中开启 App Cleaner 的开关</string>
 
-    <string name="usage_subtitle">只需一项权限，App Cleaner 就能找出你不用的应用，并测量它们占用的空间。</string>
-    <string name="usage_where_body">数据绝不会离开你的手机，也不会上传任何内容。</string>
+    <string name="usage_subtitle">开启后，App Cleaner 能看到哪些应用你没打开过，以及它们占了多少空间。</string>
+    <string name="usage_where_body">信息只留在你的手机上，不会上传任何内容。</string>
 </resources>

@@ -11,17 +11,17 @@
     <string name="apps_details_apk_caption">Tamaño de la app</string>
     <string name="apps_details_app_info">Info de la app</string>
     <string name="apps_details_play">Play Store</string>
-    <string name="apps_details_cache_hint">Para borrar la caché de esta app, abre Info de la app y luego Almacenamiento.</string>
+    <string name="apps_details_cache_hint">Para borrar los archivos temporales de esta app, toca Info de la app y luego Almacenamiento.</string>
     <!-- Design review 2026-09: All · Unused · Large · Cache. -->
     <string name="apps_tab_unused">Sin uso</string>
     <string name="apps_tab_large">Grandes</string>
-    <string name="apps_tab_cache">Caché</string>
-    <string name="apps_section_large">Grandes</string>
+    <string name="apps_tab_cache">Temporales</string>
+    <string name="apps_section_large">Apps grandes</string>
     <string name="apps_chip_large">Grande</string>
     <plurals name="apps_chip_idle_months_short">
         <item quantity="one">Sin abrir en %d mes</item>
         <item quantity="many">Sin abrir en %d meses</item>
         <item quantity="other">Sin abrir en %d meses</item>
     </plurals>
-    <string name="apps_chip_idle_year_short">Sin abrir en +1 año</string>
+    <string name="apps_chip_idle_year_short">Sin abrir en un año</string>
 </resources>

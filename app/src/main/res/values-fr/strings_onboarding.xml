@@ -6,9 +6,9 @@
     <string name="onboarding_page_indicator">Page %1$d sur %2$d</string>
     <string name="onboarding_1_title">Supprimez plusieurs applis d\'un coup</string>
     <string name="onboarding_1_body">Sélectionnez, confirmez, c\'est fait — sans fouiller dans les Paramètres.</string>
-    <string name="onboarding_2_title">Voyez ce qui dévore votre stockage</string>
+    <string name="onboarding_2_title">Voyez ce qui prend de la place</string>
     <string name="onboarding_2_body">La taille de chaque appli, de la plus grosse à la plus petite.</string>
     <string name="onboarding_3_title">Retrouvez les applis oubliées</string>
-    <string name="onboarding_3_body">Nous vous montrons celles que vous n\'avez pas ouvertes depuis des mois.</string>
+    <string name="onboarding_3_body">Voyez les applis que vous n’avez pas ouvertes depuis des mois.</string>
     <string name="onboarding_gauge_caption">plein</string>
 </resources>

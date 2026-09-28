@@ -11,7 +11,7 @@
         <item quantity="other">%d apps</item>
     </plurals>
 
-    <string name="insights_large_access_title">Descubre qué apps llenan de verdad tu almacenamiento</string>
+    <string name="insights_large_access_title">Mira qué apps ocupan más espacio</string>
     <string name="insights_allow_access">Permitir acceso</string>
 
     <plurals name="insights_unused_teaser_caption">
@@ -19,40 +19,40 @@
         <item quantity="many">Sin abrir en los últimos %d días</item>
         <item quantity="other">Sin abrir en los últimos %d días</item>
     </plurals>
-    <string name="insights_locked_rows_description">Lista de apps oculta hasta que desbloquees Premium</string>
+    <string name="insights_locked_rows_description">Consigue Pro para ver la lista de apps</string>
 
-    <string name="insights_not_opened_since">Sin abrir desde al menos %1$s</string>
+    <string name="insights_not_opened_since">Sin abrir desde %1$s</string>
     <plurals name="insights_select_all">
         <item quantity="one">Seleccionar %d app</item>
         <item quantity="many">Seleccionar las %d</item>
         <item quantity="other">Seleccionar las %d</item>
     </plurals>
     <plurals name="insights_unused_empty">
-        <item quantity="one">¡Genial! Has usado todas tus apps en el último día.</item>
-        <item quantity="many">¡Genial! Has usado todas tus apps en los últimos %d días.</item>
-        <item quantity="other">¡Genial! Has usado todas tus apps en los últimos %d días.</item>
+        <item quantity="one">¡Genial! Has abierto todas tus apps en el último día.</item>
+        <item quantity="many">¡Genial! Has abierto todas tus apps en los últimos %d días.</item>
+        <item quantity="other">¡Genial! Has abierto todas tus apps en los últimos %d días.</item>
     </plurals>
     <string name="insights_no_match">Ninguna app coincide con «%1$s»</string>
     <string name="insights_loading_unused">Buscando apps que no usas…</string>
-    <string name="insights_loading_large">Midiendo tus apps…</string>
+    <string name="insights_loading_large">Calculando el tamaño de las apps…</string>
 
     <string name="insights_legend_app">App</string>
-    <string name="insights_legend_data">Datos</string>
-    <string name="insights_legend_cache">Caché</string>
-    <string name="insights_size_breakdown">App %1$s · Datos %2$s · Caché %3$s</string>
+    <string name="insights_legend_data">Guardados</string>
+    <string name="insights_legend_cache">Temporales</string>
+    <string name="insights_size_breakdown">App %1$s · Archivos %2$s · Temporales %3$s</string>
     <string name="insights_size_unavailable">Tamaño no disponible</string>
-    <string name="insights_size_measuring">Midiendo…</string>
+    <string name="insights_size_measuring">Calculando…</string>
     <string name="insights_large_empty_title">Aún no hay tamaños que mostrar</string>
-    <string name="insights_large_empty_body">App Cleaner no ha podido medir tus apps ahora mismo. Inténtalo de nuevo en un momento.</string>
+    <string name="insights_large_empty_body">App Cleaner no pudo calcular el tamaño de las apps ahora mismo. Inténtalo de nuevo en un momento.</string>
 
     <string name="insights_reminder_channel_name">Recordatorios de limpieza</string>
     <string name="insights_reminder_channel_description">Un aviso cuando se acumulan apps que no usas y, de vez en cuando, un recordatorio para hacer limpieza.</string>
     <plurals name="insights_reminder_title">
-        <item quantity="one">%1$d app sin usar desde hace %2$d+ días · %3$s</item>
-        <item quantity="many">%1$d apps sin usar desde hace %2$d+ días · %3$s</item>
-        <item quantity="other">%1$d apps sin usar desde hace %2$d+ días · %3$s</item>
+        <item quantity="one">%1$d app sin abrir en %2$d días · %3$s</item>
+        <item quantity="many">%1$d apps sin abrir en %2$d días · %3$s</item>
+        <item quantity="other">%1$d apps sin abrir en %2$d días · %3$s</item>
     </plurals>
-    <string name="insights_reminder_text">¿Quieres revisarlas?</string>
+    <string name="insights_reminder_text">¿Les echas un vistazo?</string>
     <string name="insights_nudge_title">¿Toca hacer limpieza?</string>
     <plurals name="insights_nudge_text">
         <item quantity="one">Tienes %d app instalada</item>
@@ -61,30 +61,30 @@
     </plurals>
 
     <string name="insights_unused_access_title">Descubre las apps que olvidaste</string>
-    <string name="insights_unused_access_body">Permite el acceso a los datos de uso y App Cleaner encontrará las apps que no abres desde hace semanas o meses, y cuánto espacio ocupan.</string>
-    <string name="insights_large_access_body">Permite el acceso a los datos de uso para medir el tamaño completo de cada app: app, datos y caché.</string>
-    <string name="insights_private_note">Todo se queda en tu teléfono</string>
-    <string name="insights_unused_teaser_loss">Son %1$s sin usar en tu teléfono.</string>
-    <string name="insights_unused_teaser_body">Descubre qué apps son y elimínalas de una vez.</string>
-    <string name="insights_large_teaser_loss">Es el %1$s del almacenamiento de tu teléfono.</string>
-    <string name="insights_large_teaser_body">Consulta el tamaño de cada app, desglosado en app, datos y caché.</string>
+    <string name="insights_unused_access_body">Activa el acceso a datos de uso para que App Cleaner vea qué apps no has abierto y cuánto espacio ocupan.</string>
+    <string name="insights_large_access_body">Activa el acceso a datos de uso para ver el tamaño completo de cada app, con sus archivos guardados y temporales.</string>
+    <string name="insights_private_note">Nada sale de tu teléfono</string>
+    <string name="insights_unused_teaser_loss">Ocupan %1$s que podrías recuperar.</string>
+    <string name="insights_unused_teaser_body">Mira qué apps son y quítalas todas a la vez.</string>
+    <string name="insights_large_teaser_loss">Es el %1$s del espacio de tu teléfono.</string>
+    <string name="insights_large_teaser_body">Mira cuánto espacio ocupa cada app.</string>
     <string name="insights_see_which_apps">Ver qué apps</string>
     <string name="insights_last_opened_date">Abierta por última vez en %1$s</string>
     <string name="insights_idle_for">Sin abrir desde hace %1$s</string>
-    <string name="insights_no_use_on_record">Sin uso registrado</string>
+    <string name="insights_no_use_on_record">Sin abrir últimamente</string>
     <string name="insights_unused_empty_body">No hay nada que limpiar por ahora.</string>
-    <string name="insights_cache_callout_body">La caché son archivos temporales que la app vuelve a crear cuando los necesita. Puedes borrarla desde la página Información de la app sin desinstalarla.</string>
+    <string name="insights_cache_callout_body">Los archivos temporales son archivos que las apps guardan para abrirse más rápido. Las apps los vuelven a crear cuando los necesitan, así que puedes borrarlos en Info de la app sin quitar la app.</string>
     <!-- Design review 2026-09: one Large rule, the Cache filter. -->
-    <string name="insights_large_caption">Apps que usan %1$s o más</string>
+    <string name="insights_large_caption">Apps que ocupan %1$s o más</string>
     <string name="insights_large_none_title">No hay apps grandes</string>
-    <string name="insights_large_none_body">Ninguna de tus apps usa %1$s o más.</string>
-    <string name="insights_cache_access_title">Descubre qué apps guardan más caché</string>
+    <string name="insights_large_none_body">Ninguna de tus apps ocupa %1$s o más.</string>
+    <string name="insights_cache_access_title">Mira qué apps tienen más archivos temporales</string>
     <plurals name="insights_cache_caption">
-        <item quantity="one">Caché de %d app</item>
-        <item quantity="many">Caché de %d apps</item>
-        <item quantity="other">Caché de %d apps</item>
+        <item quantity="one">Archivos temporales en %d app</item>
+        <item quantity="many">Archivos temporales en %d apps</item>
+        <item quantity="other">Archivos temporales en %d apps</item>
     </plurals>
-    <string name="insights_cache_teaser_body">Descubre qué apps la guardan y bórrala desde Información de la app.</string>
-    <string name="insights_cache_row_meta">%1$s en total</string>
-    <string name="insights_cache_none_title">No hay caché que borrar</string>
+    <string name="insights_cache_teaser_body">Mira qué apps los tienen y bórralos en Info de la app.</string>
+    <string name="insights_cache_row_meta">App completa: %1$s</string>
+    <string name="insights_cache_none_title">No hay archivos temporales que borrar</string>
 </resources>

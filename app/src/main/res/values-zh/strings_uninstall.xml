@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="uninstall_confirm_expectation">Android 会请你逐个确认每个应用。</string>
+    <string name="uninstall_confirm_expectation">Android 会让你逐个确认。</string>
     <string name="uninstall_size_about">约 %1$s</string>
     <string name="uninstall_size_unavailable">大小不可用</string>
-    <string name="uninstall_warning_device_admin">设备管理器 — 请先停用</string>
-    <string name="uninstall_warning_keyboard">你当前的键盘 — 需要另选一个</string>
-    <string name="uninstall_warning_launcher">你当前的桌面应用 — 需要另选一个</string>
-    <string name="uninstall_warning_sms">你当前的短信应用 — 需要另选一个</string>
-    <string name="uninstall_warning_dialer">你当前的电话应用 — 需要另选一个</string>
-    <string name="uninstall_warning_always_running">在后台运行 — 移除后可能影响手机的工作方式</string>
-    <string name="uninstall_resume_body">App Cleaner 在上一批完成前已关闭。</string>
-    <string name="uninstall_resume_discard">放弃</string>
+    <string name="uninstall_warning_device_admin">拥有手机的特殊权限，请先关闭。</string>
+    <string name="uninstall_warning_keyboard">你正在用的键盘——需要换一个</string>
+    <string name="uninstall_warning_launcher">你的桌面应用——需要换一个</string>
+    <string name="uninstall_warning_sms">你的短信应用——需要换一个</string>
+    <string name="uninstall_warning_dialer">你的电话应用——需要换一个</string>
+    <string name="uninstall_warning_always_running">一直在运行——移除后可能影响手机正常使用</string>
+    <string name="uninstall_resume_body">App Cleaner 还没移除完应用就关闭了。</string>
+    <string name="uninstall_resume_discard">不用了</string>
     <string name="uninstall_progress_title">正在移除应用</string>
     <string name="uninstall_progress_count">正在移除第 %1$d 个，共 %2$d 个</string>
     <string name="uninstall_state_waiting">等待中</string>
-    <string name="uninstall_state_confirming">等待你确认</string>
+    <string name="uninstall_state_confirming">等你确认</string>
     <string name="uninstall_state_removed">已移除</string>
     <string name="uninstall_state_skipped">已跳过</string>
     <string name="uninstall_state_failed">未移除</string>
@@ -24,24 +24,24 @@
     <string name="uninstall_stop_title">停止移除应用？</string>
     <string name="uninstall_stop_body">已移除的应用不会恢复，其余应用保持安装。</string>
     <string name="uninstall_stop_keep_going">继续移除</string>
-    <string name="uninstall_stalled_title">没看到 Android 的对话框？</string>
+    <string name="uninstall_stalled_title">没看到 Android 的弹窗？</string>
     <string name="uninstall_stalled_action">再次显示</string>
     <string name="uninstall_result_freed">已释放 %1$s</string>
     <string name="uninstall_result_none_title">没有移除任何应用</string>
     <string name="uninstall_result_none_body">你选择的应用仍全部安装着。</string>
     <string name="uninstall_result_stopped_note">你提前停止了。其余应用仍已安装。</string>
     <string name="uninstall_reason_cancelled">你已取消</string>
-    <string name="uninstall_reason_not_attempted">未尝试 — 你已停止</string>
-    <string name="uninstall_reason_blocked">你的设备不允许移除此应用</string>
-    <string name="uninstall_reason_device_admin">请先关闭它的管理员权限</string>
+    <string name="uninstall_reason_not_attempted">没有尝试——你已停止</string>
+    <string name="uninstall_reason_blocked">你的手机不允许移除这个应用</string>
+    <string name="uninstall_reason_device_admin">请先关闭它的特殊权限</string>
     <string name="uninstall_reason_not_removed">Android 未移除此应用</string>
     <string name="uninstall_reason_other">Android 无法移除此应用（代码 %1$d）</string>
     <string name="uninstall_retry_all">全部重试</string>
-    <string name="uninstall_result_teaser_action">查看未使用的应用</string>
+    <string name="uninstall_result_teaser_action">查看不常用的应用</string>
     <string name="uninstall_cd_show_details">显示详情</string>
     <string name="uninstall_cd_hide_details">隐藏详情</string>
     <plurals name="uninstall_confirm_button">
-        <item quantity="other">卸载 %1$d 个应用</item>
+        <item quantity="other">移除 %1$d 个应用</item>
     </plurals>
     <plurals name="uninstall_resume_title">
         <item quantity="other">完成移除 %1$d 个应用？</item>
@@ -55,25 +55,25 @@
     <plurals name="uninstall_result_already_removed">
         <item quantity="other">%1$d 个应用已被移除</item>
     </plurals>
-    <string name="uninstall_confirm_info">Android 会让你逐个确认。你可以在“历史记录”中重新安装。</string>
-    <string name="uninstall_confirm_data_short">应用数据会一并删除。</string>
-    <string name="uninstall_confirm_free">将释放 %1$s</string>
-    <string name="uninstall_chip_device_admin">设备管理器</string>
-    <string name="uninstall_chip_keyboard">当前键盘</string>
-    <string name="uninstall_chip_launcher">当前主屏幕</string>
-    <string name="uninstall_chip_sms">当前短信应用</string>
-    <string name="uninstall_chip_dialer">当前电话应用</string>
-    <string name="uninstall_chip_always_running">在后台运行</string>
+    <string name="uninstall_confirm_info">Android 会让你逐个确认。你可以在“历史记录”里找回它们。</string>
+    <string name="uninstall_confirm_data_short">这些应用里保存的内容也会一起删除。</string>
+    <string name="uninstall_confirm_free">可以释放 %1$s</string>
+    <string name="uninstall_chip_device_admin">特殊权限</string>
+    <string name="uninstall_chip_keyboard">你的键盘</string>
+    <string name="uninstall_chip_launcher">你的桌面</string>
+    <string name="uninstall_chip_sms">你的短信应用</string>
+    <string name="uninstall_chip_dialer">你的电话应用</string>
+    <string name="uninstall_chip_always_running">一直在运行</string>
     <string name="uninstall_progress_of">%1$d / %2$d</string>
-    <string name="uninstall_result_now_full">你的手机现已使用 %1$d%%</string>
+    <string name="uninstall_result_now_full">手机空间现在已用 %1$d%%</string>
     <string name="uninstall_result_gauge_caption">已用</string>
     <plurals name="uninstall_confirm_headline">
-        <item quantity="other">要卸载 %1$d 个应用吗？</item>
+        <item quantity="other">要移除 %1$d 个应用吗？</item>
     </plurals>
     <plurals name="uninstall_result_teaser_loss">
-        <item quantity="other">还有 %1$d 个你没打开过的应用仍占用 %2$s</item>
+        <item quantity="other">还有 %1$d 个你没打开过的应用，仍占着 %2$s</item>
     </plurals>
     <plurals name="uninstall_result_teaser_days">
-        <item quantity="other">%1$d 天内未打开</item>
+        <item quantity="other">%1$d 天没打开过</item>
     </plurals>
 </resources>

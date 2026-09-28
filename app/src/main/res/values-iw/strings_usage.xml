@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="usage_title">אישור גישה לנתוני שימוש</string>
-    <string name="usage_what_label">מה אנחנו קוראים</string>
+    <string name="usage_title">הפעלת גישה לנתוני שימוש</string>
+    <string name="usage_what_label">מה אנחנו רואים</string>
     <string name="usage_what_body">מתי כל אפליקציה נפתחה לאחרונה, וכמה מקום היא תופסת.</string>
     <string name="usage_why_label">למה</string>
     <string name="usage_why_body">כדי למצוא אפליקציות שלא בשימוש ואפליקציות גדולות.</string>
     <string name="usage_where_label">לאן המידע הולך</string>
-    <string name="usage_hint_caption">במסך הבא, הפעילו את זה:</string>
+    <string name="usage_hint_caption">במסך הבא, צריך להפעיל את זה:</string>
     <string name="usage_hint_toggle">מתן גישה לנתוני שימוש</string>
-    <string name="usage_continue">המשך להגדרות</string>
-    <string name="usage_fallback_toast">מצאו את App Cleaner ברשימה והפעילו אותו</string>
-    <string name="usage_settings_unavailable">הטלפון לא פתח את דף הגישה לנתוני שימוש. פתחו את ההגדרות וחפשו “גישה לנתוני שימוש”.</string>
-    <string name="usage_illustration_description">טלפון שמציג אפליקציות, והאפליקציות שלא פתחתם מעומעמות</string>
+    <string name="usage_continue">מעבר להגדרות</string>
+    <string name="usage_fallback_toast">צריך למצוא את App Cleaner ברשימה ולהפעיל אותה</string>
+    <string name="usage_settings_unavailable">הטלפון לא פתח את הדף ״גישה לנתוני שימוש״. אפשר לפתוח את ההגדרות ולחפש ״גישה לנתוני שימוש״.</string>
+    <string name="usage_illustration_description">טלפון עם אפליקציות, והאפליקציות שלא פתחת מעומעמות</string>
     <string name="usage_hint_description">אנימציה: המתג של App Cleaner מופעל בהגדרות</string>
 
-    <string name="usage_subtitle">הרשאה אחת בלבד מאפשרת ל־App Cleaner למצוא אפליקציות שאתם לא משתמשים בהן ולמדוד כמה מקום הן תופסות.</string>
-    <string name="usage_where_body">המידע אף פעם לא יוצא מהטלפון. שום דבר לא מועלה.</string>
+    <string name="usage_subtitle">כך App Cleaner יכולה לראות אילו אפליקציות לא פתחת, וכמה מקום הן תופסות.</string>
+    <string name="usage_where_body">הכול נשאר בטלפון שלך. שום דבר לא עולה לאינטרנט.</string>
 </resources>

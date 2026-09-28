@@ -16,7 +16,7 @@
     <string name="settings_size_total_short">الإجمالي</string>
     <string name="settings_size_needs_access">يتطلب الوصول إلى بيانات الاستخدام</string>
     <string name="settings_usage_access">الوصول إلى بيانات الاستخدام</string>
-    <string name="settings_usage_access_body">يعثر على التطبيقات غير المستخدمة. لا شيء يغادر هاتفك.</string>
+    <string name="settings_usage_access_body">يتيح لـ App Cleaner معرفة التطبيقات التي لم تفتحها. لا شيء يغادر هاتفك.</string>
     <string name="settings_usage_access_granted">مسموح</string>
     <string name="settings_usage_access_denied">غير مسموح</string>
     <string name="settings_usage_access_allow">السماح</string>
@@ -34,13 +34,13 @@
     </plurals>
     <string name="settings_notifications_off">الإشعارات متوقفة لتطبيق App Cleaner.</string>
     <string name="settings_notifications_allow">السماح بالإشعارات</string>
-    <string name="settings_reminders_needs_access">تحتاج التذكيرات إلى الوصول إلى بيانات الاستخدام للعثور على التطبيقات غير المستخدمة.</string>
+    <string name="settings_reminders_needs_access">تحتاج التذكيرات إلى «الوصول إلى بيانات الاستخدام» للعثور على التطبيقات التي لا تستخدمها.</string>
     <string name="settings_section_subscription">الاشتراك</string>
     <string name="settings_restore">استعادة المشتريات</string>
     <string name="settings_rate">قيّم App Cleaner</string>
-    <string name="settings_pro_benefit_unused">اعثر على التطبيقات التي لا تفتحها</string>
-    <string name="settings_pro_benefit_storage">اطّلع على الحجم الحقيقي لكل تطبيق</string>
-    <string name="settings_pro_benefit_reminders">تلقَّ تذكيرات للتنظيف</string>
+    <string name="settings_pro_benefit_unused">اعثر على التطبيقات التي لا تستخدمها</string>
+    <string name="settings_pro_benefit_storage">بلا إعلانات</string>
+    <string name="settings_pro_benefit_reminders">تلقَّ تذكيرات أسبوعية للتنظيف</string>
     <string name="settings_section_preferences">التفضيلات</string>
     <string name="settings_footer_privacy">الخصوصية</string>
     <string name="settings_footer_terms">الشروط</string>

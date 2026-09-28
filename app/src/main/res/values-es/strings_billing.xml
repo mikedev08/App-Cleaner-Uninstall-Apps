@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="billing_restore_success">Premium restaurado. ¡Te damos la bienvenida de nuevo!</string>
-    <string name="billing_restore_nothing">No hay compras anteriores en esta cuenta de Google.</string>
+    <string name="billing_restore_success">Recuperaste Pro. ¡Te damos la bienvenida de nuevo!</string>
+    <string name="billing_restore_nothing">No encontramos ninguna compra anterior en esta cuenta de Google.</string>
     <string name="billing_restore_failed">No se pudieron restaurar las compras. Inténtalo de nuevo.</string>
     <string name="billing_purchase_failed">La compra no se completó. Inténtalo de nuevo.</string>
-    <string name="billing_purchase_pending">Tu pago está pendiente. Premium se activará en cuanto Google Play lo confirme.</string>
+    <string name="billing_purchase_pending">Tu pago aún se está procesando. Pro se activará en cuanto Google Play lo confirme.</string>
     <string name="billing_network_error">No se pudo conectar con Google Play. Revisa tu conexión e inténtalo de nuevo.</string>
     <string name="billing_not_available">Las suscripciones aún no están disponibles.</string>
     <string name="billing_link_unavailable">Ninguna app de este teléfono puede abrir este enlace.</string>

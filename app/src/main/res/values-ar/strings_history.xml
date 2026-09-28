@@ -15,7 +15,7 @@
     <string name="history_clear_confirm">مسح</string>
     <string name="history_store_unavailable">تعذّر فتح متجر Play</string>
     <string name="history_hero_freed">تم توفير %1$s</string>
-    <string name="history_hero_estimated">%1$s · تقديري</string>
+    <string name="history_hero_estimated">%1$s · تقريبًا</string>
     <plurals name="history_hero_removed">
         <item quantity="zero">تمت إزالة %1$d تطبيق</item>
         <item quantity="one">تمت إزالة %1$d تطبيق</item>

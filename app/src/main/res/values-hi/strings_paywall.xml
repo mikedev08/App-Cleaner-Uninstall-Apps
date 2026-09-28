@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="paywall_headline">भूले हुए ऐप खोजें</string>
-    <string name="paywall_subtitle">देखें कि आप कौन-से ऐप अब इस्तेमाल नहीं करते और असल में जगह कौन घेर रहा है।</string>
+    <string name="paywall_subtitle">वे ऐप देखें जो अब आप इस्तेमाल नहीं करते, और कुछ ही टैप में उन्हें हटाएं।</string>
     <plurals name="paywall_finding_unused">
-        <item quantity="one">%1$d ऐप %2$d+ दिनों से इस्तेमाल नहीं हुआ · %3$s</item>
-        <item quantity="other">%1$d ऐप %2$d+ दिनों से इस्तेमाल नहीं हुए · %3$s</item>
+        <item quantity="one">%1$d ऐप %2$d दिनों से नहीं खोला · %3$s</item>
+        <item quantity="other">%1$d ऐप %2$d दिनों से नहीं खोले · %3$s</item>
     </plurals>
     <plurals name="paywall_finding_large">
-        <item quantity="one">आपका सबसे बड़ा ऐप %2$s इस्तेमाल करता है</item>
-        <item quantity="other">आपके %1$d सबसे बड़े ऐप %2$s इस्तेमाल करते हैं</item>
+        <item quantity="one">आपका सबसे बड़ा ऐप %2$s जगह लेता है</item>
+        <item quantity="other">आपके %1$d सबसे बड़े ऐप %2$s जगह लेते हैं</item>
     </plurals>
-    <string name="paywall_finding_subtitle">पूरी सूची अनलॉक करें और कुछ ही टैप में उन्हें हटाएँ।</string>
-    <string name="paywall_benefit_unused_title">इस्तेमाल न होने वाले ऐप खोजें</string>
-    <string name="paywall_benefit_unused_body">देखें कि आपने कौन-से ऐप महीनों से नहीं खोले।</string>
-    <string name="paywall_benefit_storage_title">हर ऐप की स्टोरेज</string>
-    <string name="paywall_benefit_storage_body">हर ऐप का ऐप, डेटा और कैश साइज़।</string>
-    <string name="paywall_benefit_reminders_title">सफ़ाई रिमाइंडर</string>
-    <string name="paywall_benefit_reminders_body">भूले हुए ऐप जमा होने पर हर हफ़्ते एक सूचना।</string>
+    <string name="paywall_finding_subtitle">पूरी सूची देखने और कुछ ही टैप में उन्हें हटाने के लिए Pro लें।</string>
+    <string name="paywall_benefit_unused_title">इस्तेमाल न होने वाले ऐप ढूंढें</string>
+    <string name="paywall_benefit_unused_body">वे ऐप देखें जिन्हें आपने काफ़ी समय से नहीं खोला।</string>
+    <string name="paywall_benefit_storage_title">30, 60 या 90 दिन चुनें</string>
+    <string name="paywall_benefit_storage_body">चुनें कि कितने दिन न खुलने पर ऐप बंद पड़ा माना जाए।</string>
+    <string name="paywall_benefit_reminders_title">हर हफ़्ते रिमाइंडर</string>
+    <string name="paywall_benefit_reminders_body">जब बंद पड़े ऐप जमा हो जाएं, तो एक छोटी-सी याद।</string>
     <string name="paywall_benefit_no_ads_title">कोई विज्ञापन नहीं</string>
-    <string name="paywall_benefit_no_ads_body">एक शांत, विज्ञापन-मुक्त ऐप।</string>
+    <string name="paywall_benefit_no_ads_body">App Cleaner बिना किसी विज्ञापन के इस्तेमाल करें।</string>
     <plurals name="paywall_plan_trial">
         <item quantity="one">%1$d दिन मुफ़्त, फिर %2$s/हफ़्ता</item>
         <item quantity="other">%1$d दिन मुफ़्त, फिर %2$s/हफ़्ता</item>
     </plurals>
     <string name="paywall_plan_weekly">%1$s/हफ़्ता</string>
-    <string name="paywall_plan_caption_trial">साप्ताहिक प्लान · ट्रायल के दौरान कोई शुल्क नहीं</string>
-    <string name="paywall_plan_caption_weekly">साप्ताहिक प्लान · कभी भी रद्द करें</string>
+    <string name="paywall_plan_caption_trial">हफ़्ते का प्लान · ट्रायल में आपको कुछ नहीं देना है</string>
+    <string name="paywall_plan_caption_weekly">हफ़्ते का प्लान · कभी भी रद्द करें</string>
     <string name="paywall_plan_loading">कीमत लोड हो रही है…</string>
     <string name="paywall_offline">अपना मुफ़्त ट्रायल शुरू करने के लिए इंटरनेट से कनेक्ट करें</string>
     <string name="paywall_not_available">सदस्यताएँ अभी उपलब्ध नहीं हैं</string>
-    <string name="paywall_not_available_body">तब तक सभी मुफ़्त सुविधाएँ पहले की तरह काम करती रहेंगी।</string>
+    <string name="paywall_not_available_body">सभी मुफ़्त सुविधाएं अब भी काम करती हैं।</string>
     <string name="paywall_cta_trial">मुफ़्त ट्रायल शुरू करें</string>
     <string name="paywall_cta_subscribe">सदस्यता लें</string>
-    <string name="paywall_terms_trial">ट्रायल के बाद हर हफ़्ते अपने-आप रिन्यू होता है। Google Play में कभी भी रद्द करें।</string>
-    <string name="paywall_terms_plain">हर हफ़्ते अपने-आप रिन्यू होता है। Google Play में कभी भी रद्द करें।</string>
+    <string name="paywall_terms_trial">ट्रायल के बाद हर हफ़्ते रिन्यू होता है। Google Play में कभी भी रद्द करें।</string>
+    <string name="paywall_terms_plain">हर हफ़्ते रिन्यू होता है। Google Play में कभी भी रद्द करें।</string>
     <string name="paywall_restore">खरीदारी वापस लाएँ</string>
     <string name="paywall_terms">शर्तें</string>
     <string name="paywall_privacy">निजता</string>
-    <string name="paywall_premium_title">आपके पास प्रीमियम है</string>
+    <string name="paywall_premium_title">आपके पास Pro है</string>
     <string name="paywall_premium_body">सभी सुविधाएँ अनलॉक हैं। App Cleaner का साथ देने के लिए धन्यवाद।</string>
 </resources>

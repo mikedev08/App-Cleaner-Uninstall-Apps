@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="billing_restore_success">Premium wiederhergestellt. Willkommen zurück!</string>
-    <string name="billing_restore_nothing">Für dieses Google-Konto wurde kein früherer Kauf gefunden.</string>
+    <string name="billing_restore_success">Pro wiederhergestellt. Willkommen zurück!</string>
+    <string name="billing_restore_nothing">Wir haben keinen früheren Kauf mit diesem Google-Konto gefunden.</string>
     <string name="billing_restore_failed">Käufe konnten nicht wiederhergestellt werden. Bitte versuche es erneut.</string>
     <string name="billing_purchase_failed">Der Kauf wurde nicht abgeschlossen. Bitte versuche es erneut.</string>
-    <string name="billing_purchase_pending">Deine Zahlung ist ausstehend. Premium wird freigeschaltet, sobald Google Play sie bestätigt.</string>
+    <string name="billing_purchase_pending">Deine Zahlung läuft noch. Pro wird aktiv, sobald Google Play sie bestätigt.</string>
     <string name="billing_network_error">Google Play ist nicht erreichbar. Prüfe deine Verbindung und versuche es erneut.</string>
     <string name="billing_not_available">Abos sind noch nicht verfügbar.</string>
     <string name="billing_link_unavailable">Keine App auf diesem Smartphone kann diesen Link öffnen.</string>

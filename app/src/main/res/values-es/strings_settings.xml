@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="settings_title">Ajustes</string>
-    <string name="settings_premium_upgrade_title">Desbloquea App Cleaner Pro</string>
+    <string name="settings_premium_upgrade_title">Consigue App Cleaner Pro</string>
     <string name="settings_premium_upgrade_cta">Pruébalo gratis</string>
     <string name="settings_premium_see_plans">Ver planes Pro</string>
     <string name="settings_premium_active_title">Pro está activo</string>
@@ -16,7 +16,7 @@
     <string name="settings_size_total_short">Total</string>
     <string name="settings_size_needs_access">Requiere acceso a datos de uso</string>
     <string name="settings_usage_access">Acceso a datos de uso</string>
-    <string name="settings_usage_access_body">Encuentra apps sin usar. Nada sale de tu teléfono.</string>
+    <string name="settings_usage_access_body">Permite que App Cleaner vea qué apps no has abierto. Nada sale de tu teléfono.</string>
     <string name="settings_usage_access_granted">Permitido</string>
     <string name="settings_usage_access_denied">No permitido</string>
     <string name="settings_usage_access_allow">Permitir</string>
@@ -35,9 +35,9 @@
     <string name="settings_section_subscription">Suscripción</string>
     <string name="settings_restore">Restaurar compras</string>
     <string name="settings_rate">Valorar App Cleaner</string>
-    <string name="settings_pro_benefit_unused">Encuentra apps que nunca abres</string>
-    <string name="settings_pro_benefit_storage">Mira el tamaño real de cada app</string>
-    <string name="settings_pro_benefit_reminders">Recibe avisos para limpiar</string>
+    <string name="settings_pro_benefit_unused">Encuentra apps que no usas</string>
+    <string name="settings_pro_benefit_storage">Sin anuncios</string>
+    <string name="settings_pro_benefit_reminders">Recibe avisos semanales para limpiar</string>
     <string name="settings_section_preferences">Preferencias</string>
     <string name="settings_footer_privacy">Privacidad</string>
     <string name="settings_footer_terms">Términos</string>

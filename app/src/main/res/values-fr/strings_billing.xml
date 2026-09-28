@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="billing_restore_success">Premium restauré. Bon retour parmi nous !</string>
-    <string name="billing_restore_nothing">Aucun achat précédent trouvé pour ce compte Google.</string>
-    <string name="billing_restore_failed">Impossible de restaurer les achats. Veuillez réessayer.</string>
-    <string name="billing_purchase_failed">L\'achat n\'a pas abouti. Veuillez réessayer.</string>
-    <string name="billing_purchase_pending">Votre paiement est en attente. Premium sera activé dès que Google Play l\'aura confirmé.</string>
+    <string name="billing_restore_success">Pro est de retour. Bon retour parmi nous !</string>
+    <string name="billing_restore_nothing">Nous n’avons trouvé aucun achat précédent sur ce compte Google.</string>
+    <string name="billing_restore_failed">Impossible de récupérer vos achats. Réessayez.</string>
+    <string name="billing_purchase_failed">L’achat n’a pas marché. Réessayez.</string>
+    <string name="billing_purchase_pending">Votre paiement est en cours. Pro s’activera dès que Google Play l’aura confirmé.</string>
     <string name="billing_network_error">Impossible de joindre Google Play. Vérifiez votre connexion et réessayez.</string>
     <string name="billing_not_available">Les abonnements ne sont pas encore disponibles.</string>
     <string name="billing_link_unavailable">Aucune appli de ce téléphone ne peut ouvrir ce lien.</string>

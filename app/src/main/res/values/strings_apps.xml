@@ -12,16 +12,16 @@
     <string name="apps_details_apk_caption">App size</string>
     <string name="apps_details_app_info">App info</string>
     <string name="apps_details_play">Play Store</string>
-    <string name="apps_details_cache_hint">To clear this app’s cache, open App info, then Storage.</string>
+    <string name="apps_details_cache_hint">To clear this app\'s temp files, tap App info, then Storage.</string>
     <!-- Design review 2026-09: All · Unused · Large · Cache. -->
     <string name="apps_tab_unused">Unused</string>
-    <string name="apps_tab_large">Large</string>
-    <string name="apps_tab_cache">Cache</string>
-    <string name="apps_section_large">Large</string>
-    <string name="apps_chip_large">Large</string>
+    <string name="apps_tab_large">Big</string>
+    <string name="apps_tab_cache">Temp files</string>
+    <string name="apps_section_large">Big apps</string>
+    <string name="apps_chip_large">Big</string>
     <plurals name="apps_chip_idle_months_short">
-        <item quantity="one">Not opened in %d mo</item>
-        <item quantity="other">Not opened in %d mo</item>
+        <item quantity="one">Not opened in %d month</item>
+        <item quantity="other">Not opened in %d months</item>
     </plurals>
-    <string name="apps_chip_idle_year_short">Not opened in 1 yr+</string>
+    <string name="apps_chip_idle_year_short">Not opened in a year</string>
 </resources>

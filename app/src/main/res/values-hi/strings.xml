@@ -8,6 +8,6 @@
     <string name="action_not_now">अभी नहीं</string>
     <string name="action_back">वापस</string>
     <string name="action_open_settings">सेटिंग्स खोलें</string>
-    <string name="label_premium">प्रीमियम</string>
+    <string name="label_premium">Pro</string>
     <string name="cd_pro_feature">Pro सुविधा</string>
 </resources>

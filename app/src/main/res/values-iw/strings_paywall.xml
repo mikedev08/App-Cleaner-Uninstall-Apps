@@ -1,45 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="paywall_headline">מוצאים את האפליקציות ששכחת</string>
-    <string name="paywall_subtitle">לגלות באילו אפליקציות כבר לא השתמשת ומה באמת תופס מקום.</string>
+    <string name="paywall_subtitle">לראות אילו אפליקציות כבר לא בשימוש, ולהסיר אותן בכמה הקשות.</string>
     <plurals name="paywall_finding_unused">
-        <item quantity="one">אפליקציה אחת שלא נעשה בה שימוש %2$d+ ימים · %3$s</item>
-        <item quantity="two">%1$d אפליקציות שלא נעשה בהן שימוש %2$d+ ימים · %3$s</item>
-        <item quantity="other">%1$d אפליקציות שלא נעשה בהן שימוש %2$d+ ימים · %3$s</item>
+        <item quantity="one">אפליקציה אחת לא נפתחה כבר %2$d ימים · %3$s</item>
+        <item quantity="two">%1$d אפליקציות לא נפתחו כבר %2$d ימים · %3$s</item>
+        <item quantity="other">%1$d אפליקציות לא נפתחו כבר %2$d ימים · %3$s</item>
     </plurals>
     <plurals name="paywall_finding_large">
-        <item quantity="one">האפליקציה הגדולה ביותר שלך תופסת %2$s</item>
-        <item quantity="two">%1$d האפליקציות הגדולות ביותר שלך תופסות %2$s</item>
-        <item quantity="other">%1$d האפליקציות הגדולות ביותר שלך תופסות %2$s</item>
+        <item quantity="one">האפליקציה הכי גדולה שלך תופסת %2$s</item>
+        <item quantity="two">%1$d האפליקציות הכי גדולות שלך תופסות %2$s</item>
+        <item quantity="other">%1$d האפליקציות הכי גדולות שלך תופסות %2$s</item>
     </plurals>
-    <string name="paywall_finding_subtitle">פותחים את הרשימה המלאה ומסירים אותן בכמה הקשות.</string>
-    <string name="paywall_benefit_unused_title">איתור אפליקציות שלא בשימוש</string>
-    <string name="paywall_benefit_unused_body">לראות אילו אפליקציות לא פתחת כבר חודשים.</string>
-    <string name="paywall_benefit_storage_title">האחסון של כל אפליקציה</string>
-    <string name="paywall_benefit_storage_body">גודל האפליקציה, הנתונים והמטמון של כל אחת.</string>
-    <string name="paywall_benefit_reminders_title">תזכורות ניקוי</string>
-    <string name="paywall_benefit_reminders_body">עדכון שבועי כשמצטברות אפליקציות נשכחות.</string>
+    <string name="paywall_finding_subtitle">עם Pro רואים את כל הרשימה ומסירים אותן בכמה הקשות.</string>
+    <string name="paywall_benefit_unused_title">למצוא אפליקציות שלא בשימוש</string>
+    <string name="paywall_benefit_unused_body">לראות אילו אפליקציות לא פתחת כבר הרבה זמן.</string>
+    <string name="paywall_benefit_storage_title">לבחור 30, 60 או 90 יום</string>
+    <string name="paywall_benefit_storage_body">לקבוע מתי אפליקציה נחשבת לא בשימוש.</string>
+    <string name="paywall_benefit_reminders_title">תזכורות שבועיות</string>
+    <string name="paywall_benefit_reminders_body">תזכורת קטנה כשמצטברות אפליקציות שלא בשימוש.</string>
     <string name="paywall_benefit_no_ads_title">בלי פרסומות</string>
-    <string name="paywall_benefit_no_ads_body">אפליקציה שקטה, בלי פרסומות.</string>
+    <string name="paywall_benefit_no_ads_body">App Cleaner בלי אף פרסומת.</string>
     <plurals name="paywall_plan_trial">
         <item quantity="one">יום אחד בחינם, ואחר כך %2$s לשבוע</item>
         <item quantity="two">יומיים בחינם, ואחר כך %2$s לשבוע</item>
         <item quantity="other">%1$d ימים בחינם, ואחר כך %2$s לשבוע</item>
     </plurals>
     <string name="paywall_plan_weekly">%1$s לשבוע</string>
-    <string name="paywall_plan_caption_trial">מינוי שבועי · ללא חיוב בתקופת הניסיון</string>
+    <string name="paywall_plan_caption_trial">מינוי שבועי · לא משלמים כלום בתקופת הניסיון</string>
     <string name="paywall_plan_caption_weekly">מינוי שבועי · אפשר לבטל בכל עת</string>
     <string name="paywall_plan_loading">המחיר נטען…</string>
     <string name="paywall_offline">צריך חיבור לאינטרנט כדי להתחיל את תקופת הניסיון בחינם</string>
     <string name="paywall_not_available">המינויים עדיין לא זמינים</string>
-    <string name="paywall_not_available_body">בינתיים, כל מה שבחינם ממשיך לעבוד.</string>
+    <string name="paywall_not_available_body">כל מה שבחינם ממשיך לעבוד.</string>
     <string name="paywall_cta_trial">להתחלת תקופת ניסיון בחינם</string>
     <string name="paywall_cta_subscribe">הרשמה למינוי</string>
-    <string name="paywall_terms_trial">מתחדש כל שבוע אחרי תקופת הניסיון. אפשר לבטל בכל עת ב-Google Play.</string>
-    <string name="paywall_terms_plain">מתחדש כל שבוע. אפשר לבטל בכל עת ב-Google Play.</string>
+    <string name="paywall_terms_trial">מתחדש כל שבוע אחרי תקופת הניסיון. אפשר לבטל מתי שרוצים ב-Google Play.</string>
+    <string name="paywall_terms_plain">מתחדש כל שבוע. אפשר לבטל מתי שרוצים ב-Google Play.</string>
     <string name="paywall_restore">שחזור רכישות</string>
     <string name="paywall_terms">תנאים</string>
     <string name="paywall_privacy">פרטיות</string>
-    <string name="paywall_premium_title">יש לך פרימיום</string>
+    <string name="paywall_premium_title">יש לך Pro</string>
     <string name="paywall_premium_body">כל התכונות פתוחות. תודה שתמכת ב-App Cleaner.</string>
 </resources>

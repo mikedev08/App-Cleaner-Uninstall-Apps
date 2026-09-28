@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="billing_restore_success">הפרימיום שוחזר. טוב שחזרת!</string>
-    <string name="billing_restore_nothing">לא נמצאה רכישה קודמת בחשבון Google הזה.</string>
+    <string name="billing_restore_success">ה-Pro חזר. טוב שחזרת!</string>
+    <string name="billing_restore_nothing">לא מצאנו רכישה קודמת בחשבון Google הזה.</string>
     <string name="billing_restore_failed">לא ניתן היה לשחזר את הרכישות. אפשר לנסות שוב.</string>
     <string name="billing_purchase_failed">הרכישה לא הושלמה. אפשר לנסות שוב.</string>
-    <string name="billing_purchase_pending">התשלום ממתין לאישור. הפרימיום ייפתח ברגע ש-Google Play יאשר אותו.</string>
+    <string name="billing_purchase_pending">התשלום עדיין בתהליך. Pro יופעל ברגע ש-Google Play יאשר אותו.</string>
     <string name="billing_network_error">אין חיבור ל-Google Play. כדאי לבדוק את החיבור ולנסות שוב.</string>
     <string name="billing_not_available">המינויים עדיין לא זמינים.</string>
     <string name="billing_link_unavailable">אין בטלפון הזה אפליקציה שיכולה לפתוח את הקישור.</string>

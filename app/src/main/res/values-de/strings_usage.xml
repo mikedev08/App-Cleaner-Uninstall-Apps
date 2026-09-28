@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="usage_title">Zugriff auf Nutzungsdaten erlauben</string>
-    <string name="usage_what_label">Was wir lesen</string>
-    <string name="usage_what_body">Wann jede App zuletzt geöffnet wurde und wie viel Speicher sie belegt.</string>
+    <string name="usage_title">Zugriff erlauben</string>
+    <string name="usage_what_label">Was wir sehen</string>
+    <string name="usage_what_body">Wann du jede App zuletzt geöffnet hast und wie viel Platz sie braucht.</string>
     <string name="usage_why_label">Wozu</string>
-    <string name="usage_why_body">Um ungenutzte und große Apps zu finden.</string>
+    <string name="usage_why_body">Um Apps zu finden, die du nicht nutzt, und große Apps.</string>
     <string name="usage_where_label">Wohin die Daten gehen</string>
     <string name="usage_hint_caption">Schalte auf dem nächsten Bildschirm das hier ein:</string>
     <string name="usage_hint_toggle">Nutzungszugriff zulassen</string>
-    <string name="usage_continue">Weiter zu den Einstellungen</string>
+    <string name="usage_continue">Zu den Einstellungen</string>
     <string name="usage_fallback_toast">Such App Cleaner in der Liste und schalte es ein</string>
-    <string name="usage_settings_unavailable">Dein Handy hat die Seite für den Zugriff auf Nutzungsdaten nicht geöffnet. Öffne die Einstellungen und suche nach „Nutzungsdaten“.</string>
+    <string name="usage_settings_unavailable">Dein Handy hat die Seite „Zugriff auf Nutzungsdaten“ nicht geöffnet. Öffne die Einstellungen und suche nach „Nutzungsdaten“.</string>
     <string name="usage_illustration_description">Ein Handy mit Apps, auf dem die Apps, die du nicht geöffnet hast, verblasst sind</string>
     <string name="usage_hint_description">Animation: Der Schalter für App Cleaner wird in den Einstellungen eingeschaltet</string>
 
-    <string name="usage_subtitle">Mit einer einzigen Berechtigung findet App Cleaner die Apps, die du nicht nutzt, und misst, wie viel Platz sie belegen.</string>
-    <string name="usage_where_body">Nichts verlässt dein Handy. Es wird nichts hochgeladen.</string>
+    <string name="usage_subtitle">Mit dem „Zugriff auf Nutzungsdaten“ sieht App Cleaner, welche Apps du länger nicht geöffnet hast und wie viel Platz sie brauchen.</string>
+    <string name="usage_where_body">Alles bleibt auf deinem Handy. Nichts wird hochgeladen.</string>
 </resources>
