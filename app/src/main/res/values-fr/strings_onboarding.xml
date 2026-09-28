@@ -10,4 +10,5 @@
     <string name="onboarding_2_body">La taille de chaque appli, de la plus grosse à la plus petite.</string>
     <string name="onboarding_3_title">Retrouvez les applis oubliées</string>
     <string name="onboarding_3_body">Nous vous montrons celles que vous n\'avez pas ouvertes depuis des mois.</string>
+    <string name="onboarding_gauge_caption">plein</string>
 </resources>

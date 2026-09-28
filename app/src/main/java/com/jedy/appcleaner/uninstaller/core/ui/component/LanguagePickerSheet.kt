@@ -1,15 +1,10 @@
 package com.jedy.appcleaner.uninstaller.core.ui.component
 
-import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -21,14 +16,11 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -67,8 +59,10 @@ fun LanguagePickerSheet(
     ModalBottomSheet(
         onDismissRequest = onDismiss,
         sheetState = sheetState,
+        shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp),
         containerColor = AppTheme.colors.background,
         contentColor = AppTheme.colors.textPrimary,
+        dragHandle = { SheetHandle() },
     ) {
         Column(
             modifier = Modifier
@@ -77,17 +71,18 @@ fun LanguagePickerSheet(
         ) {
             Text(
                 text = stringResource(R.string.language_title),
-                style = MaterialTheme.typography.headlineSmall,
+                style = MaterialTheme.typography.headlineMedium,
                 color = AppTheme.colors.textPrimary,
+                modifier = Modifier.padding(top = 4.dp),
             )
             Text(
                 text = stringResource(R.string.language_subtitle),
-                style = MaterialTheme.typography.bodyMedium,
+                style = MaterialTheme.typography.bodyLarge,
                 color = AppTheme.colors.textSecondary,
                 modifier = Modifier.padding(top = 6.dp, bottom = Dimens.gutter),
             )
             LazyColumn(
-                modifier = Modifier.heightIn(max = 460.dp),
+                modifier = Modifier.heightIn(max = 520.dp),
                 verticalArrangement = Arrangement.spacedBy(8.dp),
                 contentPadding = PaddingValues(bottom = Dimens.gutter),
             ) {
@@ -103,9 +98,23 @@ fun LanguagePickerSheet(
     }
 }
 
+/** A short pill instead of Material's default handle, matching the v2 pill vocabulary. */
+@Composable
+private fun SheetHandle() {
+    Box(
+        Modifier
+            .padding(top = 12.dp, bottom = 16.dp)
+            .size(width = 40.dp, height = 5.dp)
+            .clip(CircleShape)
+            .background(AppTheme.colors.textMuted.copy(alpha = 0.4f)),
+    )
+}
+
 /**
- * One language: its own name in its own script (so a reader of that language recognises it
- * whatever the current UI language is), with the English name beneath as a fallback.
+ * One language as a soft v2 card: its own name in its own script (so a reader of that language
+ * recognises it whatever the current UI language is), with the English name beneath as a
+ * fallback. Selection tints the card accentSurface and fills the kit's [RoundCheck] — the same
+ * "picked" signal as the app list, so the first screen already teaches the app's vocabulary.
  */
 @Composable
 fun LanguageOptionRow(
@@ -116,57 +125,33 @@ fun LanguageOptionRow(
 ) {
     val colors = AppTheme.colors
     val container by animateColorAsState(
-        if (isSelected) colors.accentSurface else colors.background,
-        tween(180),
+        if (isSelected) colors.accentSurface else colors.surface,
+        tween(200),
         label = "languageRow",
     )
-    val border by animateColorAsState(
-        if (isSelected) colors.accent else colors.border,
-        tween(180),
-        label = "languageBorder",
-    )
-    val shape = RoundedCornerShape(Dimens.controlRadius)
-    Surface(
-        shape = shape,
-        color = container,
-        border = BorderStroke(if (isSelected) 1.5.dp else Dimens.hairline, border),
+    Row(
         modifier = modifier
             .fillMaxWidth()
-            .clip(shape)
-            .selectable(selected = isSelected, role = Role.RadioButton, onClick = onClick),
+            .heightIn(min = 68.dp)
+            .clip(RoundedCornerShape(Dimens.controlRadius))
+            .background(container)
+            .selectable(selected = isSelected, role = Role.RadioButton, onClick = onClick)
+            .padding(start = Dimens.gutter, end = 6.dp, top = 10.dp, bottom = 10.dp),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
-        Row(
-            modifier = Modifier.padding(horizontal = Dimens.gutter, vertical = 14.dp),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            Column(modifier = Modifier.weight(1f)) {
-                Text(
-                    text = language.nativeName,
-                    style = MaterialTheme.typography.titleMedium,
-                    color = if (isSelected) colors.accent else colors.textPrimary,
-                )
-                Text(
-                    text = language.englishName,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = colors.textSecondary,
-                )
-            }
-            AnimatedVisibility(
-                visible = isSelected,
-                enter = fadeIn(tween(160)) + scaleIn(initialScale = 0.6f),
-                exit = fadeOut(tween(120)) + scaleOut(targetScale = 0.6f),
-            ) {
-                Icon(
-                    imageVector = Icons.Rounded.Check,
-                    contentDescription = null,
-                    tint = colors.onAccent,
-                    modifier = Modifier
-                        .clip(RoundedCornerShape(Dimens.chipRadius))
-                        .background(colors.accent)
-                        .padding(3.dp)
-                        .size(18.dp),
-                )
-            }
+        Column(modifier = Modifier.weight(1f)) {
+            Text(
+                text = language.nativeName,
+                style = MaterialTheme.typography.titleMedium,
+                color = colors.textPrimary,
+            )
+            Text(
+                text = language.englishName,
+                style = MaterialTheme.typography.bodySmall,
+                color = if (isSelected) colors.accentText else colors.textSecondary,
+            )
         }
+        // The row owns the click and the radio semantics; the check is only the visual.
+        RoundCheck(checked = isSelected, onToggle = null)
     }
 }

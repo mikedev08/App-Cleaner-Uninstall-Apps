@@ -1,21 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="settings_title">设置</string>
-    <string name="settings_premium_upgrade_title">升级到高级版</string>
-    <string name="settings_premium_upgrade_body">闲置应用查找、每个应用的存储占用、清理提醒，并且无广告。</string>
-    <string name="settings_premium_upgrade_cta">查看高级版</string>
-    <string name="settings_premium_active_title">高级版已开通</string>
+    <string name="settings_premium_upgrade_title">解锁 App Cleaner Pro</string>
+    <string name="settings_premium_upgrade_cta">免费试用</string>
+    <string name="settings_premium_active_title">Pro 已激活</string>
     <string name="settings_premium_active_body">所有功能均已解锁。谢谢！</string>
     <string name="settings_manage_subscription">管理订阅</string>
-    <string name="settings_section_general">常规</string>
     <string name="settings_language">语言</string>
     <string name="settings_theme">主题</string>
     <string name="settings_theme_system">跟随系统</string>
     <string name="settings_theme_light">浅色</string>
     <string name="settings_theme_dark">深色</string>
     <string name="settings_size_display">应用大小显示方式</string>
-    <string name="settings_size_apk">APK 大小</string>
-    <string name="settings_size_total">总计（应用 + 数据 + 缓存）</string>
     <string name="settings_size_total_short">总计</string>
     <string name="settings_size_needs_access">需要使用情况访问权限</string>
     <string name="settings_usage_access">使用情况访问权限</string>
@@ -34,9 +30,11 @@
     <string name="settings_reminders_needs_access">提醒功能需要使用情况访问权限才能找到闲置应用。</string>
     <string name="settings_section_subscription">订阅</string>
     <string name="settings_restore">恢复购买</string>
-    <string name="settings_section_about">关于</string>
-    <string name="settings_privacy">隐私政策</string>
-    <string name="settings_terms">使用条款</string>
     <string name="settings_rate">为 App Cleaner 评分</string>
-    <string name="settings_version">版本</string>
+    <string name="settings_pro_benefit_unused">找出几个月没打开过的应用</string>
+    <string name="settings_pro_benefit_storage">查看每个应用的真实大小</string>
+    <string name="settings_pro_benefit_reminders">被遗忘的应用越积越多时提醒你</string>
+    <string name="settings_section_preferences">偏好设置</string>
+    <string name="settings_footer_privacy">隐私</string>
+    <string name="settings_footer_terms">条款</string>
 </resources>

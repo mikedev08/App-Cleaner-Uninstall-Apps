@@ -10,6 +10,7 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -42,13 +43,11 @@ import androidx.compose.material.icons.rounded.NotificationsActive
 import androidx.compose.material.icons.rounded.PieChart
 import androidx.compose.material.icons.rounded.Schedule
 import androidx.compose.material.icons.rounded.WorkspacePremium
-import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
@@ -74,6 +73,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.jedy.appcleaner.uninstaller.R
 import com.jedy.appcleaner.uninstaller.core.format.formatBytes
 import com.jedy.appcleaner.uninstaller.core.model.PaywallSource
+import com.jedy.appcleaner.uninstaller.core.ui.component.PrimaryButton
 import com.jedy.appcleaner.uninstaller.core.ui.theme.AppTheme
 import com.jedy.appcleaner.uninstaller.core.ui.theme.Dimens
 import com.jedy.appcleaner.uninstaller.data.billing.BillingLinks
@@ -90,7 +90,9 @@ import kotlinx.coroutines.launch
  *  - The plan card never spins forever and is never blank: loading resolves to a price, an
  *    offline card with "Try again", or a neutral "not available yet" card.
  *  - "Free" is only promised to accounts Play still grants a trial (PRD §6 item 19).
- *  - Gold appears only as the premium accent; the CTA is teal like every primary action.
+ *  - Gold appears only as the premium accent; the CTA is the kit's spring-green [PrimaryButton]
+ *    like every primary action. Layout and copy are owned by the owner's team: this file only
+ *    maps them onto the v2 kit and tokens (no borders on plain cards, green text via accentText).
  */
 @Composable
 fun PaywallScreen(
@@ -217,7 +219,7 @@ private fun PaywallContent(
             }
             Text(
                 text = headlineText(state.headline),
-                style = MaterialTheme.typography.headlineMedium,
+                style = MaterialTheme.typography.headlineLarge,
                 color = colors.textPrimary,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(top = Dimens.gutter),
@@ -247,30 +249,20 @@ private fun PaywallContent(
                 .padding(top = 8.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Button(
-                onClick = onPurchase,
-                enabled = state.plan.canPurchase && !state.purchasing,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(56.dp),
-                shape = RoundedCornerShape(Dimens.controlRadius),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = colors.accent,
-                    contentColor = colors.onAccent,
-                    disabledContainerColor = colors.surfaceMuted,
-                    disabledContentColor = colors.textSecondary,
-                ),
-            ) {
+            // The kit button has no busy state, so while a purchase is in flight it keeps its green,
+            // drops its label and ignores taps, and a spinner sits on top.
+            Box(Modifier.fillMaxWidth(), contentAlignment = Alignment.Center) {
+                PrimaryButton(
+                    text = if (state.purchasing) "" else stringResource(ctaLabel(state.plan)),
+                    onClick = { if (!state.purchasing) onPurchase() },
+                    enabled = state.plan.canPurchase,
+                    modifier = Modifier.fillMaxWidth(),
+                )
                 if (state.purchasing) {
                     CircularProgressIndicator(
                         color = colors.onAccent,
                         strokeWidth = 2.5.dp,
                         modifier = Modifier.size(22.dp),
-                    )
-                } else {
-                    Text(
-                        text = stringResource(ctaLabel(state.plan)),
-                        style = MaterialTheme.typography.titleMedium,
                     )
                 }
             }
@@ -351,7 +343,6 @@ private fun BenefitsCard() {
             .fillMaxWidth()
             .clip(shape)
             .background(colors.surface)
-            .border(Dimens.hairline, colors.border, shape)
             .padding(horizontal = Dimens.gutter, vertical = 6.dp),
     ) {
         benefits.forEach { benefit ->
@@ -366,7 +357,7 @@ private fun BenefitsCard() {
                         .background(colors.accentSurface),
                     contentAlignment = Alignment.Center,
                 ) {
-                    Icon(benefit.icon, contentDescription = null, tint = colors.accent, modifier = Modifier.size(22.dp))
+                    Icon(benefit.icon, contentDescription = null, tint = colors.accentText, modifier = Modifier.size(22.dp))
                 }
                 Spacer(Modifier.width(Dimens.gutterSmall))
                 Column(Modifier.weight(1f)) {
@@ -397,10 +388,8 @@ private fun PlanCard(plan: PaywallPlan, onRetry: () -> Unit) {
             .heightIn(min = 84.dp)
             .clip(shape)
             .background(if (selectable) colors.accentSurface else colors.surface)
-            .border(
-                BorderStroke(if (selectable) 2.dp else Dimens.hairline, if (selectable) colors.accent else colors.border),
-                shape,
-            )
+            // Only the selected plan gets an edge: the green ring *is* the selection state.
+            .then(if (selectable) Modifier.border(BorderStroke(2.dp, colors.accent), shape) else Modifier)
             .padding(Dimens.gutter),
         contentAlignment = Alignment.CenterStart,
     ) {
@@ -457,7 +446,7 @@ private fun PlanRow(title: String, caption: String) {
             )
         }
         Spacer(Modifier.width(Dimens.gutterSmall))
-        Icon(Icons.Rounded.CheckCircle, contentDescription = null, tint = colors.accent, modifier = Modifier.size(26.dp))
+        Icon(Icons.Rounded.CheckCircle, contentDescription = null, tint = colors.accentText, modifier = Modifier.size(26.dp))
     }
 }
 
@@ -479,14 +468,18 @@ private fun PlanMessage(icon: ImageVector, title: String, body: String?, onRetry
             }
         }
         Spacer(Modifier.width(8.dp))
-        OutlinedButton(
-            onClick = onRetry,
-            shape = RoundedCornerShape(Dimens.controlRadius),
-            border = BorderStroke(Dimens.hairline, colors.accent),
-            colors = ButtonDefaults.outlinedButtonColors(contentColor = colors.accent),
-        ) {
-            Text(stringResource(R.string.action_retry), style = MaterialTheme.typography.labelLarge)
-        }
+        // Compact tonal pill: the kit's SecondaryButton is sized for full-width actions.
+        Text(
+            text = stringResource(R.string.action_retry),
+            style = MaterialTheme.typography.labelMedium,
+            color = colors.textPrimary,
+            maxLines = 1,
+            modifier = Modifier
+                .clip(RoundedCornerShape(Dimens.chipRadius))
+                .background(colors.surfaceMuted)
+                .clickable(onClick = onRetry)
+                .padding(horizontal = 16.dp, vertical = 10.dp),
+        )
     }
 }
 
@@ -534,7 +527,7 @@ private fun PremiumConfirmation(onContinue: () -> Unit) {
         }
         Text(
             text = stringResource(R.string.paywall_premium_title),
-            style = MaterialTheme.typography.headlineMedium,
+            style = MaterialTheme.typography.headlineLarge,
             color = colors.textPrimary,
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = Dimens.gutterLarge),
@@ -546,16 +539,12 @@ private fun PremiumConfirmation(onContinue: () -> Unit) {
             textAlign = TextAlign.Center,
             modifier = Modifier.padding(top = 8.dp),
         )
-        Button(
+        PrimaryButton(
+            text = stringResource(R.string.action_continue),
             onClick = onContinue,
             modifier = Modifier
                 .padding(top = Dimens.gutterLarge)
-                .fillMaxWidth()
-                .height(Dimens.buttonHeight),
-            shape = RoundedCornerShape(Dimens.controlRadius),
-            colors = ButtonDefaults.buttonColors(containerColor = colors.accent, contentColor = colors.onAccent),
-        ) {
-            Text(stringResource(R.string.action_continue), style = MaterialTheme.typography.titleMedium)
-        }
+                .fillMaxWidth(),
+        )
     }
 }

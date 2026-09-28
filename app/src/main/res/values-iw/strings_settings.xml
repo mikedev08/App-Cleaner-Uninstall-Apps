@@ -1,21 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="settings_title">הגדרות</string>
-    <string name="settings_premium_upgrade_title">שדרוג לפרימיום</string>
-    <string name="settings_premium_upgrade_body">איתור אפליקציות שלא בשימוש, אחסון לכל אפליקציה, תזכורות ניקוי ובלי פרסומות.</string>
-    <string name="settings_premium_upgrade_cta">לפרטים על פרימיום</string>
-    <string name="settings_premium_active_title">פרימיום פעיל</string>
+    <string name="settings_premium_upgrade_title">שדרגו ל-App Cleaner Pro</string>
+    <string name="settings_premium_upgrade_cta">נסו בחינם</string>
+    <string name="settings_premium_active_title">Pro פעיל</string>
     <string name="settings_premium_active_body">כל התכונות פתוחות. תודה!</string>
     <string name="settings_manage_subscription">ניהול המינוי</string>
-    <string name="settings_section_general">כללי</string>
     <string name="settings_language">שפה</string>
     <string name="settings_theme">עיצוב</string>
-    <string name="settings_theme_system">ברירת המחדל של המערכת</string>
+    <string name="settings_theme_system">מערכת</string>
     <string name="settings_theme_light">בהיר</string>
     <string name="settings_theme_dark">כהה</string>
     <string name="settings_size_display">הצגת גודל האפליקציה לפי</string>
-    <string name="settings_size_apk">גודל APK</string>
-    <string name="settings_size_total">סה״כ (אפליקציה + נתונים + מטמון)</string>
     <string name="settings_size_total_short">סה״כ</string>
     <string name="settings_size_needs_access">נדרשת גישה לנתוני שימוש</string>
     <string name="settings_usage_access">גישה לנתוני שימוש</string>
@@ -36,9 +32,11 @@
     <string name="settings_reminders_needs_access">כדי לאתר אפליקציות שלא בשימוש, התזכורות צריכות גישה לנתוני שימוש.</string>
     <string name="settings_section_subscription">מינוי</string>
     <string name="settings_restore">שחזור רכישות</string>
-    <string name="settings_section_about">מידע</string>
-    <string name="settings_privacy">מדיניות הפרטיות</string>
-    <string name="settings_terms">תנאי השימוש</string>
     <string name="settings_rate">דירוג App Cleaner</string>
-    <string name="settings_version">גרסה</string>
+    <string name="settings_pro_benefit_unused">מצאו אפליקציות שלא פתחתם כבר חודשים</string>
+    <string name="settings_pro_benefit_storage">ראו את הגודל האמיתי של כל אפליקציה</string>
+    <string name="settings_pro_benefit_reminders">קבלו תזכורת כשאפליקציות נשכחות מצטברות</string>
+    <string name="settings_section_preferences">העדפות</string>
+    <string name="settings_footer_privacy">פרטיות</string>
+    <string name="settings_footer_terms">תנאים</string>
 </resources>

@@ -10,4 +10,5 @@
     <string name="onboarding_2_body">每个应用的大小，从大到小排列。</string>
     <string name="onboarding_3_title">找出被你遗忘的应用</string>
     <string name="onboarding_3_body">我们会告诉你哪些应用已经几个月没打开过了。</string>
+    <string name="onboarding_gauge_caption">已用</string>
 </resources>

@@ -10,4 +10,5 @@
     <string name="onboarding_2_body">הגודל של כל אפליקציה, מהגדולה לקטנה.</string>
     <string name="onboarding_3_title">מוצאים את האפליקציות ששכחת</string>
     <string name="onboarding_3_body">נראה לך מה לא פתחת כבר חודשים.</string>
+    <string name="onboarding_gauge_caption">מלא</string>
 </resources>

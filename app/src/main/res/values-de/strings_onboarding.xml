@@ -10,4 +10,5 @@
     <string name="onboarding_2_body">Die Größe jeder App, die größten zuerst.</string>
     <string name="onboarding_3_title">Finde die Apps, die du vergessen hast</string>
     <string name="onboarding_3_body">Wir zeigen dir, was du seit Monaten nicht geöffnet hast.</string>
+    <string name="onboarding_gauge_caption">voll</string>
 </resources>

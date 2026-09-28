@@ -1,21 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="settings_title">Ajustes</string>
-    <string name="settings_premium_upgrade_title">Hazte Premium</string>
-    <string name="settings_premium_upgrade_body">Buscador de apps sin usar, almacenamiento de cada app, recordatorios de limpieza y sin anuncios.</string>
-    <string name="settings_premium_upgrade_cta">Ver Premium</string>
-    <string name="settings_premium_active_title">Premium activo</string>
+    <string name="settings_premium_upgrade_title">Desbloquea App Cleaner Pro</string>
+    <string name="settings_premium_upgrade_cta">Pruébalo gratis</string>
+    <string name="settings_premium_active_title">Pro está activo</string>
     <string name="settings_premium_active_body">Todas las funciones están desbloqueadas. ¡Gracias!</string>
     <string name="settings_manage_subscription">Gestionar suscripción</string>
-    <string name="settings_section_general">General</string>
     <string name="settings_language">Idioma</string>
     <string name="settings_theme">Tema</string>
-    <string name="settings_theme_system">Predeterminado del sistema</string>
+    <string name="settings_theme_system">Sistema</string>
     <string name="settings_theme_light">Claro</string>
     <string name="settings_theme_dark">Oscuro</string>
     <string name="settings_size_display">Mostrar el tamaño como</string>
-    <string name="settings_size_apk">Tamaño del APK</string>
-    <string name="settings_size_total">Total (app + datos + caché)</string>
     <string name="settings_size_total_short">Total</string>
     <string name="settings_size_needs_access">Requiere acceso a datos de uso</string>
     <string name="settings_usage_access">Acceso a datos de uso</string>
@@ -36,9 +32,11 @@
     <string name="settings_reminders_needs_access">Los recordatorios necesitan acceso a datos de uso para encontrar apps sin usar.</string>
     <string name="settings_section_subscription">Suscripción</string>
     <string name="settings_restore">Restaurar compras</string>
-    <string name="settings_section_about">Información</string>
-    <string name="settings_privacy">Política de privacidad</string>
-    <string name="settings_terms">Términos de uso</string>
     <string name="settings_rate">Valorar App Cleaner</string>
-    <string name="settings_version">Versión</string>
+    <string name="settings_pro_benefit_unused">Encuentra apps que no abres desde hace meses</string>
+    <string name="settings_pro_benefit_storage">Mira el tamaño real de cada app</string>
+    <string name="settings_pro_benefit_reminders">Recibe un aviso cuando se acumulen apps olvidadas</string>
+    <string name="settings_section_preferences">Preferencias</string>
+    <string name="settings_footer_privacy">Privacidad</string>
+    <string name="settings_footer_terms">Términos</string>
 </resources>

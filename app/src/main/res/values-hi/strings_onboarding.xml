@@ -10,4 +10,5 @@
     <string name="onboarding_2_body">हर ऐप का साइज़, सबसे बड़े पहले।</string>
     <string name="onboarding_3_title">भूले हुए ऐप खोजें</string>
     <string name="onboarding_3_body">हम आपको दिखाएँगे कि आपने महीनों से क्या नहीं खोला है।</string>
+    <string name="onboarding_gauge_caption">भरा</string>
 </resources>

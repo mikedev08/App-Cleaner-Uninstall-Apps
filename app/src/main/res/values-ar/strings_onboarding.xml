@@ -10,4 +10,5 @@
     <string name="onboarding_2_body">حجم كل تطبيق، مرتّبًا من الأكبر.</string>
     <string name="onboarding_3_title">اعثر على التطبيقات التي نسيتها</string>
     <string name="onboarding_3_body">سنعرض لك ما لم تفتحه منذ أشهر.</string>
+    <string name="onboarding_gauge_caption">ممتلئ</string>
 </resources>

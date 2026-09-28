@@ -8,15 +8,16 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateColorAsState
-import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.animation.scaleIn
-import androidx.compose.animation.scaleOut
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -28,6 +29,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
@@ -35,18 +37,16 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Language
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -58,34 +58,40 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.lerp
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.lerp
 import androidx.core.content.ContextCompat
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import com.jedy.appcleaner.uninstaller.R
 import com.jedy.appcleaner.uninstaller.core.locale.AppLanguage
 import com.jedy.appcleaner.uninstaller.core.ui.component.LanguageOptionRow
 import com.jedy.appcleaner.uninstaller.core.ui.component.LanguagePickerSheet
+import com.jedy.appcleaner.uninstaller.core.ui.component.PrimaryButton
 import com.jedy.appcleaner.uninstaller.core.ui.theme.AppTheme
 import com.jedy.appcleaner.uninstaller.core.ui.theme.Dimens
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import kotlin.math.abs
 
 private enum class OnboardingStep { LANGUAGE, SLIDES }
 
 private data class OnboardingSlide(
     val titleRes: Int,
     val bodyRes: Int,
-    val illustration: @Composable (active: Boolean, modifier: Modifier) -> Unit,
+    val illustration: @Composable (modifier: Modifier) -> Unit,
 )
 
 private val slides = listOf(
-    OnboardingSlide(R.string.onboarding_1_title, R.string.onboarding_1_body) { _, m -> AppGridIllustration(m) },
-    OnboardingSlide(R.string.onboarding_2_title, R.string.onboarding_2_body) { active, m -> StorageBarIllustration(active, m) },
-    OnboardingSlide(R.string.onboarding_3_title, R.string.onboarding_3_body) { _, m -> ForgottenAppsIllustration(m) },
+    OnboardingSlide(R.string.onboarding_1_title, R.string.onboarding_1_body) { AppGridIllustration(it) },
+    OnboardingSlide(R.string.onboarding_2_title, R.string.onboarding_2_body) { StorageGaugeIllustration(it) },
+    OnboardingSlide(R.string.onboarding_3_title, R.string.onboarding_3_body) { ForgottenAppsIllustration(it) },
 )
 
 /**
@@ -146,23 +152,10 @@ private fun LanguageStep(
             .padding(horizontal = Dimens.gutter),
     ) {
         Spacer(Modifier.height(Dimens.gutterLarge))
-        Box(
-            modifier = Modifier
-                .size(56.dp)
-                .clip(CircleShape)
-                .background(AppTheme.colors.accentSurface),
-            contentAlignment = Alignment.Center,
-        ) {
-            Icon(
-                imageVector = Icons.Rounded.Language,
-                contentDescription = null,
-                tint = AppTheme.colors.accent,
-                modifier = Modifier.size(28.dp),
-            )
-        }
+        GlobeBadge()
         Text(
             text = stringResource(R.string.language_title),
-            style = MaterialTheme.typography.headlineMedium,
+            style = MaterialTheme.typography.displaySmall,
             color = AppTheme.colors.textPrimary,
             modifier = Modifier.padding(top = Dimens.gutter),
         )
@@ -170,7 +163,7 @@ private fun LanguageStep(
             text = stringResource(R.string.language_subtitle),
             style = MaterialTheme.typography.bodyLarge,
             color = AppTheme.colors.textSecondary,
-            modifier = Modifier.padding(top = 6.dp, bottom = Dimens.gutter),
+            modifier = Modifier.padding(top = 8.dp, bottom = Dimens.gutter),
         )
         LazyColumn(
             modifier = Modifier.weight(1f),
@@ -188,8 +181,34 @@ private fun LanguageStep(
         PrimaryButton(
             text = stringResource(R.string.action_continue),
             onClick = onContinue,
-            modifier = Modifier.padding(vertical = Dimens.gutter),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = Dimens.gutter),
         )
+    }
+}
+
+/** The globe on two stacked green tints: the same layered-depth language as the slides. */
+@Composable
+private fun GlobeBadge() {
+    val colors = AppTheme.colors
+    Box(Modifier.size(72.dp)) {
+        Box(
+            Modifier
+                .offset(x = 8.dp, y = 8.dp)
+                .size(64.dp)
+                .clip(RoundedCornerShape(22.dp))
+                .background(colors.accent.copy(alpha = 0.3f)),
+        )
+        Box(
+            Modifier
+                .size(64.dp)
+                .clip(RoundedCornerShape(22.dp))
+                .background(colors.accent),
+            contentAlignment = Alignment.Center,
+        ) {
+            Icon(Icons.Rounded.Language, contentDescription = null, tint = colors.onAccent, modifier = Modifier.size(34.dp))
+        }
     }
 }
 
@@ -222,6 +241,9 @@ private fun SlidesStep(
                 PackageManager.PERMISSION_GRANTED
             if (needsPrompt) notificationPermission.launch(Manifest.permission.POST_NOTIFICATIONS) else onFinished(false)
         }
+    }
+    val nextPage: () -> Unit = {
+        scope.launch { pagerState.animateScrollToPage(pagerState.currentPage + 1) }
     }
     val skip: () -> Unit = {
         if (!finishing) {
@@ -258,21 +280,23 @@ private fun SlidesStep(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .heightIn(min = 56.dp)
-                .padding(horizontal = 8.dp),
+                .heightIn(min = 60.dp)
+                .padding(horizontal = Dimens.gutterSmall),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
             // Start corner: top-left in LTR, top-right in RTL.
             LanguageButton(onClick = { languageSheetVisible = true })
             AnimatedVisibility(visible = !isLastPage, enter = fadeIn(), exit = fadeOut()) {
-                TextButton(onClick = skip) {
-                    Text(
-                        text = stringResource(R.string.onboarding_skip),
-                        style = MaterialTheme.typography.labelLarge,
-                        color = AppTheme.colors.textSecondary,
-                    )
-                }
+                Text(
+                    text = stringResource(R.string.onboarding_skip),
+                    style = MaterialTheme.typography.labelLarge,
+                    color = AppTheme.colors.textSecondary,
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .clickable(onClick = skip)
+                        .padding(horizontal = 16.dp, vertical = 12.dp),
+                )
             }
         }
 
@@ -280,37 +304,7 @@ private fun SlidesStep(
             state = pagerState,
             modifier = Modifier.weight(1f),
         ) { page ->
-            val slide = slides[page]
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(horizontal = Dimens.gutterLarge),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
-            ) {
-                slide.illustration(
-                    pagerState.currentPage == page,
-                    // Shrinks on short screens so the copy is never pushed off.
-                    Modifier
-                        .fillMaxWidth(0.8f)
-                        .weight(1f, fill = false)
-                        .height(280.dp),
-                )
-                Text(
-                    text = stringResource(slide.titleRes),
-                    style = MaterialTheme.typography.headlineMedium,
-                    color = AppTheme.colors.textPrimary,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(top = Dimens.gutterLarge),
-                )
-                Text(
-                    text = stringResource(slide.bodyRes),
-                    style = MaterialTheme.typography.bodyLarge,
-                    color = AppTheme.colors.textSecondary,
-                    textAlign = TextAlign.Center,
-                    modifier = Modifier.padding(top = Dimens.gutterSmall),
-                )
-            }
+            SlidePage(slides[page])
         }
 
         val indicatorDescription = stringResource(
@@ -318,115 +312,127 @@ private fun SlidesStep(
             pagerState.currentPage + 1,
             slides.size,
         )
-        PageIndicator(
-            pageCount = slides.size,
-            currentPage = pagerState.currentPage,
+        PillIndicator(
+            pagerState = pagerState,
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(vertical = Dimens.gutter)
                 .semantics { contentDescription = indicatorDescription },
         )
 
-        AnimatedContent(
-            targetState = isLastPage,
-            transitionSpec = {
-                (fadeIn(tween(220)) + scaleIn(initialScale = 0.96f))
-                    .togetherWith(fadeOut(tween(140)) + scaleOut(targetScale = 0.96f))
-            },
-            label = "onboardingAction",
+        // "Next" is a pill at the end edge; on the last slide it stretches into the full-width
+        // "Get Started", so the one primary action morphs instead of being swapped out.
+        val widthFraction by animateFloatAsState(
+            if (isLastPage) 1f else 0.45f,
+            spring(dampingRatio = 0.8f, stiffness = 400f),
+            label = "ctaWidth",
+        )
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(horizontal = Dimens.gutter)
                 .padding(bottom = Dimens.gutter),
-        ) { last ->
-            Box(Modifier.fillMaxWidth()) {
-                if (last) {
-                    PrimaryButton(
-                        text = stringResource(R.string.onboarding_get_started),
-                        onClick = getStarted,
-                    )
-                } else {
-                    Button(
-                        onClick = { scope.launch { pagerState.animateScrollToPage(pagerState.currentPage + 1) } },
-                        modifier = Modifier
-                            .align(Alignment.CenterEnd)
-                            .height(48.dp),
-                        shape = RoundedCornerShape(Dimens.controlRadius),
-                        colors = ButtonDefaults.buttonColors(
-                            containerColor = AppTheme.colors.accent,
-                            contentColor = AppTheme.colors.onAccent,
-                        ),
-                        contentPadding = PaddingValues(horizontal = 28.dp),
-                    ) {
-                        Text(
-                            text = stringResource(R.string.onboarding_next),
-                            style = MaterialTheme.typography.labelLarge,
-                        )
-                    }
-                }
-            }
+            contentAlignment = Alignment.CenterEnd,
+        ) {
+            PrimaryButton(
+                text = stringResource(if (isLastPage) R.string.onboarding_get_started else R.string.onboarding_next),
+                onClick = if (isLastPage) getStarted else nextPage,
+                modifier = Modifier.fillMaxWidth(widthFraction),
+            )
         }
     }
 }
 
+/**
+ * One slide. The copy rises in just after the illustration starts, so the eye lands on the
+ * picture first. Composed fresh each time the page scrolls into view, which replays it.
+ */
 @Composable
-private fun PrimaryButton(text: String, onClick: () -> Unit, modifier: Modifier = Modifier) {
-    Button(
-        onClick = onClick,
-        modifier = modifier
-            .fillMaxWidth()
-            .height(Dimens.buttonHeight + 2.dp),
-        shape = RoundedCornerShape(Dimens.controlRadius),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = AppTheme.colors.accent,
-            contentColor = AppTheme.colors.onAccent,
-        ),
+private fun SlidePage(slide: OnboardingSlide) {
+    val copy = remember { Animatable(0f) }
+    LaunchedEffect(Unit) {
+        delay(180)
+        copy.animateTo(1f, tween(durationMillis = 520, easing = FastOutSlowInEasing))
+    }
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(horizontal = Dimens.gutterLarge),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
     ) {
-        Text(text = text, style = MaterialTheme.typography.titleMedium)
+        slide.illustration(
+            // Shrinks on short screens so the copy is never pushed off.
+            Modifier
+                .fillMaxWidth(0.9f)
+                .weight(1f, fill = false)
+                .height(300.dp),
+        )
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.graphicsLayer {
+                alpha = copy.value
+                translationY = (1f - copy.value) * 24.dp.toPx()
+            },
+        ) {
+            Text(
+                text = stringResource(slide.titleRes),
+                style = MaterialTheme.typography.headlineLarge,
+                color = AppTheme.colors.textPrimary,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(top = Dimens.gutterLarge),
+            )
+            Text(
+                text = stringResource(slide.bodyRes),
+                style = MaterialTheme.typography.bodyLarge,
+                color = AppTheme.colors.textSecondary,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(top = Dimens.gutterSmall),
+            )
+        }
     }
 }
 
 @Composable
 private fun LanguageButton(onClick: () -> Unit, modifier: Modifier = Modifier) {
-    Surface(
-        onClick = onClick,
-        shape = CircleShape,
-        color = AppTheme.colors.accentSurface,
+    Box(
         modifier = modifier
-            .padding(4.dp)
-            .size(40.dp),
+            .size(44.dp)
+            .clip(CircleShape)
+            .background(AppTheme.colors.accentSurface)
+            .clickable(onClick = onClick),
+        contentAlignment = Alignment.Center,
     ) {
-        Box(contentAlignment = Alignment.Center) {
-            Icon(
-                imageVector = Icons.Rounded.Language,
-                contentDescription = stringResource(R.string.language_change),
-                tint = AppTheme.colors.accent,
-                modifier = Modifier.size(22.dp),
-            )
-        }
+        Icon(
+            imageVector = Icons.Rounded.Language,
+            contentDescription = stringResource(R.string.language_change),
+            tint = AppTheme.colors.accentText,
+            modifier = Modifier.size(22.dp),
+        )
     }
 }
 
+/**
+ * The pager indicator as a pill that stretches toward the page being dragged in. It tracks the
+ * live scroll offset rather than the settled page, so it moves with the finger.
+ */
 @Composable
-private fun PageIndicator(pageCount: Int, currentPage: Int, modifier: Modifier = Modifier) {
+private fun PillIndicator(pagerState: PagerState, modifier: Modifier = Modifier) {
+    val colors = AppTheme.colors
+    val inactive = colors.textMuted.copy(alpha = 0.35f)
     Row(
         modifier = modifier,
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        repeat(pageCount) { index ->
-            val isActive = index == currentPage
-            val width by animateDpAsState(if (isActive) 22.dp else 8.dp, tween(240), label = "pageDot")
-            val color by animateColorAsState(
-                if (isActive) AppTheme.colors.accent else AppTheme.colors.border,
-                tween(240),
-                label = "pageDotColor",
-            )
+        repeat(pagerState.pageCount) { index ->
+            val position = pagerState.currentPage + pagerState.currentPageOffsetFraction
+            val nearness = 1f - abs(position - index).coerceIn(0f, 1f)
             Box(
                 modifier = Modifier
-                    .size(width = width, height = 8.dp)
-                    .clip(RoundedCornerShape(4.dp))
-                    .background(color),
+                    .size(width = lerp(8.dp, 30.dp, nearness), height = 8.dp)
+                    .clip(CircleShape)
+                    .background(lerp(inactive, colors.accent, nearness)),
             )
         }
     }

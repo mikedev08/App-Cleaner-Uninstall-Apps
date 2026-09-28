@@ -9,5 +9,7 @@
     <string name="onboarding_2_title">See what\'s eating your storage</string>
     <string name="onboarding_2_body">Every app\'s size, sorted biggest first.</string>
     <string name="onboarding_3_title">Find the apps you forgot</string>
+    <!-- Under the big percentage in slide 2's storage gauge: "80%" / "full". -->
+    <string name="onboarding_gauge_caption">full</string>
     <string name="onboarding_3_body">We\'ll show you what you haven\'t opened in months.</string>
 </resources>
