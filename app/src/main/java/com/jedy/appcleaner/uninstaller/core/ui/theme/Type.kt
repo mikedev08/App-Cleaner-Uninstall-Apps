@@ -49,3 +49,21 @@ val AppTypography = Typography(
     labelMedium = style(FontWeight.SemiBold, 13, 18),
     labelSmall = style(FontWeight.Bold, 11, 14, 0.4),
 )
+
+/**
+ * Arabic and Hebrew get no tracking: negative letter spacing breaks Arabic joining and throws off
+ * line-break measurement, so a one-word title like "الإعدادات" wrapped mid-word.
+ */
+val RtlTypography: Typography = with(AppTypography) {
+    fun TextStyle.untracked() = copy(letterSpacing = 0.sp)
+    Typography(
+        displayLarge = displayLarge.untracked(), displayMedium = displayMedium.untracked(),
+        displaySmall = displaySmall.untracked(), headlineLarge = headlineLarge.untracked(),
+        headlineMedium = headlineMedium.untracked(), headlineSmall = headlineSmall.untracked(),
+        titleLarge = titleLarge.untracked(), titleMedium = titleMedium.untracked(),
+        titleSmall = titleSmall.untracked(), bodyLarge = bodyLarge.untracked(),
+        bodyMedium = bodyMedium.untracked(), bodySmall = bodySmall.untracked(),
+        labelLarge = labelLarge.untracked(), labelMedium = labelMedium.untracked(),
+        labelSmall = labelSmall.untracked(),
+    )
+}

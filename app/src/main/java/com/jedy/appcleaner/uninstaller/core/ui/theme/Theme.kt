@@ -91,7 +91,7 @@ fun AppCleanerTheme(
     ) {
         MaterialTheme(
             colorScheme = schemeFor(colors),
-            typography = AppTypography,
+            typography = if (layoutDirection == LayoutDirection.Rtl) RtlTypography else AppTypography,
             shapes = AppShapes,
             content = content,
         )
