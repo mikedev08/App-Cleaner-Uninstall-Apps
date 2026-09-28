@@ -32,6 +32,8 @@ class MainActivity : ComponentActivity() {
             if (!keep && !splashDropped) {
                 splashDropped = true
                 StartupTrace.mark("Splash released")
+                // Posted so it runs after the frame that shows the start screen.
+                window.decorView.post { (application as AppCleanerApplication).onFirstFrameDrawn() }
             }
             keep
         }
