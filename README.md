@@ -111,16 +111,19 @@ There is no account, no login and no server. Uninstalling works offline.
 ### Premium
 A weekly subscription with a **3-day free trial**, through Google Play Billing and RevenueCat.
 
-- **Unused apps finder** — apps you haven't opened in **30, 60 or 90 days**, from Android's usage stats (needs Usage Access)
+- **Unused apps finder** — apps you haven't opened in **30 days**, from Android's usage stats (needs Usage Access)
 - An app installed inside the window is never called unused, and one with no usage record reads *Not opened since at least &lt;date&gt;* — never *Never opened*
 - The default launcher, keyboard, SMS app and dialer, accessibility services, notification listeners and device admins are **never suggested** — they run without being opened
-- **Storage breakdown** — app, data and cache size for every app; the **Large** tab ranks apps by total footprint
-- **Cleanup reminders** — a weekly check that notifies only when the unused count has grown or 30 days have passed; the tap opens the Unused tab with those apps pre-selected
+- **Cleanup reminders** — a weekly check that notifies only when the unused count has grown or 30 days have passed; the tap opens Unused apps with those apps pre-selected
 - **No ads**
 - Usage Access is asked for free, before any paywall, so a free user sees their real count — *14 apps · 3.4 GB* — over blurred rows before deciding to pay
 
+### Free, beyond the basics
+- **Heavy apps** — every app using 250 MB or more, with its app, saved-files and temp-files sizes (exact sizes need Usage Access)
+- **Temp files** — how much each app keeps to open faster, with a shortcut to clear it in App info
+
 ### Elsewhere
-- **8 languages**: English, Spanish, French, German, Mandarin, Hindi, Arabic and Hebrew — with full RTL layout for Arabic and Hebrew
+- **9 languages**: English, Spanish, French, German, Mandarin, Hindi, Arabic, Hebrew and Russian — with full RTL layout for Arabic and Hebrew
 - Language is switched **in-app**, independently of the system locale, and every language ships in every install
 - **Light and dark** themes, following the system by default, overridable in Settings
 - Red means remove: the red accent is used only for Uninstall and destructive confirmations
@@ -151,9 +154,9 @@ Free users are measured by APK size, so their total reads "about".
 visible. Leave the app and it pauses after the current dialog; come back and it resumes from the
 first unfinished item. The queue is in Room, not memory, so rotation and process death don't lose it.
 
-**The count before the price.** The Unused and Large numbers are computed on-device for anyone
-who grants Usage Access. The subscription only decides whether the rows render in clear and can
-be selected.
+**The count before the price.** The Unused apps count is computed on-device for anyone who grants
+Usage Access. The subscription only decides whether those rows render in clear and can be
+selected. Heavy apps and Temp files are free.
 
 ---
 
@@ -168,7 +171,7 @@ app/src/main/java/com/jedy/appcleaner/uninstaller/
 ├── core/
 │   ├── analytics/      funnel events that can't carry a package name
 │   ├── format/         byte formatting and analytics byte buckets
-│   ├── locale/         the eight languages, in-composition switching, RTL
+│   ├── locale/         the nine languages, in-composition switching, RTL
 │   ├── model/          app, size and storage models shared by every feature
 │   ├── selection/      the one global selection set
 │   ├── startup/        process-start hooks contributed by features
@@ -185,7 +188,7 @@ app/src/main/java/com/jedy/appcleaner/uninstaller/
 ├── feature/
 │   ├── history/        Uninstall History and Reinstall
 │   ├── home/           app list, tabs, search, sort, storage card, App Details
-│   ├── insights/       the Unused and Large tabs
+│   ├── insights/       the Unused apps, Heavy apps and Temp files filters
 │   ├── onboarding/     language picker, intro slides
 │   ├── paywall/
 │   ├── settings/
@@ -306,9 +309,9 @@ new push to the same PR cancels the run it replaces.
 
 V1 is in development against the PRD in `docs/prd/` (v1.2, as `.docx` and `.pdf`, generated from
 `prd_content.py`). Every V1 screen is built and runs end to end on a device: onboarding, Home
-with the storage gauge, Scan, the Apps list with the All, Unused and Large tabs, batch uninstall
+with the storage gauge, Scan, the Apps list with the All, Unused apps, Heavy apps and Temp files filters, batch uninstall
 with its result, Uninstall History, Usage Access, the paywall and Settings, in light and dark and
-in all eight languages (Arabic and Hebrew mirrored).
+in all nine languages (Arabic and Hebrew mirrored).
 
 Known gaps, honestly stated:
 
@@ -336,7 +339,7 @@ reports follow the same rule. Events go through a local `Analytics` interface; a
 its only implementation writes to logcat.
 
 Usage Access is explained in the app before you are sent to Settings. It is re-checked every time
-the app resumes: revoke it and the Unused and Large tabs go back to asking, and cached sizes are
+the app resumes: revoke it and Unused apps and Temp files go back to asking, and cached sizes are
 cleared.
 
 ### Permissions
