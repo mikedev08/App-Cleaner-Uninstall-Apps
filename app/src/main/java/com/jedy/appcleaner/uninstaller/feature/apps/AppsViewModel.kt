@@ -362,7 +362,7 @@ class AppsViewModel @Inject constructor(
     /** PRD §9 `app_selected`: sampled to the first selection per session. */
     private fun logFirstSelection(via: String) {
         if (!session.claimFirstSelection()) return
-        analytics.log(AnalyticsEvent.AppSelected(tab = tab.value.name.lowercase(), via = via))
+        analytics.log(AnalyticsEvent.AppSelected(tab = tab.value.analyticsName, via = via))
     }
 
     /** PRD §6 item 14: a last use "in the future" (clock moved back) reads as used today. */

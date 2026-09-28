@@ -494,7 +494,9 @@ private fun AccessSlot(modifier: Modifier = Modifier, allowAccess: @Composable (
 }
 
 /** Every way into the disclosure from the Apps screen (its filters and the App Details sheet). */
-private val APPS_SCREEN_TRIGGERS = setOf(UsageAccessTrigger.UNUSED_TAB, UsageAccessTrigger.LARGE_TAB)
+private val APPS_SCREEN_TRIGGERS = setOf(
+    UsageAccessTrigger.UNUSED_TAB, UsageAccessTrigger.LARGE_TAB, UsageAccessTrigger.CACHE_TAB, UsageAccessTrigger.DETAILS_SHEET,
+)
 
 private fun LazyListScope.unavailableItem() {
     item(key = "unavailable") {

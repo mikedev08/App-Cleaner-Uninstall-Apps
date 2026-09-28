@@ -62,7 +62,8 @@ data class UnusedApp(
  * The Apps screen filters, in display order: All · Unused · Large · Cache (design review §2.6 —
  * the same names Home and Scan use). [CACHE] lists apps by cache size.
  */
-enum class HomeTab { ALL, UNUSED, LARGE, CACHE }
+/** [analyticsName] is the user-facing name in events (PRD §9): Large is "heavy", Cache is "temp_files". */
+enum class HomeTab(val analyticsName: String) { ALL("all"), UNUSED("unused"), LARGE("heavy"), CACHE("temp_files") }
 
 /**
  * The one definition of a "Large" app (design review §2A / priority #0). Home's category row, the
@@ -133,8 +134,10 @@ enum class PaywallSource(val value: String) {
 /** What sent the user to the Usage Access disclosure (PRD §9). */
 enum class UsageAccessTrigger(val value: String) {
     UNUSED_TAB("unused_tab"),
-    LARGE_TAB("large_tab"),
-    STORAGE_CARD("storage_card"),
+    LARGE_TAB("heavy_tab"),
+    CACHE_TAB("temp_files_tab"),
+    DETAILS_SHEET("details_sheet"),
+    STORAGE_CARD("home_card"),
     SCAN("scan"),
     SETTINGS("settings");
 

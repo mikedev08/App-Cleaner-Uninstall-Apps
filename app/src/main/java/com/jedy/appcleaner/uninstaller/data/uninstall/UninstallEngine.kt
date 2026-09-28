@@ -173,7 +173,7 @@ class UninstallEngine @Inject constructor(
             AnalyticsEvent.UninstallBatchStarted(
                 appCount = distinct.size,
                 bytesBucket = bytesBucket(items.sumOf { it.snapshotBytes }),
-                sourceTab = sourceTab.name.lowercase(),
+                sourceTab = sourceTab.analyticsName,
                 hasWarnings = flagged.isNotEmpty(),
             )
         )

@@ -624,8 +624,8 @@ b1("`uninstall_cancel_streak_prompt` — params: action (stop, keep_going), rema
    "row pause the batch (Section 6).")
 b1("`history_snapshot_degraded` — params: reason (low_space, io_error, db_full). A history entry was saved without "
    "its icon, or late, because the phone was out of space (Section 6).")
-b1("`usage_access_prompt_shown` — params: trigger (scan, unused_tab, heavy_tab, temp_files_tab, home_card, "
-   "settings).")
+b1("`usage_access_prompt_shown` — params: trigger (scan, unused_tab, heavy_tab, temp_files_tab, details_sheet, "
+   "home_card, settings).")
 b1("`usage_access_granted` — params: seconds_in_settings, used_fallback_page (boolean).")
 b1("`unused_apps_found` — params: count, threshold_days (always 30). When the unused rule finishes with Usage "
    "Access granted, free or Pro.")

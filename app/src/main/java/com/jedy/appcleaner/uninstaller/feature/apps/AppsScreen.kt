@@ -179,7 +179,7 @@ fun AppsScreen(
                         )
                         HomeTab.CACHE -> CacheTab(
                             searchQuery = state.query,
-                            onRequestAccess = { onOpenUsageAccess(UsageAccessTrigger.LARGE_TAB) },
+                            onRequestAccess = { onOpenUsageAccess(UsageAccessTrigger.CACHE_TAB) },
                             onOpenDetails = viewModel::openDetails,
                             modifier = tabModifier,
                             contentPadding = bottomPadding,
@@ -202,7 +202,7 @@ fun AppsScreen(
         AppDetailsSheet(
             details = current,
             onDismiss = viewModel::closeDetails,
-            onRequestUsageAccess = { onOpenUsageAccess(UsageAccessTrigger.LARGE_TAB) },
+            onRequestUsageAccess = { onOpenUsageAccess(UsageAccessTrigger.DETAILS_SHEET) },
             onUninstall = { viewModel.requestUninstallOne(current.app.packageName) },
         )
     }

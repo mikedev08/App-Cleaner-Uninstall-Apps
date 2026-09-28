@@ -73,7 +73,7 @@ class UninstallEngineTest {
         assertEquals(setOf("c.other"), selection.selected.value)
         val started = analytics.events.filterIsInstance<AnalyticsEvent.UninstallBatchStarted>().single()
         assertEquals(2, started.appCount)
-        assertEquals("large", started.sourceTab)
+        assertEquals("heavy", started.sourceTab)
         assertTrue(started.hasWarnings)
     }
 
