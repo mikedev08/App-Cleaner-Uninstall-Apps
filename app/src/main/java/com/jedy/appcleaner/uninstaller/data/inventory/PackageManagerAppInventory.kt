@@ -173,7 +173,7 @@ class PackageManagerAppInventory @Inject constructor(
 
         _apps.value = InventoryRules.ordered(live)
         _isInitialLoading.value = false
-        reportCompleteness(live.size)
+        reportCompleteness(lastVisiblePackageCount)
     }
 
     private suspend fun patchChanged(packageName: String) = mutex.withLock {
@@ -200,13 +200,16 @@ class PackageManagerAppInventory @Inject constructor(
     }
 
     /** PRD §6 item 11 / §9 `inventory_incomplete`: logged at most once per process. */
-    private fun reportCompleteness(userAppCount: Int) {
-        val incomplete = InventoryRules.isIncomplete(userAppCount)
+    private fun reportCompleteness(visiblePackageCount: Int) {
+        val incomplete = InventoryRules.isIncomplete(visiblePackageCount)
         _isIncomplete.value = incomplete
         if (incomplete && incompleteLogged.compareAndSet(false, true)) {
-            analytics.log(AnalyticsEvent.InventoryIncomplete(visibleCount = userAppCount))
+            analytics.log(AnalyticsEvent.InventoryIncomplete(visibleCount = visiblePackageCount))
         }
     }
+
+    /** Every package the last scan could see, system ones included (PRD §6 item 11). */
+    @Volatile private var lastVisiblePackageCount = Int.MAX_VALUE
 
     private fun scanUserApps(): List<InstalledApp> {
         val packages: List<PackageInfo> = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -215,6 +218,7 @@ class PackageManagerAppInventory @Inject constructor(
             @Suppress("DEPRECATION")
             packageManager.getInstalledPackages(0)
         }
+        lastVisiblePackageCount = packages.size
         return packages.mapNotNull { it.toUserAppOrNull() }
     }
 

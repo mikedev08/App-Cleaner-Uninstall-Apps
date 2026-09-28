@@ -12,10 +12,12 @@ import com.jedy.appcleaner.uninstaller.data.local.InventoryAppEntity
 internal object InventoryRules {
 
     /**
-     * PRD §6 item 11: fewer than this many user apps means `QUERY_ALL_PACKAGES` was stripped
-     * (sideloaded or modified build) — no real phone has only four apps the user installed.
+     * PRD §6 item 11: with `QUERY_ALL_PACKAGES` a phone reports hundreds of packages (system ones
+     * included); with it stripped, package-visibility filtering leaves only a handful. Counting
+     * *all* visible packages, not user apps, keeps a fresh phone with three installs from being
+     * told apps are hidden.
      */
-    const val INCOMPLETE_THRESHOLD = 5
+    const val INCOMPLETE_THRESHOLD = 30
 
     /**
      * PRD Feature 1: user-installed only. `FLAG_SYSTEM` stays set on *updated* system apps too, so
@@ -48,7 +50,7 @@ internal object InventoryRules {
         )
     }
 
-    fun isIncomplete(userAppCount: Int): Boolean = userAppCount < INCOMPLETE_THRESHOLD
+    fun isIncomplete(visiblePackageCount: Int): Boolean = visiblePackageCount < INCOMPLETE_THRESHOLD
 
     /**
      * Stable emission order (label, then package) so observers see deterministic lists. Home

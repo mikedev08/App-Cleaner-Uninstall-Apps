@@ -69,8 +69,8 @@ class InventoryRulesTest {
     @Test
     fun `fewer than five user apps is incomplete`() {
         assertTrue(InventoryRules.isIncomplete(0))
-        assertTrue(InventoryRules.isIncomplete(4))
-        assertFalse(InventoryRules.isIncomplete(5))
+        assertTrue(InventoryRules.isIncomplete(29))
+        assertFalse(InventoryRules.isIncomplete(30))
     }
 
     @Test
