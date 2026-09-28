@@ -8,13 +8,14 @@ import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -24,24 +25,22 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.rounded.ArrowForward
 import androidx.compose.material.icons.rounded.CheckCircle
-import androidx.compose.material.icons.rounded.ExpandLess
 import androidx.compose.material.icons.rounded.ExpandMore
+import androidx.compose.material.icons.rounded.HourglassBottom
 import androidx.compose.material.icons.rounded.Info
-import androidx.compose.material.icons.rounded.Schedule
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material.icons.rounded.Refresh
+import androidx.compose.material.icons.rounded.ReportProblem
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -53,22 +52,32 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.jedy.appcleaner.uninstaller.R
-import com.jedy.appcleaner.uninstaller.core.ui.component.AppRow
+import com.jedy.appcleaner.uninstaller.core.ui.component.AppCard
+import com.jedy.appcleaner.uninstaller.core.ui.component.BigNumber
+import com.jedy.appcleaner.uninstaller.core.ui.component.IconBadge
+import com.jedy.appcleaner.uninstaller.core.ui.component.PrimaryButton
+import com.jedy.appcleaner.uninstaller.core.ui.component.SecondaryButton
+import com.jedy.appcleaner.uninstaller.core.ui.component.StorageGauge
 import com.jedy.appcleaner.uninstaller.core.ui.theme.AppTheme
 import com.jedy.appcleaner.uninstaller.core.ui.theme.Dimens
+import com.jedy.appcleaner.uninstaller.core.ui.theme.Severity
+import com.jedy.appcleaner.uninstaller.core.ui.theme.SeverityRules
 import com.jedy.appcleaner.uninstaller.data.uninstall.BatchSummary
 import com.jedy.appcleaner.uninstaller.data.uninstall.FailureReason
 import com.jedy.appcleaner.uninstaller.data.uninstall.ItemState
 import com.jedy.appcleaner.uninstaller.data.uninstall.NotRemovedItem
 import com.jedy.appcleaner.uninstaller.feature.history.SnapshotAppIcon
+import kotlinx.coroutines.delay
 
 /**
  * CONTRACT (frozen signature). PRD §4 Screen 10. [onRetry] receives a new batch (the "Try again"
@@ -105,13 +114,17 @@ fun UninstallResultScreen(
         ) {
             val summary = state.summary
             if (summary != null) {
-                Spacer(Modifier.height(40.dp))
-                FreedHeader(summary)
+                Spacer(Modifier.height(Dimens.gutterLarge))
+                if (summary.removedCount > 0) {
+                    FreedHero(summary, state.storageDrop)
+                } else {
+                    NothingRemovedHeader()
+                }
                 Notes(summary)
                 val notRemoved = summary.notRemoved
                 if (notRemoved.isNotEmpty()) {
                     Spacer(Modifier.height(Dimens.gutterLarge))
-                    NotRemovedSection(
+                    NotRemovedCard(
                         items = notRemoved,
                         retryEnabled = !state.isRetrying,
                         onRetry = viewModel::retry,
@@ -119,84 +132,132 @@ fun UninstallResultScreen(
                     )
                 }
                 if (state.teaser.count > 0) {
-                    Spacer(Modifier.height(Dimens.gutter))
+                    Spacer(Modifier.height(Dimens.gutterSmall))
                     UnusedTeaserCard(state.teaser, onOpenUnused)
                 }
                 Spacer(Modifier.height(Dimens.gutter))
             }
         }
-        Button(
+        PrimaryButton(
+            text = stringResource(R.string.action_done),
             onClick = onDone,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = Dimens.gutter, vertical = Dimens.gutterSmall)
-                .height(Dimens.buttonHeight),
-            colors = ButtonDefaults.buttonColors(containerColor = AppTheme.colors.accent, contentColor = AppTheme.colors.onAccent),
-        ) {
-            Text(stringResource(R.string.action_done))
-        }
+            modifier = Modifier.fillMaxWidth().padding(horizontal = Dimens.gutter, vertical = Dimens.gutterSmall),
+        )
     }
 }
 
-/** The count-up (PRD §1: one of only two motions in the app). Runs once, not on every rotation. */
+/**
+ * The reward moment, in three beats: the gauge sweeps in to how full the phone *was*, the freed
+ * number counts up, then the gauge drops to how full it is *now* with a short burst of confetti.
+ * Every number is real ([StorageDrop] is read from the device). It plays once per batch — a
+ * rotation or coming back to the screen shows the settled state — and not at all with reduced
+ * motion, where the screen simply renders the final values.
+ */
 @Composable
-private fun FreedHeader(summary: BatchSummary) {
-    val removed = summary.removedCount
+private fun FreedHero(summary: BatchSummary, drop: StorageDrop?) {
+    val colors = AppTheme.colors
+    val reducedMotion = rememberReducedMotion()
     val target = summary.freedBytes
-    var counted by rememberSaveable(summary.batch.batchId) { mutableStateOf(false) }
-    val animated = remember(summary.batch.batchId) { Animatable(if (counted) target.toFloat() else 0f) }
+    var played by rememberSaveable(summary.batch.batchId) { mutableStateOf(reducedMotion) }
+    var dropped by remember { mutableStateOf(played) }
+    var burst by remember { mutableStateOf(false) }
+
+    val counter = remember(summary.batch.batchId) { Animatable(if (played) target.toFloat() else 0f) }
     LaunchedEffect(target) {
-        if (counted) {
-            animated.snapTo(target.toFloat())
+        if (played) {
+            counter.snapTo(target.toFloat())
         } else {
-            animated.animateTo(target.toFloat(), tween(durationMillis = 1_200, easing = FastOutSlowInEasing))
-            counted = true
+            counter.animateTo(target.toFloat(), tween(durationMillis = 1_200, easing = FastOutSlowInEasing))
         }
     }
-    val shownBytes = if (counted) target else animated.value.toLong()
+    // The drop waits for the gauge to have swept in to "before" (StorageGauge takes 1.1 s).
+    LaunchedEffect(drop != null) {
+        if (drop == null || played) return@LaunchedEffect
+        delay(1_250)
+        dropped = true
+        burst = true
+        played = true
+    }
+    val shownBytes = if (played && !burst) target else counter.value.toLong()
 
-    Box(
-        Modifier.size(72.dp).clip(CircleShape)
-            .background(if (removed > 0) AppTheme.colors.accentSurface else AppTheme.colors.surfaceMuted),
-        contentAlignment = Alignment.Center,
-    ) {
-        Icon(
-            imageVector = if (removed > 0) Icons.Rounded.CheckCircle else Icons.Rounded.Info,
-            contentDescription = null,
-            tint = if (removed > 0) AppTheme.colors.accent else AppTheme.colors.textSecondary,
-            modifier = Modifier.size(38.dp),
-        )
+    Box(contentAlignment = Alignment.Center) {
+        if (drop != null) {
+            val fraction = if (dropped) drop.afterFraction else drop.beforeFraction
+            // The percentage follows the arc (same 1.1 s curve as StorageGauge), so text and ring agree.
+            val pct = remember { Animatable(if (played) fraction else 0f) }
+            LaunchedEffect(fraction) {
+                if (played && !burst) pct.snapTo(fraction)
+                else pct.animateTo(fraction, tween(1_100, easing = FastOutSlowInEasing))
+            }
+            val shownFraction = pct.value
+            StorageGauge(
+                usedFraction = fraction,
+                severity = SeverityRules.storage(fraction),
+                size = 220.dp,
+            ) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Text(
+                        text = stringResource(R.string.uninstall_result_percent, ResultMath.percent(shownFraction)),
+                        style = MaterialTheme.typography.displaySmall,
+                        color = colors.textPrimary,
+                    )
+                    Text(
+                        text = stringResource(R.string.uninstall_result_gauge_caption),
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = colors.textSecondary,
+                    )
+                }
+            }
+        } else {
+            Box(Modifier.size(220.dp), contentAlignment = Alignment.Center) {
+                IconBadge(icon = Icons.Rounded.CheckCircle, size = 96.dp)
+            }
+        }
+        if (burst && !reducedMotion) {
+            ConfettiBurst(Modifier.matchParentSize())
+        }
     }
     Spacer(Modifier.height(Dimens.gutter))
-    if (removed > 0) {
-        Text(
-            text = stringResource(R.string.uninstall_result_freed, sizeText(shownBytes, summary.freedIsEstimate)),
-            style = MaterialTheme.typography.displaySmall,
-            color = AppTheme.colors.textPrimary,
-            textAlign = TextAlign.Center,
-        )
-        Spacer(Modifier.height(4.dp))
-        Text(
-            text = pluralStringResource(R.plurals.uninstall_result_removed, removed, removed),
-            style = MaterialTheme.typography.titleMedium,
-            color = AppTheme.colors.textSecondary,
-            textAlign = TextAlign.Center,
-        )
-    } else {
-        Text(
-            text = stringResource(R.string.uninstall_result_none_title),
-            style = MaterialTheme.typography.headlineSmall,
-            color = AppTheme.colors.textPrimary,
-            textAlign = TextAlign.Center,
-        )
-        Spacer(Modifier.height(4.dp))
-        Text(
-            text = stringResource(R.string.uninstall_result_none_body),
-            style = MaterialTheme.typography.bodyMedium,
-            color = AppTheme.colors.textSecondary,
-            textAlign = TextAlign.Center,
-        )
-    }
+    BigNumber(
+        value = stringResource(R.string.uninstall_result_freed, sizeText(shownBytes, summary.freedIsEstimate)),
+        caption = null,
+        color = colors.accentText,
+    )
+    Spacer(Modifier.height(6.dp))
+    val removed = summary.removedCount
+    val removedText = pluralStringResource(R.plurals.uninstall_result_removed, removed, removed)
+    Text(
+        text = if (drop != null) {
+            stringResource(
+                R.string.uninstall_result_subline, removedText,
+                stringResource(R.string.uninstall_result_now_full, drop.afterPercent),
+            )
+        } else {
+            removedText
+        },
+        style = MaterialTheme.typography.titleMedium,
+        color = colors.textSecondary,
+        textAlign = TextAlign.Center,
+    )
+}
+
+@Composable
+private fun NothingRemovedHeader() {
+    IconBadge(icon = Icons.Rounded.Info, size = 88.dp)
+    Spacer(Modifier.height(Dimens.gutter))
+    Text(
+        text = stringResource(R.string.uninstall_result_none_title),
+        style = MaterialTheme.typography.headlineMedium,
+        color = AppTheme.colors.textPrimary,
+        textAlign = TextAlign.Center,
+    )
+    Spacer(Modifier.height(4.dp))
+    Text(
+        text = stringResource(R.string.uninstall_result_none_body),
+        style = MaterialTheme.typography.bodyLarge,
+        color = AppTheme.colors.textSecondary,
+        textAlign = TextAlign.Center,
+    )
 }
 
 @Composable
@@ -224,63 +285,60 @@ private fun Notes(summary: BatchSummary) {
 }
 
 @Composable
-private fun NotRemovedSection(
+private fun NotRemovedCard(
     items: List<NotRemovedItem>,
     retryEnabled: Boolean,
     onRetry: (List<String>) -> Unit,
     onOpenSecuritySettings: () -> Unit,
 ) {
     var expanded by rememberSaveable { mutableStateOf(true) }
-    Surface(
-        modifier = Modifier.fillMaxWidth(),
-        shape = MaterialTheme.shapes.medium,
-        color = AppTheme.colors.surface,
-        border = BorderStroke(Dimens.hairline, AppTheme.colors.border),
-    ) {
-        Column {
-            Row(
-                Modifier
-                    .fillMaxWidth()
-                    .clickable { expanded = !expanded }
-                    .padding(horizontal = Dimens.gutter, vertical = 14.dp),
-                verticalAlignment = Alignment.CenterVertically,
+    val chevron by animateFloatAsState(if (expanded) 180f else 0f, label = "chevron")
+    AppCard(modifier = Modifier.fillMaxWidth(), contentPadding = PaddingValues(0.dp)) {
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .clickable { expanded = !expanded }
+                .padding(horizontal = 16.dp, vertical = 14.dp),
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            IconBadge(icon = Icons.Rounded.ReportProblem, severity = Severity.WARNING)
+            Spacer(Modifier.width(12.dp))
+            Text(
+                text = pluralStringResource(R.plurals.uninstall_result_not_removed, items.size, items.size),
+                style = MaterialTheme.typography.titleMedium,
+                color = AppTheme.colors.textPrimary,
+                modifier = Modifier.weight(1f),
+            )
+            Icon(
+                imageVector = Icons.Rounded.ExpandMore,
+                contentDescription = stringResource(
+                    if (expanded) R.string.uninstall_cd_hide_details else R.string.uninstall_cd_show_details,
+                ),
+                tint = AppTheme.colors.textSecondary,
+                modifier = Modifier.rotate(chevron),
+            )
+        }
+        AnimatedVisibility(visible = expanded) {
+            Column(
+                Modifier.padding(start = 8.dp, end = 8.dp, bottom = 8.dp),
+                verticalArrangement = Arrangement.spacedBy(6.dp),
             ) {
-                Text(
-                    text = pluralStringResource(R.plurals.uninstall_result_not_removed, items.size, items.size),
-                    style = MaterialTheme.typography.titleSmall,
-                    color = AppTheme.colors.textPrimary,
-                    modifier = Modifier.weight(1f),
-                )
-                Icon(
-                    imageVector = if (expanded) Icons.Rounded.ExpandLess else Icons.Rounded.ExpandMore,
-                    contentDescription = stringResource(
-                        if (expanded) R.string.uninstall_cd_hide_details else R.string.uninstall_cd_show_details,
-                    ),
-                    tint = AppTheme.colors.textSecondary,
-                )
-            }
-            AnimatedVisibility(visible = expanded) {
-                Column {
-                    HorizontalDivider(color = AppTheme.colors.border)
-                    items.forEach { entry ->
-                        NotRemovedRow(
-                            entry = entry,
-                            retryEnabled = retryEnabled,
-                            onRetry = { onRetry(listOf(entry.item.packageName)) },
-                            onOpenSecuritySettings = onOpenSecuritySettings,
-                        )
-                    }
-                    val retryable = items.filter { it.canRetry }
-                    if (retryable.size >= 2) {
-                        HorizontalDivider(color = AppTheme.colors.border)
-                        TextButton(
-                            onClick = { onRetry(retryable.map { it.item.packageName }) },
-                            enabled = retryEnabled,
-                            modifier = Modifier.align(Alignment.End).padding(horizontal = 8.dp),
-                        ) {
-                            Text(stringResource(R.string.uninstall_retry_all), color = AppTheme.colors.accent)
-                        }
-                    }
+                items.forEach { entry ->
+                    NotRemovedRow(
+                        entry = entry,
+                        retryEnabled = retryEnabled,
+                        onRetry = { onRetry(listOf(entry.item.packageName)) },
+                        onOpenSecuritySettings = onOpenSecuritySettings,
+                    )
+                }
+                val retryable = items.filter { it.canRetry }
+                if (retryable.size >= 2) {
+                    SecondaryButton(
+                        text = stringResource(R.string.uninstall_retry_all),
+                        onClick = { if (retryEnabled) onRetry(retryable.map { it.item.packageName }) },
+                        icon = Icons.Rounded.Refresh,
+                        modifier = Modifier.fillMaxWidth().padding(top = 4.dp),
+                    )
                 }
             }
         }
@@ -294,55 +352,78 @@ private fun NotRemovedRow(
     onRetry: () -> Unit,
     onOpenSecuritySettings: () -> Unit,
 ) {
-    AppRow(
-        packageName = entry.item.packageName,
-        label = entry.item.label,
-        meta = entry.reasonText(),
-        icon = { SnapshotAppIcon(iconPath = entry.item.iconPath, packageName = entry.item.packageName) },
-        trailing = {
-            Column(horizontalAlignment = Alignment.End) {
-                if (entry.reason == FailureReason.DEVICE_ADMIN) {
-                    TextButton(onClick = onOpenSecuritySettings) {
-                        Text(stringResource(R.string.action_open_settings), color = AppTheme.colors.accent)
-                    }
-                }
-                // Never for BLOCKED: retrying cannot succeed (PRD §6 item 2).
-                if (entry.canRetry) {
-                    TextButton(onClick = onRetry, enabled = retryEnabled) {
-                        Text(stringResource(R.string.action_retry), color = AppTheme.colors.accent)
-                    }
-                }
+    val colors = AppTheme.colors
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(18.dp))
+            .background(colors.background)
+            .padding(horizontal = 12.dp, vertical = 10.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        SnapshotAppIcon(iconPath = entry.item.iconPath, packageName = entry.item.packageName, size = 40.dp)
+        Spacer(Modifier.width(12.dp))
+        Column(Modifier.weight(1f)) {
+            Text(
+                entry.item.label, style = MaterialTheme.typography.titleSmall, color = colors.textPrimary,
+                maxLines = 1, overflow = TextOverflow.Ellipsis,
+            )
+            Text(
+                entry.reasonText(), style = MaterialTheme.typography.bodySmall, color = colors.textSecondary,
+                maxLines = 2, overflow = TextOverflow.Ellipsis,
+            )
+        }
+        Spacer(Modifier.width(8.dp))
+        Column(horizontalAlignment = Alignment.End, verticalArrangement = Arrangement.spacedBy(6.dp)) {
+            if (entry.reason == FailureReason.DEVICE_ADMIN) {
+                RowPill(text = stringResource(R.string.action_open_settings), onClick = onOpenSecuritySettings, filled = false)
             }
-        },
-    )
+            // Never for BLOCKED: retrying cannot succeed (PRD §6 item 2).
+            if (entry.canRetry) {
+                RowPill(text = stringResource(R.string.action_retry), onClick = onRetry, enabled = retryEnabled)
+            }
+        }
+    }
 }
 
+/**
+ * Loss framing, from real numbers only: the apps the user still hasn't opened and the space they
+ * still hold. Red because it is space being lost right now — never shown when there is nothing.
+ */
 @Composable
 private fun UnusedTeaserCard(teaser: UnusedTeaser, onOpenUnused: () -> Unit) {
-    Surface(
-        modifier = Modifier.fillMaxWidth(),
-        shape = MaterialTheme.shapes.medium,
-        color = AppTheme.colors.accentSurface,
-        onClick = onOpenUnused,
-    ) {
-        Row(
-            Modifier.padding(start = Dimens.gutter, end = 4.dp, top = Dimens.gutterSmall, bottom = Dimens.gutterSmall),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(Dimens.gutterSmall),
-        ) {
-            Icon(Icons.Rounded.Schedule, contentDescription = null, tint = AppTheme.colors.accent)
-            Column(Modifier.weight(1f)) {
+    val colors = AppTheme.colors
+    AppCard(modifier = Modifier.fillMaxWidth(), onClick = onOpenUnused) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            IconBadge(icon = Icons.Rounded.HourglassBottom, severity = Severity.DANGER, size = 44.dp)
+            Spacer(Modifier.width(14.dp))
+            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
                 Text(
                     text = pluralStringResource(
-                        R.plurals.uninstall_result_teaser, teaser.count, teaser.count, teaser.thresholdDays,
+                        R.plurals.uninstall_result_teaser_loss, teaser.count, teaser.count,
+                        sizeText(teaser.bytes, teaser.isEstimate),
                     ),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = AppTheme.colors.textPrimary,
+                    style = MaterialTheme.typography.titleMedium,
+                    color = colors.danger,
                 )
-                TextButton(onClick = onOpenUnused, modifier = Modifier.padding(top = 2.dp)) {
-                    Text(stringResource(R.string.uninstall_result_teaser_action), color = AppTheme.colors.accent)
-                }
+                Text(
+                    text = pluralStringResource(
+                        R.plurals.uninstall_result_teaser_days, teaser.thresholdDays, teaser.thresholdDays,
+                    ),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = colors.textSecondary,
+                )
             }
+        }
+        Spacer(Modifier.height(12.dp))
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                text = stringResource(R.string.uninstall_result_teaser_action),
+                style = MaterialTheme.typography.labelLarge,
+                color = colors.textPrimary,
+                modifier = Modifier.weight(1f),
+            )
+            Icon(Icons.AutoMirrored.Rounded.ArrowForward, contentDescription = null, tint = colors.textPrimary)
         }
     }
 }

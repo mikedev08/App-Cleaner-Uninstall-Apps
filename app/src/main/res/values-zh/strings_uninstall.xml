@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="uninstall_confirm_title">卸载这些应用？</string>
     <string name="uninstall_confirm_expectation">Android 会请你逐个确认每个应用。</string>
-    <string name="uninstall_confirm_data_note">它们的数据也会被删除。你之后可以在历史记录中重新安装。</string>
     <string name="uninstall_size_about">约 %1$s</string>
     <string name="uninstall_size_unavailable">大小不可用</string>
     <string name="uninstall_warning_device_admin">设备管理器 — 请先停用</string>
@@ -42,9 +40,6 @@
     <string name="uninstall_result_teaser_action">查看未使用的应用</string>
     <string name="uninstall_cd_show_details">显示详情</string>
     <string name="uninstall_cd_hide_details">隐藏详情</string>
-    <plurals name="uninstall_confirm_summary">
-        <item quantity="other">%1$d 个应用 · %2$s</item>
-    </plurals>
     <plurals name="uninstall_confirm_button">
         <item quantity="other">卸载 %1$d 个应用</item>
     </plurals>
@@ -60,7 +55,25 @@
     <plurals name="uninstall_result_already_removed">
         <item quantity="other">%1$d 个应用已被移除</item>
     </plurals>
-    <plurals name="uninstall_result_teaser">
-        <item quantity="other">你还有 %1$d 个应用已 %2$d 天没有打开</item>
+    <string name="uninstall_confirm_info">Android 会让你逐个确认。你可以在“历史记录”中重新安装。</string>
+    <string name="uninstall_confirm_data_short">应用数据会一并删除。</string>
+    <string name="uninstall_confirm_free">将释放 %1$s</string>
+    <string name="uninstall_chip_device_admin">设备管理器</string>
+    <string name="uninstall_chip_keyboard">当前键盘</string>
+    <string name="uninstall_chip_launcher">当前主屏幕</string>
+    <string name="uninstall_chip_sms">当前短信应用</string>
+    <string name="uninstall_chip_dialer">当前电话应用</string>
+    <string name="uninstall_chip_always_running">在后台运行</string>
+    <string name="uninstall_progress_of">%1$d / %2$d</string>
+    <string name="uninstall_result_now_full">你的手机现已使用 %1$d%%</string>
+    <string name="uninstall_result_gauge_caption">已用</string>
+    <plurals name="uninstall_confirm_headline">
+        <item quantity="other">要卸载 %1$d 个应用吗？</item>
+    </plurals>
+    <plurals name="uninstall_result_teaser_loss">
+        <item quantity="other">还有 %1$d 个你没打开过的应用仍占用 %2$s</item>
+    </plurals>
+    <plurals name="uninstall_result_teaser_days">
+        <item quantity="other">%1$d 天内未打开</item>
     </plurals>
 </resources>

@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="uninstall_confirm_title">هل تريد إلغاء تثبيت هذه التطبيقات؟</string>
     <string name="uninstall_confirm_expectation">سيطلب منك Android تأكيد كل تطبيق.</string>
-    <string name="uninstall_confirm_data_note">ستُحذف بياناتها أيضًا. يمكنك إعادة تثبيتها لاحقًا من السجل.</string>
     <string name="uninstall_size_about">حوالي %1$s</string>
     <string name="uninstall_size_unavailable">الحجم غير متاح</string>
     <string name="uninstall_warning_device_admin">مشرف الجهاز — ألغِ تفعيله أولاً</string>
@@ -42,14 +40,6 @@
     <string name="uninstall_result_teaser_action">مراجعة التطبيقات غير المستخدمة</string>
     <string name="uninstall_cd_show_details">عرض التفاصيل</string>
     <string name="uninstall_cd_hide_details">إخفاء التفاصيل</string>
-    <plurals name="uninstall_confirm_summary">
-        <item quantity="zero">%1$d تطبيق · %2$s</item>
-        <item quantity="one">%1$d تطبيق · %2$s</item>
-        <item quantity="two">%1$d تطبيق · %2$s</item>
-        <item quantity="few">%1$d تطبيقات · %2$s</item>
-        <item quantity="many">%1$d تطبيقًا · %2$s</item>
-        <item quantity="other">%1$d تطبيق · %2$s</item>
-    </plurals>
     <plurals name="uninstall_confirm_button">
         <item quantity="zero">إلغاء تثبيت %1$d تطبيق</item>
         <item quantity="one">إلغاء تثبيت %1$d تطبيق</item>
@@ -90,12 +80,40 @@
         <item quantity="many">أُزيل %1$d تطبيقًا مسبقًا</item>
         <item quantity="other">أُزيل %1$d تطبيق مسبقًا</item>
     </plurals>
-    <plurals name="uninstall_result_teaser">
-        <item quantity="zero">لا يزال لديك %1$d تطبيق لم تفتحه منذ %2$d يومًا</item>
-        <item quantity="one">لا يزال لديك %1$d تطبيق لم تفتحه منذ %2$d يومًا</item>
-        <item quantity="two">لا يزال لديك %1$d تطبيق لم تفتحه منذ %2$d يومًا</item>
-        <item quantity="few">لا يزال لديك %1$d تطبيقات لم تفتحه منذ %2$d يومًا</item>
-        <item quantity="many">لا يزال لديك %1$d تطبيقًا لم تفتحه منذ %2$d يومًا</item>
-        <item quantity="other">لا يزال لديك %1$d تطبيق لم تفتحه منذ %2$d يومًا</item>
+    <string name="uninstall_confirm_info">سيطلب منك Android تأكيد كل تطبيق. يمكنك إعادة تثبيتها من السجل.</string>
+    <string name="uninstall_confirm_data_short">تُحذف بيانات التطبيق معه.</string>
+    <string name="uninstall_confirm_free">ستوفّر %1$s</string>
+    <string name="uninstall_chip_device_admin">مشرف الجهاز</string>
+    <string name="uninstall_chip_keyboard">لوحة مفاتيحك</string>
+    <string name="uninstall_chip_launcher">شاشتك الرئيسية</string>
+    <string name="uninstall_chip_sms">تطبيق الرسائل لديك</string>
+    <string name="uninstall_chip_dialer">تطبيق الهاتف لديك</string>
+    <string name="uninstall_chip_always_running">يعمل في الخلفية</string>
+    <string name="uninstall_progress_of">%1$d من %2$d</string>
+    <string name="uninstall_result_now_full">هاتفك ممتلئ الآن بنسبة %1$d%%</string>
+    <string name="uninstall_result_gauge_caption">مستخدَم</string>
+    <plurals name="uninstall_confirm_headline">
+        <item quantity="zero">هل تريد إلغاء تثبيت %1$d تطبيق؟</item>
+        <item quantity="one">هل تريد إلغاء تثبيت %1$d تطبيق؟</item>
+        <item quantity="two">هل تريد إلغاء تثبيت %1$d تطبيق؟</item>
+        <item quantity="few">هل تريد إلغاء تثبيت %1$d تطبيقات؟</item>
+        <item quantity="many">هل تريد إلغاء تثبيت %1$d تطبيقًا؟</item>
+        <item quantity="other">هل تريد إلغاء تثبيت %1$d تطبيق؟</item>
+    </plurals>
+    <plurals name="uninstall_result_teaser_loss">
+        <item quantity="zero">%1$d تطبيق آخر لم تفتحه لا يزال يستخدم %2$s</item>
+        <item quantity="one">%1$d تطبيق آخر لم تفتحه لا يزال يستخدم %2$s</item>
+        <item quantity="two">%1$d تطبيق آخر لم تفتحه لا يزال يستخدم %2$s</item>
+        <item quantity="few">%1$d تطبيقات أخرى لم تفتحها لا تزال تستخدم %2$s</item>
+        <item quantity="many">%1$d تطبيقًا آخر لم تفتحه لا يزال يستخدم %2$s</item>
+        <item quantity="other">%1$d تطبيق آخر لم تفتحه لا يزال يستخدم %2$s</item>
+    </plurals>
+    <plurals name="uninstall_result_teaser_days">
+        <item quantity="zero">لم يُفتح منذ %1$d يوم</item>
+        <item quantity="one">لم يُفتح منذ %1$d يوم</item>
+        <item quantity="two">لم يُفتح منذ %1$d يوم</item>
+        <item quantity="few">لم يُفتح منذ %1$d أيام</item>
+        <item quantity="many">لم يُفتح منذ %1$d يومًا</item>
+        <item quantity="other">لم يُفتح منذ %1$d يوم</item>
     </plurals>
 </resources>

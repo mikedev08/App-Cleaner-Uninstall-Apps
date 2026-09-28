@@ -1,24 +1,30 @@
 package com.jedy.appcleaner.uninstaller.feature.uninstall
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.RestartAlt
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -27,6 +33,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewModelScope
 import com.jedy.appcleaner.uninstaller.R
+import com.jedy.appcleaner.uninstaller.core.ui.component.AppCard
+import com.jedy.appcleaner.uninstaller.core.ui.component.PrimaryButton
+import com.jedy.appcleaner.uninstaller.core.ui.component.SecondaryButton
 import com.jedy.appcleaner.uninstaller.core.ui.theme.AppTheme
 import com.jedy.appcleaner.uninstaller.core.ui.theme.Dimens
 import com.jedy.appcleaner.uninstaller.data.uninstall.ResumableBatch
@@ -124,47 +133,56 @@ fun ResumeUninstallBanner(
     }
 }
 
+/**
+ * Warm, not alarming: amber says "unfinished", never "something went wrong". Continue is the
+ * filled action because finishing is what the user already chose; Discard stays one tap away.
+ */
 @Composable
 private fun ResumeBannerCard(
     remaining: Int,
     onContinue: () -> Unit,
     onDiscard: () -> Unit,
 ) {
-    Surface(
+    AppCard(
         modifier = Modifier.fillMaxWidth().padding(horizontal = Dimens.gutter, vertical = 8.dp),
-        shape = MaterialTheme.shapes.medium,
-        color = AppTheme.colors.accentSurface,
-        border = BorderStroke(Dimens.hairline, AppTheme.colors.border),
+        color = AppTheme.colors.warningSurface,
     ) {
-        Column(Modifier.padding(Dimens.gutter), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            Text(
-                text = pluralStringResource(R.plurals.uninstall_resume_title, remaining, remaining),
-                style = MaterialTheme.typography.titleMedium,
-                color = AppTheme.colors.textPrimary,
-            )
-            Text(
-                text = stringResource(R.string.uninstall_resume_body),
-                style = MaterialTheme.typography.bodyMedium,
-                color = AppTheme.colors.textSecondary,
-            )
-            Row(
-                modifier = Modifier.fillMaxWidth().padding(top = 4.dp),
-                horizontalArrangement = Arrangement.End,
-                verticalAlignment = Alignment.CenterVertically,
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Box(
+                Modifier.size(44.dp).clip(RoundedCornerShape(14.dp)).background(AppTheme.colors.background),
+                contentAlignment = Alignment.Center,
             ) {
-                TextButton(onClick = onDiscard) {
-                    Text(stringResource(R.string.uninstall_resume_discard), color = AppTheme.colors.textSecondary)
-                }
-                Button(
-                    onClick = onContinue,
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = AppTheme.colors.accent,
-                        contentColor = AppTheme.colors.onAccent,
-                    ),
-                ) {
-                    Text(stringResource(R.string.action_continue))
-                }
+                Icon(
+                    Icons.Rounded.RestartAlt, contentDescription = null,
+                    tint = AppTheme.colors.warning, modifier = Modifier.size(24.dp),
+                )
             }
+            Spacer(Modifier.width(14.dp))
+            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                Text(
+                    text = pluralStringResource(R.plurals.uninstall_resume_title, remaining, remaining),
+                    style = MaterialTheme.typography.titleLarge,
+                    color = AppTheme.colors.textPrimary,
+                )
+                Text(
+                    text = stringResource(R.string.uninstall_resume_body),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = AppTheme.colors.textSecondary,
+                )
+            }
+        }
+        Spacer(Modifier.height(16.dp))
+        Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(Dimens.gutterSmall)) {
+            SecondaryButton(
+                text = stringResource(R.string.uninstall_resume_discard),
+                onClick = onDiscard,
+                modifier = Modifier.weight(1f),
+            )
+            PrimaryButton(
+                text = stringResource(R.string.action_continue),
+                onClick = onContinue,
+                modifier = Modifier.weight(1f),
+            )
         }
     }
 }

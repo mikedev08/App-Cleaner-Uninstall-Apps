@@ -1,7 +1,11 @@
 package com.jedy.appcleaner.uninstaller.feature.uninstall
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -9,19 +13,18 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Info
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material.icons.rounded.WarningAmber
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
@@ -31,16 +34,27 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.jedy.appcleaner.uninstaller.R
 import com.jedy.appcleaner.uninstaller.core.model.HomeTab
-import com.jedy.appcleaner.uninstaller.core.ui.component.AppRow
+import com.jedy.appcleaner.uninstaller.core.ui.component.AppIcon
+import com.jedy.appcleaner.uninstaller.core.ui.component.PrimaryButton
+import com.jedy.appcleaner.uninstaller.core.ui.component.SecondaryButton
+import com.jedy.appcleaner.uninstaller.core.ui.component.SeverityChip
 import com.jedy.appcleaner.uninstaller.core.ui.theme.AppTheme
 import com.jedy.appcleaner.uninstaller.core.ui.theme.Dimens
+import com.jedy.appcleaner.uninstaller.core.ui.theme.Severity
+import com.jedy.appcleaner.uninstaller.core.ui.theme.SeverityRules
+import com.jedy.appcleaner.uninstaller.core.ui.theme.color
 import kotlinx.coroutines.launch
 
 /**
@@ -69,8 +83,10 @@ fun UninstallConfirmSheet(
     ModalBottomSheet(
         onDismissRequest = { if (!state.isStarting) onDismiss() },
         sheetState = sheetState,
+        shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp),
         containerColor = AppTheme.colors.background,
         contentColor = AppTheme.colors.textPrimary,
+        dragHandle = { DragHandle() },
     ) {
         ConfirmSheetContent(
             state = state,
@@ -81,6 +97,17 @@ fun UninstallConfirmSheet(
 }
 
 @Composable
+private fun DragHandle() {
+    Box(
+        Modifier
+            .padding(top = 12.dp, bottom = 8.dp)
+            .size(width = 44.dp, height = 5.dp)
+            .clip(CircleShape)
+            .background(AppTheme.colors.surfaceMuted),
+    )
+}
+
+@Composable
 private fun ConfirmSheetContent(
     state: ConfirmUiState,
     onCancel: () -> Unit,
@@ -88,89 +115,147 @@ private fun ConfirmSheetContent(
 ) {
     val count = state.apps.size
     Column(Modifier.fillMaxWidth().padding(bottom = Dimens.gutter)) {
-        Column(Modifier.padding(horizontal = Dimens.gutterLarge), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+        Column(Modifier.padding(horizontal = Dimens.gutter, vertical = 8.dp)) {
             Text(
-                text = stringResource(R.string.uninstall_confirm_title),
-                style = MaterialTheme.typography.titleLarge,
+                text = pluralStringResource(R.plurals.uninstall_confirm_headline, count, count),
+                style = MaterialTheme.typography.headlineMedium,
                 color = AppTheme.colors.textPrimary,
             )
-            Text(
-                text = pluralStringResource(
-                    R.plurals.uninstall_confirm_summary, count, count, sizeText(state.totalBytes, state.isEstimate),
-                ),
-                style = MaterialTheme.typography.bodyMedium,
-                color = AppTheme.colors.textSecondary,
-            )
+            Spacer(Modifier.height(6.dp))
+            FreeLine(sizeText(state.totalBytes, state.isEstimate))
         }
         Spacer(Modifier.height(Dimens.gutterSmall))
-        HorizontalDivider(color = AppTheme.colors.border)
-        LazyColumn(Modifier.fillMaxWidth().heightIn(max = 380.dp)) {
-            items(state.apps, key = { it.packageName }) { app -> ConfirmAppRow(app) }
-        }
-        HorizontalDivider(color = AppTheme.colors.border)
-        Column(
-            Modifier.padding(horizontal = Dimens.gutterLarge, vertical = Dimens.gutterSmall),
-            verticalArrangement = Arrangement.spacedBy(6.dp),
+        LazyColumn(
+            Modifier.fillMaxWidth().heightIn(max = 360.dp),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Icon(Icons.Rounded.Info, contentDescription = null, tint = AppTheme.colors.accent, modifier = Modifier.size(18.dp))
-                Text(
-                    text = stringResource(R.string.uninstall_confirm_expectation),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = AppTheme.colors.textPrimary,
-                )
+            items(state.apps, key = { it.packageName }) { app ->
+                ConfirmAppCard(app, state.deviceTotalBytes, Modifier.animateItem())
             }
-            // PRD §6 item 21: app data is not recoverable, and the sheet doesn't pretend otherwise.
-            Text(
-                text = stringResource(R.string.uninstall_confirm_data_note),
-                style = MaterialTheme.typography.bodySmall,
-                color = AppTheme.colors.textSecondary,
-            )
         }
         Row(
-            Modifier.fillMaxWidth().padding(horizontal = Dimens.gutterLarge, vertical = 8.dp),
+            Modifier.padding(start = Dimens.gutter, end = Dimens.gutter, top = Dimens.gutter),
+            verticalAlignment = Alignment.Top,
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
+        ) {
+            Icon(
+                Icons.Rounded.Info, contentDescription = null, tint = AppTheme.colors.textSecondary,
+                modifier = Modifier.padding(top = 1.dp).size(18.dp),
+            )
+            Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+                Text(
+                    text = stringResource(R.string.uninstall_confirm_info),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = AppTheme.colors.textSecondary,
+                )
+                // PRD §6 item 21: app data is not recoverable, and the sheet doesn't pretend otherwise.
+                Text(
+                    text = stringResource(R.string.uninstall_confirm_data_short),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = AppTheme.colors.textMuted,
+                )
+            }
+        }
+        Row(
+            Modifier.fillMaxWidth().padding(horizontal = Dimens.gutter).padding(top = Dimens.gutter),
             horizontalArrangement = Arrangement.spacedBy(Dimens.gutterSmall),
         ) {
-            OutlinedButton(
-                onClick = onCancel,
-                enabled = !state.isStarting,
-                modifier = Modifier.weight(1f).height(Dimens.buttonHeight),
-            ) {
-                Text(stringResource(R.string.action_cancel), color = AppTheme.colors.textPrimary)
-            }
-            Button(
+            SecondaryButton(
+                text = stringResource(R.string.action_cancel),
+                onClick = { if (!state.isStarting) onCancel() },
+                modifier = Modifier.weight(1f),
+            )
+            PrimaryButton(
+                text = pluralStringResource(R.plurals.uninstall_confirm_button, count, count),
                 onClick = onConfirm,
                 enabled = count > 0 && !state.isStarting,
-                modifier = Modifier.weight(1.4f).height(Dimens.buttonHeight),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = AppTheme.colors.removeRed,
-                    contentColor = AppTheme.colors.onRemoveRed,
-                    disabledContainerColor = AppTheme.colors.removeRed.copy(alpha = 0.5f),
-                    disabledContentColor = AppTheme.colors.onRemoveRed,
-                ),
-            ) {
-                if (state.isStarting) {
-                    CircularProgressIndicator(
-                        color = AppTheme.colors.onRemoveRed,
-                        strokeWidth = 2.dp,
-                        modifier = Modifier.size(20.dp),
-                    )
-                } else {
-                    Text(pluralStringResource(R.plurals.uninstall_confirm_button, count, count))
-                }
-            }
+                destructive = true,
+                modifier = Modifier.weight(1.5f),
+            )
         }
     }
 }
 
+/**
+ * "You'll free **about 455 MB**": the translated sentence keeps its own word order (the size can
+ * sit anywhere, including in RTL), and only the size is set big and red.
+ */
 @Composable
-private fun ConfirmAppRow(app: ConfirmApp) {
-    AppRow(
-        packageName = app.packageName,
-        label = app.label,
-        meta = app.bytes?.let { sizeText(it, isEstimate = false) } ?: stringResource(R.string.uninstall_size_unavailable),
-        badge = if (app.warnings.isEmpty()) null else {
-            { app.warnings.forEach { WarningChip(stringResource(it.textRes())) } }
-        },
+private fun FreeLine(size: String) {
+    val template = stringResource(R.string.uninstall_confirm_free)
+    val placeholder = "%1\$s"
+    val at = template.indexOf(placeholder)
+    val big = MaterialTheme.typography.headlineLarge.toSpanStyle().copy(color = AppTheme.colors.removeRed)
+    val text = buildAnnotatedString {
+        if (at < 0) {
+            withStyle(big) { append(size) }
+        } else {
+            append(template.substring(0, at))
+            withStyle(big) { append(size) }
+            append(template.substring(at + placeholder.length))
+        }
+    }
+    Text(
+        text = text,
+        style = MaterialTheme.typography.titleMedium.copy(lineHeight = MaterialTheme.typography.headlineLarge.lineHeight),
+        color = AppTheme.colors.textSecondary,
     )
+}
+
+@OptIn(ExperimentalLayoutApi::class)
+@Composable
+private fun ConfirmAppCard(app: ConfirmApp, deviceTotalBytes: Long, modifier: Modifier = Modifier) {
+    val colors = AppTheme.colors
+    val bytes = app.bytes
+    val severity = if (bytes == null) Severity.OK else SeverityRules.appSize(bytes, deviceTotalBytes)
+    Row(
+        modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+            .clip(RoundedCornerShape(20.dp))
+            .background(colors.surface)
+            .padding(horizontal = 14.dp, vertical = 12.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        AppIcon(packageName = app.packageName, size = 40.dp)
+        Spacer(Modifier.width(12.dp))
+        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+            Text(
+                text = app.label,
+                style = MaterialTheme.typography.titleMedium,
+                color = colors.textPrimary,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+            if (app.warnings.isNotEmpty()) {
+                FlowRow(
+                    horizontalArrangement = Arrangement.spacedBy(6.dp),
+                    verticalArrangement = Arrangement.spacedBy(4.dp),
+                ) {
+                    app.warnings.forEach { warning ->
+                        SeverityChip(
+                            text = stringResource(warning.chipRes()),
+                            severity = warning.severity,
+                            icon = Icons.Rounded.WarningAmber,
+                        )
+                    }
+                }
+                // The sentence explains the chip ("you'll need to pick another"); the first is enough.
+                Text(
+                    text = stringResource(app.warnings.first().textRes()),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = colors.textSecondary,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis,
+                )
+            }
+        }
+        Spacer(Modifier.width(10.dp))
+        Text(
+            text = if (bytes != null) sizeText(bytes, isEstimate = false) else stringResource(R.string.uninstall_size_unavailable),
+            style = MaterialTheme.typography.titleSmall,
+            color = if (bytes == null) colors.textMuted else if (severity == Severity.OK) colors.textPrimary else severity.color,
+            maxLines = 1,
+        )
+    }
 }

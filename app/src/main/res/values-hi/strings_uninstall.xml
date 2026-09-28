@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="uninstall_confirm_title">इन ऐप्स को अनइंस्टॉल करें?</string>
     <string name="uninstall_confirm_expectation">Android हर ऐप के लिए आपसे पुष्टि मांगेगा।</string>
-    <string name="uninstall_confirm_data_note">इनका डेटा भी मिट जाएगा। आप इन्हें बाद में इतिहास से फिर इंस्टॉल कर सकते हैं।</string>
     <string name="uninstall_size_about">लगभग %1$s</string>
     <string name="uninstall_size_unavailable">आकार उपलब्ध नहीं</string>
     <string name="uninstall_warning_device_admin">डिवाइस एडमिन — पहले निष्क्रिय करें</string>
@@ -42,10 +40,6 @@
     <string name="uninstall_result_teaser_action">अप्रयुक्त ऐप्स देखें</string>
     <string name="uninstall_cd_show_details">विवरण दिखाएं</string>
     <string name="uninstall_cd_hide_details">विवरण छिपाएं</string>
-    <plurals name="uninstall_confirm_summary">
-        <item quantity="one">%1$d ऐप · %2$s</item>
-        <item quantity="other">%1$d ऐप्स · %2$s</item>
-    </plurals>
     <plurals name="uninstall_confirm_button">
         <item quantity="one">%1$d ऐप अनइंस्टॉल करें</item>
         <item quantity="other">%1$d ऐप्स अनइंस्टॉल करें</item>
@@ -66,8 +60,28 @@
         <item quantity="one">%1$d ऐप पहले ही हटाया जा चुका था</item>
         <item quantity="other">%1$d ऐप्स पहले ही हटाए जा चुके थे</item>
     </plurals>
-    <plurals name="uninstall_result_teaser">
-        <item quantity="one">आपके पास अभी भी %1$d ऐप है जिसे आपने %2$d दिनों से नहीं खोला</item>
-        <item quantity="other">आपके पास अभी भी %1$d ऐप्स हैं जिन्हें आपने %2$d दिनों से नहीं खोला</item>
+    <string name="uninstall_confirm_info">Android हर ऐप के लिए पुष्टि मांगेगा। आप इन्हें इतिहास से फिर से इंस्टॉल कर सकते हैं।</string>
+    <string name="uninstall_confirm_data_short">ऐप का डेटा भी साथ में मिट जाता है।</string>
+    <string name="uninstall_confirm_free">आप %1$s खाली करेंगे</string>
+    <string name="uninstall_chip_device_admin">डिवाइस एडमिन</string>
+    <string name="uninstall_chip_keyboard">आपका कीबोर्ड</string>
+    <string name="uninstall_chip_launcher">आपकी होम स्क्रीन</string>
+    <string name="uninstall_chip_sms">आपका SMS ऐप</string>
+    <string name="uninstall_chip_dialer">आपका फ़ोन ऐप</string>
+    <string name="uninstall_chip_always_running">बैकग्राउंड में चलता है</string>
+    <string name="uninstall_progress_of">%2$d में से %1$d</string>
+    <string name="uninstall_result_now_full">आपका फ़ोन अब %1$d%% भरा है</string>
+    <string name="uninstall_result_gauge_caption">उपयोग में</string>
+    <plurals name="uninstall_confirm_headline">
+        <item quantity="one">%1$d ऐप अनइंस्टॉल करें?</item>
+        <item quantity="other">%1$d ऐप्स अनइंस्टॉल करें?</item>
+    </plurals>
+    <plurals name="uninstall_result_teaser_loss">
+        <item quantity="one">%1$d और ऐप, जिसे आपने नहीं खोला, अब भी %2$s ले रहा है</item>
+        <item quantity="other">%1$d और ऐप्स, जिन्हें आपने नहीं खोला, अब भी %2$s ले रहे हैं</item>
+    </plurals>
+    <plurals name="uninstall_result_teaser_days">
+        <item quantity="one">%1$d दिन से नहीं खोला गया</item>
+        <item quantity="other">%1$d दिनों से नहीं खोले गए</item>
     </plurals>
 </resources>

@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!-- Batch uninstall: Confirm Sheet, resume banner, Progress and Result (PRD §4 Screens 8–10). -->
-    <string name="uninstall_confirm_title">Uninstall these apps?</string>
     <string name="uninstall_confirm_expectation">Android will ask you to confirm each app.</string>
-    <string name="uninstall_confirm_data_note">Their data is deleted too. You can reinstall them later from History.</string>
     <string name="uninstall_size_about">about %1$s</string>
     <string name="uninstall_size_unavailable">Size unavailable</string>
     <string name="uninstall_warning_device_admin">Device admin — deactivate first</string>
@@ -43,10 +41,6 @@
     <string name="uninstall_result_teaser_action">Review unused apps</string>
     <string name="uninstall_cd_show_details">Show details</string>
     <string name="uninstall_cd_hide_details">Hide details</string>
-    <plurals name="uninstall_confirm_summary">
-        <item quantity="one">%1$d app · %2$s</item>
-        <item quantity="other">%1$d apps · %2$s</item>
-    </plurals>
     <plurals name="uninstall_confirm_button">
         <item quantity="one">Uninstall %1$d app</item>
         <item quantity="other">Uninstall %1$d apps</item>
@@ -67,8 +61,30 @@
         <item quantity="one">%1$d app was already removed</item>
         <item quantity="other">%1$d apps were already removed</item>
     </plurals>
-    <plurals name="uninstall_result_teaser">
-        <item quantity="one">You still have %1$d app you haven\'t opened in %2$d days</item>
-        <item quantity="other">You still have %1$d apps you haven\'t opened in %2$d days</item>
+    <string name="uninstall_confirm_info">Android asks you to confirm each one. You can reinstall from History.</string>
+    <string name="uninstall_confirm_data_short">App data is deleted with the app.</string>
+    <string name="uninstall_confirm_free">You\'ll free %1$s</string>
+    <string name="uninstall_chip_device_admin">Device admin</string>
+    <string name="uninstall_chip_keyboard">Your keyboard</string>
+    <string name="uninstall_chip_launcher">Your home screen</string>
+    <string name="uninstall_chip_sms">Your SMS app</string>
+    <string name="uninstall_chip_dialer">Your phone app</string>
+    <string name="uninstall_chip_always_running">Runs in background</string>
+    <string name="uninstall_progress_of">%1$d of %2$d</string>
+    <string name="uninstall_result_now_full">Your phone is now %1$d%% full</string>
+    <string name="uninstall_result_gauge_caption">used</string>
+    <plurals name="uninstall_confirm_headline">
+        <item quantity="one">Uninstall %1$d app?</item>
+        <item quantity="other">Uninstall %1$d apps?</item>
     </plurals>
+    <plurals name="uninstall_result_teaser_loss">
+        <item quantity="one">%1$d more app you haven\'t opened is still using %2$s</item>
+        <item quantity="other">%1$d more apps you haven\'t opened are still using %2$s</item>
+    </plurals>
+    <plurals name="uninstall_result_teaser_days">
+        <item quantity="one">Not opened in %1$d day</item>
+        <item quantity="other">Not opened in %1$d days</item>
+    </plurals>
+    <string name="uninstall_result_percent" translatable="false">%1$d%%</string>
+    <string name="uninstall_result_subline" translatable="false">%1$s · %2$s</string>
 </resources>

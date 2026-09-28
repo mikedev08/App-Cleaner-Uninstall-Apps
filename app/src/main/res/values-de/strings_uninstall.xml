@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="uninstall_confirm_title">Diese Apps deinstallieren?</string>
     <string name="uninstall_confirm_expectation">Android fragt bei jeder App nach einer Bestätigung.</string>
-    <string name="uninstall_confirm_data_note">Ihre Daten werden ebenfalls gelöscht. Du kannst sie später über den Verlauf neu installieren.</string>
     <string name="uninstall_size_about">ca. %1$s</string>
     <string name="uninstall_size_unavailable">Größe nicht verfügbar</string>
     <string name="uninstall_warning_device_admin">Geräteadministrator – zuerst deaktivieren</string>
@@ -42,10 +40,6 @@
     <string name="uninstall_result_teaser_action">Ungenutzte Apps ansehen</string>
     <string name="uninstall_cd_show_details">Details anzeigen</string>
     <string name="uninstall_cd_hide_details">Details ausblenden</string>
-    <plurals name="uninstall_confirm_summary">
-        <item quantity="one">%1$d App · %2$s</item>
-        <item quantity="other">%1$d Apps · %2$s</item>
-    </plurals>
     <plurals name="uninstall_confirm_button">
         <item quantity="one">%1$d App deinstallieren</item>
         <item quantity="other">%1$d Apps deinstallieren</item>
@@ -66,8 +60,28 @@
         <item quantity="one">%1$d App war bereits entfernt</item>
         <item quantity="other">%1$d Apps waren bereits entfernt</item>
     </plurals>
-    <plurals name="uninstall_result_teaser">
-        <item quantity="one">Du hast noch %1$d App, die du seit %2$d Tagen nicht geöffnet hast</item>
-        <item quantity="other">Du hast noch %1$d Apps, die du seit %2$d Tagen nicht geöffnet hast</item>
+    <string name="uninstall_confirm_info">Android fragt bei jeder App nach deiner Bestätigung. Über den Verlauf kannst du sie neu installieren.</string>
+    <string name="uninstall_confirm_data_short">App-Daten werden mit der App gelöscht.</string>
+    <string name="uninstall_confirm_free">Du gibst %1$s frei</string>
+    <string name="uninstall_chip_device_admin">Geräteadministrator</string>
+    <string name="uninstall_chip_keyboard">Deine Tastatur</string>
+    <string name="uninstall_chip_launcher">Dein Startbildschirm</string>
+    <string name="uninstall_chip_sms">Deine SMS-App</string>
+    <string name="uninstall_chip_dialer">Deine Telefon-App</string>
+    <string name="uninstall_chip_always_running">Läuft im Hintergrund</string>
+    <string name="uninstall_progress_of">%1$d von %2$d</string>
+    <string name="uninstall_result_now_full">Dein Handy ist jetzt zu %1$d %% voll</string>
+    <string name="uninstall_result_gauge_caption">belegt</string>
+    <plurals name="uninstall_confirm_headline">
+        <item quantity="one">%1$d App deinstallieren?</item>
+        <item quantity="other">%1$d Apps deinstallieren?</item>
+    </plurals>
+    <plurals name="uninstall_result_teaser_loss">
+        <item quantity="one">%1$d weitere App, die du nicht geöffnet hast, belegt noch %2$s</item>
+        <item quantity="other">%1$d weitere Apps, die du nicht geöffnet hast, belegen noch %2$s</item>
+    </plurals>
+    <plurals name="uninstall_result_teaser_days">
+        <item quantity="one">Seit %1$d Tag nicht geöffnet</item>
+        <item quantity="other">Seit %1$d Tagen nicht geöffnet</item>
     </plurals>
 </resources>

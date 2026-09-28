@@ -2,7 +2,7 @@
 <resources>
     <!-- Uninstall History (PRD §4 Screen 12). -->
     <string name="history_meta" translatable="false">%1$s · %2$s</string>
-    <string name="history_title">Uninstall history</string>
+    <string name="history_title">History</string>
     <string name="history_clear">Clear history</string>
     <string name="history_more_options">More options</string>
     <string name="history_today">Today</string>
@@ -11,13 +11,14 @@
     <string name="history_not_from_play">Not from Play</string>
     <string name="history_reinstalled">Reinstalled</string>
     <string name="history_empty_title">No removed apps yet</string>
-    <string name="history_empty_body">Apps you remove will appear here, so you can always get them back.</string>
+    <string name="history_empty_body">Apps you remove will show up here, so you can always get them back.</string>
     <string name="history_clear_title">Clear history?</string>
     <string name="history_clear_body">This only clears the list. Apps you removed stay removed.</string>
     <string name="history_clear_confirm">Clear</string>
     <string name="history_store_unavailable">Couldn\'t open the Play Store</string>
-    <plurals name="history_summary">
-        <item quantity="one">%1$d app removed · %2$s freed</item>
-        <item quantity="other">%1$d apps removed · %2$s freed</item>
+    <string name="history_hero_freed">%1$s freed</string>
+    <plurals name="history_hero_removed">
+        <item quantity="one">%1$d app removed</item>
+        <item quantity="other">%1$d apps removed</item>
     </plurals>
 </resources>

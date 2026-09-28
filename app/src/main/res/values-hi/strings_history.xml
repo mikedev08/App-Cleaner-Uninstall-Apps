@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="history_title">अनइंस्टॉल इतिहास</string>
+    <string name="history_title">इतिहास</string>
     <string name="history_clear">इतिहास साफ़ करें</string>
     <string name="history_more_options">अधिक विकल्प</string>
     <string name="history_today">आज</string>
@@ -14,8 +14,9 @@
     <string name="history_clear_body">सिर्फ़ सूची साफ़ होगी। हटाए गए ऐप्स हटे ही रहेंगे।</string>
     <string name="history_clear_confirm">साफ़ करें</string>
     <string name="history_store_unavailable">Play Store नहीं खुल सका</string>
-    <plurals name="history_summary">
-        <item quantity="one">%1$d ऐप हटाया गया · %2$s खाली हुआ</item>
-        <item quantity="other">%1$d ऐप्स हटाए गए · %2$s खाली हुआ</item>
+    <string name="history_hero_freed">%1$s खाली हुआ</string>
+    <plurals name="history_hero_removed">
+        <item quantity="one">%1$d ऐप हटाया गया</item>
+        <item quantity="other">%1$d ऐप्स हटाए गए</item>
     </plurals>
 </resources>

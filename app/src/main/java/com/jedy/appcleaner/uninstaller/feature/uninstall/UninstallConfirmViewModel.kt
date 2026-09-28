@@ -11,12 +11,14 @@ import com.jedy.appcleaner.uninstaller.data.uninstall.AppWarnings
 import com.jedy.appcleaner.uninstaller.data.uninstall.UninstallEngine
 import com.jedy.appcleaner.uninstaller.data.usage.UsageAccess
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
@@ -36,6 +38,8 @@ data class ConfirmUiState(
     /** APK-only sizes (free, or no Usage Access): the summary says "about" (PRD Feature 2). */
     val isEstimate: Boolean = true,
     val isStarting: Boolean = false,
+    /** Whole-device total, so each row's size can be coloured by its share of the phone. 0 = unknown. */
+    val deviceTotalBytes: Long = 0,
 )
 
 /**
@@ -45,7 +49,7 @@ data class ConfirmUiState(
 @HiltViewModel
 class UninstallConfirmViewModel @Inject constructor(
     inventory: AppInventory,
-    storage: StorageBreakdown,
+    private val storage: StorageBreakdown,
     premium: Premium,
     usageAccess: UsageAccess,
     private val warnings: AppWarnings,
@@ -55,6 +59,9 @@ class UninstallConfirmViewModel @Inject constructor(
     private val packages = MutableStateFlow<List<String>>(emptyList())
     private val flagged = MutableStateFlow<Map<String, List<AppWarning>>>(emptyMap())
     private val starting = MutableStateFlow(false)
+
+    /** Read once: the sheet lives for seconds, and the total never changes. */
+    private val deviceTotal: Long by lazy { runCatching { storage.deviceStorage().totalBytes }.getOrDefault(0L) }
 
     private val _started = Channel<Long>(Channel.BUFFERED)
     /** Emits the new batch id once it is safely in Room. */
@@ -85,8 +92,9 @@ class UninstallConfirmViewModel @Inject constructor(
             totalBytes = rows.sumOf { it.bytes ?: 0L },
             isEstimate = estimate || rows.isEmpty(),
             isStarting = isStarting,
+            deviceTotalBytes = deviceTotal,
         )
-    }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), ConfirmUiState())
+    }.flowOn(Dispatchers.Default).stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), ConfirmUiState())
 
     /** True from confirm until the caller replaces the selection; see [setPackages]. */
     private var handedOff = false

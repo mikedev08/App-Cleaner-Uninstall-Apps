@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="history_title">היסטוריית הסרות</string>
+    <string name="history_title">היסטוריה</string>
     <string name="history_clear">ניקוי ההיסטוריה</string>
     <string name="history_more_options">אפשרויות נוספות</string>
     <string name="history_today">היום</string>
@@ -14,9 +14,10 @@
     <string name="history_clear_body">רק הרשימה תימחק. אפליקציות שהסרת יישארו מוסרות.</string>
     <string name="history_clear_confirm">ניקוי</string>
     <string name="history_store_unavailable">לא ניתן לפתוח את חנות Play</string>
-    <plurals name="history_summary">
-        <item quantity="one">אפליקציה אחת הוסרה · %2$s פונו</item>
-        <item quantity="two">%1$d אפליקציות הוסרו · %2$s פונו</item>
-        <item quantity="other">%1$d אפליקציות הוסרו · %2$s פונו</item>
+    <string name="history_hero_freed">%1$s פונו</string>
+    <plurals name="history_hero_removed">
+        <item quantity="one">אפליקציה אחת הוסרה</item>
+        <item quantity="two">%1$d אפליקציות הוסרו</item>
+        <item quantity="other">%1$d אפליקציות הוסרו</item>
     </plurals>
 </resources>

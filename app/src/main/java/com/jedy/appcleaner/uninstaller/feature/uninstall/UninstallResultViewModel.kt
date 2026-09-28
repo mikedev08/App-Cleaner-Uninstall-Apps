@@ -9,6 +9,7 @@ import com.jedy.appcleaner.uninstaller.core.format.bytesBucket
 import com.jedy.appcleaner.uninstaller.data.billing.Premium
 import com.jedy.appcleaner.uninstaller.data.inventory.AppInventory
 import com.jedy.appcleaner.uninstaller.data.prefs.AppPreferences
+import com.jedy.appcleaner.uninstaller.data.storage.StorageBreakdown
 import com.jedy.appcleaner.uninstaller.data.uninstall.BatchSummary
 import com.jedy.appcleaner.uninstaller.data.uninstall.Clock
 import com.jedy.appcleaner.uninstaller.data.uninstall.ItemState
@@ -31,15 +32,26 @@ import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
-/** The Result screen's teaser card (PRD §4 Screen 10). [count] 0 hides it. */
-data class UnusedTeaser(val count: Int, val thresholdDays: Int)
+/**
+ * The Result screen's teaser card (PRD §4 Screen 10). [count] 0 hides it. [bytes] is what those
+ * apps still occupy; [isEstimate] = APK-only sizes, so the card says "about".
+ */
+data class UnusedTeaser(
+    val count: Int,
+    val thresholdDays: Int,
+    val bytes: Long = 0,
+    val isEstimate: Boolean = true,
+)
 
 data class ResultUiState(
     val summary: BatchSummary? = null,
     val teaser: UnusedTeaser = UnusedTeaser(0, AppPreferences.DEFAULT_UNUSED_DAYS),
     val isRetrying: Boolean = false,
+    /** Gauge before → after. Null until the batch is finished and storage has been read. */
+    val storageDrop: StorageDrop? = null,
 )
 
 /**
@@ -53,6 +65,7 @@ class UninstallResultViewModel @Inject constructor(
     private val inventory: AppInventory,
     private val usageAccess: UsageAccess,
     private val usageInsights: UsageInsights,
+    private val storage: StorageBreakdown,
     private val preferences: AppPreferences,
     private val premium: Premium,
     private val analytics: Analytics,
@@ -68,29 +81,48 @@ class UninstallResultViewModel @Inject constructor(
 
     private val summary = batchId.filterNotNull().flatMapLatest(engine::observeSummary)
 
+    /** Measured sizes only where the Confirm Sheet would show them too (premium + Usage Access). */
+    private val fullSizes = combine(premium.isPremium, usageAccess.isGranted, storage.sizes) { isPremium, granted, sizes ->
+        if (isPremium && granted) sizes else null
+    }
+
     private val teaser: Flow<UnusedTeaser> = combine(
-        usageAccess.isGranted, inventory.apps, preferences.unusedThresholdDays, summary,
-    ) { granted, apps, days, current ->
+        usageAccess.isGranted, inventory.apps, preferences.unusedThresholdDays, summary, fullSizes,
+    ) { granted, apps, days, current, sizes ->
         if (!granted) return@combine UnusedTeaser(0, days)
         // The inventory may not have caught up with this batch yet; never tease an app just removed.
         val gone = current?.items
             ?.filter { ItemState.of(it.state) == ItemState.REMOVED || ItemState.of(it.state) == ItemState.ALREADY_REMOVED }
             ?.mapTo(HashSet()) { it.packageName }
             .orEmpty()
-        val count = runCatching {
-            usageInsights.unusedApps(apps.filterNot { it.packageName in gone }, days, clock.now()).size
-        }.getOrDefault(0)
-        UnusedTeaser(count, days)
+        runCatching {
+            val unused = usageInsights.unusedApps(apps.filterNot { it.packageName in gone }, days, clock.now())
+            ResultMath.unusedTeaser(unused, sizes, days)
+        }.getOrDefault(UnusedTeaser(0, days))
     }.flowOn(Dispatchers.Default)
 
-    val uiState: StateFlow<ResultUiState> = combine(summary, teaser, retrying) { current, unused, isRetrying ->
-        ResultUiState(summary = current, teaser = unused, isRetrying = isRetrying)
+    /**
+     * Read once per batch, after it finished: re-reading on every emission would let the "before"
+     * drift as the OS settles, and the gauge must drop exactly by what this batch freed.
+     */
+    private val storageDrop = MutableStateFlow<StorageDrop?>(null)
+
+    val uiState: StateFlow<ResultUiState> = combine(summary, teaser, retrying, storageDrop) { current, unused, isRetrying, drop ->
+        ResultUiState(summary = current, teaser = unused, isRetrying = isRetrying, storageDrop = drop)
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), ResultUiState())
 
     fun bind(id: Long) {
         if (batchId.value == id) return
         batchId.value = id
         viewModelScope.launch { logCompletionOnce(id) }
+        viewModelScope.launch { readStorageDrop(id) }
+    }
+
+    private suspend fun readStorageDrop(id: Long) {
+        val done = engine.observeSummary(id).filterNotNull().first { it.isFinished }
+        storageDrop.value = withContext(Dispatchers.IO) {
+            runCatching { ResultMath.storageDrop(storage.deviceStorage(), done.freedBytes) }.getOrNull()
+        }
     }
 
     /** North Star (PRD §9): once per batch, only with at least one app removed. Survives rotation and process death. */

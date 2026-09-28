@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="uninstall_confirm_title">Désinstaller ces applis ?</string>
     <string name="uninstall_confirm_expectation">Android vous demandera de confirmer chaque appli.</string>
-    <string name="uninstall_confirm_data_note">Leurs données seront aussi supprimées. Vous pourrez les réinstaller depuis l\'historique.</string>
     <string name="uninstall_size_about">environ %1$s</string>
     <string name="uninstall_size_unavailable">Taille indisponible</string>
     <string name="uninstall_warning_device_admin">Administrateur de l\'appareil : désactivez-le d\'abord</string>
@@ -42,11 +40,6 @@
     <string name="uninstall_result_teaser_action">Voir les applis inutilisées</string>
     <string name="uninstall_cd_show_details">Afficher les détails</string>
     <string name="uninstall_cd_hide_details">Masquer les détails</string>
-    <plurals name="uninstall_confirm_summary">
-        <item quantity="one">%1$d appli · %2$s</item>
-        <item quantity="many">%1$d applis · %2$s</item>
-        <item quantity="other">%1$d applis · %2$s</item>
-    </plurals>
     <plurals name="uninstall_confirm_button">
         <item quantity="one">Désinstaller %1$d appli</item>
         <item quantity="many">Désinstaller %1$d applis</item>
@@ -72,9 +65,31 @@
         <item quantity="many">%1$d applis étaient déjà supprimées</item>
         <item quantity="other">%1$d applis étaient déjà supprimées</item>
     </plurals>
-    <plurals name="uninstall_result_teaser">
-        <item quantity="one">Il vous reste %1$d appli que vous n\'avez pas ouverte depuis %2$d jours</item>
-        <item quantity="many">Il vous reste %1$d applis que vous n\'avez pas ouvertes depuis %2$d jours</item>
-        <item quantity="other">Il vous reste %1$d applis que vous n\'avez pas ouvertes depuis %2$d jours</item>
+    <string name="uninstall_confirm_info">Android vous demande de confirmer chacune. Vous pourrez les réinstaller depuis l\'historique.</string>
+    <string name="uninstall_confirm_data_short">Les données de l\'appli sont supprimées avec elle.</string>
+    <string name="uninstall_confirm_free">Vous libérerez %1$s</string>
+    <string name="uninstall_chip_device_admin">Admin de l\'appareil</string>
+    <string name="uninstall_chip_keyboard">Votre clavier</string>
+    <string name="uninstall_chip_launcher">Votre écran d\'accueil</string>
+    <string name="uninstall_chip_sms">Votre appli SMS</string>
+    <string name="uninstall_chip_dialer">Votre appli Téléphone</string>
+    <string name="uninstall_chip_always_running">Tourne en arrière-plan</string>
+    <string name="uninstall_progress_of">%1$d sur %2$d</string>
+    <string name="uninstall_result_now_full">Votre téléphone est maintenant plein à %1$d %%</string>
+    <string name="uninstall_result_gauge_caption">utilisé</string>
+    <plurals name="uninstall_confirm_headline">
+        <item quantity="one">Désinstaller %1$d appli ?</item>
+        <item quantity="many">Désinstaller %1$d applis ?</item>
+        <item quantity="other">Désinstaller %1$d applis ?</item>
+    </plurals>
+    <plurals name="uninstall_result_teaser_loss">
+        <item quantity="one">%1$d autre appli que vous n\'avez pas ouverte utilise encore %2$s</item>
+        <item quantity="many">%1$d autres applis que vous n\'avez pas ouvertes utilisent encore %2$s</item>
+        <item quantity="other">%1$d autres applis que vous n\'avez pas ouvertes utilisent encore %2$s</item>
+    </plurals>
+    <plurals name="uninstall_result_teaser_days">
+        <item quantity="one">Non ouvertes depuis %1$d jour</item>
+        <item quantity="many">Non ouvertes depuis %1$d jours</item>
+        <item quantity="other">Non ouvertes depuis %1$d jours</item>
     </plurals>
 </resources>

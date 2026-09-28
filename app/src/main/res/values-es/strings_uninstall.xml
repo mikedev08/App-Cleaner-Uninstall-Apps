@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="uninstall_confirm_title">¿Desinstalar estas apps?</string>
     <string name="uninstall_confirm_expectation">Android te pedirá que confirmes cada app.</string>
-    <string name="uninstall_confirm_data_note">Sus datos también se borrarán. Puedes reinstalarlas luego desde el Historial.</string>
     <string name="uninstall_size_about">unos %1$s</string>
     <string name="uninstall_size_unavailable">Tamaño no disponible</string>
     <string name="uninstall_warning_device_admin">Administrador del dispositivo: desactívalo primero</string>
@@ -42,11 +40,6 @@
     <string name="uninstall_result_teaser_action">Ver apps sin usar</string>
     <string name="uninstall_cd_show_details">Mostrar detalles</string>
     <string name="uninstall_cd_hide_details">Ocultar detalles</string>
-    <plurals name="uninstall_confirm_summary">
-        <item quantity="one">%1$d app · %2$s</item>
-        <item quantity="many">%1$d apps · %2$s</item>
-        <item quantity="other">%1$d apps · %2$s</item>
-    </plurals>
     <plurals name="uninstall_confirm_button">
         <item quantity="one">Desinstalar %1$d app</item>
         <item quantity="many">Desinstalar %1$d apps</item>
@@ -72,9 +65,31 @@
         <item quantity="many">%1$d apps ya se habían quitado</item>
         <item quantity="other">%1$d apps ya se habían quitado</item>
     </plurals>
-    <plurals name="uninstall_result_teaser">
-        <item quantity="one">Todavía tienes %1$d app que no abres desde hace %2$d días</item>
-        <item quantity="many">Todavía tienes %1$d apps que no abres desde hace %2$d días</item>
-        <item quantity="other">Todavía tienes %1$d apps que no abres desde hace %2$d días</item>
+    <string name="uninstall_confirm_info">Android te pedirá confirmar cada una. Puedes reinstalarlas desde el Historial.</string>
+    <string name="uninstall_confirm_data_short">Los datos de la app se borran con ella.</string>
+    <string name="uninstall_confirm_free">Liberarás %1$s</string>
+    <string name="uninstall_chip_device_admin">Administrador del dispositivo</string>
+    <string name="uninstall_chip_keyboard">Tu teclado</string>
+    <string name="uninstall_chip_launcher">Tu pantalla de inicio</string>
+    <string name="uninstall_chip_sms">Tu app de SMS</string>
+    <string name="uninstall_chip_dialer">Tu app de teléfono</string>
+    <string name="uninstall_chip_always_running">Funciona en segundo plano</string>
+    <string name="uninstall_progress_of">%1$d de %2$d</string>
+    <string name="uninstall_result_now_full">Tu teléfono ahora está lleno al %1$d%%</string>
+    <string name="uninstall_result_gauge_caption">usado</string>
+    <plurals name="uninstall_confirm_headline">
+        <item quantity="one">¿Desinstalar %1$d app?</item>
+        <item quantity="many">¿Desinstalar %1$d apps?</item>
+        <item quantity="other">¿Desinstalar %1$d apps?</item>
+    </plurals>
+    <plurals name="uninstall_result_teaser_loss">
+        <item quantity="one">%1$d app más que no has abierto sigue usando %2$s</item>
+        <item quantity="many">%1$d apps más que no has abierto siguen usando %2$s</item>
+        <item quantity="other">%1$d apps más que no has abierto siguen usando %2$s</item>
+    </plurals>
+    <plurals name="uninstall_result_teaser_days">
+        <item quantity="one">Sin abrir en %1$d día</item>
+        <item quantity="many">Sin abrir en %1$d días</item>
+        <item quantity="other">Sin abrir en %1$d días</item>
     </plurals>
 </resources>

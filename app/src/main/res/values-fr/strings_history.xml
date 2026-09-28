@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="history_title">Historique des désinstallations</string>
+    <string name="history_title">Historique</string>
     <string name="history_clear">Effacer l\'historique</string>
     <string name="history_more_options">Plus d\'options</string>
     <string name="history_today">Aujourd\'hui</string>
@@ -14,9 +14,10 @@
     <string name="history_clear_body">Seule la liste est effacée. Les applis supprimées le restent.</string>
     <string name="history_clear_confirm">Effacer</string>
     <string name="history_store_unavailable">Impossible d\'ouvrir le Play Store</string>
-    <plurals name="history_summary">
-        <item quantity="one">%1$d appli supprimée · %2$s libérés</item>
-        <item quantity="many">%1$d applis supprimées · %2$s libérés</item>
-        <item quantity="other">%1$d applis supprimées · %2$s libérés</item>
+    <string name="history_hero_freed">%1$s libérés</string>
+    <plurals name="history_hero_removed">
+        <item quantity="one">%1$d appli supprimée</item>
+        <item quantity="many">%1$d applis supprimées</item>
+        <item quantity="other">%1$d applis supprimées</item>
     </plurals>
 </resources>
