@@ -385,15 +385,16 @@ private fun CancelStreakCard(remaining: Int, onStop: () -> Unit, onKeepGoing: ()
             }
         }
         Spacer(Modifier.height(Dimens.space16))
+        // Green means "go", so it belongs on Keep going; Stop is the calm, neutral way out.
         PrimaryButton(
-            text = stringResource(R.string.uninstall_stop),
-            onClick = onStop,
+            text = stringResource(R.string.uninstall_stop_keep_going),
+            onClick = onKeepGoing,
             modifier = Modifier.fillMaxWidth(),
         )
         Spacer(Modifier.height(Dimens.stackedButtonGap))
         SecondaryButton(
-            text = stringResource(R.string.uninstall_stop_keep_going),
-            onClick = onKeepGoing,
+            text = stringResource(R.string.uninstall_stop),
+            onClick = onStop,
             modifier = Modifier.fillMaxWidth(),
         )
     }
