@@ -1,9 +1,9 @@
-# Renders prd_content.py to AppCleaner_PRD_v1_1.docx (python-docx) and .pdf (reportlab).
+# Renders prd_content.py to AppCleaner_PRD_v1_2.docx (python-docx) and .pdf (reportlab).
 import re, sys
 from prd_content import B, INFO, INTRO_NOTE, HEADER, APP
 
 ACCENT = "0F9D8A"; BODY = "333F48"; BORDER = "D0D5DA"; SHADE = "EEF1F3"; CODE = "0B6E61"
-OUT = "AppCleaner_PRD_v1_1"
+OUT = "AppCleaner_PRD_v1_2"
 TOKEN = re.compile(r"(\*\*.+?\*\*|`.+?`|\*[^*\s][^*]*?\*)")
 
 def runs(text):
@@ -231,7 +231,7 @@ def build_pdf():
         c.restoreState()
 
     doc = BaseDocTemplate(OUT + ".pdf", pagesize=letter, leftMargin=2 * cm, rightMargin=2 * cm, topMargin=2 * cm,
-                          bottomMargin=1.8 * cm, title=f"{APP} PRD v1.0", author="Jedy Apps")
+                          bottomMargin=1.8 * cm, title=f"{APP} PRD v{dict(INFO)['Version']}", author="Jedy Apps")
     doc.addPageTemplates([PageTemplate(frames=[Frame(doc.leftMargin, doc.bottomMargin, doc.width, doc.height, id="f")],
                                        onPage=deco)])
     doc.build(story)

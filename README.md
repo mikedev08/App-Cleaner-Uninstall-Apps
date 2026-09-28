@@ -304,7 +304,7 @@ new push to the same PR cancels the run it replaces.
 
 ## Status
 
-V1 is in development against the PRD in `docs/prd/` (v1.1, as `.docx` and `.pdf`, generated from
+V1 is in development against the PRD in `docs/prd/` (v1.2, as `.docx` and `.pdf`, generated from
 `prd_content.py`). Every V1 screen is built and runs end to end on a device: onboarding, Home
 with the storage gauge, Scan, the Apps list with the All, Unused and Large tabs, batch uninstall
 with its result, Uninstall History, Usage Access, the paywall and Settings, in light and dark and
