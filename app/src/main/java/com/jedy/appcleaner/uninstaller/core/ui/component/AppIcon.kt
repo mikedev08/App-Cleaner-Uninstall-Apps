@@ -27,7 +27,13 @@ import com.jedy.appcleaner.uninstaller.core.ui.theme.Dimens
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
-/** Process-wide icon cache keyed by package + pixel size. Icons load off the main thread. */
+/**
+ * Process-wide icon cache keyed by package + pixel size. Icons load off the main thread.
+ *
+ * Memory only, on purpose: it never writes to disk, so it keeps working on a phone with 0 bytes
+ * free (PRD §6 "Storage almost full" asks for no icon-cache disk writes under 5 MB free; with no
+ * disk tier there is nothing to switch off). Keep it that way — do not add a disk cache here.
+ */
 object AppIconCache {
     private val cache = object : LruCache<String, ImageBitmap>(8 * 1024 * 1024) {
         override fun sizeOf(key: String, value: ImageBitmap) = value.width * value.height * 4

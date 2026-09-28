@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="uninstall_cancel_streak_title">هل تريد إيقاف إزالة الباقي؟</string>
+    <plurals name="uninstall_cancel_streak_body">
+        <item quantity="zero">ضغطت على «إلغاء» ثلاث مرات متتالية. لم يبقَ أي تطبيق.</item>
+        <item quantity="one">ضغطت على «إلغاء» ثلاث مرات متتالية. بقي تطبيق واحد.</item>
+        <item quantity="two">ضغطت على «إلغاء» ثلاث مرات متتالية. بقي تطبيقان.</item>
+        <item quantity="few">ضغطت على «إلغاء» ثلاث مرات متتالية. بقيت %1$d تطبيقات.</item>
+        <item quantity="many">ضغطت على «إلغاء» ثلاث مرات متتالية. بقي %1$d تطبيقًا.</item>
+        <item quantity="other">ضغطت على «إلغاء» ثلاث مرات متتالية. بقي %1$d تطبيق.</item>
+    </plurals>
+
+    <string name="usage_still_off_title">الوصول إلى بيانات الاستخدام ما زال متوقفًا</string>
+    <string name="usage_still_off_body">في القائمة، اضغط على App Cleaner ثم شغّل المفتاح.</string>
+
+    <string name="insights_unused_new_phone_title">هل جهّزت هذا الهاتف للتو؟</string>
+    <plurals name="insights_unused_new_phone_body">
+        <item quantity="zero">تظهر التطبيقات غير المستخدمة بعد %1$d يوم.</item>
+        <item quantity="one">تظهر التطبيقات غير المستخدمة بعد يوم واحد.</item>
+        <item quantity="two">تظهر التطبيقات غير المستخدمة بعد يومين.</item>
+        <item quantity="few">تظهر التطبيقات غير المستخدمة بعد %1$d أيام.</item>
+        <item quantity="many">تظهر التطبيقات غير المستخدمة بعد %1$d يومًا.</item>
+        <item quantity="other">تظهر التطبيقات غير المستخدمة بعد %1$d يوم.</item>
+    </plurals>
+</resources>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="uninstall_cancel_streak_title">不再移除剩下的应用？</string>
+    <plurals name="uninstall_cancel_streak_body">
+        <item quantity="other">你连续点了三次“取消”。还有 %1$d 个应用在等待。</item>
+    </plurals>
+
+    <string name="usage_still_off_title">使用情况访问权限仍未开启</string>
+    <string name="usage_still_off_body">在列表中点按 App Cleaner，然后打开开关。</string>
+
+    <string name="insights_unused_new_phone_title">刚设置好这部手机？</string>
+    <plurals name="insights_unused_new_phone_body">
+        <item quantity="other">闲置应用会在 %1$d 天后出现。</item>
+    </plurals>
+</resources>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- PRD v1.1 §6 "Several dialogs cancelled in a row": after 3 Cancels in a row, on the Progress screen.
+         The buttons reuse uninstall_stop and uninstall_stop_keep_going. -->
+    <string name="uninstall_cancel_streak_title">Stop removing the rest?</string>
+    <!-- %1$d = apps not handled yet. -->
+    <plurals name="uninstall_cancel_streak_body">
+        <item quantity="one">You tapped Cancel three times in a row. %1$d app is still waiting.</item>
+        <item quantity="other">You tapped Cancel three times in a row. %1$d apps are still waiting.</item>
+    </plurals>
+
+    <!-- PRD v1.1 §6 "OEM without the package-specific Usage Access page": back from Settings, access still off.
+         The button reuses action_retry ("Try again"). -->
+    <string name="usage_still_off_title">Usage access is still off</string>
+    <string name="usage_still_off_body">In the list, tap App Cleaner, then turn on the switch.</string>
+
+    <!-- PRD v1.1 §6 "Apps restored to a new phone": empty Unused list on a recently set-up phone. -->
+    <string name="insights_unused_new_phone_title">Just set up this phone?</string>
+    <!-- %1$d = the unused threshold in days (30). -->
+    <plurals name="insights_unused_new_phone_body">
+        <item quantity="one">Unused apps show up after %1$d day.</item>
+        <item quantity="other">Unused apps show up after %1$d days.</item>
+    </plurals>
+</resources>

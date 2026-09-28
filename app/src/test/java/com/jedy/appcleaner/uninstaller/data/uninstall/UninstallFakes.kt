@@ -1,7 +1,9 @@
 package com.jedy.appcleaner.uninstaller.data.uninstall
 
+import android.database.sqlite.SQLiteFullException
 import com.jedy.appcleaner.uninstaller.core.analytics.Analytics
 import com.jedy.appcleaner.uninstaller.core.analytics.AnalyticsEvent
+import com.jedy.appcleaner.uninstaller.core.analytics.SnapshotDegradedReason
 import com.jedy.appcleaner.uninstaller.core.model.AppSize
 import com.jedy.appcleaner.uninstaller.core.model.DeviceStorage
 import com.jedy.appcleaner.uninstaller.core.model.InstalledApp
@@ -63,29 +65,54 @@ class FakeUninstallDao(private val history: FakeHistoryDao) : UninstallDao {
     private var nextBatch = 1L
     private var nextItem = 1L
 
+    /** While true every write throws SQLiteFullException, like Room on a phone with 0 bytes free. */
+    var diskFull = false
+    private fun write() {
+        if (diskFull) throw SQLiteFullException("database or disk is full")
+    }
+
     override suspend fun insertBatch(batch: UninstallBatchEntity): Long {
+        write()
         val id = nextBatch++
         batches.update { it + (id to batch.copy(batchId = id)) }
         return id
     }
-    override suspend fun updateBatch(batch: UninstallBatchEntity) = batches.update { it + (batch.batchId to batch) }
+    override suspend fun updateBatch(batch: UninstallBatchEntity) {
+        write()
+        batches.update { it + (batch.batchId to batch) }
+    }
+    override suspend fun upsertBatch(batch: UninstallBatchEntity) {
+        write()
+        batches.update { it + (batch.batchId to batch) }
+    }
+    override suspend fun upsertItems(items: List<UninstallItemEntity>) {
+        write()
+        items.forEach { item -> this.items.update { it + (item.id to item) } }
+    }
     override suspend fun getBatch(batchId: Long) = batches.value[batchId]
     override fun observeBatch(batchId: Long) = batches.map { it[batchId] }
     override fun observeUnfinishedBatch() = batches.map { all ->
         all.values.filter { it.finishedAt == null && !it.discarded }.maxByOrNull { it.createdAt }
     }
     override suspend fun insertItems(items: List<UninstallItemEntity>) {
+        write()
         items.forEach { item ->
             val id = nextItem++
             this.items.update { it + (id to item.copy(id = id)) }
         }
     }
-    override suspend fun updateItem(item: UninstallItemEntity) = items.update { it + (item.id to item) }
+    override suspend fun updateItem(item: UninstallItemEntity) {
+        write()
+        items.update { it + (item.id to item) }
+    }
     override suspend fun getItems(batchId: Long) = items.value.values.filter { it.batchId == batchId }.sortedBy { it.position }
     override fun observeItems(batchId: Long) = items.map { all ->
         all.values.filter { it.batchId == batchId }.sortedBy { it.position }
     }
-    override suspend fun insertHistoryEntry(entry: UninstallHistoryEntity) = history.insert(entry)
+    override suspend fun insertHistoryEntry(entry: UninstallHistoryEntity): Long {
+        write()
+        return history.insert(entry)
+    }
     override suspend fun getUnfinishedIconPaths(): List<String> {
         val open = batches.value.values.filter { it.finishedAt == null && !it.discarded }.map { it.batchId }.toSet()
         return items.value.values.filter { it.batchId in open }.mapNotNull { it.iconPath }
@@ -130,7 +157,11 @@ class FakeAnalytics : Analytics {
 
 class FakeIcons : IconSnapshotStore {
     val evicted = mutableListOf<String>()
-    override suspend fun save(packageName: String, key: String) = "/icons/$key.png"
+
+    /** Set to simulate a phone under the free-space floor, or a failing PNG write. */
+    var degraded: SnapshotDegradedReason? = null
+    override suspend fun save(packageName: String, key: String) =
+        degraded?.let { IconSnapshot(path = null, degraded = it) } ?: IconSnapshot("/icons/$key.png")
     override suspend fun delete(paths: Collection<String>) = Unit
     override suspend fun sweep(keep: Set<String>) = Unit
     override fun evictLiveIcon(packageName: String) { evicted += packageName }

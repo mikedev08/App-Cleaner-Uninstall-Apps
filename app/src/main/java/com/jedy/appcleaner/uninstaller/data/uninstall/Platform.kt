@@ -1,5 +1,6 @@
 package com.jedy.appcleaner.uninstaller.data.uninstall
 
+import com.jedy.appcleaner.uninstaller.core.analytics.SnapshotDegradedReason
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -25,8 +26,11 @@ interface PackageRemover {
  * saved as a PNG before its dialog can open. History and the Result screen render from these.
  */
 interface IconSnapshotStore {
-    /** @return the absolute path of the saved PNG, or null when the icon could not be read. */
-    suspend fun save(packageName: String, key: String): String?
+    /**
+     * Saves the icon PNG, unless the phone is almost out of space (PRD §6 "Storage almost full"):
+     * then the snapshot is text-only and History draws a neutral placeholder.
+     */
+    suspend fun save(packageName: String, key: String): IconSnapshot
 
     suspend fun delete(paths: Collection<String>)
 
@@ -36,6 +40,12 @@ interface IconSnapshotStore {
     /** Drops the live-icon cache entry so a later reinstall is not served the old icon. */
     fun evictLiveIcon(packageName: String)
 }
+
+/**
+ * [path] is the saved PNG, or null for a text-only snapshot. [degraded] says why the PNG was
+ * skipped for lack of space; it is null when the icon simply could not be read (no degradation).
+ */
+data class IconSnapshot(val path: String?, val degraded: SnapshotDegradedReason? = null)
 
 /** Confirm Sheet chips (PRD §6 items 1 and 9). */
 interface AppWarnings {

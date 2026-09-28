@@ -38,6 +38,8 @@ data class ProgressUiState(
     /** A dialog the screen must start — only while it is at least STARTED. */
     val confirmation: PendingConfirmation? = null,
     val stalled: Boolean = false,
+    /** Three Cancels in a row: ask "Stop removing the rest?"; the value is how many apps are left. */
+    val cancelStreakRemaining: Int? = null,
     val isLoaded: Boolean = false,
 )
 
@@ -81,6 +83,15 @@ class UninstallProgressViewModel @Inject constructor(
         viewModelScope.launch { engine.stop(id) }
     }
 
+    /** "Stop removing the rest?" → Stop: ends the batch like [onStop]; the Result screen follows. */
+    fun onCancelStreakStop() {
+        val id = batchId.value ?: return
+        viewModelScope.launch { engine.stopAfterCancelStreak(id) }
+    }
+
+    /** "Stop removing the rest?" → Keep going: the streak starts over and the next dialog opens. */
+    fun onCancelStreakKeepGoing() = engine.keepGoingAfterCancelStreak()
+
     private fun BatchSummary.toUiState(rt: EngineRuntime?) =
         ProgressUiState(
             rows = items.map { item ->
@@ -97,6 +108,7 @@ class UninstallProgressViewModel @Inject constructor(
             isStopping = batch.stoppedEarly && !isFinished,
             confirmation = rt?.confirmation?.takeIf { !it.launched },
             stalled = rt?.stalled == true,
+            cancelStreakRemaining = rt?.cancelStreakPrompt?.takeIf { !isFinished && !batch.stoppedEarly },
             isLoaded = true,
         )
 }

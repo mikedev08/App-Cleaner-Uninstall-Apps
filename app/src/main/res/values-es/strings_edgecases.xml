@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="uninstall_cancel_streak_title">¿Dejar de quitar las demás?</string>
+    <plurals name="uninstall_cancel_streak_body">
+        <item quantity="one">Tocaste Cancelar tres veces seguidas. Queda %1$d app.</item>
+        <item quantity="many">Tocaste Cancelar tres veces seguidas. Quedan %1$d apps.</item>
+        <item quantity="other">Tocaste Cancelar tres veces seguidas. Quedan %1$d apps.</item>
+    </plurals>
+
+    <string name="usage_still_off_title">El acceso a datos de uso sigue desactivado</string>
+    <string name="usage_still_off_body">En la lista, toca App Cleaner y activa el interruptor.</string>
+
+    <string name="insights_unused_new_phone_title">¿Acabas de configurar este teléfono?</string>
+    <plurals name="insights_unused_new_phone_body">
+        <item quantity="one">Las apps sin usar aparecen después de %1$d día.</item>
+        <item quantity="many">Las apps sin usar aparecen después de %1$d días.</item>
+        <item quantity="other">Las apps sin usar aparecen después de %1$d días.</item>
+    </plurals>
+</resources>

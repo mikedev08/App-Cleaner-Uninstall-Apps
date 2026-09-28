@@ -6,6 +6,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
+import androidx.room.Upsert
 import kotlinx.coroutines.flow.Flow
 
 /** Owner: Inventory. */
@@ -99,6 +100,24 @@ interface UninstallDao {
     @Transaction
     suspend fun markRemoved(item: UninstallItemEntity, entry: UninstallHistoryEntity) {
         updateItem(item)
+        insertHistoryEntry(entry)
+    }
+
+    /**
+     * Writes the engine held in memory while the disk was full (PRD §6 "Storage almost full").
+     * Upserts, because a held row may be new (a batch that could not be inserted at all) or an
+     * update of one Room already has.
+     */
+    @Upsert
+    suspend fun upsertBatch(batch: UninstallBatchEntity)
+
+    @Upsert
+    suspend fun upsertItems(items: List<UninstallItemEntity>)
+
+    /** [markRemoved] for a held removal whose item row may not be in Room yet. */
+    @Transaction
+    suspend fun upsertRemoved(item: UninstallItemEntity, entry: UninstallHistoryEntity) {
+        upsertItems(listOf(item))
         insertHistoryEntry(entry)
     }
 

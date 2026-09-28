@@ -70,6 +70,7 @@ import com.jedy.appcleaner.uninstaller.core.ui.theme.AppTheme
 import com.jedy.appcleaner.uninstaller.core.ui.theme.Dimens
 import com.jedy.appcleaner.uninstaller.data.scan.ScanResult
 import com.jedy.appcleaner.uninstaller.feature.home.TextAction
+import com.jedy.appcleaner.uninstaller.feature.usageaccess.UsageAccessStillOffCard
 
 /**
  * CONTRACT (frozen signature). The "Scan my phone" flow (redesign): an optional Usage Access
@@ -98,6 +99,13 @@ fun ScanScreen(
         AppTopBar(
             title = null,
             actions = { TopBarAction(Icons.Outlined.Close, stringResource(R.string.scan_close), onClose) },
+        )
+        // Back from Settings without turning Usage access on (PRD §6): a gentle card, nothing more.
+        UsageAccessStillOffCard(
+            triggers = setOf(UsageAccessTrigger.SCAN),
+            modifier = Modifier
+                .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal))
+                .padding(start = Dimens.gutter, end = Dimens.gutter, bottom = Dimens.space8),
         )
         AnimatedContent(
             targetState = state.phase,

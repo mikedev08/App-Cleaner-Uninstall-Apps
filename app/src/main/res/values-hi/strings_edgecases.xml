@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="uninstall_cancel_streak_title">बाकी ऐप्स हटाना रोकें?</string>
+    <plurals name="uninstall_cancel_streak_body">
+        <item quantity="one">आपने लगातार तीन बार रद्द करें पर टैप किया। %1$d ऐप अभी बाकी है।</item>
+        <item quantity="other">आपने लगातार तीन बार रद्द करें पर टैप किया। %1$d ऐप्स अभी बाकी हैं।</item>
+    </plurals>
+
+    <string name="usage_still_off_title">इस्तेमाल का ऐक्सेस अभी भी बंद है</string>
+    <string name="usage_still_off_body">सूची में App Cleaner पर टैप करें, फिर स्विच चालू करें।</string>
+
+    <string name="insights_unused_new_phone_title">क्या आपने अभी यह फ़ोन सेट किया है?</string>
+    <plurals name="insights_unused_new_phone_body">
+        <item quantity="one">इस्तेमाल न होने वाले ऐप %1$d दिन बाद दिखते हैं।</item>
+        <item quantity="other">इस्तेमाल न होने वाले ऐप %1$d दिन बाद दिखते हैं।</item>
+    </plurals>
+</resources>

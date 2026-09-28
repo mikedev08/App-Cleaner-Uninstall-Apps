@@ -4,10 +4,12 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.PhoneAndroid
 import androidx.compose.material.icons.outlined.Schedule
 import androidx.compose.material.icons.rounded.History
 import androidx.compose.material.icons.rounded.SdStorage
@@ -30,10 +32,12 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.jedy.appcleaner.uninstaller.R
 import com.jedy.appcleaner.uninstaller.core.format.formatBytes
 import com.jedy.appcleaner.uninstaller.core.model.LargeApps
+import com.jedy.appcleaner.uninstaller.core.model.UsageAccessTrigger
 import com.jedy.appcleaner.uninstaller.core.ui.component.AppRow
 import com.jedy.appcleaner.uninstaller.core.ui.component.EmptyState
 import com.jedy.appcleaner.uninstaller.core.ui.theme.Dimens
 import com.jedy.appcleaner.uninstaller.feature.apps.QuietChip
+import com.jedy.appcleaner.uninstaller.feature.usageaccess.UsageAccessStillOffCard
 
 /** Room under the last row for the floating Selection Bar, when the caller passes no padding. */
 private val DefaultContentPadding = PaddingValues(bottom = Dimens.selectionBarHeight + Dimens.gutter)
@@ -87,19 +91,21 @@ fun UnusedTab(
     ) {
         when (content) {
             UnusedContent.NoAccess -> item(key = "access") {
-                AccessCard(
-                    icon = Icons.Rounded.History,
-                    title = stringResource(R.string.insights_unused_access_title),
-                    body = stringResource(R.string.insights_unused_access_body),
-                    onRequestAccess = onRequestAccess,
-                    modifier = Modifier.animateItem(),
-                )
+                AccessSlot(Modifier.animateItem()) {
+                    AccessCard(
+                        icon = Icons.Rounded.History,
+                        title = stringResource(R.string.insights_unused_access_title),
+                        body = stringResource(R.string.insights_unused_access_body),
+                        onRequestAccess = onRequestAccess,
+                        modifier = Modifier.animateItem(),
+                    )
+                }
             }
             UnusedContent.Loading -> item(key = "loading") {
                 InsightsLoading(stringResource(R.string.insights_loading_unused), Modifier.animateItem())
             }
             is UnusedContent.Locked -> if (content.count == 0) {
-                item(key = "empty") { UnusedEmpty(days, Modifier.animateItem()) }
+                item(key = "empty") { UnusedEmpty(days, content.recentlySetUp, Modifier.animateItem()) }
             } else {
                 item(key = "teaser") {
                     val count = rememberCountUp(content.count.toLong()).toInt()
@@ -116,7 +122,7 @@ fun UnusedTab(
                 }
             }
             is UnusedContent.Unlocked -> if (content.rows.isEmpty()) {
-                item(key = "empty") { UnusedEmpty(days, Modifier.animateItem()) }
+                item(key = "empty") { UnusedEmpty(days, content.recentlySetUp, Modifier.animateItem()) }
             } else {
                 item(key = "summary") {
                     val count = rememberCountUp(content.rows.size.toLong()).toInt()
@@ -266,13 +272,15 @@ fun CacheTab(
     ) {
         when (current) {
             LargeContent.NoAccess -> item(key = "access") {
-                AccessCard(
-                    icon = Icons.Rounded.SdStorage,
-                    title = stringResource(R.string.insights_cache_access_title),
-                    body = stringResource(R.string.insights_large_access_body),
-                    onRequestAccess = onRequestAccess,
-                    modifier = Modifier.animateItem(),
-                )
+                AccessSlot(Modifier.animateItem()) {
+                    AccessCard(
+                        icon = Icons.Rounded.SdStorage,
+                        title = stringResource(R.string.insights_cache_access_title),
+                        body = stringResource(R.string.insights_large_access_body),
+                        onRequestAccess = onRequestAccess,
+                        modifier = Modifier.animateItem(),
+                    )
+                }
             }
             LargeContent.Loading -> item(key = "loading") {
                 InsightsLoading(stringResource(R.string.insights_loading_large), Modifier.animateItem())
@@ -419,7 +427,18 @@ private fun CacheAppRow(
 }
 
 @Composable
-private fun UnusedEmpty(thresholdDays: Int, modifier: Modifier = Modifier) {
+private fun UnusedEmpty(thresholdDays: Int, recentlySetUp: Boolean, modifier: Modifier = Modifier) {
+    if (recentlySetUp) {
+        // PRD §6 "Apps restored to a new phone": restored apps all carry the restore date as their
+        // install date, so none can be "unused" yet. Say why the list is empty, not "Nice!".
+        EmptyState(
+            icon = Icons.Outlined.PhoneAndroid,
+            title = stringResource(R.string.insights_unused_new_phone_title),
+            body = pluralStringResource(R.plurals.insights_unused_new_phone_body, thresholdDays, thresholdDays),
+            modifier = modifier,
+        )
+        return
+    }
     CelebrationCard(
         title = pluralStringResource(R.plurals.insights_unused_empty, thresholdDays, thresholdDays),
         body = stringResource(R.string.insights_unused_empty_body),
@@ -448,15 +467,34 @@ private fun CacheEmpty(modifier: Modifier = Modifier) {
 /** Large's Usage Access prompt: the full app + data + cache sizes need it (never Pro). */
 private fun LazyListScope.largeAccessItem(onRequestAccess: () -> Unit) {
     item(key = "access") {
-        AccessCard(
-            icon = Icons.Rounded.SdStorage,
-            title = stringResource(R.string.insights_large_access_title),
-            body = stringResource(R.string.insights_large_access_body),
-            onRequestAccess = onRequestAccess,
-            modifier = Modifier.animateItem(),
-        )
+        AccessSlot(Modifier.animateItem()) {
+            AccessCard(
+                icon = Icons.Rounded.SdStorage,
+                title = stringResource(R.string.insights_large_access_title),
+                body = stringResource(R.string.insights_large_access_body),
+                onRequestAccess = onRequestAccess,
+                modifier = Modifier.animateItem(),
+            )
+        }
     }
 }
+
+/**
+ * The "Allow access" slot. Back from Settings without turning access on (PRD §6), the same slot
+ * shows the gentle "Usage access is still off" card with "Try again" instead — in place, so the
+ * tab and its scroll position stay exactly as the user left them.
+ */
+@Composable
+private fun AccessSlot(modifier: Modifier = Modifier, allowAccess: @Composable () -> Unit) {
+    UsageAccessStillOffCard(
+        triggers = APPS_SCREEN_TRIGGERS,
+        modifier = modifier.padding(horizontal = Dimens.gutter, vertical = 8.dp),
+        otherwise = allowAccess,
+    )
+}
+
+/** Every way into the disclosure from the Apps screen (its filters and the App Details sheet). */
+private val APPS_SCREEN_TRIGGERS = setOf(UsageAccessTrigger.UNUSED_TAB, UsageAccessTrigger.LARGE_TAB)
 
 private fun LazyListScope.unavailableItem() {
     item(key = "unavailable") {

@@ -33,6 +33,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.PanTool
 import androidx.compose.material.icons.rounded.VisibilityOff
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Icon
@@ -56,7 +57,12 @@ import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.LiveRegionMode
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.liveRegion
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
@@ -68,6 +74,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.jedy.appcleaner.uninstaller.R
 import com.jedy.appcleaner.uninstaller.core.ui.component.AppCard
 import com.jedy.appcleaner.uninstaller.core.ui.component.AppRow
+import com.jedy.appcleaner.uninstaller.core.ui.component.IconBadge
+import com.jedy.appcleaner.uninstaller.core.ui.component.PrimaryButton
+import com.jedy.appcleaner.uninstaller.core.ui.component.SecondaryButton
 import com.jedy.appcleaner.uninstaller.core.ui.theme.AppTheme
 import com.jedy.appcleaner.uninstaller.core.ui.theme.Dimens
 import com.jedy.appcleaner.uninstaller.data.uninstall.ItemState
@@ -127,6 +136,8 @@ fun UninstallProgressScreen(
         state = state,
         onStop = { confirmStop = true },
         onShowAgain = viewModel::onShowAgain,
+        onStreakStop = viewModel::onCancelStreakStop,
+        onStreakKeepGoing = viewModel::onCancelStreakKeepGoing,
     )
 
     if (confirmStop) {
@@ -145,6 +156,8 @@ private fun ProgressContent(
     state: ProgressUiState,
     onStop: () -> Unit,
     onShowAgain: () -> Unit,
+    onStreakStop: () -> Unit,
+    onStreakKeepGoing: () -> Unit,
 ) {
     val listState = rememberLazyListState()
     LaunchedEffect(state.position) {
@@ -202,8 +215,12 @@ private fun ProgressContent(
             items(state.rows, key = { it.item.id }) { row -> QueueItemRow(row, Modifier.animateItem()) }
         }
 
+        val streakRemaining = state.cancelStreakRemaining
         Box(Modifier.fillMaxWidth().padding(vertical = 4.dp), contentAlignment = Alignment.Center) {
-            if (state.isStopping) {
+            if (streakRemaining != null) {
+                // Pinned where the Stop link is, so it is on screen however long the list is.
+                CancelStreakCard(remaining = streakRemaining, onStop = onStreakStop, onKeepGoing = onStreakKeepGoing)
+            } else if (state.isStopping) {
                 Text(
                     text = stringResource(R.string.uninstall_stopping),
                     style = MaterialTheme.typography.labelLarge,
@@ -332,6 +349,53 @@ private fun StalledCard(onShowAgain: () -> Unit) {
             Spacer(Modifier.width(8.dp))
             RowPill(text = stringResource(R.string.uninstall_stalled_action), onClick = onShowAgain)
         }
+    }
+}
+
+/**
+ * PRD §6 "Several dialogs cancelled in a row": after three Cancels the queue does not open the next
+ * dialog and asks this instead. In-app and calm — the user is not in trouble, just probably done.
+ * Stop comes first because three Cancels mostly mean "stop"; neither choice is destructive, so
+ * nothing here is red.
+ */
+@Composable
+private fun CancelStreakCard(remaining: Int, onStop: () -> Unit, onKeepGoing: () -> Unit) {
+    AppCard(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = Dimens.gutter, vertical = Dimens.space8)
+            .semantics { liveRegion = LiveRegionMode.Polite },
+    ) {
+        Row(verticalAlignment = Alignment.Top) {
+            IconBadge(icon = Icons.Outlined.PanTool, size = 44.dp)
+            Spacer(Modifier.width(14.dp))
+            Column(Modifier.weight(1f)) {
+                Text(
+                    text = stringResource(R.string.uninstall_cancel_streak_title),
+                    style = MaterialTheme.typography.titleMedium,
+                    color = AppTheme.colors.textPrimary,
+                    modifier = Modifier.semantics { heading() },
+                )
+                Spacer(Modifier.height(4.dp))
+                Text(
+                    text = pluralStringResource(R.plurals.uninstall_cancel_streak_body, remaining, remaining),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = AppTheme.colors.textSecondary,
+                )
+            }
+        }
+        Spacer(Modifier.height(Dimens.space16))
+        PrimaryButton(
+            text = stringResource(R.string.uninstall_stop),
+            onClick = onStop,
+            modifier = Modifier.fillMaxWidth(),
+        )
+        Spacer(Modifier.height(Dimens.stackedButtonGap))
+        SecondaryButton(
+            text = stringResource(R.string.uninstall_stop_keep_going),
+            onClick = onKeepGoing,
+            modifier = Modifier.fillMaxWidth(),
+        )
     }
 }
 

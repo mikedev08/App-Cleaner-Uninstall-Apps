@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="uninstall_cancel_streak_title">Den Rest nicht mehr entfernen?</string>
+    <plurals name="uninstall_cancel_streak_body">
+        <item quantity="one">Du hast dreimal hintereinander auf Abbrechen getippt. %1$d App wartet noch.</item>
+        <item quantity="other">Du hast dreimal hintereinander auf Abbrechen getippt. %1$d Apps warten noch.</item>
+    </plurals>
+
+    <string name="usage_still_off_title">Der Zugriff auf Nutzungsdaten ist noch aus</string>
+    <string name="usage_still_off_body">Tippe in der Liste auf App Cleaner und schalte den Schalter ein.</string>
+
+    <string name="insights_unused_new_phone_title">Handy gerade neu eingerichtet?</string>
+    <plurals name="insights_unused_new_phone_body">
+        <item quantity="one">Ungenutzte Apps erscheinen nach %1$d Tag.</item>
+        <item quantity="other">Ungenutzte Apps erscheinen nach %1$d Tagen.</item>
+    </plurals>
+</resources>

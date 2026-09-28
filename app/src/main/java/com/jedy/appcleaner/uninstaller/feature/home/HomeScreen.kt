@@ -36,6 +36,7 @@ import com.jedy.appcleaner.uninstaller.core.ui.component.rememberIsScrolled
 import com.jedy.appcleaner.uninstaller.core.ui.theme.AppTheme
 import com.jedy.appcleaner.uninstaller.core.ui.theme.Dimens
 import com.jedy.appcleaner.uninstaller.feature.uninstall.ResumeUninstallBanner
+import com.jedy.appcleaner.uninstaller.feature.usageaccess.UsageAccessStillOffCard
 
 /**
  * CONTRACT (frozen signature). The Home dashboard (design review §2.6: status + one action):
@@ -127,6 +128,14 @@ fun HomeScreen(
                     onAllowAccess = { onOpenUsageAccess(UsageAccessTrigger.STORAGE_CARD) },
                     modifier = Modifier.padding(horizontal = Dimens.gutter),
                     overlapCount = HomeCategories.overlapCount(state.summary),
+                )
+            }
+            // Back from Settings without turning Usage access on (PRD §6): a gentle card right
+            // under the rows the user tapped, nothing more — no paywall, no modal.
+            item(key = "usage_still_off", contentType = "banner") {
+                UsageAccessStillOffCard(
+                    triggers = setOf(UsageAccessTrigger.STORAGE_CARD),
+                    modifier = Modifier.padding(start = Dimens.gutter, end = Dimens.gutter, top = Dimens.cardGap),
                 )
             }
             // Last on the screen: arriving ~2.5 s after launch, it pushes nothing down.

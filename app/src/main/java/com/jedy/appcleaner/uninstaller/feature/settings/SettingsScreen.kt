@@ -75,6 +75,7 @@ import com.jedy.appcleaner.uninstaller.data.billing.BillingLinks
 import com.jedy.appcleaner.uninstaller.data.billing.openExternalUrl
 import com.jedy.appcleaner.uninstaller.data.billing.startActivitySafely
 import com.jedy.appcleaner.uninstaller.data.prefs.ThemeMode
+import com.jedy.appcleaner.uninstaller.feature.usageaccess.UsageAccessStillOffCard
 import kotlinx.coroutines.launch
 
 /**
@@ -157,6 +158,11 @@ fun SettingsScreen(
             LargeTitle(stringResource(R.string.settings_title))
 
             Column(Modifier.padding(horizontal = Dimens.gutter)) {
+                // Back from Settings without turning Usage access on (PRD §6): a gentle card.
+                UsageAccessStillOffCard(
+                    triggers = setOf(UsageAccessTrigger.SETTINGS),
+                    modifier = Modifier.padding(bottom = Dimens.cardGap),
+                )
                 PreferencesGroup(
                     state = state,
                     language = language,

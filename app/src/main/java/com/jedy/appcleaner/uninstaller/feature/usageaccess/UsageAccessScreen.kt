@@ -1,9 +1,5 @@
 package com.jedy.appcleaner.uninstaller.feature.usageaccess
 
-import android.content.ActivityNotFoundException
-import android.content.Context
-import android.content.Intent
-import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -31,6 +27,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -59,8 +58,8 @@ import com.jedy.appcleaner.uninstaller.core.ui.theme.Dimens
  * policy requires before sending anyone to the Usage Access page: what is read, why, and that it
  * never leaves the phone, in plain words and before the system screen.
  *
- * Calls [onClose] on "Not now", and on its own once access is detected as granted (re-checked on
- * every resume, i.e. when the user comes back from Settings).
+ * Calls [onClose] on "Not now", as soon as Settings opens (so the user returns to the screen they
+ * came from, see [UsageAccessRoundTrip]), and on its own once access is detected as granted.
  */
 @Composable
 fun UsageAccessScreen(
@@ -70,46 +69,27 @@ fun UsageAccessScreen(
     val viewModel: UsageAccessViewModel = hiltViewModel()
     val context = LocalContext.current
     val currentOnClose by rememberUpdatedState(onClose)
+    // Closing twice would pop the screen underneath (the one the user must come back to).
+    var closed by remember { mutableStateOf(false) }
+    val closeOnce = {
+        if (!closed) {
+            closed = true
+            currentOnClose()
+        }
+    }
 
     LaunchedEffect(trigger) { viewModel.onShown(trigger) }
-    LaunchedEffect(viewModel) { viewModel.close.collect { currentOnClose() } }
+    LaunchedEffect(viewModel) { viewModel.close.collect { closeOnce() } }
     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) { viewModel.onResume() }
 
     UsageAccessContent(
-        onContinue = { openUsageAccessSettings(context, viewModel) },
-        onNotNow = onClose,
+        onContinue = {
+            // PRD §6: the disclosure closes as Settings opens, so coming back — granted or not —
+            // lands on the exact screen and tab the user started from, never on this page again.
+            if (launchUsageAccessSettings(context, viewModel.roundTrip, trigger)) closeOnce()
+        },
+        onNotNow = closeOnce,
     )
-}
-
-/**
- * PRD §6 item 13: try the package-specific page; if the OEM refuses it, fall back to the plain
- * list. Whenever the list is what opens, a 2-second hint says what to look for.
- */
-private fun openUsageAccessSettings(context: Context, viewModel: UsageAccessViewModel) {
-    val target = viewModel.onContinue()
-    var onFallbackPage = target.usesFallbackPage
-    var opened = context.startSafely(target.intent)
-    if (!opened && !target.usesFallbackPage) {
-        opened = context.startSafely(viewModel.fallbackIntent())
-        onFallbackPage = true
-    }
-    when {
-        !opened -> {
-            viewModel.onSettingsUnavailable()
-            Toast.makeText(context, context.getString(R.string.usage_settings_unavailable), Toast.LENGTH_LONG).show()
-        }
-        onFallbackPage ->
-            Toast.makeText(context, context.getString(R.string.usage_fallback_toast), Toast.LENGTH_SHORT).show()
-    }
-}
-
-private fun Context.startSafely(intent: Intent): Boolean = try {
-    startActivity(intent)
-    true
-} catch (_: ActivityNotFoundException) {
-    false
-} catch (_: SecurityException) {
-    false
 }
 
 /**

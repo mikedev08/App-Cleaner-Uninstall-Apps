@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="uninstall_cancel_streak_title">Arrêter de supprimer les autres ?</string>
+    <plurals name="uninstall_cancel_streak_body">
+        <item quantity="one">Vous avez touché Annuler trois fois de suite. Il reste %1$d appli.</item>
+        <item quantity="many">Vous avez touché Annuler trois fois de suite. Il reste %1$d applis.</item>
+        <item quantity="other">Vous avez touché Annuler trois fois de suite. Il reste %1$d applis.</item>
+    </plurals>
+
+    <string name="usage_still_off_title">L’accès aux données d’utilisation est toujours désactivé</string>
+    <string name="usage_still_off_body">Dans la liste, touchez App Cleaner, puis activez l’interrupteur.</string>
+
+    <string name="insights_unused_new_phone_title">Vous venez de configurer ce téléphone ?</string>
+    <plurals name="insights_unused_new_phone_body">
+        <item quantity="one">Les applis inutilisées apparaissent après %1$d jour.</item>
+        <item quantity="many">Les applis inutilisées apparaissent après %1$d jours.</item>
+        <item quantity="other">Les applis inutilisées apparaissent après %1$d jours.</item>
+    </plurals>
+</resources>

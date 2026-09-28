@@ -79,6 +79,21 @@ sealed class AnalyticsEvent(val name: String) {
         override val params get() = mapOf("remaining_count" to remainingCount, "action" to action)
     }
 
+    /** Three Cancels in a row paused the batch (PRD §6 "Several dialogs cancelled in a row"). */
+    data class UninstallCancelStreakPrompt(val action: CancelStreakAction, val remainingCount: Int) :
+        AnalyticsEvent("uninstall_cancel_streak_prompt") {
+        override val params get() = mapOf("action" to action.value, "remaining_count" to remainingCount)
+    }
+
+    /**
+     * A History entry was saved without its icon, or late, because the phone was out of space
+     * (PRD §6 "Storage almost full"). An enum only: never the package or the error text.
+     */
+    data class HistorySnapshotDegraded(val reason: SnapshotDegradedReason) :
+        AnalyticsEvent("history_snapshot_degraded") {
+        override val params get() = mapOf("reason" to reason.value)
+    }
+
     data class UsageAccessPromptShown(val trigger: String) : AnalyticsEvent("usage_access_prompt_shown") {
         override val params get() = mapOf("trigger" to trigger)
     }
@@ -135,4 +150,22 @@ sealed class AnalyticsEvent(val name: String) {
     data class InventoryIncomplete(val visibleCount: Int) : AnalyticsEvent("inventory_incomplete") {
         override val params get() = mapOf("visible_count" to visibleCount)
     }
+}
+
+/** `uninstall_cancel_streak_prompt.action`. */
+enum class CancelStreakAction(val value: String) {
+    STOP("stop"),
+    KEEP_GOING("keep_going"),
+}
+
+/** `history_snapshot_degraded.reason`. */
+enum class SnapshotDegradedReason(val value: String) {
+    /** Under the free-space floor: the icon PNG was not even attempted. */
+    LOW_SPACE("low_space"),
+
+    /** Writing the icon PNG failed (IOException, ENOSPC). */
+    IO_ERROR("io_error"),
+
+    /** The Room write threw SQLiteFullException; the entry was held in memory and written later. */
+    DB_FULL("db_full"),
 }

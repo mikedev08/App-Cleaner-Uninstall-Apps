@@ -1,8 +1,11 @@
 package com.jedy.appcleaner.uninstaller.data.uninstall
 
 import android.content.pm.PackageInstaller
+import android.database.sqlite.SQLiteFullException
 import com.jedy.appcleaner.uninstaller.core.analytics.Analytics
 import com.jedy.appcleaner.uninstaller.core.analytics.AnalyticsEvent
+import com.jedy.appcleaner.uninstaller.core.analytics.CancelStreakAction
+import com.jedy.appcleaner.uninstaller.core.analytics.SnapshotDegradedReason
 import com.jedy.appcleaner.uninstaller.core.format.DAY_MILLIS
 import com.jedy.appcleaner.uninstaller.core.format.bytesBucket
 import com.jedy.appcleaner.uninstaller.core.model.HomeTab
@@ -99,6 +102,17 @@ class UninstallEngine @Inject constructor(
     @Volatile private var awaitingPackage: String? = null
     @Volatile private var stopRequestedFor: Long? = null
 
+    /**
+     * Cancels in a row in the running batch ([CancelStreak]). Lives with the engine, so rotation
+     * keeps it; after process death the resumed queue starts over at 0 — at worst three more
+     * dialogs before the question, never a question the user did not earn.
+     */
+    @Volatile private var cancelStreak = 0
+
+    /** Writes a full disk refused, laid over Room until they can be written (PRD §6 "Storage almost full"). */
+    private val held = MutableStateFlow(HeldWrites())
+    private val flushLock = Mutex()
+
     init {
         scope.launch(start = CoroutineStart.UNDISPATCHED) { remover.events.collect(::onRemovalEvent) }
     }
@@ -117,12 +131,14 @@ class UninstallEngine @Inject constructor(
         housekeeping(now)
 
         val known = inventory.apps.value.associateBy { it.packageName }
-        val items = coroutineScope {
+        val snapshots = coroutineScope {
             distinct.mapIndexed { index, pkg ->
                 async {
                     val app = inventory.find(pkg) ?: known[pkg]
                     val (bytes, estimate) = app?.let { measure(it) } ?: (0L to true)
-                    UninstallItemEntity(
+                    // Text-only when the phone is almost full (PRD §6 "Storage almost full").
+                    val icon = icons.save(pkg, "${pkg}_$now")
+                    icon.degraded to UninstallItemEntity(
                         batchId = 0,
                         position = index,
                         packageName = pkg,
@@ -131,17 +147,24 @@ class UninstallEngine @Inject constructor(
                         versionName = app?.versionName,
                         snapshotBytes = bytes,
                         bytesIsEstimate = estimate,
-                        iconPath = icons.save(pkg, "${pkg}_$now"),
+                        iconPath = icon.path,
                         state = ItemState.WAITING.name,
                         updatedAt = now,
                     )
                 }
             }.awaitAll()
         }
-        val batchId = uninstallDao.insertBatchWithItems(
-            UninstallBatchEntity(createdAt = now, sourceTab = sourceTab.name),
-            items,
-        )
+        snapshots.mapNotNull { it.first }.forEach { analytics.log(AnalyticsEvent.HistorySnapshotDegraded(it)) }
+        val items = snapshots.map { it.second }
+        val batch = UninstallBatchEntity(createdAt = now, sourceTab = sourceTab.name)
+        val batchId = try {
+            uninstallDao.insertBatchWithItems(batch, items)
+        } catch (_: SQLiteFullException) {
+            // Not even the small queue rows fit: run the batch from memory and write it after the
+            // first removal frees space. Negative ids can never collide with Room's own.
+            analytics.log(AnalyticsEvent.HistorySnapshotDegraded(SnapshotDegradedReason.DB_FULL))
+            holdNewBatch(batch, items, now)
+        }
         ownedBatches.update { it + batchId }
         selection.deselect(distinct)
 
@@ -159,16 +182,17 @@ class UninstallEngine @Inject constructor(
 
     /** Result screen "Try again": a fresh batch (fresh snapshots) from the same source tab. */
     suspend fun retry(fromBatchId: Long, packages: List<String>): Long {
-        val tab = uninstallDao.getBatch(fromBatchId)?.sourceTab
+        val tab = batchOf(fromBatchId)?.sourceTab
             ?.let { runCatching { HomeTab.valueOf(it) }.getOrNull() } ?: HomeTab.ALL
         return createBatch(packages, tab)
     }
 
     // ------------------------------------------------------------------ observe
 
+    /** Room, with any writes the full disk refused laid on top, so the screens never go stale. */
     fun observeSummary(batchId: Long): Flow<BatchSummary?> =
-        combine(uninstallDao.observeBatch(batchId), uninstallDao.observeItems(batchId)) { batch, items ->
-            batch?.let { BatchSummary(it, items) }
+        combine(uninstallDao.observeBatch(batchId), uninstallDao.observeItems(batchId), held) { batch, items, h ->
+            (h.batches[batchId] ?: batch)?.let { BatchSummary(it, h.overlay(batchId, items)) }
         }
 
     /** The kill-recovery banner; hidden for the batch this process is already running. */
@@ -193,6 +217,7 @@ class UninstallEngine @Inject constructor(
             runJob?.cancel()
             stopRequestedFor = null
             awaitingPackage = null
+            cancelStreak = 0
             _runtime.value = EngineRuntime(activeBatchId = batchId)
             ownedBatches.update { it + batchId }
             runJob = scope.launch { runLoop(batchId) }
@@ -252,6 +277,8 @@ class UninstallEngine @Inject constructor(
         val updated = updateBatch(batchId) { if (it.finishedAt == null) it.copy(stoppedEarly = true) else it } ?: return
         if (updated.finishedAt != null) return
         stopRequestedFor = batchId
+        // Stop while "Stop removing the rest?" is up: the loop is waiting on it, release it.
+        _runtime.update { it.copy(cancelStreakPrompt = null) }
         val rt = _runtime.value
         val awaiting = rt.awaitingItemId
         val running = rt.activeBatchId == batchId && runJob?.isActive == true
@@ -261,6 +288,24 @@ class UninstallEngine @Inject constructor(
                 results.update { it + (awaiting to UninstallRules.STATUS_NOT_SHOWN) }
             // Otherwise Android's dialog is up; the loop finishes the batch when its result lands.
         }
+    }
+
+    /**
+     * "Stop removing the rest?" → Stop (PRD §6 "Several dialogs cancelled in a row"): the same
+     * Stop as the button on Screen 9, so the batch ends and the Result screen shows what was done.
+     */
+    suspend fun stopAfterCancelStreak(batchId: Long) {
+        val remaining = _runtime.value.cancelStreakPrompt ?: return
+        analytics.log(AnalyticsEvent.UninstallCancelStreakPrompt(CancelStreakAction.STOP, remaining))
+        stop(batchId)
+    }
+
+    /** "Keep going": the streak starts over and the next dialog opens. */
+    fun keepGoingAfterCancelStreak() {
+        val remaining = _runtime.value.cancelStreakPrompt ?: return
+        analytics.log(AnalyticsEvent.UninstallCancelStreakPrompt(CancelStreakAction.KEEP_GOING, remaining))
+        cancelStreak = 0
+        _runtime.update { it.copy(cancelStreakPrompt = null) }
     }
 
     // ------------------------------------------------------------------ Home banner
@@ -297,9 +342,10 @@ class UninstallEngine @Inject constructor(
 
     private suspend fun runLoop(batchId: Long) {
         while (true) {
-            val batch = uninstallDao.getBatch(batchId) ?: return
+            val batch = batchOf(batchId) ?: return
             if (batch.finishedAt != null || batch.discarded) return
-            val next = UninstallRules.nextItem(uninstallDao.getItems(batchId))
+            val items = itemsOf(batchId)
+            val next = UninstallRules.nextItem(items)
             if (next == null || batch.stoppedEarly) {
                 finish(batchId)
                 return
@@ -307,6 +353,13 @@ class UninstallEngine @Inject constructor(
             if (!foreground.value) {
                 foreground.first { it }
                 continue // Re-read: Stop may have been pressed while we waited.
+            }
+            val remaining = items.count { !ItemState.of(it.state).isFinal }
+            if (CancelStreak.shouldAsk(cancelStreak, remaining)) {
+                // PRD §6: three Cancels in a row — ask before opening another dialog.
+                _runtime.update { it.copy(cancelStreakPrompt = remaining) }
+                _runtime.first { it.cancelStreakPrompt == null }
+                continue // Re-read: "Stop" ends the batch, "Keep going" reset the streak.
             }
             process(batch, next)
         }
@@ -316,11 +369,12 @@ class UninstallEngine @Inject constructor(
         val live = inventory.find(item.packageName)
         when (UninstallRules.preflight(ItemState.of(item.state), installed = live != null)) {
             Preflight.ALREADY_REMOVED -> {
-                uninstallDao.updateItem(item.copy(state = ItemState.ALREADY_REMOVED.name, updatedAt = clock.now()))
+                saveItem(item.copy(state = ItemState.ALREADY_REMOVED.name, updatedAt = clock.now()))
                 return
             }
             Preflight.REMOVED_BY_US -> {
                 recordRemoval(item)
+                cancelStreak = CancelStreak.next(cancelStreak, Outcome.Removed)
                 return
             }
             Preflight.REQUEST -> Unit
@@ -338,7 +392,7 @@ class UninstallEngine @Inject constructor(
             )
         }
         current = current.copy(state = ItemState.IN_PROGRESS.name, updatedAt = clock.now())
-        uninstallDao.updateItem(current)
+        saveItem(current)
 
         val itemId = current.id
         val pkg = current.packageName
@@ -362,14 +416,15 @@ class UninstallEngine @Inject constructor(
             isDeviceAdmin = isFailure && runCatching { remover.isDeviceAdmin(pkg) }.getOrDefault(false),
         )
         val now = clock.now()
+        cancelStreak = CancelStreak.next(cancelStreak, outcome)
         when (outcome) {
             Outcome.Removed -> recordRemoval(current)
-            Outcome.Skipped -> uninstallDao.updateItem(
+            Outcome.Skipped -> saveItem(
                 current.copy(state = ItemState.SKIPPED.name, statusCode = status, updatedAt = now)
             )
-            Outcome.NotShown -> uninstallDao.updateItem(current.copy(state = ItemState.WAITING.name, updatedAt = now))
+            Outcome.NotShown -> saveItem(current.copy(state = ItemState.WAITING.name, updatedAt = now))
             is Outcome.Failed -> {
-                uninstallDao.updateItem(
+                saveItem(
                     current.copy(
                         state = ItemState.FAILED.name,
                         statusCode = status,
@@ -383,29 +438,48 @@ class UninstallEngine @Inject constructor(
         }
     }
 
-    /** The only path into History (PRD Feature 4): the package is verifiably gone. */
+    /**
+     * The only path into History (PRD Feature 4): the package is verifiably gone.
+     *
+     * If the disk is too full even for this small write (SQLiteFullException), the removal still
+     * counts: the rows are held in memory, the queue moves on, and they are written right after
+     * the next successful removal or at batch end — by then Android has freed the removed app's
+     * space (PRD §6 "Storage almost full").
+     */
     private suspend fun recordRemoval(item: UninstallItemEntity) {
         val now = clock.now()
-        uninstallDao.markRemoved(
-            item.copy(
-                state = ItemState.REMOVED.name,
-                statusCode = PackageInstaller.STATUS_SUCCESS,
-                failureReason = null,
-                updatedAt = now,
-            ),
-            UninstallHistoryEntity(
-                packageName = item.packageName,
-                label = item.label,
-                iconPath = item.iconPath,
-                bytes = item.snapshotBytes,
-                bytesIsEstimate = item.bytesIsEstimate,
-                installerPackage = item.installerPackage,
-                versionName = item.versionName,
-                removedAt = now,
-            ),
+        val removed = item.copy(
+            state = ItemState.REMOVED.name,
+            statusCode = PackageInstaller.STATUS_SUCCESS,
+            failureReason = null,
+            updatedAt = now,
+        )
+        val entry = UninstallHistoryEntity(
+            packageName = item.packageName,
+            label = item.label,
+            iconPath = item.iconPath,
+            bytes = item.snapshotBytes,
+            bytesIsEstimate = item.bytesIsEstimate,
+            installerPackage = item.installerPackage,
+            versionName = item.versionName,
+            removedAt = now,
         )
         icons.evictLiveIcon(item.packageName)
-        historyDao.prune()
+        val saved = try {
+            // A held item may have no Room row yet (its batch never fit): upsert it.
+            if (removed.id in held.value.items) uninstallDao.upsertRemoved(removed, entry)
+            else uninstallDao.markRemoved(removed, entry)
+            held.update { it.release(removed.id, removed) }
+            true
+        } catch (_: SQLiteFullException) {
+            held.update { it.holdRemoval(removed, entry) }
+            analytics.log(AnalyticsEvent.HistorySnapshotDegraded(SnapshotDegradedReason.DB_FULL))
+            false
+        }
+        if (saved) {
+            tolerateFullDisk { historyDao.prune() }
+            flushHeld()
+        }
     }
 
     /** PRD Feature 2 "Verify", with a short grace for PackageManager to catch up. */
@@ -419,8 +493,9 @@ class UninstallEngine @Inject constructor(
 
     private suspend fun finish(batchId: Long) {
         updateBatch(batchId) { if (it.finishedAt == null) it.copy(finishedAt = clock.now()) else it }
+        flushHeld() // Batch end: the last chance this run has to write what the full disk refused.
         awaitingPackage = null
-        _runtime.update { it.copy(awaitingItemId = null, confirmation = null, stalled = false) }
+        _runtime.update { it.copy(awaitingItemId = null, confirmation = null, stalled = false, cancelStreakPrompt = null) }
     }
 
     // ------------------------------------------------------------------ helpers
@@ -467,17 +542,15 @@ class UninstallEngine @Inject constructor(
 
     /** Non-final items still installed or not, before reconciliation. */
     private suspend fun remainingCount(batchId: Long): Int =
-        uninstallDao.getItems(batchId).count { !ItemState.of(it.state).isFinal }
+        itemsOf(batchId).count { !ItemState.of(it.state).isFinal }
 
     private suspend fun reconcile(batchId: Long) {
-        uninstallDao.getItems(batchId)
+        itemsOf(batchId)
             .filter { !ItemState.of(it.state).isFinal && !inventory.isInstalled(it.packageName) }
             .forEach { item ->
                 when (UninstallRules.preflight(ItemState.of(item.state), installed = false)) {
                     Preflight.REMOVED_BY_US -> recordRemoval(item)
-                    else -> uninstallDao.updateItem(
-                        item.copy(state = ItemState.ALREADY_REMOVED.name, updatedAt = clock.now())
-                    )
+                    else -> saveItem(item.copy(state = ItemState.ALREADY_REMOVED.name, updatedAt = clock.now()))
                 }
             }
     }
@@ -486,8 +559,90 @@ class UninstallEngine @Inject constructor(
         batchId: Long,
         transform: (UninstallBatchEntity) -> UninstallBatchEntity,
     ): UninstallBatchEntity? = batchLock.withLock {
-        val batch = uninstallDao.getBatch(batchId) ?: return@withLock null
-        transform(batch).also { if (it != batch) uninstallDao.updateBatch(it) }
+        val batch = batchOf(batchId) ?: return@withLock null
+        transform(batch).also { if (it != batch) saveBatch(it) }
+    }
+
+    // ------------------------------------------------------------------ full disk (PRD §6 "Storage almost full")
+
+    private suspend fun batchOf(batchId: Long): UninstallBatchEntity? =
+        held.value.batches[batchId] ?: uninstallDao.getBatch(batchId)
+
+    private suspend fun itemsOf(batchId: Long): List<UninstallItemEntity> =
+        held.value.overlay(batchId, uninstallDao.getItems(batchId))
+
+    /**
+     * Queue bookkeeping must never stop a removal. A row already held stays in memory until the
+     * next flush (its Room row may not even exist); otherwise Room is tried and, if the disk is
+     * full, the row is held instead.
+     */
+    private suspend fun saveItem(item: UninstallItemEntity) {
+        if (item.id in held.value.items) {
+            held.update { it.copy(items = it.items + (item.id to item)) }
+            return
+        }
+        try {
+            uninstallDao.updateItem(item)
+        } catch (_: SQLiteFullException) {
+            held.update { it.copy(items = it.items + (item.id to item)) }
+        }
+    }
+
+    private suspend fun saveBatch(batch: UninstallBatchEntity) {
+        if (batch.batchId in held.value.batches) {
+            held.update { it.copy(batches = it.batches + (batch.batchId to batch)) }
+            return
+        }
+        try {
+            uninstallDao.updateBatch(batch)
+        } catch (_: SQLiteFullException) {
+            held.update { it.copy(batches = it.batches + (batch.batchId to batch)) }
+        }
+    }
+
+    /** A batch whose queue rows did not fit at all. @return its (negative) in-memory id. */
+    private fun holdNewBatch(batch: UninstallBatchEntity, items: List<UninstallItemEntity>, now: Long): Long {
+        val batchId = -now
+        val rows = items.mapIndexed { index, item ->
+            item.copy(id = batchId * HELD_ITEM_ID_SPAN - index, batchId = batchId)
+        }
+        held.update { h ->
+            h.copy(
+                batches = h.batches + (batchId to batch.copy(batchId = batchId)),
+                items = h.items + rows.associateBy { it.id },
+            )
+        }
+        return batchId
+    }
+
+    /**
+     * Writes everything held: batches first, then items with their History rows. Stops at the
+     * first SQLiteFullException and keeps the rest for the next try. A row changed while it was
+     * being written stays held, so the newer version is written next time.
+     */
+    private suspend fun flushHeld() = flushLock.withLock {
+        val snapshot = held.value
+        if (snapshot.isEmpty) return@withLock
+        tolerateFullDisk {
+            snapshot.batches.values.forEach { batch ->
+                uninstallDao.upsertBatch(batch)
+                held.update { h -> if (h.batches[batch.batchId] == batch) h.copy(batches = h.batches - batch.batchId) else h }
+            }
+            snapshot.items.values.sortedBy { it.position }.forEach { item ->
+                val entry = snapshot.history[item.id]
+                if (entry != null) uninstallDao.upsertRemoved(item, entry) else uninstallDao.upsertItems(listOf(item))
+                held.update { it.release(item.id, item) }
+            }
+            if (snapshot.history.isNotEmpty()) historyDao.prune()
+        }
+    }
+
+    private inline fun tolerateFullDisk(block: () -> Unit) {
+        try {
+            block()
+        } catch (_: SQLiteFullException) {
+            // Still full: whatever was not written stays held for the next successful removal.
+        }
     }
 
     /** Drops month-old closed batches and icon files nothing points at any more. Best effort. */
@@ -505,5 +660,37 @@ class UninstallEngine @Inject constructor(
         const val VERIFY_ATTEMPTS = 3
         const val VERIFY_RETRY_MS = 250L
         const val CLOSED_BATCH_RETENTION_MS = 30 * DAY_MILLIS
+
+        /** Room for item ids under one in-memory batch id; the queue has no size limit, so wide. */
+        private const val HELD_ITEM_ID_SPAN = 1_000_000L
+    }
+}
+
+/**
+ * Room writes the full disk refused (PRD §6 "Storage almost full"), by primary key. History rows
+ * are keyed by their item's id: a removal's item row and History row are written together.
+ */
+private data class HeldWrites(
+    val batches: Map<Long, UninstallBatchEntity> = emptyMap(),
+    val items: Map<Long, UninstallItemEntity> = emptyMap(),
+    val history: Map<Long, UninstallHistoryEntity> = emptyMap(),
+) {
+    val isEmpty: Boolean get() = batches.isEmpty() && items.isEmpty() && history.isEmpty()
+
+    /** [rows] from Room for [batchId], with held versions (and held-only rows) laid on top. */
+    fun overlay(batchId: Long, rows: List<UninstallItemEntity>): List<UninstallItemEntity> {
+        val mine = items.filterValues { it.batchId == batchId }
+        if (mine.isEmpty()) return rows
+        return (rows.associateBy { it.id } + mine).values.sortedBy { it.position }
+    }
+
+    fun holdRemoval(item: UninstallItemEntity, entry: UninstallHistoryEntity) =
+        copy(items = items + (item.id to item), history = history + (item.id to entry))
+
+    /** Drops [itemId] once [written] reached Room — unless a newer version was held meanwhile. */
+    fun release(itemId: Long, written: UninstallItemEntity): HeldWrites {
+        val current = items[itemId]
+        if (current != null && current != written) return copy(history = history - itemId)
+        return copy(items = items - itemId, history = history - itemId)
     }
 }

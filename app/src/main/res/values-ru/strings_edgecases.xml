@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="uninstall_cancel_streak_title">Не удалять остальные?</string>
+    <plurals name="uninstall_cancel_streak_body">
+        <item quantity="one">Вы нажали «Отмена» три раза подряд. Осталось %1$d приложение.</item>
+        <item quantity="few">Вы нажали «Отмена» три раза подряд. Осталось %1$d приложения.</item>
+        <item quantity="many">Вы нажали «Отмена» три раза подряд. Осталось %1$d приложений.</item>
+        <item quantity="other">Вы нажали «Отмена» три раза подряд. Осталось %1$d приложения.</item>
+    </plurals>
+
+    <string name="usage_still_off_title">Доступ к истории использования всё ещё выключен</string>
+    <string name="usage_still_off_body">В списке нажмите App Cleaner и включите переключатель.</string>
+
+    <string name="insights_unused_new_phone_title">Только что настроили этот телефон?</string>
+    <plurals name="insights_unused_new_phone_body">
+        <item quantity="one">Неиспользуемые приложения появятся через %1$d день.</item>
+        <item quantity="few">Неиспользуемые приложения появятся через %1$d дня.</item>
+        <item quantity="many">Неиспользуемые приложения появятся через %1$d дней.</item>
+        <item quantity="other">Неиспользуемые приложения появятся через %1$d дня.</item>
+    </plurals>
+</resources>

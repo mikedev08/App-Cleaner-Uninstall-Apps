@@ -93,6 +93,11 @@ data class EngineRuntime(
     val confirmation: PendingConfirmation? = null,
     /** Our screen came back but no result arrived: offer "Show it again" (see [UninstallEngine.reRequestCurrent]). */
     val stalled: Boolean = false,
+    /**
+     * Three Cancels in a row: the queue is paused on "Stop removing the rest?" and this is how
+     * many apps are still to go (PRD §6 "Several dialogs cancelled in a row"). Null otherwise.
+     */
+    val cancelStreakPrompt: Int? = null,
 )
 
 /** Injectable time source so the queue logic is testable. */

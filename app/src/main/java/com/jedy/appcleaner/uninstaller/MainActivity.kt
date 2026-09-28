@@ -19,12 +19,22 @@ import com.jedy.appcleaner.uninstaller.core.startup.StartupTrace
 import com.jedy.appcleaner.uninstaller.core.ui.theme.AppCleanerTheme
 import com.jedy.appcleaner.uninstaller.navigation.AppCleanerNavHost
 import com.jedy.appcleaner.uninstaller.navigation.DeepLinks
+import com.jedy.appcleaner.uninstaller.feature.usageaccess.UsageAccessRoundTrip
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private val viewModel: MainViewModel by viewModels()
+
+    /** Coming back from the Usage access page: granted, or "still off" on the screen they left. */
+    @Inject lateinit var usageAccessRoundTrip: UsageAccessRoundTrip
+
+    override fun onResume() {
+        super.onResume()
+        usageAccessRoundTrip.onAppResumed()
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         StartupTrace.mark("MainActivity.onCreate")

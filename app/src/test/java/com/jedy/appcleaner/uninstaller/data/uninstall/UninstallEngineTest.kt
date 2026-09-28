@@ -2,6 +2,8 @@ package com.jedy.appcleaner.uninstaller.data.uninstall
 
 import android.content.pm.PackageInstaller
 import com.jedy.appcleaner.uninstaller.core.analytics.AnalyticsEvent
+import com.jedy.appcleaner.uninstaller.core.analytics.CancelStreakAction
+import com.jedy.appcleaner.uninstaller.core.analytics.SnapshotDegradedReason
 import com.jedy.appcleaner.uninstaller.core.model.AppSize
 import com.jedy.appcleaner.uninstaller.core.model.HomeTab
 import com.jedy.appcleaner.uninstaller.core.model.InstalledApp
@@ -297,6 +299,178 @@ class UninstallEngineTest {
         dao.updateBatch(dao.getBatch(leftBehind)!!.copy(discarded = true))
         engine.createBatch(listOf("p.c"), HomeTab.ALL)
         assertNull("never flashes for the batch just confirmed", engine.observeResumable().first())
+    }
+
+    // ------------------------------------------------------------------ PRD v1.1 edge cases
+
+    @Test
+    fun `three Cancels in a row pause before the next dialog, and Keep going resumes`() = runTest {
+        val pkgs = listOf("p.a", "p.b", "p.c", "p.d", "p.e")
+        val inventory = FakeInventory(pkgs.map { app(it) })
+        val remover = FakeRemover(inventory).apply {
+            listOf("p.a", "p.b", "p.c").forEach { script[it] = PackageInstaller.STATUS_FAILURE_ABORTED }
+            script["p.d"] = PackageInstaller.STATUS_SUCCESS
+        }
+        val engine = engine(inventory, remover)
+        val id = engine.createBatch(pkgs, HomeTab.ALL)
+        engine.attach(id)
+        engine.onScreenResumed()
+        settle()
+
+        assertEquals("no fourth dialog", listOf("p.a", "p.b", "p.c"), remover.requests.map { it.second })
+        assertEquals(2, engine.runtime.value.cancelStreakPrompt)
+        assertNull(dao.getBatch(id)!!.finishedAt)
+
+        engine.keepGoingAfterCancelStreak()
+        settle()
+        assertNull(engine.runtime.value.cancelStreakPrompt)
+        assertEquals(listOf("p.a", "p.b", "p.c", "p.d", "p.e"), remover.requests.map { it.second })
+        assertEquals(ItemState.REMOVED, dao.state(id, "p.d"))
+        val prompt = analytics.events.filterIsInstance<AnalyticsEvent.UninstallCancelStreakPrompt>().single()
+        assertEquals(CancelStreakAction.KEEP_GOING, prompt.action)
+        assertEquals(2, prompt.remainingCount)
+        assertEquals(mapOf("action" to "keep_going", "remaining_count" to 2), prompt.params)
+    }
+
+    @Test
+    fun `Stop on the cancel-streak prompt ends the batch like the Stop button`() = runTest {
+        val pkgs = listOf("p.a", "p.b", "p.c", "p.d")
+        val inventory = FakeInventory(pkgs.map { app(it) })
+        val remover = FakeRemover(inventory).apply {
+            pkgs.forEach { script[it] = PackageInstaller.STATUS_FAILURE_ABORTED }
+        }
+        val engine = engine(inventory, remover)
+        val id = engine.createBatch(pkgs, HomeTab.ALL)
+        engine.attach(id)
+        engine.onScreenResumed()
+        settle()
+
+        engine.stopAfterCancelStreak(id)
+        settle()
+
+        val batch = dao.getBatch(id)!!
+        assertTrue(batch.stoppedEarly)
+        assertNotNull(batch.finishedAt)
+        assertEquals(3, remover.requests.size)
+        assertEquals(ItemState.WAITING, dao.state(id, "p.d"))
+        assertNull(engine.runtime.value.cancelStreakPrompt)
+        assertEquals(
+            CancelStreakAction.STOP,
+            analytics.events.filterIsInstance<AnalyticsEvent.UninstallCancelStreakPrompt>().single().action,
+        )
+    }
+
+    @Test
+    fun `Cancels separated by a removal never ask`() = runTest {
+        val pkgs = listOf("p.a", "p.b", "p.c", "p.d", "p.e")
+        val inventory = FakeInventory(pkgs.map { app(it) })
+        val remover = FakeRemover(inventory).apply {
+            listOf("p.a", "p.b", "p.d", "p.e").forEach { script[it] = PackageInstaller.STATUS_FAILURE_ABORTED }
+            script["p.c"] = PackageInstaller.STATUS_SUCCESS
+        }
+        val engine = engine(inventory, remover)
+        val id = engine.createBatch(pkgs, HomeTab.ALL)
+        engine.attach(id)
+        engine.onScreenResumed()
+        settle()
+
+        assertEquals(5, remover.requests.size)
+        assertNotNull(dao.getBatch(id)!!.finishedAt)
+        assertTrue(analytics.events.none { it is AnalyticsEvent.UninstallCancelStreakPrompt })
+    }
+
+    @Test
+    fun `under the free-space floor the snapshot is text-only and the removal still reaches History`() = runTest {
+        icons.degraded = SnapshotDegradedReason.LOW_SPACE
+        val inventory = FakeInventory(listOf(app("p.a", apkBytes = 500)))
+        val remover = FakeRemover(inventory).apply { script["p.a"] = PackageInstaller.STATUS_SUCCESS }
+        val engine = engine(inventory, remover)
+        val id = engine.createBatch(listOf("p.a"), HomeTab.ALL)
+        engine.attach(id)
+        engine.onScreenResumed()
+        settle()
+
+        val row = history.rows.value.single()
+        assertNull(row.iconPath)
+        assertEquals("text-only: label, size, installer", "A", row.label)
+        assertEquals(500, row.bytes)
+        assertEquals(InstalledApp.PLAY_STORE_PACKAGE, row.installerPackage)
+        val degraded = analytics.events.filterIsInstance<AnalyticsEvent.HistorySnapshotDegraded>().single()
+        assertEquals(mapOf("reason" to "low_space"), degraded.params)
+    }
+
+    @Test
+    fun `a full database never stops a removal - the rows are written after the next one`() = runTest {
+        val inventory = FakeInventory(listOf(app("p.a", apkBytes = 300), app("p.b", apkBytes = 700)))
+        val remover = FakeRemover(inventory)
+        val engine = engine(inventory, remover)
+        val id = engine.createBatch(listOf("p.a", "p.b"), HomeTab.ALL)
+        engine.attach(id)
+        engine.onScreenResumed()
+        settle()
+
+        // The phone is full while Android's first dialog is up.
+        dao.diskFull = true
+        val (firstId, firstPkg) = remover.requests.single()
+        remover.finish(firstId, firstPkg, PackageInstaller.STATUS_SUCCESS)
+        settle()
+
+        assertTrue("nothing reached Room", history.rows.value.isEmpty())
+        assertEquals("but the queue moved on", "p.b", remover.requests.last().second)
+        val live = engine.observeSummary(id).first()!!
+        assertEquals("and the screens see the removal", 1, live.removedCount)
+        assertEquals(
+            listOf(SnapshotDegradedReason.DB_FULL),
+            analytics.events.filterIsInstance<AnalyticsEvent.HistorySnapshotDegraded>().map { it.reason },
+        )
+
+        // That removal freed space: the next one writes itself and everything held.
+        dao.diskFull = false
+        val (secondId, secondPkg) = remover.requests.last()
+        remover.finish(secondId, secondPkg, PackageInstaller.STATUS_SUCCESS)
+        settle()
+
+        assertEquals(setOf("p.a", "p.b"), history.rows.value.map { it.packageName }.toSet())
+        assertEquals(ItemState.REMOVED, dao.state(id, "p.a"))
+        assertEquals(ItemState.REMOVED, dao.state(id, "p.b"))
+        assertNotNull(dao.getBatch(id)!!.finishedAt)
+        assertEquals(1_000, BatchSummary(dao.getBatch(id)!!, dao.getItems(id)).freedBytes)
+    }
+
+    @Test
+    fun `a queue that does not fit in Room at all runs from memory and is written at batch end`() = runTest {
+        val inventory = FakeInventory(listOf(app("p.a"), app("p.b")))
+        val remover = FakeRemover(inventory).apply {
+            script["p.a"] = PackageInstaller.STATUS_SUCCESS
+            script["p.b"] = PackageInstaller.STATUS_FAILURE_ABORTED
+        }
+        val engine = engine(inventory, remover)
+        dao.diskFull = true
+        val id = engine.createBatch(listOf("p.a", "p.b"), HomeTab.UNUSED)
+        assertTrue("an in-memory id", id < 0)
+        assertTrue(dao.batches.value.isEmpty())
+
+        engine.attach(id)
+        engine.onScreenResumed()
+        settle()
+        assertEquals(listOf("p.a", "p.b"), remover.requests.map { it.second })
+        val live = engine.observeSummary(id).first()!!
+        assertTrue(live.isFinished)
+        assertEquals(1, live.removedCount)
+        assertEquals(1, live.skippedCount)
+
+        // Space came back (the removal freed it) but the run is over: the next removal flushes.
+        dao.diskFull = false
+        val next = engine.createBatch(listOf("p.b"), HomeTab.ALL)
+        assertTrue(next > 0)
+        remover.script["p.b"] = PackageInstaller.STATUS_SUCCESS
+        engine.attach(next)
+        settle()
+
+        assertNotNull("the held batch reached Room", dao.getBatch(id)?.finishedAt)
+        assertEquals(ItemState.REMOVED, dao.state(id, "p.a"))
+        assertEquals(ItemState.SKIPPED, dao.state(id, "p.b"))
+        assertEquals(setOf("p.a", "p.b"), history.rows.value.map { it.packageName }.toSet())
     }
 
     /**

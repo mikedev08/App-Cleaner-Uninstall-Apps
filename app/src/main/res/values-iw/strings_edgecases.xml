@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="uninstall_cancel_streak_title">להפסיק להסיר את השאר?</string>
+    <plurals name="uninstall_cancel_streak_body">
+        <item quantity="one">הקשת על ביטול שלוש פעמים ברצף. נשארה עוד אפליקציה אחת.</item>
+        <item quantity="two">הקשת על ביטול שלוש פעמים ברצף. נשארו עוד %1$d אפליקציות.</item>
+        <item quantity="other">הקשת על ביטול שלוש פעמים ברצף. נשארו עוד %1$d אפליקציות.</item>
+    </plurals>
+
+    <string name="usage_still_off_title">הגישה לנתוני שימוש עדיין כבויה</string>
+    <string name="usage_still_off_body">ברשימה, צריך להקיש על App Cleaner ולהפעיל את המתג.</string>
+
+    <string name="insights_unused_new_phone_title">הטלפון הזה הוגדר עכשיו?</string>
+    <plurals name="insights_unused_new_phone_body">
+        <item quantity="one">אפליקציות שלא בשימוש יופיעו אחרי יום אחד.</item>
+        <item quantity="two">אפליקציות שלא בשימוש יופיעו אחרי יומיים.</item>
+        <item quantity="other">אפליקציות שלא בשימוש יופיעו אחרי %1$d ימים.</item>
+    </plurals>
+</resources>

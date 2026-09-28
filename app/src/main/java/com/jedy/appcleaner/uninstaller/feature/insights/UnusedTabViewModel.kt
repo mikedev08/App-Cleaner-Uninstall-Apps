@@ -15,6 +15,7 @@ import com.jedy.appcleaner.uninstaller.data.billing.Premium
 import com.jedy.appcleaner.uninstaller.data.inventory.AppInventory
 import com.jedy.appcleaner.uninstaller.data.prefs.AppPreferences
 import com.jedy.appcleaner.uninstaller.data.storage.StorageBreakdown
+import com.jedy.appcleaner.uninstaller.data.usage.RecentSetup
 import com.jedy.appcleaner.uninstaller.data.usage.UsageAccess
 import com.jedy.appcleaner.uninstaller.data.usage.UsageInsights
 import com.jedy.appcleaner.uninstaller.di.DefaultDispatcher
@@ -51,6 +52,8 @@ sealed interface UnusedContent {
         val preview: List<PreviewRow>,
         val deviceTotalBytes: Long,
         val now: Long,
+        /** Nothing found and the phone looks just set up ([RecentSetup]): explain the empty list. */
+        val recentlySetUp: Boolean = false,
     ) : UnusedContent
 
     /** [now] is the instant the rule ran, so the idle chips agree with the rule that picked the rows. */
@@ -59,6 +62,7 @@ sealed interface UnusedContent {
         val totalBytes: Long,
         val deviceTotalBytes: Long,
         val now: Long,
+        val recentlySetUp: Boolean = false,
     ) : UnusedContent
 }
 
@@ -133,12 +137,14 @@ class UnusedTabViewModel @Inject constructor(
             )
         }
         val total = rows.sumOf { it.bytes }
+        // PRD §6 "Apps restored to a new phone": only worth working out when there is nothing to show.
+        val recentlySetUp = rows.isEmpty() && RecentSetup.looksRecentlySetUp(apps, now, s.threshold)
         return if (s.isPremium) {
-            UnusedContent.Unlocked(InsightSort.sort(rows, s.order), total, deviceTotalBytes, now)
+            UnusedContent.Unlocked(InsightSort.sort(rows, s.order), total, deviceTotalBytes, now, recentlySetUp)
         } else {
             // The biggest offenders go in the preview, so its bars are visibly long and red.
             val preview = rows.sortedByDescending { it.bytes }.take(PREVIEW_ROWS).map { PreviewRow(it.app.packageName, it.bytes) }
-            UnusedContent.Locked(rows.size, total, preview, deviceTotalBytes, now)
+            UnusedContent.Locked(rows.size, total, preview, deviceTotalBytes, now, recentlySetUp)
         }
     }
 
