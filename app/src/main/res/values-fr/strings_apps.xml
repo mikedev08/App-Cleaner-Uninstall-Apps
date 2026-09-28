@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="apps_title">Applis</string>
+    <string name="apps_action_back">Retour</string>
+    <string name="apps_summary">%1$s · %2$s</string>
+    <string name="apps_tab_all">Toutes</string>
+    <string name="apps_section_hogs">Les plus gourmandes</string>
+    <string name="apps_section_rest">Tout le reste</string>
+    <string name="apps_chip_space_hog">Gourmande</string>
+    <string name="apps_chip_idle_year">Pas ouverte depuis plus d’un an</string>
+    <string name="apps_details_whats_using">Ce qui occupe l’espace</string>
+    <string name="apps_details_unlock_teaser">Voir ce qui occupe l’espace</string>
+    <string name="apps_details_total_caption">Taille totale</string>
+    <string name="apps_details_apk_caption">Taille de l’appli</string>
+    <string name="apps_details_app_info">Infos sur l’appli</string>
+    <string name="apps_details_play">Play Store</string>
+    <string name="apps_details_cache_hint">Pour vider le cache de cette appli, ouvrez Infos sur l’appli, puis Stockage.</string>
+    <plurals name="apps_chip_idle_months">
+        <item quantity="one">Pas ouverte depuis %d mois</item>
+        <item quantity="many">Pas ouverte depuis %d mois</item>
+        <item quantity="other">Pas ouverte depuis %d mois</item>
+    </plurals>
+</resources>

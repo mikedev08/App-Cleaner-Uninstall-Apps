@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Apps list (redesign 2026). Owner: Home/Scan feature. Also reuses home_* list strings. -->
+    <string name="apps_title">Apps</string>
+    <string name="apps_action_back">Back</string>
+    <string name="apps_summary">%1$s · %2$s</string>
+    <string name="apps_tab_all">All</string>
+    <string name="apps_section_hogs">Taking the most space</string>
+    <string name="apps_section_rest">Everything else</string>
+    <string name="apps_chip_space_hog">Space hog</string>
+    <string name="apps_chip_idle_year">Not opened in over a year</string>
+    <string name="apps_details_whats_using">What’s using space</string>
+    <string name="apps_details_unlock_teaser">See what’s using space</string>
+    <string name="apps_details_total_caption">Total size</string>
+    <string name="apps_details_apk_caption">App size</string>
+    <string name="apps_details_app_info">App info</string>
+    <string name="apps_details_play">Play Store</string>
+    <string name="apps_details_cache_hint">To clear this app’s cache, open App info, then Storage.</string>
+    <plurals name="apps_chip_idle_months">
+        <item quantity="one">Not opened in %d month</item>
+        <item quantity="other">Not opened in %d months</item>
+    </plurals>
+</resources>

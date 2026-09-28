@@ -14,14 +14,7 @@
     <string name="home_sort_install_date">تاريخ التثبيت (الأقدم أولاً)</string>
     <string name="home_sort_last_updated">آخر تحديث</string>
     <string name="home_sort_last_used">آخر استخدام (الأقدم أولاً)</string>
-    <string name="home_storage_title">مساحة التخزين</string>
-    <string name="home_storage_used">%1$s مستخدَمة من %2$s</string>
-    <string name="home_storage_apps">التطبيقات: %1$s</string>
-    <string name="home_storage_other">أخرى: %1$s</string>
-    <string name="home_storage_free">متاحة: %1$s</string>
-    <string name="home_storage_breakdown">عرض التفاصيل الكاملة</string>
     <string name="home_storage_unavailable">تفاصيل التخزين غير متاحة على هذا الجهاز.</string>
-    <string name="home_tab_all">كل التطبيقات</string>
     <string name="home_tab_unused">غير مستخدَمة</string>
     <string name="home_tab_large">كبيرة</string>
     <plurals name="home_list_count">
@@ -34,7 +27,6 @@
     </plurals>
     <string name="home_select_all">تحديد الكل</string>
     <string name="home_deselect_all">إلغاء تحديد الكل</string>
-    <string name="home_row_meta">%1$s · %2$s</string>
     <string name="home_row_installed">مثبَّت في %1$s</string>
     <string name="home_row_updated">محدَّث في %1$s</string>
     <string name="home_row_opened">فُتح في %1$s</string>
@@ -52,7 +44,6 @@
         <item quantity="many">تم تحديد %d</item>
         <item quantity="other">تم تحديد %d</item>
     </plurals>
-    <string name="home_selection_summary">%1$s · %2$s</string>
     <string name="home_selection_with_hidden">%1$s (%2$s)</string>
     <plurals name="home_selection_hidden">
         <item quantity="zero">%d مخفية بسبب البحث</item>
@@ -74,17 +65,79 @@
     <string name="home_details_last_opened">آخر فتح</string>
     <string name="home_details_not_opened_since">لم يُفتح منذ %1$s على الأقل</string>
     <string name="home_details_no_usage">لا يوجد استخدام مسجَّل</string>
-    <string name="home_details_apk_size">حجم APK</string>
     <string name="home_details_app_size">التطبيق</string>
     <string name="home_details_data_size">البيانات</string>
     <string name="home_details_cache_size">ذاكرة التخزين المؤقت</string>
-    <string name="home_details_total_size">الإجمالي</string>
-    <string name="home_details_data_cache_size">البيانات وذاكرة التخزين المؤقت</string>
     <string name="home_details_size_measuring">جارٍ القياس…</string>
     <string name="home_details_size_unavailable">الحجم غير متاح</string>
-    <string name="home_details_unlock_sizes">عرض حجم البيانات وذاكرة التخزين المؤقت</string>
     <string name="home_details_allow_access">اسمح بالوصول إلى بيانات الاستخدام لعرض حجم البيانات وذاكرة التخزين المؤقت</string>
     <string name="home_details_open">فتح</string>
-    <string name="home_details_app_info">معلومات التطبيق (امسح ذاكرة التخزين المؤقت هنا)</string>
-    <string name="home_details_play_store">العرض في متجر Play</string>
+    <!-- Home dashboard (redesign 2026) -->
+    <string name="home_gauge_used">مستخدم</string>
+    <string name="home_hero_used_of">%1$s من %2$s</string>
+    <string name="home_headline_danger">هاتفك ممتلئ تقريبًا</string>
+    <string name="home_headline_warning">مساحة التخزين تمتلئ</string>
+    <string name="home_headline_ok">لديك مساحة كافية</string>
+    <string name="home_subline_left">لم يتبقَّ سوى %1$s</string>
+    <string name="home_subline_free">%1$s متاحة</string>
+    <string name="home_scan_cta">افحص هاتفي</string>
+    <string name="home_scan_cta_caption">يعثر على التطبيقات غير المستخدمة والتطبيقات الأكبر حجمًا والبيانات المخزنة مؤقتًا.</string>
+    <string name="home_last_scan_title">آخر فحص</string>
+    <string name="home_last_scan_free_up_prefix">يمكنك تحرير</string>
+    <string name="home_last_scan_hogs_prefix">تشغل أكبر تطبيقاتك</string>
+    <string name="home_last_scan_tidy">لا يوجد شيء كبير لتنظيفه</string>
+    <string name="home_last_scan_again">افحص مجددًا</string>
+    <string name="home_time_just_now">الآن</string>
+    <string name="home_stats_title">أين تذهب مساحتك</string>
+    <string name="home_tile_unused">تطبيقات غير مستخدمة</string>
+    <string name="home_tile_hogs">الأكثر استهلاكًا للمساحة</string>
+    <string name="home_tile_cache">بيانات التطبيقات وذاكرة التخزين المؤقت</string>
+    <string name="home_tile_freed">ما تم تحريره حتى الآن</string>
+    <string name="home_tile_allow">السماح بالوصول</string>
+    <string name="home_tile_freed_none">لم تتم إزالة أي شيء بعد</string>
+    <string name="home_biggest_title">أكبر التطبيقات</string>
+    <string name="home_biggest_subtitle">ما الذي يشغل مساحتك</string>
+    <string name="home_biggest_share">%1$s من مساحة التخزين</string>
+    <string name="home_see_all">عرض كل التطبيقات</string>
+    <string name="home_see_all_short">عرض الكل</string>
+    <plurals name="home_time_minutes">
+        <item quantity="zero">قبل %d دقيقة</item>
+        <item quantity="one">قبل دقيقة</item>
+        <item quantity="two">قبل دقيقتين</item>
+        <item quantity="few">قبل %d دقائق</item>
+        <item quantity="many">قبل %d دقيقة</item>
+        <item quantity="other">قبل %d دقيقة</item>
+    </plurals>
+    <plurals name="home_time_hours">
+        <item quantity="zero">قبل %d ساعة</item>
+        <item quantity="one">قبل ساعة</item>
+        <item quantity="two">قبل ساعتين</item>
+        <item quantity="few">قبل %d ساعات</item>
+        <item quantity="many">قبل %d ساعة</item>
+        <item quantity="other">قبل %d ساعة</item>
+    </plurals>
+    <plurals name="home_time_days">
+        <item quantity="zero">قبل %d يوم</item>
+        <item quantity="one">قبل يوم</item>
+        <item quantity="two">قبل يومين</item>
+        <item quantity="few">قبل %d أيام</item>
+        <item quantity="many">قبل %d يومًا</item>
+        <item quantity="other">قبل %d يوم</item>
+    </plurals>
+    <plurals name="home_tile_cache_caption">
+        <item quantity="zero">في %d تطبيق</item>
+        <item quantity="one">في تطبيق واحد</item>
+        <item quantity="two">في تطبيقين</item>
+        <item quantity="few">في %d تطبيقات</item>
+        <item quantity="many">في %d تطبيقًا</item>
+        <item quantity="other">في %d تطبيق</item>
+    </plurals>
+    <plurals name="home_tile_freed_caption">
+        <item quantity="zero">تمت إزالة %d تطبيق</item>
+        <item quantity="one">تمت إزالة تطبيق واحد</item>
+        <item quantity="two">تمت إزالة تطبيقين</item>
+        <item quantity="few">تمت إزالة %d تطبيقات</item>
+        <item quantity="many">تمت إزالة %d تطبيقًا</item>
+        <item quantity="other">تمت إزالة %d تطبيق</item>
+    </plurals>
 </resources>

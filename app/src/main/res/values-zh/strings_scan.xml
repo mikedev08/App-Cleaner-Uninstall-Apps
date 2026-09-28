@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="scan_close">关闭</string>
+    <string name="scan_intro_access_title">如需完整扫描，请允许使用情况访问权限</string>
+    <string name="scan_intro_access_body">数据只保留在你的手机上。App Cleaner 仅用它查看你最近没打开过的应用，以及它们占用的数据和缓存。</string>
+    <string name="scan_intro_point_unused">几个月没打开的应用</string>
+    <string name="scan_intro_point_hogs">占用空间最多的应用</string>
+    <string name="scan_intro_point_cache">应用数据和缓存</string>
+    <string name="scan_intro_allow">允许使用情况访问</string>
+    <string name="scan_intro_quick">快速扫描</string>
+    <string name="scan_intro_quick_hint">快速扫描仅检查应用大小。</string>
+    <string name="scan_scanning_title">正在扫描你的手机</string>
+    <string name="scan_step_apps">正在检查已安装的应用</string>
+    <string name="scan_step_usage">正在查找你不用的应用</string>
+    <string name="scan_step_storage">正在测量存储空间</string>
+    <string name="scan_step_skipped">需要使用情况访问权限</string>
+    <string name="scan_result_label">扫描完成</string>
+    <string name="scan_result_could_free">可以释放</string>
+    <string name="scan_result_hogs_take">被最大的几个应用占用</string>
+    <string name="scan_result_before_after">已用 %1$s → 清理后 %2$s</string>
+    <string name="scan_result_tidy_title">你的手机很整洁</string>
+    <string name="scan_result_tidy_body">目前没有大项占用你的空间。</string>
+    <string name="scan_bucket_unused">不常用应用</string>
+    <string name="scan_bucket_hogs">占空间大户</string>
+    <string name="scan_bucket_cache">应用数据和缓存</string>
+    <string name="scan_bucket_meta">%1$s · %2$s</string>
+    <string name="scan_bucket_needs_access">允许使用情况访问后即可找到</string>
+    <string name="scan_cta_free_up">释放 %1$s</string>
+    <string name="scan_cta_review">查看全部应用</string>
+    <string name="scan_cta_allow_full">允许访问以完整扫描</string>
+    <string name="scan_estimates_note">部分大小仅计算应用文件；数据和缓存需要使用情况访问权限。</string>
+    <string name="scan_error_title">扫描未能完成</string>
+    <string name="scan_error_body">你的手机没有任何改动。</string>
+    <string name="scan_error_retry">重试</string>
+    <plurals name="scan_result_loss">
+        <item quantity="other">这 %1$d 个应用已有 %2$d 天没打开，却占用了 %3$s，你本可以收回这些空间。</item>
+    </plurals>
+</resources>

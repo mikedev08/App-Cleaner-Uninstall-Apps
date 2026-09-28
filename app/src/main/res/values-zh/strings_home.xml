@@ -14,14 +14,7 @@
     <string name="home_sort_install_date">安装日期（最早的在前）</string>
     <string name="home_sort_last_updated">最近更新</string>
     <string name="home_sort_last_used">最近使用（最久未用的在前）</string>
-    <string name="home_storage_title">存储空间</string>
-    <string name="home_storage_used">已用 %1$s，共 %2$s</string>
-    <string name="home_storage_apps">应用：%1$s</string>
-    <string name="home_storage_other">其他：%1$s</string>
-    <string name="home_storage_free">可用：%1$s</string>
-    <string name="home_storage_breakdown">查看完整明细</string>
     <string name="home_storage_unavailable">此设备无法提供存储详情。</string>
-    <string name="home_tab_all">全部应用</string>
     <string name="home_tab_unused">未使用</string>
     <string name="home_tab_large">大型</string>
     <plurals name="home_list_count">
@@ -29,7 +22,6 @@
     </plurals>
     <string name="home_select_all">全选</string>
     <string name="home_deselect_all">取消全选</string>
-    <string name="home_row_meta">%1$s · %2$s</string>
     <string name="home_row_installed">安装于 %1$s</string>
     <string name="home_row_updated">更新于 %1$s</string>
     <string name="home_row_opened">打开于 %1$s</string>
@@ -42,7 +34,6 @@
     <plurals name="home_selection_count">
         <item quantity="other">已选 %d 个</item>
     </plurals>
-    <string name="home_selection_summary">%1$s · %2$s</string>
     <string name="home_selection_with_hidden">%1$s（%2$s）</string>
     <plurals name="home_selection_hidden">
         <item quantity="other">%d 个被搜索隐藏</item>
@@ -59,17 +50,54 @@
     <string name="home_details_last_opened">最近打开</string>
     <string name="home_details_not_opened_since">至少自 %1$s 起未打开</string>
     <string name="home_details_no_usage">没有使用记录</string>
-    <string name="home_details_apk_size">APK 大小</string>
     <string name="home_details_app_size">应用</string>
     <string name="home_details_data_size">数据</string>
     <string name="home_details_cache_size">缓存</string>
-    <string name="home_details_total_size">总计</string>
-    <string name="home_details_data_cache_size">数据和缓存</string>
     <string name="home_details_size_measuring">正在计算…</string>
     <string name="home_details_size_unavailable">大小不可用</string>
-    <string name="home_details_unlock_sizes">查看数据和缓存大小</string>
     <string name="home_details_allow_access">允许使用情况访问权限，即可查看数据和缓存大小</string>
     <string name="home_details_open">打开</string>
-    <string name="home_details_app_info">应用信息（在此清除缓存）</string>
-    <string name="home_details_play_store">在 Play 商店中查看</string>
+    <!-- Home dashboard (redesign 2026) -->
+    <string name="home_gauge_used">已用</string>
+    <string name="home_hero_used_of">已用 %1$s，共 %2$s</string>
+    <string name="home_headline_danger">手机存储快满了</string>
+    <string name="home_headline_warning">存储空间正在变满</string>
+    <string name="home_headline_ok">存储空间很充裕</string>
+    <string name="home_subline_left">仅剩 %1$s</string>
+    <string name="home_subline_free">可用 %1$s</string>
+    <string name="home_scan_cta">扫描我的手机</string>
+    <string name="home_scan_cta_caption">找出不用的应用、占空间大户和缓存数据。</string>
+    <string name="home_last_scan_title">上次扫描</string>
+    <string name="home_last_scan_free_up_prefix">可释放</string>
+    <string name="home_last_scan_hogs_prefix">最大的几个应用占用了</string>
+    <string name="home_last_scan_tidy">没有需要清理的大项</string>
+    <string name="home_last_scan_again">重新扫描</string>
+    <string name="home_time_just_now">刚刚</string>
+    <string name="home_stats_title">空间都去哪了</string>
+    <string name="home_tile_unused">不常用应用</string>
+    <string name="home_tile_hogs">占空间大户</string>
+    <string name="home_tile_cache">应用数据和缓存</string>
+    <string name="home_tile_freed">已释放</string>
+    <string name="home_tile_allow">允许访问</string>
+    <string name="home_tile_freed_none">尚未卸载任何应用</string>
+    <string name="home_biggest_title">最大的应用</string>
+    <string name="home_biggest_subtitle">谁在占用你的空间</string>
+    <string name="home_biggest_share">占存储空间 %1$s</string>
+    <string name="home_see_all">查看全部应用</string>
+    <string name="home_see_all_short">全部</string>
+    <plurals name="home_time_minutes">
+        <item quantity="other">%d 分钟前</item>
+    </plurals>
+    <plurals name="home_time_hours">
+        <item quantity="other">%d 小时前</item>
+    </plurals>
+    <plurals name="home_time_days">
+        <item quantity="other">%d 天前</item>
+    </plurals>
+    <plurals name="home_tile_cache_caption">
+        <item quantity="other">来自 %d 个应用</item>
+    </plurals>
+    <plurals name="home_tile_freed_caption">
+        <item quantity="other">已卸载 %d 个应用</item>
+    </plurals>
 </resources>

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="apps_title">التطبيقات</string>
+    <string name="apps_action_back">رجوع</string>
+    <string name="apps_summary">%1$s · %2$s</string>
+    <string name="apps_tab_all">الكل</string>
+    <string name="apps_section_hogs">الأكثر استهلاكًا للمساحة</string>
+    <string name="apps_section_rest">كل ما تبقى</string>
+    <string name="apps_chip_space_hog">يستهلك مساحة كبيرة</string>
+    <string name="apps_chip_idle_year">لم يُفتح منذ أكثر من عام</string>
+    <string name="apps_details_whats_using">ما الذي يستهلك المساحة</string>
+    <string name="apps_details_unlock_teaser">اعرف ما الذي يستهلك المساحة</string>
+    <string name="apps_details_total_caption">الحجم الإجمالي</string>
+    <string name="apps_details_apk_caption">حجم التطبيق</string>
+    <string name="apps_details_app_info">معلومات التطبيق</string>
+    <string name="apps_details_play">متجر Play</string>
+    <string name="apps_details_cache_hint">لمسح ذاكرة التخزين المؤقت لهذا التطبيق، افتح معلومات التطبيق ثم مساحة التخزين.</string>
+    <plurals name="apps_chip_idle_months">
+        <item quantity="zero">لم يُفتح منذ %d شهر</item>
+        <item quantity="one">لم يُفتح منذ شهر</item>
+        <item quantity="two">لم يُفتح منذ شهرين</item>
+        <item quantity="few">لم يُفتح منذ %d أشهر</item>
+        <item quantity="many">لم يُفتح منذ %d شهرًا</item>
+        <item quantity="other">لم يُفتح منذ %d شهر</item>
+    </plurals>
+</resources>

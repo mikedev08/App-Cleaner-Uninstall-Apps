@@ -1,4 +1,4 @@
-package com.jedy.appcleaner.uninstaller.feature.home
+package com.jedy.appcleaner.uninstaller.feature.apps
 
 import android.text.format.DateFormat
 import androidx.compose.runtime.Composable

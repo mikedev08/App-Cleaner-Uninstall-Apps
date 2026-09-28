@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="apps_title">Apps</string>
+    <string name="apps_action_back">Atrás</string>
+    <string name="apps_summary">%1$s · %2$s</string>
+    <string name="apps_tab_all">Todas</string>
+    <string name="apps_section_hogs">Las que más ocupan</string>
+    <string name="apps_section_rest">Todo lo demás</string>
+    <string name="apps_chip_space_hog">Ocupa mucho</string>
+    <string name="apps_chip_idle_year">Sin abrir desde hace más de un año</string>
+    <string name="apps_details_whats_using">Qué ocupa espacio</string>
+    <string name="apps_details_unlock_teaser">Ver qué ocupa espacio</string>
+    <string name="apps_details_total_caption">Tamaño total</string>
+    <string name="apps_details_apk_caption">Tamaño de la app</string>
+    <string name="apps_details_app_info">Info de la app</string>
+    <string name="apps_details_play">Play Store</string>
+    <string name="apps_details_cache_hint">Para borrar la caché de esta app, abre Info de la app y luego Almacenamiento.</string>
+    <plurals name="apps_chip_idle_months">
+        <item quantity="one">Sin abrir desde hace %d mes</item>
+        <item quantity="many">Sin abrir desde hace %d meses</item>
+        <item quantity="other">Sin abrir desde hace %d meses</item>
+    </plurals>
+</resources>

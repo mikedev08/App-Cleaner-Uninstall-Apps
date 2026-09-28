@@ -14,14 +14,7 @@
     <string name="home_sort_install_date">תאריך התקנה (הישנות קודם)</string>
     <string name="home_sort_last_updated">עדכון אחרון</string>
     <string name="home_sort_last_used">שימוש אחרון (הישן ביותר קודם)</string>
-    <string name="home_storage_title">אחסון</string>
-    <string name="home_storage_used">%1$s מתוך %2$s בשימוש</string>
-    <string name="home_storage_apps">אפליקציות: %1$s</string>
-    <string name="home_storage_other">אחר: %1$s</string>
-    <string name="home_storage_free">פנוי: %1$s</string>
-    <string name="home_storage_breakdown">לפירוט המלא</string>
     <string name="home_storage_unavailable">פרטי האחסון לא זמינים במכשיר הזה.</string>
-    <string name="home_tab_all">כל האפליקציות</string>
     <string name="home_tab_unused">לא בשימוש</string>
     <string name="home_tab_large">גדולות</string>
     <plurals name="home_list_count">
@@ -31,7 +24,6 @@
     </plurals>
     <string name="home_select_all">בחירת הכול</string>
     <string name="home_deselect_all">ביטול בחירת הכול</string>
-    <string name="home_row_meta">%1$s · %2$s</string>
     <string name="home_row_installed">הותקנה ב-%1$s</string>
     <string name="home_row_updated">עודכנה ב-%1$s</string>
     <string name="home_row_opened">נפתחה ב-%1$s</string>
@@ -46,7 +38,6 @@
         <item quantity="two">%d נבחרו</item>
         <item quantity="other">%d נבחרו</item>
     </plurals>
-    <string name="home_selection_summary">%1$s · %2$s</string>
     <string name="home_selection_with_hidden">%1$s (%2$s)</string>
     <plurals name="home_selection_hidden">
         <item quantity="one">אחת מוסתרת בגלל החיפוש</item>
@@ -65,17 +56,64 @@
     <string name="home_details_last_opened">נפתחה לאחרונה</string>
     <string name="home_details_not_opened_since">לא מאז %1$s לפחות</string>
     <string name="home_details_no_usage">לא נרשם שימוש</string>
-    <string name="home_details_apk_size">גודל APK</string>
     <string name="home_details_app_size">אפליקציה</string>
     <string name="home_details_data_size">נתונים</string>
     <string name="home_details_cache_size">מטמון</string>
-    <string name="home_details_total_size">סה״כ</string>
-    <string name="home_details_data_cache_size">נתונים ומטמון</string>
     <string name="home_details_size_measuring">מתבצעת מדידה…</string>
     <string name="home_details_size_unavailable">הגודל לא זמין</string>
-    <string name="home_details_unlock_sizes">הצגת הגודל של הנתונים והמטמון</string>
     <string name="home_details_allow_access">כדי לראות את גודל הנתונים והמטמון, צריך לאשר גישה לנתוני שימוש</string>
     <string name="home_details_open">פתיחה</string>
-    <string name="home_details_app_info">פרטי האפליקציה (כאן מנקים את המטמון)</string>
-    <string name="home_details_play_store">הצגה בחנות Play</string>
+    <!-- Home dashboard (redesign 2026) -->
+    <string name="home_gauge_used">בשימוש</string>
+    <string name="home_hero_used_of">%1$s מתוך %2$s</string>
+    <string name="home_headline_danger">הטלפון שלך כמעט מלא</string>
+    <string name="home_headline_warning">האחסון שלך מתמלא</string>
+    <string name="home_headline_ok">יש לך מקום פנוי</string>
+    <string name="home_subline_left">נשארו רק %1$s</string>
+    <string name="home_subline_free">%1$s פנויים</string>
+    <string name="home_scan_cta">סריקת הטלפון</string>
+    <string name="home_scan_cta_caption">מוצא אפליקציות שלא בשימוש, אפליקציות שתופסות הרבה מקום ונתונים במטמון.</string>
+    <string name="home_last_scan_title">סריקה אחרונה</string>
+    <string name="home_last_scan_free_up_prefix">אפשר לפנות</string>
+    <string name="home_last_scan_hogs_prefix">האפליקציות הגדולות שלך תופסות</string>
+    <string name="home_last_scan_tidy">אין משהו גדול לנקות</string>
+    <string name="home_last_scan_again">סריקה חוזרת</string>
+    <string name="home_time_just_now">ממש עכשיו</string>
+    <string name="home_stats_title">לאן הולך המקום שלך</string>
+    <string name="home_tile_unused">אפליקציות שלא בשימוש</string>
+    <string name="home_tile_hogs">זוללי מקום</string>
+    <string name="home_tile_cache">נתוני אפליקציות ומטמון</string>
+    <string name="home_tile_freed">פונה עד כה</string>
+    <string name="home_tile_allow">מתן גישה</string>
+    <string name="home_tile_freed_none">עוד לא הוסר דבר</string>
+    <string name="home_biggest_title">האפליקציות הגדולות</string>
+    <string name="home_biggest_subtitle">מה תופס לך מקום</string>
+    <string name="home_biggest_share">%1$s מהאחסון שלך</string>
+    <string name="home_see_all">לכל האפליקציות</string>
+    <string name="home_see_all_short">הכול</string>
+    <plurals name="home_time_minutes">
+        <item quantity="one">לפני דקה</item>
+        <item quantity="two">לפני %d דקות</item>
+        <item quantity="other">לפני %d דקות</item>
+    </plurals>
+    <plurals name="home_time_hours">
+        <item quantity="one">לפני שעה</item>
+        <item quantity="two">לפני שעתיים</item>
+        <item quantity="other">לפני %d שעות</item>
+    </plurals>
+    <plurals name="home_time_days">
+        <item quantity="one">לפני יום</item>
+        <item quantity="two">לפני יומיים</item>
+        <item quantity="other">לפני %d ימים</item>
+    </plurals>
+    <plurals name="home_tile_cache_caption">
+        <item quantity="one">באפליקציה אחת</item>
+        <item quantity="two">ב-%d אפליקציות</item>
+        <item quantity="other">ב-%d אפליקציות</item>
+    </plurals>
+    <plurals name="home_tile_freed_caption">
+        <item quantity="one">הוסרה אפליקציה אחת</item>
+        <item quantity="two">הוסרו %d אפליקציות</item>
+        <item quantity="other">הוסרו %d אפליקציות</item>
+    </plurals>
 </resources>

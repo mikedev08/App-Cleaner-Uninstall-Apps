@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="apps_title">ऐप</string>
+    <string name="apps_action_back">वापस</string>
+    <string name="apps_summary">%1$s · %2$s</string>
+    <string name="apps_tab_all">सभी</string>
+    <string name="apps_section_hogs">सबसे ज़्यादा जगह ले रहे</string>
+    <string name="apps_section_rest">बाकी सब</string>
+    <string name="apps_chip_space_hog">ज़्यादा जगह</string>
+    <string name="apps_chip_idle_year">एक साल से ज़्यादा से नहीं खोला</string>
+    <string name="apps_details_whats_using">जगह कौन ले रहा है</string>
+    <string name="apps_details_unlock_teaser">देखें जगह कौन ले रहा है</string>
+    <string name="apps_details_total_caption">कुल साइज़</string>
+    <string name="apps_details_apk_caption">ऐप का साइज़</string>
+    <string name="apps_details_app_info">ऐप की जानकारी</string>
+    <string name="apps_details_play">Play Store</string>
+    <string name="apps_details_cache_hint">इस ऐप का कैश साफ़ करने के लिए, ऐप की जानकारी खोलें, फिर स्टोरेज।</string>
+    <plurals name="apps_chip_idle_months">
+        <item quantity="one">%d महीने से नहीं खोला</item>
+        <item quantity="other">%d महीनों से नहीं खोला</item>
+    </plurals>
+</resources>

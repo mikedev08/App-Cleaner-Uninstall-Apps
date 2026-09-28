@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="scan_close">Fermer</string>
+    <string name="scan_intro_access_title">Pour une analyse complète, autorisez l’accès aux données d’utilisation</string>
+    <string name="scan_intro_access_body">Tout reste sur votre téléphone. App Cleaner s’en sert uniquement pour voir les applis que vous n’avez pas ouvertes récemment et leurs données et cache.</string>
+    <string name="scan_intro_point_unused">Les applis que vous n’ouvrez plus depuis des mois</string>
+    <string name="scan_intro_point_hogs">Les applis qui prennent le plus de place</string>
+    <string name="scan_intro_point_cache">Les données et le cache des applis</string>
+    <string name="scan_intro_allow">Autoriser l’accès</string>
+    <string name="scan_intro_quick">Analyse rapide</string>
+    <string name="scan_intro_quick_hint">L’analyse rapide ne vérifie que la taille des applis.</string>
+    <string name="scan_scanning_title">Analyse de votre téléphone</string>
+    <string name="scan_step_apps">Vérification des applis installées</string>
+    <string name="scan_step_usage">Recherche des applis que vous n’utilisez pas</string>
+    <string name="scan_step_storage">Mesure du stockage</string>
+    <string name="scan_step_skipped">Nécessite l’accès aux données d’utilisation</string>
+    <string name="scan_result_label">Analyse terminée</string>
+    <string name="scan_result_could_free">pourraient être libérés</string>
+    <string name="scan_result_hogs_take">pris par vos plus grosses applis</string>
+    <string name="scan_result_before_after">%1$s plein → %2$s après nettoyage</string>
+    <string name="scan_result_tidy_title">Votre téléphone est bien rangé</string>
+    <string name="scan_result_tidy_body">Rien de gros ne prend votre espace pour le moment.</string>
+    <string name="scan_bucket_unused">Applis inutilisées</string>
+    <string name="scan_bucket_hogs">Applis gourmandes</string>
+    <string name="scan_bucket_cache">Données et cache</string>
+    <string name="scan_bucket_meta">%1$s · %2$s</string>
+    <string name="scan_bucket_needs_access">Autorisez l’accès pour les trouver</string>
+    <string name="scan_cta_free_up">Libérer %1$s</string>
+    <string name="scan_cta_review">Voir toutes les applis</string>
+    <string name="scan_cta_allow_full">Autoriser l’accès pour une analyse complète</string>
+    <string name="scan_estimates_note">Certaines tailles ne comptent que les fichiers de l’appli ; les données et le cache nécessitent l’accès.</string>
+    <string name="scan_error_title">L’analyse n’a pas pu aboutir</string>
+    <string name="scan_error_body">Rien n’a été modifié sur votre téléphone.</string>
+    <string name="scan_error_retry">Réessayer</string>
+    <plurals name="scan_result_loss">
+        <item quantity="one">%1$d appli non ouverte depuis %2$d jours occupe %3$s que vous pourriez récupérer.</item>
+        <item quantity="many">Ces %1$d applis non ouvertes depuis %2$d jours occupent %3$s que vous pourriez récupérer.</item>
+        <item quantity="other">Ces %1$d applis non ouvertes depuis %2$d jours occupent %3$s que vous pourriez récupérer.</item>
+    </plurals>
+</resources>
