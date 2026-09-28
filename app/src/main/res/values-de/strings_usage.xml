@@ -6,7 +6,6 @@
     <string name="usage_why_label">Wozu</string>
     <string name="usage_why_body">Um ungenutzte und große Apps zu finden.</string>
     <string name="usage_where_label">Wohin die Daten gehen</string>
-    <string name="usage_where_body">Sie bleiben auf deinem Handy — und werden nie hochgeladen.</string>
     <string name="usage_hint_caption">Schalte auf dem nächsten Bildschirm das hier ein:</string>
     <string name="usage_hint_toggle">Nutzungszugriff zulassen</string>
     <string name="usage_continue">Weiter zu den Einstellungen</string>
@@ -14,4 +13,7 @@
     <string name="usage_settings_unavailable">Dein Handy hat die Seite für den Zugriff auf Nutzungsdaten nicht geöffnet. Öffne die Einstellungen und suche nach „Nutzungsdaten“.</string>
     <string name="usage_illustration_description">Ein Handy mit Apps, auf dem die Apps, die du nicht geöffnet hast, verblasst sind</string>
     <string name="usage_hint_description">Animation: Der Schalter für App Cleaner wird in den Einstellungen eingeschaltet</string>
+
+    <string name="usage_subtitle">Mit einer einzigen Berechtigung findet App Cleaner die Apps, die du nicht nutzt, und misst, wie viel Platz sie belegen.</string>
+    <string name="usage_where_body">Nichts verlässt dein Handy. Es wird nichts hochgeladen.</string>
 </resources>

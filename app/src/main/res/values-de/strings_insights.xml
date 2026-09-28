@@ -9,26 +9,15 @@
         <item quantity="other">%d Apps</item>
     </plurals>
 
-    <string name="insights_unused_access_title">Finde heraus, welche Apps du nicht mehr nutzt</string>
-    <string name="insights_unused_access_body">Erlaube den Zugriff auf Nutzungsdaten und App Cleaner findet die Apps, die du seit Wochen oder Monaten nicht geöffnet hast. Alles bleibt auf deinem Handy.</string>
     <string name="insights_large_access_title">Finde heraus, welche Apps deinen Speicher wirklich füllen</string>
-    <string name="insights_large_access_body">Erlaube den Zugriff auf Nutzungsdaten, um die volle Größe jeder App zu messen — App, Daten und Cache. Alles bleibt auf deinem Handy.</string>
     <string name="insights_allow_access">Zugriff erlauben</string>
 
     <plurals name="insights_unused_teaser_caption">
         <item quantity="one">Seit %d Tag nicht geöffnet</item>
         <item quantity="other">Seit %d Tagen nicht geöffnet</item>
     </plurals>
-    <string name="insights_unused_teaser_body">Starte deine kostenlose Testphase, um zu sehen, welche Apps das sind, und sie alle auf einmal zu entfernen.</string>
-    <plurals name="insights_large_teaser_headline">
-        <item quantity="one">Deine größte App belegt %2$s</item>
-        <item quantity="other">Deine %1$d größten Apps belegen %2$s</item>
-    </plurals>
-    <string name="insights_large_teaser_body">Starte deine kostenlose Testphase, um die Größe jeder App zu sehen — aufgeteilt in App, Daten und Cache.</string>
-    <string name="insights_unlock_trial">Mit kostenloser Testphase freischalten</string>
     <string name="insights_locked_rows_description">App-Liste ausgeblendet, bis du Premium freischaltest</string>
 
-    <string name="insights_last_opened">Zuletzt geöffnet %1$s</string>
     <string name="insights_not_opened_since">Seit mindestens %1$s nicht geöffnet</string>
     <plurals name="insights_select_all">
         <item quantity="one">%d App auswählen</item>
@@ -62,5 +51,32 @@
     <plurals name="insights_nudge_text">
         <item quantity="one">Du hast %d App installiert</item>
         <item quantity="other">Du hast %d Apps installiert</item>
+    </plurals>
+
+    <string name="insights_unused_access_title">Finde die Apps, die du vergessen hast</string>
+    <string name="insights_unused_access_body">Erlaube den Zugriff auf Nutzungsdaten und App Cleaner findet die Apps, die du seit Wochen oder Monaten nicht geöffnet hast, und wie viel Platz sie belegen.</string>
+    <string name="insights_large_access_body">Erlaube den Zugriff auf Nutzungsdaten, um die volle Größe jeder App zu messen: App, Daten und Cache.</string>
+    <string name="insights_private_note">Alles bleibt auf deinem Handy</string>
+    <string name="insights_unused_teaser_loss">Das sind %1$s, die ungenutzt auf deinem Handy liegen.</string>
+    <string name="insights_unused_teaser_body">Sieh dir an, welche Apps das sind, und entferne sie alle auf einmal.</string>
+    <plurals name="insights_large_teaser_caption">
+        <item quantity="one">Belegt von deiner größten App</item>
+        <item quantity="other">Belegt von deinen %d größten Apps</item>
+    </plurals>
+    <string name="insights_large_teaser_loss">Das sind %1$s des Speichers deines Handys.</string>
+    <string name="insights_large_teaser_body">Sieh die Größe jeder App, aufgeteilt in App, Daten und Cache.</string>
+    <string name="insights_see_which_apps">Zeig mir die Apps</string>
+    <string name="insights_last_opened_date">Zuletzt geöffnet: %1$s</string>
+    <string name="insights_idle_for">%1$s nicht geöffnet</string>
+    <string name="insights_no_use_on_record">Keine Nutzung erfasst</string>
+    <string name="insights_unused_empty_body">Hier gibt es gerade nichts aufzuräumen.</string>
+    <string name="insights_cache_callout_title">Cache: %1$s in %2$s</string>
+    <string name="insights_cache_callout_body">Cache sind temporäre Dateien, die eine App bei Bedarf neu anlegt. Du kannst ihn auf der Seite „App-Info“ leeren, ohne die App zu deinstallieren.</string>
+    <string name="insights_cache_chip">%1$s Cache</string>
+    <string name="insights_sort_total">Gesamt</string>
+    <string name="insights_sort_by_cache">Nach Cache sortieren</string>
+    <plurals name="insights_large_total_caption">
+        <item quantity="one">Belegt von %d App</item>
+        <item quantity="other">Belegt von %d Apps</item>
     </plurals>
 </resources>

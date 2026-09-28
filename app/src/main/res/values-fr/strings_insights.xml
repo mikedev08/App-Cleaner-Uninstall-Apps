@@ -11,10 +11,7 @@
         <item quantity="other">%d applis</item>
     </plurals>
 
-    <string name="insights_unused_access_title">Découvrez les applis que vous n’utilisez plus</string>
-    <string name="insights_unused_access_body">Autorisez l’accès aux données d’utilisation et App Cleaner trouvera les applis que vous n’avez pas ouvertes depuis des semaines ou des mois. Tout reste sur votre téléphone.</string>
     <string name="insights_large_access_title">Découvrez les applis qui remplissent vraiment votre stockage</string>
-    <string name="insights_large_access_body">Autorisez l’accès aux données d’utilisation pour mesurer la taille complète de chaque appli — appli, données et cache. Tout reste sur votre téléphone.</string>
     <string name="insights_allow_access">Autoriser l’accès</string>
 
     <plurals name="insights_unused_teaser_caption">
@@ -22,17 +19,8 @@
         <item quantity="many">Pas ouvertes depuis %d jours</item>
         <item quantity="other">Pas ouvertes depuis %d jours</item>
     </plurals>
-    <string name="insights_unused_teaser_body">Commencez votre essai gratuit pour voir de quelles applis il s’agit et les supprimer d’un coup.</string>
-    <plurals name="insights_large_teaser_headline">
-        <item quantity="one">Votre plus grosse appli occupe %2$s</item>
-        <item quantity="many">Vos %1$d plus grosses applis occupent %2$s</item>
-        <item quantity="other">Vos %1$d plus grosses applis occupent %2$s</item>
-    </plurals>
-    <string name="insights_large_teaser_body">Commencez votre essai gratuit pour voir la taille de chaque appli, répartie entre appli, données et cache.</string>
-    <string name="insights_unlock_trial">Débloquer avec l’essai gratuit</string>
     <string name="insights_locked_rows_description">Liste des applis masquée jusqu’au déblocage de Premium</string>
 
-    <string name="insights_last_opened">Dernière ouverture %1$s</string>
     <string name="insights_not_opened_since">Pas ouverte depuis au moins %1$s</string>
     <plurals name="insights_select_all">
         <item quantity="one">Sélectionner %d appli</item>
@@ -70,5 +58,34 @@
         <item quantity="one">Vous avez %d appli installée</item>
         <item quantity="many">Vous avez %d applis installées</item>
         <item quantity="other">Vous avez %d applis installées</item>
+    </plurals>
+
+    <string name="insights_unused_access_title">Retrouvez les applis que vous avez oubliées</string>
+    <string name="insights_unused_access_body">Autorisez l’accès aux données d’utilisation et App Cleaner trouvera les applis que vous n’avez pas ouvertes depuis des semaines ou des mois, et la place qu’elles occupent.</string>
+    <string name="insights_large_access_body">Autorisez l’accès aux données d’utilisation pour mesurer la taille complète de chaque appli : appli, données et cache.</string>
+    <string name="insights_private_note">Tout reste sur votre téléphone</string>
+    <string name="insights_unused_teaser_loss">Soit %1$s qui dorment sur votre téléphone.</string>
+    <string name="insights_unused_teaser_body">Découvrez de quelles applis il s’agit et supprimez-les d’un coup.</string>
+    <plurals name="insights_large_teaser_caption">
+        <item quantity="one">Occupés par %d appli, votre plus grosse</item>
+        <item quantity="many">Occupés par vos %d plus grosses applis</item>
+        <item quantity="other">Occupés par vos %d plus grosses applis</item>
+    </plurals>
+    <string name="insights_large_teaser_loss">Soit %1$s du stockage de votre téléphone.</string>
+    <string name="insights_large_teaser_body">Voyez la taille de chaque appli, répartie entre appli, données et cache.</string>
+    <string name="insights_see_which_apps">Voir quelles applis</string>
+    <string name="insights_last_opened_date">Dernière ouverture : %1$s</string>
+    <string name="insights_idle_for">Pas ouverte depuis %1$s</string>
+    <string name="insights_no_use_on_record">Aucune utilisation enregistrée</string>
+    <string name="insights_unused_empty_body">Rien à nettoyer pour le moment.</string>
+    <string name="insights_cache_callout_title">Cache : %1$s dans %2$s</string>
+    <string name="insights_cache_callout_body">Le cache, ce sont des fichiers temporaires que l’appli recrée quand elle en a besoin. Vous pouvez le vider depuis la page Infos sur l’appli, sans la désinstaller.</string>
+    <string name="insights_cache_chip">%1$s de cache</string>
+    <string name="insights_sort_total">Total</string>
+    <string name="insights_sort_by_cache">Trier par cache</string>
+    <plurals name="insights_large_total_caption">
+        <item quantity="one">Occupés par %d appli</item>
+        <item quantity="many">Occupés par %d applis</item>
+        <item quantity="other">Occupés par %d applis</item>
     </plurals>
 </resources>

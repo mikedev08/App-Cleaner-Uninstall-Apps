@@ -1,61 +1,100 @@
 package com.jedy.appcleaner.uninstaller.feature.insights
 
 import android.os.Build
-import androidx.compose.foundation.BorderStroke
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.Animatable
+import androidx.compose.animation.core.FastOutSlowInEasing
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.selectableGroup
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.CheckboxDefaults
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.FilterChip
-import androidx.compose.material3.FilterChipDefaults
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Check
+import androidx.compose.material.icons.rounded.CleaningServices
+import androidx.compose.material.icons.rounded.Lock
+import androidx.compose.material.icons.rounded.LockOpen
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.TriStateCheckbox
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberUpdatedState
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.clearAndSetSemantics
 import androidx.compose.ui.semantics.contentDescription
-import androidx.compose.ui.state.ToggleableState
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.jedy.appcleaner.uninstaller.R
 import com.jedy.appcleaner.uninstaller.core.format.formatBytes
 import com.jedy.appcleaner.uninstaller.core.model.AppSize
+import com.jedy.appcleaner.uninstaller.core.ui.component.AppCard
 import com.jedy.appcleaner.uninstaller.core.ui.component.AppIcon
-import com.jedy.appcleaner.uninstaller.core.ui.component.EmptyState
-import com.jedy.appcleaner.uninstaller.core.ui.component.PremiumCrown
+import com.jedy.appcleaner.uninstaller.core.ui.component.IconBadge
+import com.jedy.appcleaner.uninstaller.core.ui.component.PrimaryButton
+import com.jedy.appcleaner.uninstaller.core.ui.component.ProBadge
+import com.jedy.appcleaner.uninstaller.core.ui.component.RoundCheck
 import com.jedy.appcleaner.uninstaller.core.ui.theme.AppTheme
 import com.jedy.appcleaner.uninstaller.core.ui.theme.Dimens
-import com.jedy.appcleaner.uninstaller.data.prefs.AppPreferences
+import com.jedy.appcleaner.uninstaller.core.ui.theme.Severity
+import com.jedy.appcleaner.uninstaller.core.ui.theme.SeverityRules
+import com.jedy.appcleaner.uninstaller.core.ui.theme.color
+import com.jedy.appcleaner.uninstaller.core.ui.theme.surface
+import java.text.NumberFormat
+
+/*
+ * Insights building blocks on design system v2. Everything here is internal to the two premium
+ * tabs; anything the whole app needs belongs in core/ui/component instead.
+ */
 
 /** "14 apps · 3.4 GB" — digits and units follow the in-app locale. */
 @Composable
@@ -65,40 +104,98 @@ internal fun countAndSize(count: Int, bytes: Long): String = stringResource(
     formatBytes(LocalContext.current, bytes),
 )
 
-/** PRD §4 Screen 5: 30 · 60 · 90 days. Persisted, and shared with the reminder worker. */
+/**
+ * Counts from the previous value (0 on first show) up to [target]. The motion draws the eye to
+ * the one number that matters; it animates a 0..1 progress rather than the Long itself, so byte
+ * counts in the tens of GB never lose precision to a Float.
+ */
 @Composable
-internal fun ThresholdChips(selected: Int, onSelected: (Int) -> Unit, modifier: Modifier = Modifier) {
-    Row(
-        modifier = modifier
+internal fun rememberCountUp(target: Long): Long {
+    val progress = remember { Animatable(0f) }
+    var from by remember { mutableLongStateOf(0L) }
+    var to by remember { mutableLongStateOf(target) }
+    val current = from + ((to - from) * progress.value.toDouble()).toLong()
+    val latest by rememberUpdatedState(current)
+    LaunchedEffect(target) {
+        from = latest
+        to = target
+        progress.snapTo(0f)
+        progress.animateTo(1f, tween(COUNT_UP_MILLIS, easing = FastOutSlowInEasing))
+    }
+    return current
+}
+
+/** "15%" of the phone, with one decimal under 10% so a real 0.4% never reads as "0%". */
+@Composable
+internal fun percentOf(part: Long, whole: Long): String? {
+    if (whole <= 0 || part <= 0) return null
+    val locale = LocalConfiguration.current.locales[0]
+    val fraction = part.toDouble() / whole
+    return remember(locale, fraction) {
+        NumberFormat.getPercentInstance(locale).apply { maximumFractionDigits = if (fraction < 0.1) 1 else 0 }.format(fraction)
+    }
+}
+
+/**
+ * Pill segmented control (30 / 60 / 90 days, Total / Cache). The green thumb slides between
+ * segments; `offset` mirrors itself in RTL, as does the Row, so the thumb stays under its label.
+ */
+@Composable
+internal fun PillSegmented(
+    options: List<String>,
+    selectedIndex: Int,
+    onSelect: (Int) -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    val colors = AppTheme.colors
+    BoxWithConstraints(
+        modifier
             .fillMaxWidth()
-            .padding(horizontal = Dimens.gutter, vertical = 8.dp),
-        horizontalArrangement = Arrangement.spacedBy(8.dp),
+            .height(48.dp)
+            .clip(RoundedCornerShape(Dimens.chipRadius))
+            .background(colors.surface)
+            .padding(4.dp),
     ) {
-        AppPreferences.UNUSED_THRESHOLDS.forEach { days ->
-            val isSelected = days == selected
-            FilterChip(
-                selected = isSelected,
-                onClick = { onSelected(days) },
-                label = { Text(pluralStringResource(R.plurals.insights_days, days, days)) },
-                shape = RoundedCornerShape(Dimens.chipRadius),
-                colors = FilterChipDefaults.filterChipColors(
-                    containerColor = AppTheme.colors.background,
-                    labelColor = AppTheme.colors.textSecondary,
-                    selectedContainerColor = AppTheme.colors.accentSurface,
-                    selectedLabelColor = AppTheme.colors.accent,
-                ),
-                border = FilterChipDefaults.filterChipBorder(
-                    enabled = true,
-                    selected = isSelected,
-                    borderColor = AppTheme.colors.border,
-                    selectedBorderColor = AppTheme.colors.accent,
-                ),
-            )
+        val segment = maxWidth / options.size
+        val thumbOffset by animateDpAsState(
+            segment * selectedIndex,
+            spring(dampingRatio = 0.8f, stiffness = Spring.StiffnessMediumLow),
+            label = "segmentThumb",
+        )
+        Box(
+            Modifier
+                .offset { IntOffset(thumbOffset.roundToPx(), 0) }
+                .width(segment)
+                .fillMaxHeight()
+                .clip(RoundedCornerShape(Dimens.chipRadius))
+                .background(colors.accent),
+        )
+        Row(Modifier.fillMaxSize().selectableGroup()) {
+            options.forEachIndexed { index, label ->
+                val selected = index == selectedIndex
+                val textColor by animateColorAsState(
+                    if (selected) colors.onAccent else colors.textSecondary, label = "segmentText",
+                )
+                Box(
+                    Modifier
+                        .weight(1f)
+                        .fillMaxHeight()
+                        .clip(RoundedCornerShape(Dimens.chipRadius))
+                        .selectable(selected = selected, role = Role.Tab, onClick = { onSelect(index) }),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text(label, style = MaterialTheme.typography.labelMedium, color = textColor, maxLines = 1)
+                }
+            }
         }
     }
 }
 
-/** State (a): the inline "Allow access" card. Opens the disclosure (Screen 11), never Settings directly. */
+/**
+ * State (a): no Usage Access. Sells the value first (what you will see), then the reassurance
+ * (it stays on your phone), then one clear action. Opens the disclosure (Screen 11), never
+ * Settings directly — Play requires the prominent disclosure first.
+ */
 @Composable
 internal fun AccessCard(
     icon: ImageVector,
@@ -107,135 +204,142 @@ internal fun AccessCard(
     onRequestAccess: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Surface(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(Dimens.gutter),
-        shape = RoundedCornerShape(Dimens.cardRadius),
-        color = AppTheme.colors.surface,
-        border = BorderStroke(Dimens.hairline, AppTheme.colors.border),
+    AppCard(
+        modifier = modifier.fillMaxWidth().padding(horizontal = Dimens.gutter, vertical = 8.dp),
+        contentPadding = PaddingValues(24.dp),
     ) {
-        EmptyState(
-            icon = icon,
-            title = title,
-            body = body,
-            action = {
-                TealButton(text = stringResource(R.string.insights_allow_access), onClick = onRequestAccess)
-            },
+        IconBadge(icon = icon, size = 64.dp)
+        Spacer(Modifier.height(20.dp))
+        Text(title, style = MaterialTheme.typography.headlineSmall, color = AppTheme.colors.textPrimary)
+        Spacer(Modifier.height(8.dp))
+        Text(body, style = MaterialTheme.typography.bodyLarge, color = AppTheme.colors.textSecondary)
+        Spacer(Modifier.height(16.dp))
+        PrivacyNote()
+        Spacer(Modifier.height(24.dp))
+        PrimaryButton(
+            text = stringResource(R.string.insights_allow_access),
+            onClick = onRequestAccess,
+            modifier = Modifier.fillMaxWidth(),
         )
     }
 }
 
 @Composable
-internal fun TealButton(text: String, onClick: () -> Unit, modifier: Modifier = Modifier) {
-    Button(
-        onClick = onClick,
-        modifier = modifier.heightIn(min = Dimens.buttonHeight),
-        shape = RoundedCornerShape(Dimens.controlRadius),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = AppTheme.colors.accent,
-            contentColor = AppTheme.colors.onAccent,
-        ),
+private fun PrivacyNote() {
+    Row(
+        Modifier
+            .clip(RoundedCornerShape(Dimens.chipRadius))
+            .background(AppTheme.colors.accentSurface)
+            .padding(horizontal = 12.dp, vertical = 6.dp),
+        verticalAlignment = Alignment.CenterVertically,
     ) {
-        Text(text = text, style = MaterialTheme.typography.labelLarge, textAlign = TextAlign.Center)
+        Icon(Icons.Rounded.Lock, contentDescription = null, tint = AppTheme.colors.accentText, modifier = Modifier.size(14.dp))
+        Spacer(Modifier.width(6.dp))
+        Text(stringResource(R.string.insights_private_note), style = MaterialTheme.typography.labelMedium, color = AppTheme.colors.accentText)
     }
 }
 
 /**
- * State (b): the real finding in clear above redacted rows — "the number is the pitch"
- * (PRD §0 decision 3). Rows are never real text: labels are drawn as bars, so nothing is
- * readable on any API level or through a screen reader. On API 31+ the preview (with the real,
- * unrecognisable icons) is additionally blurred; below 31, where blur is a no-op, icons become
- * solid placeholders instead.
+ * State (b), where free users decide to pay. The real finding in clear, as a loss: the big
+ * severity-coloured number, what it is, what it costs ("1.3 GB sitting idle"), then the CTA —
+ * above the preview so it is on screen on every phone height (below the rows it fell under the
+ * fold, hiding the one action this state exists for). Every figure is the user's own; the
+ * colour comes from SeverityRules, so a small finding is amber, never a fake red.
+ *
+ * @param number already count-up animated by the caller, e.g. "9 apps · 1.3 GB".
+ * @param loss the cost framing; null when there is no honest figure to show.
  */
 @Composable
 internal fun LockedTeaser(
-    headline: String,
-    caption: String?,
+    number: String,
+    severity: Severity,
+    caption: String,
+    loss: String?,
     body: String,
-    previewPackages: List<String>,
+    preview: List<PreviewRow>,
+    deviceTotalBytes: Long,
     onUnlock: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = Dimens.gutter, vertical = 8.dp),
-    ) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            PremiumCrown(size = 20.dp)
-            Spacer(Modifier.width(8.dp))
+    Column(modifier.fillMaxWidth().padding(horizontal = Dimens.gutter, vertical = 8.dp)) {
+        AppCard(color = severity.surface, contentPadding = PaddingValues(24.dp)) {
+            ProBadge()
+            Spacer(Modifier.height(16.dp))
             Text(
-                text = headline,
-                style = MaterialTheme.typography.titleLarge,
-                color = AppTheme.colors.textPrimary,
+                text = number,
+                style = MaterialTheme.typography.displaySmall,
+                fontWeight = FontWeight.ExtraBold,
+                color = severity.color,
+            )
+            Spacer(Modifier.height(4.dp))
+            Text(caption, style = MaterialTheme.typography.titleMedium, color = AppTheme.colors.textPrimary)
+            if (loss != null) {
+                Spacer(Modifier.height(16.dp))
+                Text(loss, style = MaterialTheme.typography.titleLarge, color = AppTheme.colors.textPrimary)
+            }
+            Spacer(Modifier.height(6.dp))
+            Text(body, style = MaterialTheme.typography.bodyMedium, color = AppTheme.colors.textSecondary)
+            Spacer(Modifier.height(20.dp))
+            PrimaryButton(
+                text = stringResource(R.string.insights_see_which_apps),
+                onClick = onUnlock,
+                icon = Icons.Rounded.LockOpen,
+                modifier = Modifier.fillMaxWidth(),
             )
         }
-        if (caption != null) {
-            Spacer(Modifier.height(2.dp))
-            Text(text = caption, style = MaterialTheme.typography.bodyMedium, color = AppTheme.colors.textSecondary)
-        }
-        Spacer(Modifier.height(Dimens.gutterSmall))
-        Text(text = body, style = MaterialTheme.typography.bodyMedium, color = AppTheme.colors.textSecondary)
-        Spacer(Modifier.height(Dimens.gutterSmall))
-        // The CTA sits above the preview so it is on screen on every phone height; below the
-        // rows it fell under the fold, hiding the one action this state exists for.
-        TealButton(
-            text = stringResource(R.string.insights_unlock_trial),
-            onClick = onUnlock,
-            modifier = Modifier.fillMaxWidth(),
-        )
-        Spacer(Modifier.height(Dimens.gutter))
+        Spacer(Modifier.height(12.dp))
         RedactedPreview(
-            packages = previewPackages,
-            rows = previewPackages.size.coerceIn(MIN_PREVIEW_ROWS, MAX_PREVIEW_ROWS),
+            rows = preview,
+            deviceTotalBytes = deviceTotalBytes,
             description = stringResource(R.string.insights_locked_rows_description),
         )
     }
 }
 
+/**
+ * The redacted rows: clearly the user's real list, never readable. Labels and sizes are drawn
+ * as bars, so no text exists on any API level or for a screen reader; each row's size bar has
+ * its real length and severity colour. On API 31+ the rows (with real, unrecognisable icons) are
+ * also blurred; below 31, where blur is a no-op, icons become solid placeholders instead.
+ */
 @Composable
-private fun RedactedPreview(packages: List<String>, rows: Int, description: String) {
+private fun RedactedPreview(rows: List<PreviewRow>, deviceTotalBytes: Long, description: String) {
     val canBlur = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
-    val shape = RoundedCornerShape(Dimens.cardRadius)
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(shape)
-            .background(AppTheme.colors.surface)
-            .border(Dimens.hairline, AppTheme.colors.border, shape)
-            .clearAndSetSemantics { contentDescription = description },
-    ) {
+    val largest = rows.maxOfOrNull { it.bytes }?.takeIf { it > 0 } ?: 1L
+    val count = rows.size.coerceIn(MIN_PREVIEW_ROWS, MAX_PREVIEW_ROWS)
+    Box(Modifier.fillMaxWidth().clearAndSetSemantics { contentDescription = description }) {
         Column(
-            modifier = Modifier
-                .then(if (canBlur) Modifier.blur(10.dp) else Modifier)
-                .padding(vertical = 4.dp),
+            modifier = Modifier.then(if (canBlur) Modifier.blur(8.dp) else Modifier),
+            verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
-            repeat(rows) { index ->
-                RedactedRow(packageName = packages.getOrNull(index)?.takeIf { canBlur }, index = index)
+            repeat(count) { index ->
+                val row = rows.getOrNull(index)
+                RedactedRow(
+                    packageName = row?.packageName?.takeIf { canBlur },
+                    fraction = row?.let { it.bytes.toFloat() / largest } ?: PLACEHOLDER_FRACTIONS[index % PLACEHOLDER_FRACTIONS.size],
+                    severity = row?.let { SeverityRules.appSize(it.bytes, deviceTotalBytes) } ?: Severity.OK,
+                    index = index,
+                )
             }
         }
         Box(
             Modifier
                 .matchParentSize()
-                .background(
-                    Brush.verticalGradient(
-                        0.35f to Color.Transparent,
-                        1f to AppTheme.colors.surface,
-                    )
-                )
+                .background(Brush.verticalGradient(0.3f to Color.Transparent, 1f to AppTheme.colors.background)),
         )
     }
 }
 
 @Composable
-private fun RedactedRow(packageName: String?, index: Int) {
+private fun RedactedRow(packageName: String?, fraction: Float, severity: Severity, index: Int) {
     val ink = AppTheme.colors.textSecondary
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .height(Dimens.appRowHeight)
-            .padding(horizontal = Dimens.gutter),
+            .clip(RoundedCornerShape(20.dp))
+            .background(AppTheme.colors.surface)
+            .heightIn(min = Dimens.appRowHeight)
+            .padding(horizontal = 14.dp, vertical = 12.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         if (packageName != null) {
@@ -245,199 +349,294 @@ private fun RedactedRow(packageName: String?, index: Int) {
                 Modifier
                     .size(Dimens.appIconSize)
                     .clip(RoundedCornerShape(Dimens.appIconSize / 4))
-                    .background(AppTheme.colors.surfaceMuted)
+                    .background(AppTheme.colors.surfaceMuted),
             )
         }
-        Spacer(Modifier.width(Dimens.gutterSmall))
+        Spacer(Modifier.width(14.dp))
         Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(8.dp)) {
             Bar(widthFraction = LABEL_WIDTHS[index % LABEL_WIDTHS.size], height = 12, color = ink.copy(alpha = 0.35f))
-            Bar(widthFraction = META_WIDTHS[index % META_WIDTHS.size], height = 10, color = ink.copy(alpha = 0.2f))
+            Bar(widthFraction = fraction.coerceIn(0.05f, 1f), height = 6, color = severity.color)
         }
-        Spacer(Modifier.width(Dimens.gutterSmall))
-        Box(
-            Modifier
-                .width(44.dp)
-                .height(10.dp)
-                .clip(RoundedCornerShape(5.dp))
-                .background(ink.copy(alpha = 0.25f))
-        )
+        Spacer(Modifier.width(14.dp))
+        Bar(widthFraction = null, height = 12, color = severity.color.copy(alpha = 0.6f))
     }
 }
 
 @Composable
-private fun Bar(widthFraction: Float, height: Int, color: Color) {
+private fun Bar(widthFraction: Float?, height: Int, color: Color) {
     Box(
         Modifier
-            .fillMaxWidth(widthFraction)
+            .then(if (widthFraction != null) Modifier.fillMaxWidth(widthFraction) else Modifier.width(48.dp))
             .height(height.dp)
-            .clip(RoundedCornerShape((height / 2).dp))
-            .background(color)
+            .clip(CircleShape)
+            .background(color),
     )
 }
 
 /**
- * List header with the tab's summary and the "Select all 14" control (PRD §4 Screen 4/5). The
- * tri-state box sits in the same column as the rows' checkboxes. Selection covers the rows
- * currently visible under the search filter; nothing hidden is ever added silently.
+ * The premium summary at the top of a list: big severity number, what it means, optional
+ * [extra] content and the "Select all 9" pill. Selection covers the rows currently visible
+ * under the search filter; nothing hidden is ever added silently.
  */
 @Composable
-internal fun SelectAllHeader(
-    summary: String,
+internal fun SummaryCard(
+    number: String,
+    severity: Severity,
+    caption: String,
     visiblePackages: List<String>,
     selected: Set<String>,
     onSelectAll: (packages: List<String>, select: Boolean) -> Unit,
     modifier: Modifier = Modifier,
-    extra: (@Composable () -> Unit)? = null,
+    extra: (@Composable ColumnScope.() -> Unit)? = null,
 ) {
-    val selectedCount = visiblePackages.count { it in selected }
-    val state = when {
-        selectedCount == 0 -> ToggleableState.Off
-        selectedCount == visiblePackages.size -> ToggleableState.On
-        else -> ToggleableState.Indeterminate
-    }
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .heightIn(min = 48.dp)
-            .padding(start = Dimens.gutter, end = Dimens.gutter),
-        verticalAlignment = Alignment.CenterVertically,
+    AppCard(
+        modifier = modifier.fillMaxWidth().padding(horizontal = Dimens.gutter, vertical = 8.dp),
+        color = severity.surface,
+        contentPadding = PaddingValues(22.dp),
     ) {
-        Column(Modifier.weight(1f)) {
-            Text(
-                text = summary,
-                style = MaterialTheme.typography.titleSmall,
-                color = AppTheme.colors.textPrimary,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-            )
-            extra?.invoke()
-        }
+        Text(
+            text = number,
+            style = MaterialTheme.typography.headlineLarge,
+            fontWeight = FontWeight.ExtraBold,
+            color = severity.color,
+        )
+        Spacer(Modifier.height(2.dp))
+        Text(caption, style = MaterialTheme.typography.titleSmall, color = AppTheme.colors.textPrimary)
+        extra?.invoke(this)
         if (visiblePackages.isNotEmpty()) {
-            Row(
-                modifier = Modifier
-                    .clip(RoundedCornerShape(Dimens.chipRadius))
-                    .toggleable(
-                        value = state == ToggleableState.On,
-                        role = Role.Checkbox,
-                        onValueChange = { onSelectAll(visiblePackages, state != ToggleableState.On) },
-                    )
-                    .padding(start = 8.dp),
-                verticalAlignment = Alignment.CenterVertically,
-            ) {
-                Text(
-                    text = pluralStringResource(R.plurals.insights_select_all, visiblePackages.size, visiblePackages.size),
-                    style = MaterialTheme.typography.labelMedium,
-                    color = AppTheme.colors.accent,
-                )
-                TriStateCheckbox(
-                    state = state,
-                    onClick = null,
-                    colors = CheckboxDefaults.colors(
-                        checkedColor = AppTheme.colors.accent,
-                        checkmarkColor = AppTheme.colors.onAccent,
-                        uncheckedColor = AppTheme.colors.textSecondary,
-                    ),
-                )
-            }
+            Spacer(Modifier.height(14.dp))
+            SelectAllPill(visiblePackages, selected, onSelectAll)
         }
     }
 }
 
-/** Colors of the three size segments, shared by the bar and its legend. */
+@Composable
+private fun SelectAllPill(
+    visiblePackages: List<String>,
+    selected: Set<String>,
+    onSelectAll: (packages: List<String>, select: Boolean) -> Unit,
+) {
+    val allSelected = visiblePackages.all { it in selected }
+    Row(
+        modifier = Modifier
+            .clip(RoundedCornerShape(Dimens.chipRadius))
+            .background(AppTheme.colors.surfaceElevated)
+            .toggleable(value = allSelected, role = Role.Checkbox, onValueChange = { onSelectAll(visiblePackages, !allSelected) })
+            .padding(end = 16.dp),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        RoundCheck(checked = allSelected, onToggle = null, size = 22.dp)
+        Text(
+            text = pluralStringResource(R.plurals.insights_select_all, visiblePackages.size, visiblePackages.size),
+            style = MaterialTheme.typography.labelMedium,
+            color = AppTheme.colors.textPrimary,
+        )
+    }
+}
+
+/** The three size segments' colours, shared by every bar and the legend. */
 private data class SegmentColors(val app: Color, val data: Color, val cache: Color)
 
 @Composable
 private fun segmentColors() = SegmentColors(
     app = AppTheme.colors.accent,
-    data = AppTheme.colors.accent.copy(alpha = 0.45f),
-    cache = AppTheme.colors.storageOther,
+    data = AppTheme.colors.warning,
+    cache = AppTheme.colors.danger,
 )
 
 /**
- * PRD §4 Screen 6: the thin three-part bar (app / data / cache). Its length is the app's share of
+ * PRD §4 Screen 6: the stacked app / data / cache bar. [lengthFraction] is the app's share of
  * the largest app, so the ranking reads at a glance; a Row with weights mirrors itself in RTL.
  */
 @Composable
-internal fun SizeBar(size: AppSize, largestBytes: Long, modifier: Modifier = Modifier) {
+internal fun StackedSizeBar(size: AppSize, lengthFraction: Float, modifier: Modifier = Modifier) {
     val total = size.totalBytes
     val colors = segmentColors()
-    val length = if (largestBytes > 0) (total.toFloat() / largestBytes).coerceIn(0.03f, 1f) else 1f
+    val length by animateFloatAsState(lengthFraction.coerceIn(0.03f, 1f), tween(700), label = "stackedBar")
     Box(
         modifier
-            .padding(top = 4.dp)
             .fillMaxWidth()
-            .height(4.dp)
-            .clip(RoundedCornerShape(2.dp))
-            .background(AppTheme.colors.surfaceMuted)
+            .height(6.dp)
+            .clip(CircleShape)
+            .background(AppTheme.colors.gaugeTrack),
     ) {
-        Row(Modifier.fillMaxWidth(length).fillMaxHeight()) {
+        Row(Modifier.fillMaxWidth(length).fillMaxHeight().clip(CircleShape)) {
             listOf(size.appBytes to colors.app, size.dataBytes to colors.data, size.cacheBytes to colors.cache)
                 .filter { it.first > 0 && total > 0 }
                 .forEach { (bytes, color) ->
-                    Box(
-                        Modifier
-                            .weight(bytes.toFloat() / total)
-                            .fillMaxHeight()
-                            .background(color)
-                    )
+                    Box(Modifier.weight(bytes.toFloat() / total).fillMaxHeight().background(color))
                 }
         }
     }
 }
 
+/** Legend with the amounts: "● App 9.1 GB  ● Data 8.9 GB  ● Cache 640 MB". */
 @Composable
-internal fun SizeLegend(modifier: Modifier = Modifier) {
+internal fun BreakdownLegend(breakdown: AppSize, modifier: Modifier = Modifier) {
     val colors = segmentColors()
-    Row(
-        modifier = modifier.padding(top = 2.dp),
-        horizontalArrangement = Arrangement.spacedBy(12.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        LegendItem(colors.app, stringResource(R.string.insights_legend_app))
-        LegendItem(colors.data, stringResource(R.string.insights_legend_data))
-        LegendItem(colors.cache, stringResource(R.string.insights_legend_cache))
+    val context = LocalContext.current
+    Row(modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+        LegendItem(colors.app, stringResource(R.string.insights_legend_app), formatBytes(context, breakdown.appBytes), Modifier.weight(1f))
+        LegendItem(colors.data, stringResource(R.string.insights_legend_data), formatBytes(context, breakdown.dataBytes), Modifier.weight(1f))
+        LegendItem(colors.cache, stringResource(R.string.insights_legend_cache), formatBytes(context, breakdown.cacheBytes), Modifier.weight(1f))
     }
 }
 
 @Composable
-private fun LegendItem(color: Color, label: String) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
+private fun LegendItem(color: Color, label: String, amount: String, modifier: Modifier) {
+    Column(modifier.semantics(mergeDescendants = true) {}) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Box(Modifier.size(8.dp).clip(CircleShape).background(color))
+            Spacer(Modifier.width(6.dp))
+            Text(label, style = MaterialTheme.typography.labelSmall, color = AppTheme.colors.textSecondary, maxLines = 1)
+        }
+        Text(
+            amount,
+            style = MaterialTheme.typography.titleSmall,
+            color = AppTheme.colors.textPrimary,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+        )
+    }
+}
+
+/**
+ * "Cache: 640 MB in 12 apps". Cache is the one part of an app's size a user can reclaim without
+ * uninstalling, so the card says where (App info) and offers the Cache sort to find them.
+ */
+@Composable
+internal fun CacheCallout(
+    cache: CacheSummary,
+    deviceTotalBytes: Long,
+    onSortByCache: (() -> Unit)?,
+    modifier: Modifier = Modifier,
+) {
+    val context = LocalContext.current
+    AppCard(modifier = modifier.fillMaxWidth().padding(horizontal = Dimens.gutter, vertical = 4.dp)) {
+        Row(verticalAlignment = Alignment.Top) {
+            IconBadge(
+                icon = Icons.Rounded.CleaningServices,
+                severity = InsightSeverity.cache(cache.bytes, deviceTotalBytes),
+                size = 44.dp,
+            )
+            Spacer(Modifier.width(14.dp))
+            Column(Modifier.weight(1f)) {
+                Text(
+                    text = stringResource(
+                        R.string.insights_cache_callout_title,
+                        formatBytes(context, cache.bytes),
+                        pluralStringResource(R.plurals.insights_apps_count, cache.apps, cache.apps),
+                    ),
+                    style = MaterialTheme.typography.titleMedium,
+                    color = AppTheme.colors.textPrimary,
+                )
+                Spacer(Modifier.height(4.dp))
+                Text(
+                    text = stringResource(R.string.insights_cache_callout_body),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = AppTheme.colors.textSecondary,
+                )
+                if (onSortByCache != null) {
+                    Text(
+                        text = stringResource(R.string.insights_sort_by_cache),
+                        style = MaterialTheme.typography.labelMedium,
+                        color = AppTheme.colors.accentText,
+                        modifier = Modifier
+                            .padding(top = 4.dp)
+                            .clip(RoundedCornerShape(8.dp))
+                            .clickable(onClick = onSortByCache)
+                            .padding(vertical = 8.dp),
+                    )
+                }
+            }
+        }
+    }
+}
+
+/** Empty premium result: a win, so it celebrates — a check that pops in on a green card. */
+@Composable
+internal fun CelebrationCard(title: String, body: String, modifier: Modifier = Modifier) {
+    val pop = remember { Animatable(0.6f) }
+    LaunchedEffect(Unit) { pop.animateTo(1f, spring(dampingRatio = 0.45f, stiffness = Spring.StiffnessLow)) }
+    AppCard(
+        modifier = modifier.fillMaxWidth().padding(horizontal = Dimens.gutter, vertical = 8.dp),
+        color = AppTheme.colors.accentSurface,
+        contentPadding = PaddingValues(horizontal = 24.dp, vertical = 36.dp),
+    ) {
         Box(
             Modifier
-                .size(8.dp)
+                .align(Alignment.CenterHorizontally)
+                .size(88.dp)
+                .scale(pop.value)
                 .clip(CircleShape)
-                .background(color)
-        )
-        Spacer(Modifier.width(4.dp))
-        Text(text = label, style = MaterialTheme.typography.labelSmall, color = AppTheme.colors.textSecondary)
-    }
-}
-
-@Composable
-internal fun InsightsLoading(text: String, modifier: Modifier = Modifier) {
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(vertical = 48.dp, horizontal = Dimens.gutterLarge),
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(Dimens.gutterSmall),
-    ) {
-        CircularProgressIndicator(
-            color = AppTheme.colors.accent,
-            trackColor = AppTheme.colors.surfaceMuted,
-            strokeWidth = 3.dp,
-            modifier = Modifier.size(32.dp),
-        )
+                .background(AppTheme.colors.accent.copy(alpha = 0.18f)),
+            contentAlignment = Alignment.Center,
+        ) {
+            Box(
+                Modifier.size(60.dp).clip(CircleShape).background(AppTheme.colors.accent),
+                contentAlignment = Alignment.Center,
+            ) {
+                Icon(Icons.Rounded.Check, contentDescription = null, tint = AppTheme.colors.onAccent, modifier = Modifier.size(34.dp))
+            }
+        }
+        Spacer(Modifier.height(20.dp))
         Text(
-            text = text,
+            title,
+            style = MaterialTheme.typography.titleLarge,
+            color = AppTheme.colors.textPrimary,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth(),
+        )
+        Spacer(Modifier.height(6.dp))
+        Text(
+            body,
             style = MaterialTheme.typography.bodyMedium,
             color = AppTheme.colors.textSecondary,
             textAlign = TextAlign.Center,
+            modifier = Modifier.fillMaxWidth(),
         )
     }
 }
 
+/** Loading: pulsing skeleton cards in the shape of the rows to come, so the layout never jumps. */
+@Composable
+internal fun InsightsLoading(text: String, modifier: Modifier = Modifier) {
+    val pulse by rememberInfiniteTransition(label = "skeleton").animateFloat(
+        initialValue = 0.45f,
+        targetValue = 1f,
+        animationSpec = infiniteRepeatable(tween(800, easing = FastOutSlowInEasing), RepeatMode.Reverse),
+        label = "skeletonAlpha",
+    )
+    Column(
+        modifier = modifier.fillMaxWidth().padding(horizontal = Dimens.gutter, vertical = 8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        Text(text, style = MaterialTheme.typography.bodyMedium, color = AppTheme.colors.textSecondary, modifier = Modifier.padding(vertical = 8.dp))
+        repeat(SKELETON_ROWS) { index ->
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .alpha(pulse)
+                    .clip(RoundedCornerShape(20.dp))
+                    .background(AppTheme.colors.surface)
+                    .heightIn(min = Dimens.appRowHeight)
+                    .padding(horizontal = 14.dp, vertical = 12.dp),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Box(Modifier.size(Dimens.appIconSize).clip(RoundedCornerShape(Dimens.appIconSize / 4)).background(AppTheme.colors.surfaceMuted))
+                Spacer(Modifier.width(14.dp))
+                Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Bar(LABEL_WIDTHS[index % LABEL_WIDTHS.size], 12, AppTheme.colors.surfaceMuted)
+                    Bar(PLACEHOLDER_FRACTIONS[index % PLACEHOLDER_FRACTIONS.size], 6, AppTheme.colors.surfaceMuted)
+                }
+            }
+        }
+    }
+}
+
+private const val COUNT_UP_MILLIS = 900
 private const val MIN_PREVIEW_ROWS = 3
 private const val MAX_PREVIEW_ROWS = 5
+private const val SKELETON_ROWS = 4
 private val LABEL_WIDTHS = floatArrayOf(0.62f, 0.45f, 0.72f, 0.5f, 0.58f)
-private val META_WIDTHS = floatArrayOf(0.4f, 0.52f, 0.34f, 0.46f, 0.38f)
+private val PLACEHOLDER_FRACTIONS = floatArrayOf(0.9f, 0.7f, 0.55f, 0.4f, 0.3f)

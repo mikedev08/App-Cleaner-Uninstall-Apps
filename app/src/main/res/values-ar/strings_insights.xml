@@ -17,10 +17,7 @@
         <item quantity="other">%d تطبيق</item>
     </plurals>
 
-    <string name="insights_unused_access_title">اكتشف التطبيقات التي لم تعد تستخدمها</string>
-    <string name="insights_unused_access_body">اسمح بالوصول إلى بيانات الاستخدام وسيعثر App Cleaner على التطبيقات التي لم تفتحها منذ أسابيع أو أشهر. تبقى كل البيانات على هاتفك.</string>
     <string name="insights_large_access_title">اكتشف التطبيقات التي تملأ مساحة التخزين فعلًا</string>
-    <string name="insights_large_access_body">اسمح بالوصول إلى بيانات الاستخدام لقياس الحجم الكامل لكل تطبيق — التطبيق والبيانات وذاكرة التخزين المؤقت. تبقى كل البيانات على هاتفك.</string>
     <string name="insights_allow_access">السماح بالوصول</string>
 
     <plurals name="insights_unused_teaser_caption">
@@ -31,20 +28,8 @@
         <item quantity="many">لم تُفتح خلال آخر %d يومًا</item>
         <item quantity="other">لم تُفتح خلال آخر %d يوم</item>
     </plurals>
-    <string name="insights_unused_teaser_body">ابدأ فترتك التجريبية المجانية لتعرف ما هذه التطبيقات وتزيلها دفعة واحدة.</string>
-    <plurals name="insights_large_teaser_headline">
-        <item quantity="zero">أكبر %1$d تطبيق لديك تشغل %2$s</item>
-        <item quantity="one">أكبر تطبيق لديك يشغل %2$s</item>
-        <item quantity="two">أكبر تطبيقين لديك يشغلان %2$s</item>
-        <item quantity="few">أكبر %1$d تطبيقات لديك تشغل %2$s</item>
-        <item quantity="many">أكبر %1$d تطبيقًا لديك تشغل %2$s</item>
-        <item quantity="other">أكبر %1$d تطبيق لديك تشغل %2$s</item>
-    </plurals>
-    <string name="insights_large_teaser_body">ابدأ فترتك التجريبية المجانية لترى حجم كل تطبيق، مقسّمًا إلى التطبيق والبيانات وذاكرة التخزين المؤقت.</string>
-    <string name="insights_unlock_trial">افتح القفل بفترة تجريبية مجانية</string>
     <string name="insights_locked_rows_description">قائمة التطبيقات مخفية حتى تفعّل بريميوم</string>
 
-    <string name="insights_last_opened">فُتح آخر مرة %1$s</string>
     <string name="insights_not_opened_since">لم يُفتح منذ %1$s على الأقل</string>
     <plurals name="insights_select_all">
         <item quantity="zero">تحديد الكل (%d)</item>
@@ -94,5 +79,40 @@
         <item quantity="few">لديك %d تطبيقات مثبّتة</item>
         <item quantity="many">لديك %d تطبيقًا مثبّتًا</item>
         <item quantity="other">لديك %d تطبيق مثبّت</item>
+    </plurals>
+
+    <string name="insights_unused_access_title">اكتشف التطبيقات التي نسيتها</string>
+    <string name="insights_unused_access_body">اسمح بالوصول إلى بيانات الاستخدام وسيعثر App Cleaner على التطبيقات التي لم تفتحها منذ أسابيع أو أشهر، ومقدار المساحة التي تشغلها.</string>
+    <string name="insights_large_access_body">اسمح بالوصول إلى بيانات الاستخدام لقياس الحجم الكامل لكل تطبيق: التطبيق والبيانات وذاكرة التخزين المؤقت.</string>
+    <string name="insights_private_note">تبقى كل البيانات على هاتفك</string>
+    <string name="insights_unused_teaser_loss">أي %1$s متروكة دون استخدام على هاتفك.</string>
+    <string name="insights_unused_teaser_body">اعرف ما هذه التطبيقات وأزلها دفعة واحدة.</string>
+    <plurals name="insights_large_teaser_caption">
+        <item quantity="zero">تشغلها أكبر %d تطبيق لديك</item>
+        <item quantity="one">يشغلها أكبر تطبيق لديك</item>
+        <item quantity="two">يشغلها أكبر تطبيقين لديك</item>
+        <item quantity="few">تشغلها أكبر %d تطبيقات لديك</item>
+        <item quantity="many">تشغلها أكبر %d تطبيقًا لديك</item>
+        <item quantity="other">تشغلها أكبر %d تطبيق لديك</item>
+    </plurals>
+    <string name="insights_large_teaser_loss">أي %1$s من مساحة تخزين هاتفك.</string>
+    <string name="insights_large_teaser_body">اطّلع على حجم كل تطبيق، مقسّمًا إلى التطبيق والبيانات وذاكرة التخزين المؤقت.</string>
+    <string name="insights_see_which_apps">اعرض التطبيقات</string>
+    <string name="insights_last_opened_date">فُتح آخر مرة في %1$s</string>
+    <string name="insights_idle_for">لم يُفتح منذ %1$s</string>
+    <string name="insights_no_use_on_record">لا يوجد سجل استخدام</string>
+    <string name="insights_unused_empty_body">لا يوجد ما يحتاج إلى تنظيف الآن.</string>
+    <string name="insights_cache_callout_title">ذاكرة مؤقتة: %1$s في %2$s</string>
+    <string name="insights_cache_callout_body">الذاكرة المؤقتة ملفات مؤقتة يعيد التطبيق إنشاءها عند الحاجة. يمكنك مسحها من صفحة «معلومات التطبيق» دون إلغاء تثبيته.</string>
+    <string name="insights_cache_chip">%1$s ذاكرة مؤقتة</string>
+    <string name="insights_sort_total">الإجمالي</string>
+    <string name="insights_sort_by_cache">الترتيب حسب الذاكرة المؤقتة</string>
+    <plurals name="insights_large_total_caption">
+        <item quantity="zero">تشغلها %d تطبيق</item>
+        <item quantity="one">يشغلها تطبيق واحد</item>
+        <item quantity="two">يشغلها تطبيقان</item>
+        <item quantity="few">تشغلها %d تطبيقات</item>
+        <item quantity="many">تشغلها %d تطبيقًا</item>
+        <item quantity="other">تشغلها %d تطبيق</item>
     </plurals>
 </resources>

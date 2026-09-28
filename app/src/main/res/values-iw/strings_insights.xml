@@ -11,10 +11,7 @@
         <item quantity="other">%d אפליקציות</item>
     </plurals>
 
-    <string name="insights_unused_access_title">גלו באילו אפליקציות הפסקתם להשתמש</string>
-    <string name="insights_unused_access_body">אשרו גישה לנתוני שימוש, ו־App Cleaner ימצא את האפליקציות שלא פתחתם כבר שבועות או חודשים. הכול נשאר בטלפון שלכם.</string>
     <string name="insights_large_access_title">גלו אילו אפליקציות באמת ממלאות את האחסון</string>
-    <string name="insights_large_access_body">אשרו גישה לנתוני שימוש כדי למדוד את הגודל המלא של כל אפליקציה — אפליקציה, נתונים ומטמון. הכול נשאר בטלפון שלכם.</string>
     <string name="insights_allow_access">אישור גישה</string>
 
     <plurals name="insights_unused_teaser_caption">
@@ -22,17 +19,8 @@
         <item quantity="two">לא נפתחו ביומיים האחרונים</item>
         <item quantity="other">לא נפתחו ב־%d הימים האחרונים</item>
     </plurals>
-    <string name="insights_unused_teaser_body">התחילו תקופת ניסיון בחינם כדי לראות אילו אפליקציות אלה ולהסיר את כולן בבת אחת.</string>
-    <plurals name="insights_large_teaser_headline">
-        <item quantity="one">האפליקציה הגדולה ביותר שלכם תופסת %2$s</item>
-        <item quantity="two">שתי האפליקציות הגדולות ביותר שלכם תופסות %2$s</item>
-        <item quantity="other">%1$d האפליקציות הגדולות ביותר שלכם תופסות %2$s</item>
-    </plurals>
-    <string name="insights_large_teaser_body">התחילו תקופת ניסיון בחינם כדי לראות את הגודל של כל אפליקציה, מחולק לאפליקציה, נתונים ומטמון.</string>
-    <string name="insights_unlock_trial">פתיחה עם תקופת ניסיון בחינם</string>
     <string name="insights_locked_rows_description">רשימת האפליקציות מוסתרת עד שתפתחו את פרימיום</string>
 
-    <string name="insights_last_opened">נפתחה לאחרונה %1$s</string>
     <string name="insights_not_opened_since">לא נפתחה לפחות מאז %1$s</string>
     <plurals name="insights_select_all">
         <item quantity="one">בחירת אפליקציה אחת</item>
@@ -70,5 +58,34 @@
         <item quantity="one">יש לכם אפליקציה אחת מותקנת</item>
         <item quantity="two">יש לכם שתי אפליקציות מותקנות</item>
         <item quantity="other">יש לכם %d אפליקציות מותקנות</item>
+    </plurals>
+
+    <string name="insights_unused_access_title">גלו את האפליקציות ששכחתם</string>
+    <string name="insights_unused_access_body">אשרו גישה לנתוני שימוש ו־App Cleaner ימצא את האפליקציות שלא פתחתם כבר שבועות או חודשים, וכמה מקום הן תופסות.</string>
+    <string name="insights_large_access_body">אשרו גישה לנתוני שימוש כדי למדוד את הגודל המלא של כל אפליקציה: אפליקציה, נתונים ומטמון.</string>
+    <string name="insights_private_note">הכול נשאר בטלפון שלכם</string>
+    <string name="insights_unused_teaser_loss">זה %1$s שיושבים בטלפון שלכם בלי שימוש.</string>
+    <string name="insights_unused_teaser_body">גלו אילו אפליקציות אלה והסירו את כולן בבת אחת.</string>
+    <plurals name="insights_large_teaser_caption">
+        <item quantity="one">תפוסים על ידי האפליקציה הגדולה ביותר שלכם</item>
+        <item quantity="two">תפוסים על ידי שתי האפליקציות הגדולות ביותר שלכם</item>
+        <item quantity="other">תפוסים על ידי %d האפליקציות הגדולות ביותר שלכם</item>
+    </plurals>
+    <string name="insights_large_teaser_loss">זה %1$s מנפח האחסון של הטלפון.</string>
+    <string name="insights_large_teaser_body">ראו את הגודל של כל אפליקציה, מחולק לאפליקציה, נתונים ומטמון.</string>
+    <string name="insights_see_which_apps">הצגת האפליקציות</string>
+    <string name="insights_last_opened_date">נפתחה לאחרונה ב־%1$s</string>
+    <string name="insights_idle_for">לא נפתחה כבר %1$s</string>
+    <string name="insights_no_use_on_record">אין תיעוד של שימוש</string>
+    <string name="insights_unused_empty_body">אין כרגע מה לנקות כאן.</string>
+    <string name="insights_cache_callout_title">מטמון: %1$s ב־%2$s</string>
+    <string name="insights_cache_callout_body">מטמון הוא קבצים זמניים שהאפליקציה יוצרת מחדש כשהיא צריכה אותם. אפשר לנקות אותו מהדף “פרטי האפליקציה” בלי להסיר אותה.</string>
+    <string name="insights_cache_chip">%1$s מטמון</string>
+    <string name="insights_sort_total">סה״כ</string>
+    <string name="insights_sort_by_cache">מיון לפי מטמון</string>
+    <plurals name="insights_large_total_caption">
+        <item quantity="one">תפוסים על ידי אפליקציה אחת</item>
+        <item quantity="two">תפוסים על ידי שתי אפליקציות</item>
+        <item quantity="other">תפוסים על ידי %d אפליקציות</item>
     </plurals>
 </resources>

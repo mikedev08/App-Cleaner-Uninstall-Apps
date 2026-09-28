@@ -4,6 +4,7 @@ import com.jedy.appcleaner.uninstaller.core.format.DAY_MILLIS
 import com.jedy.appcleaner.uninstaller.core.model.AppSize
 import com.jedy.appcleaner.uninstaller.core.model.InstalledApp
 import com.jedy.appcleaner.uninstaller.core.model.SortOrder
+import com.jedy.appcleaner.uninstaller.core.ui.theme.Severity
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -54,5 +55,51 @@ class InsightRowsTest {
         assertEquals(Age(4, AgeUnit.MONTHS), Age.between(now - 125 * DAY_MILLIS, now))
         assertEquals(Age(2, AgeUnit.YEARS), Age.between(now - 800 * DAY_MILLIS, now))
         assertEquals(Age(0, AgeUnit.DAYS), Age.between(now + DAY_MILLIS, now))
+    }
+
+    private fun cached(total: Long, cache: Long) =
+        AppSize(appBytes = total - cache, dataBytes = 0, cacheBytes = cache, measuredAt = 0)
+
+    private val cacheRows = listOf(
+        LargeRow(app("com.a", "Apple"), cached(total = 900_000_000, cache = 5_000_000), lastUsedAt = null),
+        LargeRow(app("com.b", "banana"), cached(total = 400_000_000, cache = 300_000_000), lastUsedAt = null),
+        LargeRow(app("com.c", "cherry"), null, lastUsedAt = null),
+        LargeRow(app("com.d", "date"), cached(total = 100_000_000, cache = 40_000_000), lastUsedAt = null),
+    )
+
+    @Test
+    fun `cache summary counts only apps whose cache is worth clearing, so the bytes match the count`() {
+        assertEquals(CacheSummary(bytes = 340_000_000, apps = 2), LargeInsights.cacheSummary(cacheRows))
+        assertEquals(CacheSummary(0, 0), LargeInsights.cacheSummary(emptyList()))
+    }
+
+    @Test
+    fun `cache sort puts the biggest cache first and unmeasured apps last`() {
+        assertEquals(listOf("com.b", "com.d", "com.a", "com.c"), LargeInsights.sortByCache(cacheRows).map { it.app.packageName })
+    }
+
+    @Test
+    fun `breakdown sums every measured app and is null when nothing is measured`() {
+        val breakdown = LargeInsights.breakdown(cacheRows)!!
+        assertEquals(1_400_000_000L, breakdown.totalBytes)
+        assertEquals(345_000_000L, breakdown.cacheBytes)
+        assertEquals(null, LargeInsights.breakdown(listOf(cacheRows[2])))
+    }
+
+    @Test
+    fun `unused headline is red only when the idle apps really hold a lot or have idled long`() {
+        val now = 1_000 * DAY_MILLIS
+        val phone = 128_000_000_000L
+        assertEquals(Severity.DANGER, InsightSeverity.unused(1_300_000_000, phone, thresholdDays = 60, now = now))
+        assertEquals(Severity.WARNING, InsightSeverity.unused(120_000_000, phone, thresholdDays = 30, now = now))
+        assertEquals(Severity.DANGER, InsightSeverity.unused(120_000_000, phone, thresholdDays = 90, now = now))
+    }
+
+    @Test
+    fun `cache chip severity follows the app size rule`() {
+        val phone = 128_000_000_000L
+        assertEquals(Severity.OK, InsightSeverity.cache(40_000_000, phone))
+        assertEquals(Severity.WARNING, InsightSeverity.cache(300_000_000, phone))
+        assertEquals(Severity.DANGER, InsightSeverity.cache(1_200_000_000, phone))
     }
 }

@@ -9,26 +9,15 @@
         <item quantity="other">%d ऐप</item>
     </plurals>
 
-    <string name="insights_unused_access_title">देखें कि आपने कौन से ऐप इस्तेमाल करना बंद कर दिया है</string>
-    <string name="insights_unused_access_body">इस्तेमाल के ऐक्सेस की अनुमति दें, और App Cleaner उन ऐप को ढूंढ लेगा जिन्हें आपने हफ़्तों या महीनों से नहीं खोला है। सब कुछ आपके फ़ोन पर ही रहता है।</string>
     <string name="insights_large_access_title">देखें कि असल में कौन से ऐप आपका स्टोरेज भर रहे हैं</string>
-    <string name="insights_large_access_body">हर ऐप का पूरा साइज़ मापने के लिए इस्तेमाल के ऐक्सेस की अनुमति दें — ऐप, डेटा और कैश। सब कुछ आपके फ़ोन पर ही रहता है।</string>
     <string name="insights_allow_access">ऐक्सेस की अनुमति दें</string>
 
     <plurals name="insights_unused_teaser_caption">
         <item quantity="one">पिछले %d दिन में नहीं खोले गए</item>
         <item quantity="other">पिछले %d दिनों में नहीं खोले गए</item>
     </plurals>
-    <string name="insights_unused_teaser_body">अपना मुफ़्त ट्रायल शुरू करें और देखें कि ये कौन से ऐप हैं, फिर इन्हें एक साथ हटाएं।</string>
-    <plurals name="insights_large_teaser_headline">
-        <item quantity="one">आपका सबसे बड़ा ऐप %2$s इस्तेमाल करता है</item>
-        <item quantity="other">आपके %1$d सबसे बड़े ऐप %2$s इस्तेमाल करते हैं</item>
-    </plurals>
-    <string name="insights_large_teaser_body">अपना मुफ़्त ट्रायल शुरू करें और हर ऐप का साइज़ देखें — ऐप, डेटा और कैश में बंटा हुआ।</string>
-    <string name="insights_unlock_trial">मुफ़्त ट्रायल के साथ अनलॉक करें</string>
     <string name="insights_locked_rows_description">प्रीमियम अनलॉक करने तक ऐप की सूची छिपी रहेगी</string>
 
-    <string name="insights_last_opened">पिछली बार %1$s खोला गया</string>
     <string name="insights_not_opened_since">कम से कम %1$s से नहीं खोला गया</string>
     <plurals name="insights_select_all">
         <item quantity="one">%d ऐप चुनें</item>
@@ -62,5 +51,32 @@
     <plurals name="insights_nudge_text">
         <item quantity="one">आपके फ़ोन में %d ऐप इंस्टॉल है</item>
         <item quantity="other">आपके फ़ोन में %d ऐप इंस्टॉल हैं</item>
+    </plurals>
+
+    <string name="insights_unused_access_title">वे ऐप देखें जिन्हें आप भूल गए हैं</string>
+    <string name="insights_unused_access_body">उपयोग एक्सेस की अनुमति दें और App Cleaner उन ऐप को ढूंढेगा जिन्हें आपने हफ़्तों या महीनों से नहीं खोला है, और यह भी कि वे कितनी जगह घेरते हैं।</string>
+    <string name="insights_large_access_body">हर ऐप का पूरा साइज़ मापने के लिए उपयोग एक्सेस की अनुमति दें: ऐप, डेटा और कैश।</string>
+    <string name="insights_private_note">सब कुछ आपके फ़ोन पर ही रहता है</string>
+    <string name="insights_unused_teaser_loss">यानी आपके फ़ोन पर %1$s बेकार पड़ा है।</string>
+    <string name="insights_unused_teaser_body">देखें कि ये कौन से ऐप हैं और इन्हें एक साथ हटाएं।</string>
+    <plurals name="insights_large_teaser_caption">
+        <item quantity="one">आपके सबसे बड़े %d ऐप द्वारा इस्तेमाल</item>
+        <item quantity="other">आपके %d सबसे बड़े ऐप द्वारा इस्तेमाल</item>
+    </plurals>
+    <string name="insights_large_teaser_loss">यह आपके फ़ोन के स्टोरेज का %1$s है।</string>
+    <string name="insights_large_teaser_body">हर ऐप का साइज़ देखें, ऐप, डेटा और कैश में बंटा हुआ।</string>
+    <string name="insights_see_which_apps">देखें कौन से ऐप</string>
+    <string name="insights_last_opened_date">आख़िरी बार %1$s में खोला गया</string>
+    <string name="insights_idle_for">%1$s से नहीं खोला गया</string>
+    <string name="insights_no_use_on_record">इस्तेमाल का कोई रिकॉर्ड नहीं</string>
+    <string name="insights_unused_empty_body">अभी यहां साफ़ करने को कुछ नहीं है।</string>
+    <string name="insights_cache_callout_title">कैश: %2$s में %1$s</string>
+    <string name="insights_cache_callout_body">कैश अस्थायी फ़ाइलें होती हैं जिन्हें ऐप ज़रूरत पड़ने पर दोबारा बना लेता है। आप इसे ऐप को अनइंस्टॉल किए बिना उसके “ऐप की जानकारी” पेज से साफ़ कर सकते हैं।</string>
+    <string name="insights_cache_chip">%1$s कैश</string>
+    <string name="insights_sort_total">कुल</string>
+    <string name="insights_sort_by_cache">कैश के हिसाब से क्रम</string>
+    <plurals name="insights_large_total_caption">
+        <item quantity="one">%d ऐप द्वारा इस्तेमाल</item>
+        <item quantity="other">%d ऐप द्वारा इस्तेमाल</item>
     </plurals>
 </resources>

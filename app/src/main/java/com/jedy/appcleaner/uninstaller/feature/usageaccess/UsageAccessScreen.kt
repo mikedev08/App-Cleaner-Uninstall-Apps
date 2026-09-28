@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.widget.Toast
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -16,23 +17,17 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Insights
-import androidx.compose.material.icons.rounded.Lock
 import androidx.compose.material.icons.rounded.Visibility
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
+import androidx.compose.material.icons.rounded.VerifiedUser
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -43,6 +38,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.heading
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.style.TextAlign
@@ -52,6 +48,9 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LifecycleEventEffect
 import com.jedy.appcleaner.uninstaller.R
 import com.jedy.appcleaner.uninstaller.core.model.UsageAccessTrigger
+import com.jedy.appcleaner.uninstaller.core.ui.component.AppCard
+import com.jedy.appcleaner.uninstaller.core.ui.component.IconBadge
+import com.jedy.appcleaner.uninstaller.core.ui.component.PrimaryButton
 import com.jedy.appcleaner.uninstaller.core.ui.theme.AppTheme
 import com.jedy.appcleaner.uninstaller.core.ui.theme.Dimens
 
@@ -113,6 +112,11 @@ private fun Context.startSafely(intent: Intent): Boolean = try {
     false
 }
 
+/**
+ * Trust is built in order: a friendly picture, one plain sentence, then the three facts a
+ * cautious user wants before touching a system permission (what, why, where it goes), and only
+ * then the hint and the action. The CTA is pinned below the scroll so it never scrolls away.
+ */
 @Composable
 private fun UsageAccessContent(onContinue: () -> Unit, onNotNow: () -> Unit) {
     Column(
@@ -125,49 +129,57 @@ private fun UsageAccessContent(onContinue: () -> Unit, onNotNow: () -> Unit) {
             modifier = Modifier
                 .weight(1f)
                 .verticalScroll(rememberScrollState())
-                .padding(horizontal = Dimens.gutterLarge),
+                .padding(horizontal = Dimens.gutter),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Spacer(Modifier.height(32.dp))
-            UsageAccessIllustration()
-            Spacer(Modifier.height(Dimens.gutterLarge))
+            Spacer(Modifier.height(24.dp))
+            UsageAccessHero()
+            Spacer(Modifier.height(Dimens.gutter))
             Text(
                 text = stringResource(R.string.usage_title),
-                style = MaterialTheme.typography.headlineMedium,
+                style = MaterialTheme.typography.headlineLarge,
                 color = AppTheme.colors.textPrimary,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.semantics { heading() },
             )
+            Spacer(Modifier.height(8.dp))
+            Text(
+                text = stringResource(R.string.usage_subtitle),
+                style = MaterialTheme.typography.bodyLarge,
+                color = AppTheme.colors.textSecondary,
+                textAlign = TextAlign.Center,
+                modifier = Modifier.padding(horizontal = 8.dp),
+            )
             Spacer(Modifier.height(Dimens.gutterLarge))
-            DisclosureLine(Icons.Rounded.Visibility, stringResource(R.string.usage_what_label), stringResource(R.string.usage_what_body))
-            DisclosureLine(Icons.Rounded.Insights, stringResource(R.string.usage_why_label), stringResource(R.string.usage_why_body))
-            DisclosureLine(Icons.Rounded.Lock, stringResource(R.string.usage_where_label), stringResource(R.string.usage_where_body))
+            AppCard(modifier = Modifier.fillMaxWidth()) {
+                TrustRow(Icons.Rounded.Visibility, stringResource(R.string.usage_what_label), stringResource(R.string.usage_what_body))
+                Spacer(Modifier.height(18.dp))
+                TrustRow(Icons.Rounded.Insights, stringResource(R.string.usage_why_label), stringResource(R.string.usage_why_body))
+                Spacer(Modifier.height(18.dp))
+                TrustRow(Icons.Rounded.VerifiedUser, stringResource(R.string.usage_where_label), stringResource(R.string.usage_where_body))
+            }
             Spacer(Modifier.height(Dimens.gutterLarge))
             ToggleHint()
-            Spacer(Modifier.height(Dimens.gutterLarge))
+            Spacer(Modifier.height(Dimens.gutter))
         }
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = Dimens.gutterLarge, vertical = Dimens.gutter),
+                .padding(start = Dimens.gutter, end = Dimens.gutter, top = 12.dp, bottom = 8.dp),
         ) {
-            Button(
+            PrimaryButton(
+                text = stringResource(R.string.usage_continue),
                 onClick = onContinue,
+                modifier = Modifier.fillMaxWidth(),
+            )
+            Spacer(Modifier.height(4.dp))
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .heightIn(min = Dimens.buttonHeight),
-                shape = RoundedCornerShape(Dimens.controlRadius),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = AppTheme.colors.accent,
-                    contentColor = AppTheme.colors.onAccent,
-                ),
-            ) {
-                Text(stringResource(R.string.usage_continue), style = MaterialTheme.typography.labelLarge)
-            }
-            Spacer(Modifier.height(4.dp))
-            TextButton(
-                onClick = onNotNow,
-                modifier = Modifier.fillMaxWidth(),
+                    .heightIn(min = 48.dp)
+                    .clip(RoundedCornerShape(Dimens.chipRadius))
+                    .clickable(role = Role.Button, onClick = onNotNow),
+                contentAlignment = Alignment.Center,
             ) {
                 Text(
                     text = stringResource(R.string.action_not_now),
@@ -180,26 +192,18 @@ private fun UsageAccessContent(onContinue: () -> Unit, onNotNow: () -> Unit) {
 }
 
 @Composable
-private fun DisclosureLine(icon: ImageVector, label: String, body: String) {
+private fun TrustRow(icon: ImageVector, label: String, body: String) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 8.dp)
             .semantics(mergeDescendants = true) {},
         verticalAlignment = Alignment.Top,
     ) {
-        Box(
-            modifier = Modifier
-                .size(40.dp)
-                .clip(CircleShape)
-                .background(AppTheme.colors.accentSurface),
-            contentAlignment = Alignment.Center,
-        ) {
-            Icon(icon, contentDescription = null, tint = AppTheme.colors.accent, modifier = Modifier.size(20.dp))
-        }
-        Spacer(Modifier.width(Dimens.gutterSmall))
+        IconBadge(icon = icon, size = 44.dp)
+        Spacer(Modifier.width(14.dp))
         Column(Modifier.weight(1f)) {
             Text(text = label, style = MaterialTheme.typography.titleSmall, color = AppTheme.colors.textPrimary)
+            Spacer(Modifier.height(2.dp))
             Text(text = body, style = MaterialTheme.typography.bodyMedium, color = AppTheme.colors.textSecondary)
         }
     }

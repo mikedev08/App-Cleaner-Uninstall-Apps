@@ -85,6 +85,7 @@ class ReminderNotifications @Inject constructor(
         }
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(R.drawable.insights_ic_notification)
+            .setColor(NOTIFICATION_COLOR)
             .setContentTitle(title)
             .setContentText(localized.getString(R.string.insights_reminder_text))
             .setCategory(NotificationCompat.CATEGORY_REMINDER)
@@ -106,6 +107,7 @@ class ReminderNotifications @Inject constructor(
         }
         val notification = NotificationCompat.Builder(context, CHANNEL_ID)
             .setSmallIcon(R.drawable.insights_ic_notification)
+            .setColor(NOTIFICATION_COLOR)
             .setContentTitle(localized.getString(R.string.insights_nudge_title))
             .setContentText(
                 localized.resources.getQuantityString(R.plurals.insights_nudge_text, installedCount, installedCount)
@@ -142,6 +144,13 @@ class ReminderNotifications @Inject constructor(
 
     companion object {
         const val CHANNEL_ID = "cleanup_reminders"
+
+        /**
+         * Design system v2 Spring green (#22C55E), the brand accent. Hard-coded rather than read
+         * from AppColors: workers run outside any composition, and the system tints the small
+         * icon and app name with this in both light and dark shades itself.
+         */
+        private const val NOTIFICATION_COLOR = 0xFF22C55E.toInt()
         private const val ID_REMINDER = 4101
         private const val ID_NUDGE = 4102
         private const val REQUEST_REMINDER = 4101

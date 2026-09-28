@@ -39,10 +39,26 @@ sealed interface UnusedContent {
     data object Loading : UnusedContent
     data object NoAccess : UnusedContent
 
-    /** Free user with access: the real count in clear, rows redacted. */
-    data class Locked(val count: Int, val totalBytes: Long, val previewPackages: List<String>) : UnusedContent
+    /**
+     * Free user with access: the real count and bytes in clear, rows redacted. [deviceTotalBytes]
+     * lets the UI colour the number through `SeverityRules`, so it is red only when the space
+     * really is large for this phone.
+     */
+    data class Locked(
+        val count: Int,
+        val totalBytes: Long,
+        val preview: List<PreviewRow>,
+        val deviceTotalBytes: Long,
+        val now: Long,
+    ) : UnusedContent
 
-    data class Unlocked(val rows: List<UnusedRow>, val totalBytes: Long) : UnusedContent
+    /** [now] is the instant the rule ran, so the idle chips agree with the rule that picked the rows. */
+    data class Unlocked(
+        val rows: List<UnusedRow>,
+        val totalBytes: Long,
+        val deviceTotalBytes: Long,
+        val now: Long,
+    ) : UnusedContent
 }
 
 /**
@@ -54,7 +70,7 @@ sealed interface UnusedContent {
 class UnusedTabViewModel @Inject constructor(
     private val access: UsageAccess,
     private val insights: UsageInsights,
-    storage: StorageBreakdown,
+    private val storage: StorageBreakdown,
     inventory: AppInventory,
     premium: Premium,
     private val preferences: AppPreferences,
@@ -64,6 +80,9 @@ class UnusedTabViewModel @Inject constructor(
 ) : ViewModel() {
 
     val selected: StateFlow<Set<String>> = selection.selected
+
+    /** The phone's capacity does not change while we run: read it once, off the main thread. */
+    private val deviceTotalBytes by lazy { storage.deviceStorage().totalBytes }
 
     private val settings = combine(
         access.isGranted,
@@ -103,7 +122,8 @@ class UnusedTabViewModel @Inject constructor(
         if (!s.granted) return UnusedContent.NoAccess
         // windowStart is 0 until the first read of usage data after the grant.
         if (windowStart == 0L || s.inventoryLoading) return UnusedContent.Loading
-        val rows = insights.unusedApps(apps, s.threshold, System.currentTimeMillis()).map { unused ->
+        val now = System.currentTimeMillis()
+        val rows = insights.unusedApps(apps, s.threshold, now).map { unused ->
             UnusedRow(
                 app = unused.app,
                 lastUsedAt = unused.lastUsedAt,
@@ -114,9 +134,11 @@ class UnusedTabViewModel @Inject constructor(
         }
         val total = rows.sumOf { it.bytes }
         return if (s.isPremium) {
-            UnusedContent.Unlocked(InsightSort.sort(rows, s.order), total)
+            UnusedContent.Unlocked(InsightSort.sort(rows, s.order), total, deviceTotalBytes, now)
         } else {
-            UnusedContent.Locked(rows.size, total, rows.take(PREVIEW_ROWS).map { it.app.packageName })
+            // The biggest offenders go in the preview, so its bars are visibly long and red.
+            val preview = rows.sortedByDescending { it.bytes }.take(PREVIEW_ROWS).map { PreviewRow(it.app.packageName, it.bytes) }
+            UnusedContent.Locked(rows.size, total, preview, deviceTotalBytes, now)
         }
     }
 

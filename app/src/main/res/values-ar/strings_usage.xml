@@ -6,7 +6,6 @@
     <string name="usage_why_label">لماذا</string>
     <string name="usage_why_body">للعثور على التطبيقات غير المستخدمة والتطبيقات الكبيرة.</string>
     <string name="usage_where_label">أين تذهب البيانات</string>
-    <string name="usage_where_body">تبقى على هاتفك — ولا تُرفع أبدًا.</string>
     <string name="usage_hint_caption">في الشاشة التالية، فعّل هذا الخيار:</string>
     <string name="usage_hint_toggle">السماح بالوصول إلى بيانات الاستخدام</string>
     <string name="usage_continue">المتابعة إلى الإعدادات</string>
@@ -14,4 +13,7 @@
     <string name="usage_settings_unavailable">لم يفتح هاتفك صفحة الوصول إلى بيانات الاستخدام. افتح الإعدادات وابحث عن «الوصول إلى بيانات الاستخدام».</string>
     <string name="usage_illustration_description">هاتف يعرض التطبيقات، وتظهر باهتةً التطبيقات التي لم تفتحها</string>
     <string name="usage_hint_description">رسم متحرك: تفعيل مفتاح App Cleaner في الإعدادات</string>
+
+    <string name="usage_subtitle">إذن واحد فقط يتيح لـ App Cleaner العثور على التطبيقات التي لا تستخدمها وقياس المساحة التي تشغلها.</string>
+    <string name="usage_where_body">لا تغادر هاتفك أبدًا، ولا يُرفع أي شيء.</string>
 </resources>

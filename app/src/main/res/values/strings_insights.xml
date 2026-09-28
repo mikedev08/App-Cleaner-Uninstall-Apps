@@ -14,10 +14,7 @@
     <string name="insights_count_and_size" translatable="false">%1$s · %2$s</string>
 
     <!-- State (a): no Usage Access -->
-    <string name="insights_unused_access_title">See which apps you’ve stopped using</string>
-    <string name="insights_unused_access_body">Allow Usage Access and App Cleaner will find the apps you haven’t opened in weeks or months. It all stays on your phone.</string>
     <string name="insights_large_access_title">See which apps really fill your storage</string>
-    <string name="insights_large_access_body">Allow Usage Access to measure each app’s full size — app, data and cache. It all stays on your phone.</string>
     <string name="insights_allow_access">Allow access</string>
 
     <!-- State (b): access granted, free user (blurred teaser) -->
@@ -25,18 +22,9 @@
         <item quantity="one">Not opened in the last %d day</item>
         <item quantity="other">Not opened in the last %d days</item>
     </plurals>
-    <string name="insights_unused_teaser_body">Start your free trial to see which apps they are and remove them in one go.</string>
-    <plurals name="insights_large_teaser_headline">
-        <item quantity="one">Your largest app uses %2$s</item>
-        <item quantity="other">Your %1$d largest apps use %2$s</item>
-    </plurals>
-    <string name="insights_large_teaser_body">Start your free trial to see every app’s size, split into app, data and cache.</string>
-    <string name="insights_unlock_trial">Unlock with free trial</string>
     <string name="insights_locked_rows_description">App list hidden until you unlock Premium</string>
 
     <!-- State (c): premium -->
-    <!-- %1$s is a localized relative time, e.g. "4 months ago". -->
-    <string name="insights_last_opened">Last opened %1$s</string>
     <!-- %1$s is a month and year, e.g. "Mar 2025". -->
     <string name="insights_not_opened_since">Not opened since at least %1$s</string>
     <plurals name="insights_select_all">
@@ -73,5 +61,38 @@
     <plurals name="insights_nudge_text">
         <item quantity="one">You have %d app installed</item>
         <item quantity="other">You have %d apps installed</item>
+    </plurals>
+
+    <!-- Design system v2 redesign. -->
+    <string name="insights_unused_access_title">See the apps you forgot about</string>
+    <string name="insights_unused_access_body">Allow Usage Access and App Cleaner finds the apps you haven’t opened in weeks or months, and how much space they hold.</string>
+    <string name="insights_large_access_body">Allow Usage Access to measure each app’s full size: app, data and cache.</string>
+    <string name="insights_private_note">It stays on your phone</string>
+    <!-- Loss frame under the big number. %1$s is a size, e.g. "1.3 GB". -->
+    <string name="insights_unused_teaser_loss">That’s %1$s sitting idle on your phone.</string>
+    <string name="insights_unused_teaser_body">See which apps they are and remove them in one go.</string>
+    <plurals name="insights_large_teaser_caption">
+        <item quantity="one">Used by your largest app</item>
+        <item quantity="other">Used by your %d largest apps</item>
+    </plurals>
+    <!-- %1$s is a localized percentage of total storage, e.g. "15%". -->
+    <string name="insights_large_teaser_loss">That’s %1$s of your phone’s storage.</string>
+    <string name="insights_large_teaser_body">See every app’s size, split into app, data and cache.</string>
+    <string name="insights_see_which_apps">See which apps</string>
+    <!-- %1$s is a month and year, e.g. "Mar 2025". -->
+    <string name="insights_last_opened_date">Last opened %1$s</string>
+    <!-- %1$s is a localized duration from ICU, e.g. "4 months" or "45 days". -->
+    <string name="insights_idle_for">Not opened in %1$s</string>
+    <string name="insights_no_use_on_record">No use on record</string>
+    <string name="insights_unused_empty_body">Nothing to clean up here right now.</string>
+    <!-- "Cache: 640 MB in 12 apps". %1$s size, %2$s the insights_apps_count plural. -->
+    <string name="insights_cache_callout_title">Cache: %1$s in %2$s</string>
+    <string name="insights_cache_callout_body">Cache is temporary files an app rebuilds when it needs them. You can clear it from the app’s App info page without uninstalling.</string>
+    <string name="insights_cache_chip">%1$s cache</string>
+    <string name="insights_sort_total">Total</string>
+    <string name="insights_sort_by_cache">Sort by cache</string>
+    <plurals name="insights_large_total_caption">
+        <item quantity="one">Used by %d app</item>
+        <item quantity="other">Used by %d apps</item>
     </plurals>
 </resources>
