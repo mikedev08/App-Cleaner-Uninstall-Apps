@@ -4,10 +4,8 @@
     <string name="apps_action_back">חזרה</string>
     <string name="apps_summary">%1$s · %2$s</string>
     <string name="apps_tab_all">הכול</string>
-    <string name="apps_section_hogs">תופסות הכי הרבה מקום</string>
     <string name="apps_section_rest">כל השאר</string>
     <string name="apps_chip_space_hog">זולל מקום</string>
-    <string name="apps_chip_idle_year">לא נפתחה יותר משנה</string>
     <string name="apps_details_whats_using">מה תופס מקום</string>
     <string name="apps_details_unlock_teaser">לראות מה תופס מקום</string>
     <string name="apps_details_total_caption">גודל כולל</string>
@@ -15,9 +13,16 @@
     <string name="apps_details_app_info">פרטי האפליקציה</string>
     <string name="apps_details_play">חנות Play</string>
     <string name="apps_details_cache_hint">כדי לנקות את המטמון של האפליקציה, יש לפתוח את פרטי האפליקציה ואז אחסון.</string>
-    <plurals name="apps_chip_idle_months">
-        <item quantity="one">לא נפתחה חודש</item>
-        <item quantity="two">לא נפתחה חודשיים</item>
-        <item quantity="other">לא נפתחה %d חודשים</item>
+    <!-- Design review 2026-09: All · Unused · Large · Cache. -->
+    <string name="apps_tab_unused">לא בשימוש</string>
+    <string name="apps_tab_large">גדולות</string>
+    <string name="apps_tab_cache">מטמון</string>
+    <string name="apps_section_large">אפליקציות גדולות</string>
+    <string name="apps_chip_large">גדולה</string>
+    <plurals name="apps_chip_idle_months_short">
+        <item quantity="one">לא נפתחה %d ח׳</item>
+        <item quantity="two">לא נפתחה %d ח׳</item>
+        <item quantity="other">לא נפתחה %d ח׳</item>
     </plurals>
+    <string name="apps_chip_idle_year_short">לא נפתחה מעל שנה</string>
 </resources>

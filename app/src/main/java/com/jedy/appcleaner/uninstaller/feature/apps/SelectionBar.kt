@@ -9,6 +9,7 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -34,7 +35,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
@@ -44,6 +44,7 @@ import com.jedy.appcleaner.uninstaller.R
 import com.jedy.appcleaner.uninstaller.core.format.formatBytes
 import com.jedy.appcleaner.uninstaller.core.ui.component.PrimaryButton
 import com.jedy.appcleaner.uninstaller.core.ui.theme.AppTheme
+import com.jedy.appcleaner.uninstaller.core.ui.theme.Dimens
 
 private data class SelectionFigures(val count: Int, val bytes: Long, val hidden: Int)
 
@@ -91,13 +92,15 @@ private fun SelectionBarContent(
     Row(
         modifier = Modifier
             .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom + WindowInsetsSides.Horizontal))
-            .padding(horizontal = 12.dp, vertical = 12.dp)
+            // The 20dp page gutter, like every other block on the screen.
+            .padding(horizontal = Dimens.gutter, vertical = Dimens.space12)
             .fillMaxWidth()
-            .shadow(elevation = 18.dp, shape = shape)
+            // No shadow (design system: border + tonal surface instead).
             .clip(shape)
             .background(colors.surfaceElevated)
+            .border(Dimens.hairline, colors.border, shape)
             .heightIn(min = 84.dp)
-            .padding(start = 4.dp, end = 12.dp, top = 12.dp, bottom = 12.dp),
+            .padding(start = Dimens.space4, end = Dimens.space12, top = Dimens.space12, bottom = Dimens.space12),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         IconButton(onClick = onClear) {
@@ -128,7 +131,7 @@ private fun SelectionBarContent(
                 overflow = TextOverflow.Ellipsis,
             )
         }
-        Spacer(Modifier.width(8.dp))
+        Spacer(Modifier.width(Dimens.space8))
         PrimaryButton(
             text = stringResource(R.string.home_uninstall),
             onClick = onUninstall,

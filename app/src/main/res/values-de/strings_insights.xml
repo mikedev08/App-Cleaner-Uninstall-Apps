@@ -59,10 +59,6 @@
     <string name="insights_private_note">Alles bleibt auf deinem Handy</string>
     <string name="insights_unused_teaser_loss">Das sind %1$s, die ungenutzt auf deinem Handy liegen.</string>
     <string name="insights_unused_teaser_body">Sieh dir an, welche Apps das sind, und entferne sie alle auf einmal.</string>
-    <plurals name="insights_large_teaser_caption">
-        <item quantity="one">Belegt von deiner größten App</item>
-        <item quantity="other">Belegt von deinen %d größten Apps</item>
-    </plurals>
     <string name="insights_large_teaser_loss">Das sind %1$s des Speichers deines Handys.</string>
     <string name="insights_large_teaser_body">Sieh die Größe jeder App, aufgeteilt in App, Daten und Cache.</string>
     <string name="insights_see_which_apps">Zeig mir die Apps</string>
@@ -70,13 +66,17 @@
     <string name="insights_idle_for">%1$s nicht geöffnet</string>
     <string name="insights_no_use_on_record">Keine Nutzung erfasst</string>
     <string name="insights_unused_empty_body">Hier gibt es gerade nichts aufzuräumen.</string>
-    <string name="insights_cache_callout_title">Cache: %1$s in %2$s</string>
     <string name="insights_cache_callout_body">Cache sind temporäre Dateien, die eine App bei Bedarf neu anlegt. Du kannst ihn auf der Seite „App-Info“ leeren, ohne die App zu deinstallieren.</string>
-    <string name="insights_cache_chip">%1$s Cache</string>
-    <string name="insights_sort_total">Gesamt</string>
-    <string name="insights_sort_by_cache">Nach Cache sortieren</string>
-    <plurals name="insights_large_total_caption">
-        <item quantity="one">Belegt von %d App</item>
-        <item quantity="other">Belegt von %d Apps</item>
+    <!-- Design review 2026-09: one Large rule, the Cache filter. -->
+    <string name="insights_large_caption">Apps ab %1$s</string>
+    <string name="insights_large_none_title">Keine großen Apps</string>
+    <string name="insights_large_none_body">Keine deiner Apps belegt %1$s oder mehr.</string>
+    <string name="insights_cache_access_title">Sieh, welche Apps den meisten Cache haben</string>
+    <plurals name="insights_cache_caption">
+        <item quantity="one">Cache von %d App</item>
+        <item quantity="other">Cache von %d Apps</item>
     </plurals>
+    <string name="insights_cache_teaser_body">Sieh, welche Apps ihn belegen, und leere ihn über App-Info.</string>
+    <string name="insights_cache_row_meta">%1$s insgesamt</string>
+    <string name="insights_cache_none_title">Kein Cache zum Leeren</string>
 </resources>

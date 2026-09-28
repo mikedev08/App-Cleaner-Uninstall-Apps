@@ -87,14 +87,6 @@
     <string name="insights_private_note">تبقى كل البيانات على هاتفك</string>
     <string name="insights_unused_teaser_loss">أي %1$s متروكة دون استخدام على هاتفك.</string>
     <string name="insights_unused_teaser_body">اعرف ما هذه التطبيقات وأزلها دفعة واحدة.</string>
-    <plurals name="insights_large_teaser_caption">
-        <item quantity="zero">تشغلها أكبر %d تطبيق لديك</item>
-        <item quantity="one">يشغلها أكبر تطبيق لديك</item>
-        <item quantity="two">يشغلها أكبر تطبيقين لديك</item>
-        <item quantity="few">تشغلها أكبر %d تطبيقات لديك</item>
-        <item quantity="many">تشغلها أكبر %d تطبيقًا لديك</item>
-        <item quantity="other">تشغلها أكبر %d تطبيق لديك</item>
-    </plurals>
     <string name="insights_large_teaser_loss">أي %1$s من مساحة تخزين هاتفك.</string>
     <string name="insights_large_teaser_body">اطّلع على حجم كل تطبيق، مقسّمًا إلى التطبيق والبيانات وذاكرة التخزين المؤقت.</string>
     <string name="insights_see_which_apps">اعرض التطبيقات</string>
@@ -102,17 +94,21 @@
     <string name="insights_idle_for">لم يُفتح منذ %1$s</string>
     <string name="insights_no_use_on_record">لا يوجد سجل استخدام</string>
     <string name="insights_unused_empty_body">لا يوجد ما يحتاج إلى تنظيف الآن.</string>
-    <string name="insights_cache_callout_title">ذاكرة مؤقتة: %1$s في %2$s</string>
     <string name="insights_cache_callout_body">الذاكرة المؤقتة ملفات مؤقتة يعيد التطبيق إنشاءها عند الحاجة. يمكنك مسحها من صفحة «معلومات التطبيق» دون إلغاء تثبيته.</string>
-    <string name="insights_cache_chip">%1$s ذاكرة مؤقتة</string>
-    <string name="insights_sort_total">الإجمالي</string>
-    <string name="insights_sort_by_cache">الترتيب حسب الذاكرة المؤقتة</string>
-    <plurals name="insights_large_total_caption">
-        <item quantity="zero">تشغلها %d تطبيق</item>
-        <item quantity="one">يشغلها تطبيق واحد</item>
-        <item quantity="two">يشغلها تطبيقان</item>
-        <item quantity="few">تشغلها %d تطبيقات</item>
-        <item quantity="many">تشغلها %d تطبيقًا</item>
-        <item quantity="other">تشغلها %d تطبيق</item>
+    <!-- Design review 2026-09: one Large rule, the Cache filter. -->
+    <string name="insights_large_caption">تطبيقات تشغل %1$s أو أكثر</string>
+    <string name="insights_large_none_title">لا توجد تطبيقات كبيرة</string>
+    <string name="insights_large_none_body">لا يشغل أي من تطبيقاتك %1$s أو أكثر.</string>
+    <string name="insights_cache_access_title">اعرف أي التطبيقات تحتفظ بأكبر ذاكرة مؤقتة</string>
+    <plurals name="insights_cache_caption">
+        <item quantity="zero">ذاكرة مؤقتة في %d تطبيق</item>
+        <item quantity="one">ذاكرة مؤقتة في %d تطبيق</item>
+        <item quantity="two">ذاكرة مؤقتة في %d تطبيق</item>
+        <item quantity="few">ذاكرة مؤقتة في %d تطبيقات</item>
+        <item quantity="many">ذاكرة مؤقتة في %d تطبيقًا</item>
+        <item quantity="other">ذاكرة مؤقتة في %d تطبيق</item>
     </plurals>
+    <string name="insights_cache_teaser_body">اعرف ما هي التطبيقات، ثم امسح ذاكرتها المؤقتة من «معلومات التطبيق».</string>
+    <string name="insights_cache_row_meta">%1$s إجمالًا</string>
+    <string name="insights_cache_none_title">لا توجد ذاكرة مؤقتة لمسحها</string>
 </resources>

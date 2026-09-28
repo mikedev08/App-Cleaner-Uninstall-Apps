@@ -10,8 +10,8 @@ import com.jedy.appcleaner.uninstaller.core.model.HomeTab
 import com.jedy.appcleaner.uninstaller.core.model.InstalledApp
 import com.jedy.appcleaner.uninstaller.core.model.SortOrder
 import com.jedy.appcleaner.uninstaller.core.selection.SelectionStore
-import com.jedy.appcleaner.uninstaller.core.ui.theme.Severity
-import com.jedy.appcleaner.uninstaller.core.ui.theme.SeverityRules
+import com.jedy.appcleaner.uninstaller.core.model.LargeApps
+import com.jedy.appcleaner.uninstaller.core.model.bestKnownBytes
 import com.jedy.appcleaner.uninstaller.data.billing.Premium
 import com.jedy.appcleaner.uninstaller.data.inventory.AppInventory
 import com.jedy.appcleaner.uninstaller.data.inventory.InventoryHealth
@@ -23,7 +23,6 @@ import com.jedy.appcleaner.uninstaller.data.usage.UsageInsights
 import com.jedy.appcleaner.uninstaller.di.DefaultDispatcher
 import com.jedy.appcleaner.uninstaller.di.IoDispatcher
 import com.jedy.appcleaner.uninstaller.feature.home.HomeSession
-import com.jedy.appcleaner.uninstaller.feature.home.PremiumLapse
 import com.jedy.appcleaner.uninstaller.navigation.Routes
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
@@ -50,7 +49,7 @@ data class AppsUiState(
     val isRefreshing: Boolean = false,
     /** All tab rows after search and sort. */
     val rows: List<AppsRow> = emptyList(),
-    /** Size sort only: "Taking the most space" / "Everything else". */
+    /** Size sort only: "Large" / "Everything else". */
     val sections: AppsSections? = null,
     val totalAppCount: Int = 0,
     /** What the whole library takes, in the sizes this user sees (header summary). */
@@ -62,7 +61,6 @@ data class AppsUiState(
     val allVisibleSelected: Boolean = false,
     val isPremium: Boolean = false,
     val hasUsageAccess: Boolean = false,
-    val showPremiumEnded: Boolean = false,
     val showInventoryIncomplete: Boolean = false,
 ) {
     val selectedCount: Int get() = selected.size
@@ -81,7 +79,8 @@ data class AppDetailsUi(
     val isMeasuring: Boolean,
     /** The size headline this user is entitled to (measured total for premium, else APK). */
     val displayBytes: Long,
-    val severity: Severity,
+    /** `LargeApps.isLarge` on the best-known size: the same rule as the Large filter and Home. */
+    val isLarge: Boolean,
 )
 
 /** An Uninstall Confirm Sheet request: from the Selection Bar or from one app's details. */
@@ -100,7 +99,6 @@ class AppsViewModel @Inject constructor(
     private val selection: SelectionStore,
     private val analytics: Analytics,
     private val session: HomeSession,
-    private val premiumLapse: PremiumLapse,
     @param:IoDispatcher private val io: CoroutineDispatcher,
     @param:DefaultDispatcher private val default: CoroutineDispatcher,
 ) : ViewModel() {
@@ -112,7 +110,6 @@ class AppsViewModel @Inject constructor(
     private val query = MutableStateFlow("")
     private val searchOpen = MutableStateFlow(false)
     private val refreshing = MutableStateFlow(false)
-    private val deviceTotal = MutableStateFlow(0L)
 
     private data class DetailsSelection(
         val packageName: String,
@@ -137,7 +134,7 @@ class AppsViewModel @Inject constructor(
         val lastUsed: Map<String, Long>,
         val selected: Set<String>,
     )
-    private data class Notices(val premiumEnded: Boolean, val incomplete: Boolean, val deviceTotal: Long, val windowStart: Long)
+    private data class Notices(val incomplete: Boolean, val windowStart: Long)
 
     val uiState: StateFlow<AppsUiState> = combine(
         combine(tab, query, searchOpen, refreshing, ::ViewFilters),
@@ -156,7 +153,7 @@ class AppsViewModel @Inject constructor(
             selection.selected,
             ::Sources,
         ),
-        combine(premiumLapse.showBanner, inventoryHealth.isIncomplete, deviceTotal, usageInsights.windowStart, ::Notices),
+        combine(inventoryHealth.isIncomplete, usageInsights.windowStart, ::Notices),
         ::buildState,
     ).flowOn(default).stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), AppsUiState(tab = tab.value))
 
@@ -165,8 +162,7 @@ class AppsViewModel @Inject constructor(
         inventory.apps,
         combine(premium.isPremium, usageAccess.isGranted, preferences.sizeDisplay, ::Triple),
         combine(storage.sizes, usageInsights.lastUsed, usageInsights.windowStart, ::Triple),
-        deviceTotal,
-    ) { selectionState, apps, (isPremium, hasAccess, sizeDisplay), (sizes, lastUsed, windowStart), total ->
+    ) { selectionState, apps, (isPremium, hasAccess, sizeDisplay), (sizes, lastUsed, windowStart) ->
         val chosen = selectionState ?: return@combine null
         val app = apps.firstOrNull { it.packageName == chosen.packageName } ?: chosen.snapshot ?: return@combine null
         val size = if (isPremium) chosen.measured ?: sizes[app.packageName] else null
@@ -181,7 +177,7 @@ class AppsViewModel @Inject constructor(
             size = size,
             isMeasuring = chosen.isMeasuring,
             displayBytes = bytes,
-            severity = SeverityRules.appSize(bytes, total),
+            isLarge = LargeApps.isLarge(app.bestKnownBytes(chosen.measured ?: sizes[app.packageName])),
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
 
@@ -194,7 +190,6 @@ class AppsViewModel @Inject constructor(
                 if (!loading && apps.isNotEmpty()) selection.retainOnly(apps.mapTo(HashSet(apps.size)) { it.packageName })
             }
         }
-        viewModelScope.launch { inventory.apps.collect { refreshDeviceTotal() } }
         // A details sheet for an app removed meanwhile (elsewhere, or by our own queue) closes.
         viewModelScope.launch {
             inventory.apps.collect { apps ->
@@ -220,12 +215,14 @@ class AppsViewModel @Inject constructor(
         val largest = bytes.values.maxOrNull() ?: 0L
         val allRows = sources.apps.map { app ->
             val size = bytes.getValue(app.packageName)
+            val best = app.bestKnownBytes(sources.sizes)
             val lastUsed = sources.lastUsed[app.packageName]?.let(::notInFuture)
             AppsRow(
                 app = app,
                 sizeBytes = size,
                 lastUsedAt = if (entitlement.isPremium) lastUsed else null,
-                severity = SeverityRules.appSize(size, notices.deviceTotal),
+                large = LargeApps.isLarge(best),
+                bestKnownBytes = best,
                 sizeFraction = AppsListLogic.sizeFraction(size, largest),
                 idle = if (showIdle) AppsListLogic.idleChip(lastUsed, app.firstInstallTime, notices.windowStart, now) else null,
             )
@@ -251,15 +248,13 @@ class AppsViewModel @Inject constructor(
             allVisibleSelected = visible.isNotEmpty() && visible.all { it.packageName in sources.selected },
             isPremium = entitlement.isPremium,
             hasUsageAccess = entitlement.hasAccess,
-            showPremiumEnded = notices.premiumEnded,
             showInventoryIncomplete = notices.incomplete,
         )
     }
 
-    /** PRD §6 item 12: Usage Access is re-read on every resume; free space may have moved too. */
+    /** PRD §6 item 12: Usage Access is re-read on every resume. */
     fun onResume() {
         usageAccess.recheck()
-        refreshDeviceTotal()
     }
 
     fun onTabSelected(selected: HomeTab) {
@@ -292,7 +287,6 @@ class AppsViewModel @Inject constructor(
             refreshing.value = true
             try {
                 inventory.refresh()
-                refreshDeviceTotal()
             } finally {
                 refreshing.value = false
             }
@@ -318,8 +312,6 @@ class AppsViewModel @Inject constructor(
     }
 
     fun onClearSelection() = selection.clear()
-
-    fun onDismissPremiumEnded() = premiumLapse.dismiss()
 
     /**
      * Screen 7. Premium users with Usage Access get a fresh StorageStatsManager measurement; the
@@ -371,12 +363,6 @@ class AppsViewModel @Inject constructor(
 
     fun dismissUninstallRequest() {
         _uninstallRequest.value = null
-    }
-
-    private fun refreshDeviceTotal() {
-        viewModelScope.launch {
-            deviceTotal.value = withContext(io) { runCatching { storage.deviceStorage().totalBytes }.getOrDefault(0L) }
-        }
     }
 
     /** PRD §9 `app_selected`: sampled to the first selection per session. */

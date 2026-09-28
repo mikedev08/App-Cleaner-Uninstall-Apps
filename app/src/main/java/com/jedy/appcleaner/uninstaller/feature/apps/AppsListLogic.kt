@@ -16,11 +16,13 @@ data class AppsRow(
     val sizeBytes: Long,
     /** Last use (premium sort / meta only); null when unknown or not entitled. */
     val lastUsedAt: Long?,
-    /** [SeverityRules.appSize] against the phone's capacity: red rows are real space hogs. */
-    val severity: Severity = Severity.OK,
+    /** `LargeApps.isLarge(bestKnownBytes)`: the one Large rule Home and Scan count with. */
+    val large: Boolean = false,
+    /** Measured total when known, else APK: what [large] and the Large section total use. */
+    val bestKnownBytes: Long = sizeBytes,
     /** 0..1 of the biggest app in the list, for the size bar. */
     val sizeFraction: Float = 0f,
-    /** Premium idle chip ("Not opened in 3 months"); null when not entitled or recently used. */
+    /** Premium idle chip ("Not opened in 3 mo"); null when not entitled or recently used. */
     val idle: IdleChip? = null,
 ) {
     val packageName: String get() = app.packageName
@@ -32,9 +34,12 @@ data class IdleChip(val severity: Severity, val months: Int) {
     val overAYear: Boolean get() = months >= 12
 }
 
-/** The size-sorted list splits into what is worth acting on and the rest. */
-data class AppsSections(val hogs: List<AppsRow>, val rest: List<AppsRow>) {
-    val hogBytes: Long get() = hogs.sumOf { it.sizeBytes }
+/**
+ * The size-sorted list splits into "Large" and "Everything else". [largeBytes] sums the
+ * best-known sizes, so "Large · 9 apps · 3.1 GB" is the same figure Home and Scan show.
+ */
+data class AppsSections(val large: List<AppsRow>, val rest: List<AppsRow>) {
+    val largeBytes: Long get() = large.sumOf { it.bestKnownBytes }
 }
 
 /**
@@ -98,15 +103,24 @@ internal object AppsListLogic {
     }
 
     /**
-     * "Taking the most space" (red and amber apps) above "Everything else". Only for the size
-     * sort, where the split is also the order; other sorts would scatter the groups.
+     * "Large" (`LargeApps.isLarge`) above "Everything else". Only for the size sort, where the
+     * split follows the order; other sorts would scatter the groups.
      */
     fun sections(rows: List<AppsRow>, order: SortOrder): AppsSections? {
         if (order != SortOrder.SIZE) return null
-        val (hogs, rest) = rows.partition { it.severity != Severity.OK }
-        if (hogs.isEmpty()) return null
-        return AppsSections(hogs, rest)
+        val (large, rest) = rows.partition { it.large }
+        if (large.isEmpty()) return null
+        return AppsSections(large, rest)
     }
+
+    /**
+     * Preinstalled apps report the Unix epoch (or near it) as their install time, which printed
+     * as "Installed Jan 1970". Anything before Android existed is treated as unknown.
+     */
+    fun isKnownDate(millis: Long): Boolean = millis >= KNOWN_DATE_FLOOR_MILLIS
+
+    /** 1 Jan 2008 UTC, before the first Android phone shipped. */
+    const val KNOWN_DATE_FLOOR_MILLIS = 1_199_145_600_000L
 
     /**
      * PRD §6 item 21: selected apps the current search hides. Counted over the whole inventory,

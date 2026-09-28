@@ -66,11 +66,6 @@
     <string name="insights_private_note">הכול נשאר בטלפון שלכם</string>
     <string name="insights_unused_teaser_loss">זה %1$s שיושבים בטלפון שלכם בלי שימוש.</string>
     <string name="insights_unused_teaser_body">גלו אילו אפליקציות אלה והסירו את כולן בבת אחת.</string>
-    <plurals name="insights_large_teaser_caption">
-        <item quantity="one">תפוסים על ידי האפליקציה הגדולה ביותר שלכם</item>
-        <item quantity="two">תפוסים על ידי שתי האפליקציות הגדולות ביותר שלכם</item>
-        <item quantity="other">תפוסים על ידי %d האפליקציות הגדולות ביותר שלכם</item>
-    </plurals>
     <string name="insights_large_teaser_loss">זה %1$s מנפח האחסון של הטלפון.</string>
     <string name="insights_large_teaser_body">ראו את הגודל של כל אפליקציה, מחולק לאפליקציה, נתונים ומטמון.</string>
     <string name="insights_see_which_apps">הצגת האפליקציות</string>
@@ -78,14 +73,18 @@
     <string name="insights_idle_for">לא נפתחה כבר %1$s</string>
     <string name="insights_no_use_on_record">אין תיעוד של שימוש</string>
     <string name="insights_unused_empty_body">אין כרגע מה לנקות כאן.</string>
-    <string name="insights_cache_callout_title">מטמון: %1$s ב־%2$s</string>
     <string name="insights_cache_callout_body">מטמון הוא קבצים זמניים שהאפליקציה יוצרת מחדש כשהיא צריכה אותם. אפשר לנקות אותו מהדף “פרטי האפליקציה” בלי להסיר אותה.</string>
-    <string name="insights_cache_chip">%1$s מטמון</string>
-    <string name="insights_sort_total">סה״כ</string>
-    <string name="insights_sort_by_cache">מיון לפי מטמון</string>
-    <plurals name="insights_large_total_caption">
-        <item quantity="one">תפוסים על ידי אפליקציה אחת</item>
-        <item quantity="two">תפוסים על ידי שתי אפליקציות</item>
-        <item quantity="other">תפוסים על ידי %d אפליקציות</item>
+    <!-- Design review 2026-09: one Large rule, the Cache filter. -->
+    <string name="insights_large_caption">אפליקציות בנפח %1$s ומעלה</string>
+    <string name="insights_large_none_title">אין אפליקציות גדולות</string>
+    <string name="insights_large_none_body">אף אפליקציה לא תופסת %1$s ומעלה.</string>
+    <string name="insights_cache_access_title">גלו לאילו אפליקציות יש הכי הרבה מטמון</string>
+    <plurals name="insights_cache_caption">
+        <item quantity="one">מטמון של %d אפליקציה</item>
+        <item quantity="two">מטמון של %d אפליקציות</item>
+        <item quantity="other">מטמון של %d אפליקציות</item>
     </plurals>
+    <string name="insights_cache_teaser_body">גלו אילו אפליקציות אלה, ונקו את המטמון דרך “פרטי האפליקציה”.</string>
+    <string name="insights_cache_row_meta">%1$s בסך הכול</string>
+    <string name="insights_cache_none_title">אין מטמון לניקוי</string>
 </resources>

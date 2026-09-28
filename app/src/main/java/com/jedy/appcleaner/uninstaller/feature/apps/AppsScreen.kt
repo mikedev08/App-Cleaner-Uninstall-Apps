@@ -1,11 +1,6 @@
 package com.jedy.appcleaner.uninstaller.feature.apps
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.expandVertically
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.animation.shrinkVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,13 +16,19 @@ import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.draw.clipToBounds
+import androidx.compose.ui.graphics.Color
+import androidx.compose.foundation.layout.height
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -38,7 +39,7 @@ import com.jedy.appcleaner.uninstaller.core.model.PaywallSource
 import com.jedy.appcleaner.uninstaller.core.model.UsageAccessTrigger
 import com.jedy.appcleaner.uninstaller.core.ui.theme.AppTheme
 import com.jedy.appcleaner.uninstaller.core.ui.theme.Dimens
-import com.jedy.appcleaner.uninstaller.feature.home.PremiumEndedBanner
+import com.jedy.appcleaner.uninstaller.feature.insights.CacheTab
 import com.jedy.appcleaner.uninstaller.feature.insights.LargeTab
 import com.jedy.appcleaner.uninstaller.feature.insights.UnusedTab
 import com.jedy.appcleaner.uninstaller.feature.uninstall.UninstallConfirmSheet
@@ -48,9 +49,10 @@ import com.jedy.appcleaner.uninstaller.feature.uninstall.UninstallConfirmSheet
  * the Unused and Large tabs (Screens 5–6, built by Insights) and hosting the App Details sheet
  * (Screen 7).
  *
- * Top to bottom: back / search / sort · large "Apps" title · premium-ended banner · pill tabs ·
- * tab body · the floating Selection Bar. The NavHost applies no insets, so this screen handles
- * status bar, navigation bar, cutout and IME itself.
+ * Top to bottom: the shared top bar (back / search / sort) · the large "Apps" title, which
+ * scrolls away with the list · the pinned All / Unused / Large / Cache filters · tab body · the
+ * floating Selection Bar. The premium-lapse notice lives on Home only (design review §2.6). The
+ * NavHost applies no insets, so this screen handles status bar, navigation bar, cutout and IME.
  */
 @Composable
 fun AppsScreen(
@@ -77,7 +79,23 @@ fun AppsScreen(
 
     // Room for the floating bar under the last row, plus the navigation bar / keyboard.
     val safeBottom = WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom).asPaddingValues().calculateBottomPadding()
-    val bottomPadding = PaddingValues(bottom = safeBottom + if (state.selectedCount > 0) SelectionBarReserve else 16.dp)
+    val bottomPadding = PaddingValues(bottom = safeBottom + if (state.selectedCount > 0) SelectionBarReserve else Dimens.bottomContentGap)
+
+    val header = rememberCollapsingHeaderState()
+    val summary = if (state.totalAppCount > 0) {
+        stringResource(
+            R.string.apps_summary,
+            pluralStringResource(R.plurals.home_list_count, state.totalAppCount, state.totalAppCount),
+            formatBytes(context, state.totalBytes),
+        )
+    } else {
+        null
+    }
+    // derivedStateOf: the offset changes every scroll frame, the screen only cares past 60%.
+    val titleCollapsed by remember(header) { derivedStateOf { header.collapsedFraction > 0.6f } }
+    val collapsed = state.isSearchOpen || titleCollapsed
+    // Opening or closing search swaps the header's content; start it fully shown again.
+    LaunchedEffect(state.isSearchOpen) { header.reset() }
 
     Box(
         Modifier
@@ -85,19 +103,12 @@ fun AppsScreen(
             .background(AppTheme.colors.background),
     ) {
         Column(Modifier.fillMaxSize()) {
-            AppsHeader(
-                summary = if (state.totalAppCount > 0) {
-                    stringResource(
-                        R.string.apps_summary,
-                        pluralStringResource(R.plurals.home_list_count, state.totalAppCount, state.totalAppCount),
-                        formatBytes(context, state.totalBytes),
-                    )
-                } else {
-                    null
-                },
+            AppsTopBar(
                 isSearchOpen = state.isSearchOpen,
+                titleVisible = collapsed,
+                // Content scrolls under the pinned filters, not the bar: the hairline goes there.
+                scrolled = false,
                 onBack = onBack,
-                onQueryChanged = viewModel::onQueryChanged,
                 onOpenSearch = viewModel::onSearchOpened,
                 onCloseSearch = viewModel::onSearchClosed,
                 showSort = state.tab == HomeTab.ALL,
@@ -108,62 +119,75 @@ fun AppsScreen(
                     else viewModel.onSortSelected(order)
                 },
             )
-            Column(Modifier.windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal))) {
-                AnimatedVisibility(
-                    visible = state.showPremiumEnded,
-                    enter = expandVertically() + fadeIn(),
-                    exit = shrinkVertically() + fadeOut(),
-                ) {
-                    PremiumEndedBanner(
-                        onRenew = {
-                            viewModel.onDismissPremiumEnded()
-                            onOpenPaywall(PaywallSource.SETTINGS)
-                        },
-                        onDismiss = viewModel::onDismissPremiumEnded,
-                        modifier = Modifier.padding(horizontal = Dimens.gutter, vertical = 8.dp),
-                    )
-                }
-                AppsTabs(
-                    selected = state.tab,
-                    isPremium = state.isPremium,
-                    onSelected = viewModel::onTabSelected,
-                    modifier = Modifier.padding(horizontal = Dimens.gutter, vertical = 12.dp),
-                )
-            }
-            Box(
-                Modifier
-                    .weight(1f)
-                    .fillMaxWidth()
-                    .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal)),
-            ) {
-                when (state.tab) {
-                    HomeTab.ALL -> AllAppsTab(
-                        state = state,
-                        listState = allListState,
-                        contentPadding = bottomPadding,
-                        onRefresh = viewModel::refresh,
-                        onToggleSelected = viewModel::onToggleSelected,
-                        onOpenDetails = viewModel::openDetails,
-                        onSelectAll = viewModel::onSelectAllVisible,
-                        onDeselectAll = viewModel::onDeselectAllVisible,
-                    )
-                    HomeTab.UNUSED -> UnusedTab(
-                        searchQuery = state.query,
-                        onRequestAccess = { onOpenUsageAccess(UsageAccessTrigger.UNUSED_TAB) },
-                        onUnlock = { onOpenPaywall(PaywallSource.UNUSED_TAB) },
-                        onOpenDetails = viewModel::openDetails,
-                        modifier = Modifier.fillMaxSize().padding(bottomPadding),
-                    )
-                    // TODO(apps agent): CACHE gets its own list; it shows the Large tab until then.
-                    HomeTab.LARGE, HomeTab.CACHE -> LargeTab(
-                        searchQuery = state.query,
-                        onRequestAccess = { onOpenUsageAccess(UsageAccessTrigger.LARGE_TAB) },
-                        onUnlock = { onOpenPaywall(PaywallSource.LARGE_TAB) },
-                        onOpenDetails = viewModel::openDetails,
-                        modifier = Modifier.fillMaxSize().padding(bottomPadding),
-                    )
-                }
-            }
+            val horizontalInsets = Modifier.windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal))
+            CollapsingHeaderLayout(
+                state = header,
+                modifier = Modifier.weight(1f).fillMaxWidth().then(horizontalInsets).clipToBounds(),
+                // Only the title block scrolls away; while searching there is none.
+                header = { if (!state.isSearchOpen) AppsTitle(summary) },
+                pinned = {
+                    Column(Modifier.fillMaxWidth().background(AppTheme.colors.background)) {
+                        if (state.isSearchOpen) {
+                            SearchPill(
+                                onQueryChanged = viewModel::onQueryChanged,
+                                modifier = Modifier.padding(start = Dimens.gutter, end = Dimens.gutter, top = Dimens.space8),
+                            )
+                        }
+                        AppsFilters(
+                            selected = state.tab,
+                            isPremium = state.isPremium,
+                            onSelected = viewModel::onTabSelected,
+                            modifier = Modifier.padding(horizontal = Dimens.gutter, vertical = Dimens.space12),
+                        )
+                        Box(
+                            Modifier
+                                .fillMaxWidth()
+                                .height(Dimens.hairline)
+                                .background(if (collapsed) AppTheme.colors.border else Color.Transparent),
+                        )
+                    }
+                },
+                content = {
+                    val tabModifier = Modifier.fillMaxSize().nestedScroll(header.connection)
+                    when (state.tab) {
+                        HomeTab.ALL -> AllAppsTab(
+                            state = state,
+                            listState = allListState,
+                            contentPadding = bottomPadding,
+                            headerConnection = header.connection,
+                            onRefresh = viewModel::refresh,
+                            onToggleSelected = viewModel::onToggleSelected,
+                            onOpenDetails = viewModel::openDetails,
+                            onSelectAll = viewModel::onSelectAllVisible,
+                            onDeselectAll = viewModel::onDeselectAllVisible,
+                        )
+                        HomeTab.UNUSED -> UnusedTab(
+                            searchQuery = state.query,
+                            onRequestAccess = { onOpenUsageAccess(UsageAccessTrigger.UNUSED_TAB) },
+                            onUnlock = { onOpenPaywall(PaywallSource.UNUSED_TAB) },
+                            onOpenDetails = viewModel::openDetails,
+                            modifier = tabModifier,
+                            contentPadding = bottomPadding,
+                        )
+                        HomeTab.LARGE -> LargeTab(
+                            searchQuery = state.query,
+                            onRequestAccess = { onOpenUsageAccess(UsageAccessTrigger.LARGE_TAB) },
+                            onUnlock = { onOpenPaywall(PaywallSource.LARGE_TAB) },
+                            onOpenDetails = viewModel::openDetails,
+                            modifier = tabModifier,
+                            contentPadding = bottomPadding,
+                        )
+                        HomeTab.CACHE -> CacheTab(
+                            searchQuery = state.query,
+                            onRequestAccess = { onOpenUsageAccess(UsageAccessTrigger.LARGE_TAB) },
+                            onUnlock = { onOpenPaywall(PaywallSource.LARGE_TAB) },
+                            onOpenDetails = viewModel::openDetails,
+                            modifier = tabModifier,
+                            contentPadding = bottomPadding,
+                        )
+                    }
+                },
+            )
         }
         SelectionBar(
             count = state.selectedCount,

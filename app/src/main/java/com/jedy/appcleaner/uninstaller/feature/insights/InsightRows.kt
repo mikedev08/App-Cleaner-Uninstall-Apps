@@ -1,11 +1,10 @@
 package com.jedy.appcleaner.uninstaller.feature.insights
 
-import com.jedy.appcleaner.uninstaller.core.format.DAY_MILLIS
 import com.jedy.appcleaner.uninstaller.core.model.AppSize
 import com.jedy.appcleaner.uninstaller.core.model.InstalledApp
+import com.jedy.appcleaner.uninstaller.core.model.LargeApps
 import com.jedy.appcleaner.uninstaller.core.model.SortOrder
-import com.jedy.appcleaner.uninstaller.core.ui.theme.Severity
-import com.jedy.appcleaner.uninstaller.core.ui.theme.SeverityRules
+import com.jedy.appcleaner.uninstaller.core.model.bestKnownBytes
 
 /** What both premium lists need in order to sort and filter a row. */
 interface InsightRow {
@@ -30,13 +29,18 @@ data class UnusedRow(
     override val sortBytes: Long get() = bytes
 }
 
-/** One Large-tab row. [size] null = not measured (volume unavailable, or still measuring). */
+/**
+ * One Large- or Cache-filter row. [size] null = not measured (volume unavailable, or still
+ * measuring); [bytes] then falls back to the APK size, exactly as `LargeApps` judges it.
+ */
 data class LargeRow(
     override val app: InstalledApp,
     val size: AppSize?,
     override val lastUsedAt: Long?,
 ) : InsightRow {
-    override val sortBytes: Long? get() = size?.totalBytes
+    /** Best-known size: measured app + data + cache, else APK. */
+    val bytes: Long get() = app.bestKnownBytes(size)
+    override val sortBytes: Long get() = bytes
 }
 
 /**
@@ -67,30 +71,27 @@ object InsightSort {
 
 /**
  * One row of the blurred premium preview. Only the size travels with it: the preview draws each
- * row's real size bar and severity colour (so it is visibly *their* data) but never a readable
- * name or number.
+ * row's real size bar (so it is visibly *their* data) but never a readable name or number.
  */
 data class PreviewRow(val packageName: String, val bytes: Long)
 
-/** The Large tab's own "Total / Cache" toggle; Home's sort order still applies under [TOTAL]. */
-enum class LargeSort { TOTAL, CACHE }
-
-/** Cache held by the apps where clearing it is worth a trip to App info. */
-data class CacheSummary(val bytes: Long, val apps: Int)
-
-/** Pure Large-tab maths behind the summary card, the cache callout and the Cache sort. */
+/** Pure maths behind the Large and Cache filters and their summary cards. */
 object LargeInsights {
     /**
-     * Below 10 MB an app's cache is not worth opening App info for. Counting only apps above it
-     * keeps "Cache: 640 MB in 12 apps" exact — the bytes are precisely those 12 apps' cache —
-     * instead of "in 86 apps", which is every app and tells the user nothing.
+     * The Large filter: exactly the apps `LargeApps.isLarge` counts on Home and Scan (best-known
+     * size ≥ 250 MB), so the three numbers always agree.
      */
-    const val NOTABLE_CACHE_BYTES = 10_000_000L
+    fun largeRows(rows: List<LargeRow>): List<LargeRow> = rows.filter { LargeApps.isLarge(it.bytes) }
 
-    fun cacheSummary(rows: List<LargeRow>): CacheSummary {
-        val notable = rows.mapNotNull { it.size?.cacheBytes }.filter { it >= NOTABLE_CACHE_BYTES }
-        return CacheSummary(notable.sum(), notable.size)
-    }
+    /**
+     * The Cache filter (it replaced the Large tab's Total / Cache toggle): every measured app that
+     * holds any cache, biggest cache first, ties by name so the order is stable.
+     */
+    fun cacheRows(rows: List<LargeRow>): List<LargeRow> = rows
+        .filter { (it.size?.cacheBytes ?: 0L) > 0L }
+        .sortedWith(compareByDescending<LargeRow> { it.size!!.cacheBytes }.thenBy(String.CASE_INSENSITIVE_ORDER) { it.app.label })
+
+    fun cacheBytes(rows: List<LargeRow>): Long = rows.sumOf { it.size?.cacheBytes ?: 0L }
 
     /** App / data / cache summed over every measured app; null when nothing is measured. */
     fun breakdown(rows: List<LargeRow>): AppSize? {
@@ -104,25 +105,4 @@ object LargeInsights {
         )
     }
 
-    /** Biggest cache first; unmeasured apps last; ties by name so the order is stable. */
-    fun sortByCache(rows: List<LargeRow>): List<LargeRow> = rows.sortedWith(
-        compareByDescending<LargeRow> { it.size?.cacheBytes ?: Long.MIN_VALUE }
-            .thenBy(String.CASE_INSENSITIVE_ORDER) { it.app.label }
-    )
-}
-
-/** How loud the headline numbers are. Pure, and only ever derived from the user's real numbers. */
-object InsightSeverity {
-    /**
-     * The Unused headline takes the worse of two honest signals: how much space the idle apps
-     * hold (SeverityRules.appSize) and how long "idle" is (SeverityRules.idle at the threshold).
-     * 1.3 GB unused for 60 days is red; 120 MB unused for 30 days stays amber.
-     */
-    fun unused(totalBytes: Long, deviceTotalBytes: Long, thresholdDays: Int, now: Long): Severity = maxOf(
-        SeverityRules.appSize(totalBytes, deviceTotalBytes),
-        SeverityRules.idle(now - thresholdDays * DAY_MILLIS, now),
-    )
-
-    /** "1.2 GB cache" earns a chip only when the cache alone would count as a big app. */
-    fun cache(cacheBytes: Long, deviceTotalBytes: Long): Severity = SeverityRules.appSize(cacheBytes, deviceTotalBytes)
 }

@@ -71,10 +71,6 @@
     <!-- Loss frame under the big number. %1$s is a size, e.g. "1.3 GB". -->
     <string name="insights_unused_teaser_loss">That’s %1$s sitting idle on your phone.</string>
     <string name="insights_unused_teaser_body">See which apps they are and remove them in one go.</string>
-    <plurals name="insights_large_teaser_caption">
-        <item quantity="one">Used by your largest app</item>
-        <item quantity="other">Used by your %d largest apps</item>
-    </plurals>
     <!-- %1$s is a localized percentage of total storage, e.g. "15%". -->
     <string name="insights_large_teaser_loss">That’s %1$s of your phone’s storage.</string>
     <string name="insights_large_teaser_body">See every app’s size, split into app, data and cache.</string>
@@ -86,13 +82,17 @@
     <string name="insights_no_use_on_record">No use on record</string>
     <string name="insights_unused_empty_body">Nothing to clean up here right now.</string>
     <!-- "Cache: 640 MB in 12 apps". %1$s size, %2$s the insights_apps_count plural. -->
-    <string name="insights_cache_callout_title">Cache: %1$s in %2$s</string>
     <string name="insights_cache_callout_body">Cache is temporary files an app rebuilds when it needs them. You can clear it from the app’s App info page without uninstalling.</string>
-    <string name="insights_cache_chip">%1$s cache</string>
-    <string name="insights_sort_total">Total</string>
-    <string name="insights_sort_by_cache">Sort by cache</string>
-    <plurals name="insights_large_total_caption">
-        <item quantity="one">Used by %d app</item>
-        <item quantity="other">Used by %d apps</item>
+    <!-- Design review 2026-09: one Large rule, the Cache filter. -->
+    <string name="insights_large_caption">Apps using %1$s or more</string>
+    <string name="insights_large_none_title">No large apps</string>
+    <string name="insights_large_none_body">None of your apps uses %1$s or more.</string>
+    <string name="insights_cache_access_title">See which apps hold the most cache</string>
+    <plurals name="insights_cache_caption">
+        <item quantity="one">Cache held by %d app</item>
+        <item quantity="other">Cache held by %d apps</item>
     </plurals>
+    <string name="insights_cache_teaser_body">See which apps hold it, then clear it from App info.</string>
+    <string name="insights_cache_row_meta">%1$s in total</string>
+    <string name="insights_cache_none_title">No cache to clear</string>
 </resources>

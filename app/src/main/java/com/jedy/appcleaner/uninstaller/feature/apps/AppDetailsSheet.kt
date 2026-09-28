@@ -56,18 +56,15 @@ import com.jedy.appcleaner.uninstaller.core.ui.component.AppIcon
 import com.jedy.appcleaner.uninstaller.core.ui.component.PrimaryButton
 import com.jedy.appcleaner.uninstaller.core.ui.component.ProBadge
 import com.jedy.appcleaner.uninstaller.core.ui.component.SecondaryButton
-import com.jedy.appcleaner.uninstaller.core.ui.component.SeverityChip
 import com.jedy.appcleaner.uninstaller.core.ui.component.SizeBar
 import com.jedy.appcleaner.uninstaller.core.ui.theme.AppTheme
 import com.jedy.appcleaner.uninstaller.core.ui.theme.Dimens
-import com.jedy.appcleaner.uninstaller.core.ui.theme.Severity
-import com.jedy.appcleaner.uninstaller.core.ui.theme.color
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 /**
  * PRD §4 Screen 7, the App Details sheet, opened from a row on any tab. A big icon and the size
- * in severity colour lead, so a space hog *reads* as one; "What's using space" splits App / Data
+ * (neutral text, with the one "Large" chip when it is) lead; "What's using space" splits App / Data
  * / Cache for premium users and is a PRO teaser for free ones. "App info" is labelled as the
  * place to clear cache because that is the only honest route for it (PRD §0 decision 5).
  */
@@ -144,7 +141,7 @@ internal fun AppDetailsSheet(
     }
 }
 
-/** Icon, name, source, and the size as the headline — red or amber when it is a real hog. */
+/** Icon, name, source, and the size as the headline, plus the "Large" chip under the shared rule. */
 @Composable
 private fun DetailsHero(details: AppDetailsUi) {
     val colors = AppTheme.colors
@@ -173,16 +170,16 @@ private fun DetailsHero(details: AppDetailsUi) {
         Text(
             text = formatBytes(context, details.displayBytes),
             style = MaterialTheme.typography.displaySmall,
-            color = if (details.severity == Severity.OK) colors.textPrimary else details.severity.color,
+            color = colors.textPrimary,
         )
         Text(
             text = stringResource(if (details.size != null && details.isPremium && details.hasUsageAccess) R.string.apps_details_total_caption else R.string.apps_details_apk_caption),
             style = MaterialTheme.typography.bodyMedium,
             color = colors.textSecondary,
         )
-        if (details.severity == Severity.DANGER) {
-            Spacer(Modifier.size(8.dp))
-            SeverityChip(stringResource(R.string.apps_chip_space_hog), Severity.DANGER)
+        if (details.isLarge) {
+            Spacer(Modifier.size(Dimens.space8))
+            LargeChip()
         }
     }
 }
@@ -244,8 +241,13 @@ private fun FactsSection(details: AppDetailsUi) {
     val monthYear = rememberMonthYearFormat()
     val app = details.app
     Section(title = null) {
-        FactRow(stringResource(R.string.home_details_installed), date(app.firstInstallTime))
-        FactRow(stringResource(R.string.home_details_updated), date(app.lastUpdateTime))
+        // Preinstalled apps report the epoch: no "Installed 1 Jan 1970".
+        if (AppsListLogic.isKnownDate(app.firstInstallTime)) {
+            FactRow(stringResource(R.string.home_details_installed), date(app.firstInstallTime))
+        }
+        if (AppsListLogic.isKnownDate(app.lastUpdateTime)) {
+            FactRow(stringResource(R.string.home_details_updated), date(app.lastUpdateTime))
+        }
         if (details.isPremium && details.hasUsageAccess) {
             val lastOpened = when {
                 details.lastUsedAt != null -> date(details.lastUsedAt)

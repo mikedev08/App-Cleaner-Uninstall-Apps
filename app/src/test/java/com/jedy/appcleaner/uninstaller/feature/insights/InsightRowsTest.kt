@@ -4,7 +4,6 @@ import com.jedy.appcleaner.uninstaller.core.format.DAY_MILLIS
 import com.jedy.appcleaner.uninstaller.core.model.AppSize
 import com.jedy.appcleaner.uninstaller.core.model.InstalledApp
 import com.jedy.appcleaner.uninstaller.core.model.SortOrder
-import com.jedy.appcleaner.uninstaller.core.ui.theme.Severity
 import org.junit.Assert.assertEquals
 import org.junit.Test
 
@@ -24,7 +23,7 @@ class InsightRowsTest {
     )
 
     @Test
-    fun `size sorts largest first with unmeasured last`() {
+    fun `size sorts largest first, unmeasured apps by their APK size`() {
         assertEquals(listOf("com.b", "com.a", "com.c"), InsightSort.sort(rows, SortOrder.SIZE).map { it.app.packageName })
     }
 
@@ -68,14 +67,27 @@ class InsightRowsTest {
     )
 
     @Test
-    fun `cache summary counts only apps whose cache is worth clearing, so the bytes match the count`() {
-        assertEquals(CacheSummary(bytes = 340_000_000, apps = 2), LargeInsights.cacheSummary(cacheRows))
-        assertEquals(CacheSummary(0, 0), LargeInsights.cacheSummary(emptyList()))
+    fun `cache filter lists every measured app with cache, biggest first, and totals exactly those`() {
+        val cached = LargeInsights.cacheRows(cacheRows)
+        assertEquals(listOf("com.b", "com.d", "com.a"), cached.map { it.app.packageName })
+        assertEquals(345_000_000L, LargeInsights.cacheBytes(cached))
+        assertEquals(emptyList<LargeRow>(), LargeInsights.cacheRows(listOf(LargeRow(app("com.z", "zero"), cached(10, 0), null))))
     }
 
     @Test
-    fun `cache sort puts the biggest cache first and unmeasured apps last`() {
-        assertEquals(listOf("com.b", "com.d", "com.a", "com.c"), LargeInsights.sortByCache(cacheRows).map { it.app.packageName })
+    fun `large filter uses the one Large rule on the best-known size`() {
+        val big = app("com.big", "big").copy(apkBytes = 260_000_000)
+        val rows = listOf(
+            // Measured total counts: 400 MB is Large.
+            LargeRow(app("com.m", "measured"), cached(total = 400_000_000, cache = 0), null),
+            // Measured total under the line: not Large, whatever the APK says.
+            LargeRow(big, cached(total = 249_999_999, cache = 0), null),
+            // Unmeasured: judged by its APK size.
+            LargeRow(big.copy(packageName = "com.apk"), null, null),
+            LargeRow(app("com.small", "small"), null, null),
+        )
+        assertEquals(listOf("com.m", "com.apk"), LargeInsights.largeRows(rows).map { it.app.packageName })
+        assertEquals(260_000_000L, rows[2].bytes)
     }
 
     @Test
@@ -84,22 +96,5 @@ class InsightRowsTest {
         assertEquals(1_400_000_000L, breakdown.totalBytes)
         assertEquals(345_000_000L, breakdown.cacheBytes)
         assertEquals(null, LargeInsights.breakdown(listOf(cacheRows[2])))
-    }
-
-    @Test
-    fun `unused headline is red only when the idle apps really hold a lot or have idled long`() {
-        val now = 1_000 * DAY_MILLIS
-        val phone = 128_000_000_000L
-        assertEquals(Severity.DANGER, InsightSeverity.unused(1_300_000_000, phone, thresholdDays = 60, now = now))
-        assertEquals(Severity.WARNING, InsightSeverity.unused(120_000_000, phone, thresholdDays = 30, now = now))
-        assertEquals(Severity.DANGER, InsightSeverity.unused(120_000_000, phone, thresholdDays = 90, now = now))
-    }
-
-    @Test
-    fun `cache chip severity follows the app size rule`() {
-        val phone = 128_000_000_000L
-        assertEquals(Severity.OK, InsightSeverity.cache(40_000_000, phone))
-        assertEquals(Severity.WARNING, InsightSeverity.cache(300_000_000, phone))
-        assertEquals(Severity.DANGER, InsightSeverity.cache(1_200_000_000, phone))
     }
 }

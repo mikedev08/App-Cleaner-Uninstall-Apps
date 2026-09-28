@@ -5,10 +5,8 @@
     <string name="apps_action_back">Back</string>
     <string name="apps_summary">%1$s · %2$s</string>
     <string name="apps_tab_all">All</string>
-    <string name="apps_section_hogs">Taking the most space</string>
     <string name="apps_section_rest">Everything else</string>
     <string name="apps_chip_space_hog">Space hog</string>
-    <string name="apps_chip_idle_year">Not opened in over a year</string>
     <string name="apps_details_whats_using">What’s using space</string>
     <string name="apps_details_unlock_teaser">See what’s using space</string>
     <string name="apps_details_total_caption">Total size</string>
@@ -16,8 +14,15 @@
     <string name="apps_details_app_info">App info</string>
     <string name="apps_details_play">Play Store</string>
     <string name="apps_details_cache_hint">To clear this app’s cache, open App info, then Storage.</string>
-    <plurals name="apps_chip_idle_months">
-        <item quantity="one">Not opened in %d month</item>
-        <item quantity="other">Not opened in %d months</item>
+    <!-- Design review 2026-09: All · Unused · Large · Cache. -->
+    <string name="apps_tab_unused">Unused</string>
+    <string name="apps_tab_large">Large</string>
+    <string name="apps_tab_cache">Cache</string>
+    <string name="apps_section_large">Large</string>
+    <string name="apps_chip_large">Large</string>
+    <plurals name="apps_chip_idle_months_short">
+        <item quantity="one">Not opened in %d mo</item>
+        <item quantity="other">Not opened in %d mo</item>
     </plurals>
+    <string name="apps_chip_idle_year_short">Not opened in 1 yr+</string>
 </resources>

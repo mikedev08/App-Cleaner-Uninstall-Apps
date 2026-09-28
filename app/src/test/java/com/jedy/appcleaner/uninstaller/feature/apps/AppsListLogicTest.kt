@@ -86,18 +86,28 @@ class AppsListLogicTest {
     }
 
     @Test
-    fun `size sort splits red and amber apps from the rest`() {
+    fun `size sort splits Large apps from the rest and totals their best-known size`() {
         val rows = listOf(
-            AppsRow(maps, 300, null, severity = Severity.DANGER),
-            AppsRow(bank, 120, null, severity = Severity.WARNING),
+            // Shown as its APK (300) but measured at 900: Large, and the section counts the 900.
+            AppsRow(maps, 300, null, large = true, bestKnownBytes = 900),
+            AppsRow(bank, 280, null, large = true),
             AppsRow(chess, 50, null),
         )
         val sections = AppsListLogic.sections(rows, SortOrder.SIZE)!!
-        assertEquals(listOf(maps, bank), sections.hogs.map { it.app })
+        assertEquals(listOf(maps, bank), sections.large.map { it.app })
         assertEquals(listOf(chess), sections.rest.map { it.app })
-        assertEquals(420L, sections.hogBytes)
+        assertEquals(1_180L, sections.largeBytes)
         assertNull(AppsListLogic.sections(rows, SortOrder.NAME))
         assertNull(AppsListLogic.sections(listOf(AppsRow(chess, 50, null)), SortOrder.SIZE))
+    }
+
+    @Test
+    fun `install dates before Android existed are unknown, so no Installed Jan 1970`() {
+        assertFalse(AppsListLogic.isKnownDate(0))
+        assertFalse(AppsListLogic.isKnownDate(1_230_768_000L)) // seconds mistaken for millis
+        assertFalse(AppsListLogic.isKnownDate(AppsListLogic.KNOWN_DATE_FLOOR_MILLIS - 1))
+        assertTrue(AppsListLogic.isKnownDate(AppsListLogic.KNOWN_DATE_FLOOR_MILLIS))
+        assertTrue(AppsListLogic.isKnownDate(1_711_929_600_000L)) // Apr 2024
     }
 
     @Test

@@ -4,10 +4,8 @@
     <string name="apps_action_back">Atrás</string>
     <string name="apps_summary">%1$s · %2$s</string>
     <string name="apps_tab_all">Todas</string>
-    <string name="apps_section_hogs">Las que más ocupan</string>
     <string name="apps_section_rest">Todo lo demás</string>
     <string name="apps_chip_space_hog">Ocupa mucho</string>
-    <string name="apps_chip_idle_year">Sin abrir desde hace más de un año</string>
     <string name="apps_details_whats_using">Qué ocupa espacio</string>
     <string name="apps_details_unlock_teaser">Ver qué ocupa espacio</string>
     <string name="apps_details_total_caption">Tamaño total</string>
@@ -15,9 +13,16 @@
     <string name="apps_details_app_info">Info de la app</string>
     <string name="apps_details_play">Play Store</string>
     <string name="apps_details_cache_hint">Para borrar la caché de esta app, abre Info de la app y luego Almacenamiento.</string>
-    <plurals name="apps_chip_idle_months">
-        <item quantity="one">Sin abrir desde hace %d mes</item>
-        <item quantity="many">Sin abrir desde hace %d meses</item>
-        <item quantity="other">Sin abrir desde hace %d meses</item>
+    <!-- Design review 2026-09: All · Unused · Large · Cache. -->
+    <string name="apps_tab_unused">Sin uso</string>
+    <string name="apps_tab_large">Grandes</string>
+    <string name="apps_tab_cache">Caché</string>
+    <string name="apps_section_large">Grandes</string>
+    <string name="apps_chip_large">Grande</string>
+    <plurals name="apps_chip_idle_months_short">
+        <item quantity="one">Sin abrir en %d mes</item>
+        <item quantity="many">Sin abrir en %d meses</item>
+        <item quantity="other">Sin abrir en %d meses</item>
     </plurals>
+    <string name="apps_chip_idle_year_short">Sin abrir en +1 año</string>
 </resources>

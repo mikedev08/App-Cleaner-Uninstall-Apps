@@ -38,10 +38,10 @@ data class Age(val amount: Int, val unit: AgeUnit) {
  * why the idle chip uses MeasureFormat rather than one plural resource per unit and language.
  */
 class InsightsDateFormatter(locale: Locale) {
-    private val duration = MeasureFormat.getInstance(ULocale.forLocale(locale), MeasureFormat.FormatWidth.WIDE)
+    private val duration = MeasureFormat.getInstance(ULocale.forLocale(locale), MeasureFormat.FormatWidth.SHORT)
     private val monthYear = SimpleDateFormat(DateFormat.getBestDateTimePattern(locale, "MMMyyyy"), locale)
 
-    /** "4 months", for the "Not opened in 4 months" chip. */
+    /** "4 mths" (short units, so the chip never clips), for the "Not opened in 4 mths" chip. */
     fun duration(then: Long, now: Long): String {
         val age = Age.between(then, now)
         val unit = when (age.unit) {

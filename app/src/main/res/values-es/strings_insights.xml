@@ -66,11 +66,6 @@
     <string name="insights_private_note">Todo se queda en tu teléfono</string>
     <string name="insights_unused_teaser_loss">Son %1$s sin usar en tu teléfono.</string>
     <string name="insights_unused_teaser_body">Descubre qué apps son y elimínalas de una vez.</string>
-    <plurals name="insights_large_teaser_caption">
-        <item quantity="one">Lo que ocupa tu app más grande</item>
-        <item quantity="many">Lo que ocupan tus %d apps más grandes</item>
-        <item quantity="other">Lo que ocupan tus %d apps más grandes</item>
-    </plurals>
     <string name="insights_large_teaser_loss">Es el %1$s del almacenamiento de tu teléfono.</string>
     <string name="insights_large_teaser_body">Consulta el tamaño de cada app, desglosado en app, datos y caché.</string>
     <string name="insights_see_which_apps">Ver qué apps</string>
@@ -78,14 +73,18 @@
     <string name="insights_idle_for">Sin abrir desde hace %1$s</string>
     <string name="insights_no_use_on_record">Sin uso registrado</string>
     <string name="insights_unused_empty_body">No hay nada que limpiar por ahora.</string>
-    <string name="insights_cache_callout_title">Caché: %1$s en %2$s</string>
     <string name="insights_cache_callout_body">La caché son archivos temporales que la app vuelve a crear cuando los necesita. Puedes borrarla desde la página Información de la app sin desinstalarla.</string>
-    <string name="insights_cache_chip">%1$s de caché</string>
-    <string name="insights_sort_total">Total</string>
-    <string name="insights_sort_by_cache">Ordenar por caché</string>
-    <plurals name="insights_large_total_caption">
-        <item quantity="one">Ocupado por %d app</item>
-        <item quantity="many">Ocupado por %d apps</item>
-        <item quantity="other">Ocupado por %d apps</item>
+    <!-- Design review 2026-09: one Large rule, the Cache filter. -->
+    <string name="insights_large_caption">Apps que usan %1$s o más</string>
+    <string name="insights_large_none_title">No hay apps grandes</string>
+    <string name="insights_large_none_body">Ninguna de tus apps usa %1$s o más.</string>
+    <string name="insights_cache_access_title">Descubre qué apps guardan más caché</string>
+    <plurals name="insights_cache_caption">
+        <item quantity="one">Caché de %d app</item>
+        <item quantity="many">Caché de %d apps</item>
+        <item quantity="other">Caché de %d apps</item>
     </plurals>
+    <string name="insights_cache_teaser_body">Descubre qué apps la guardan y bórrala desde Información de la app.</string>
+    <string name="insights_cache_row_meta">%1$s en total</string>
+    <string name="insights_cache_none_title">No hay caché que borrar</string>
 </resources>

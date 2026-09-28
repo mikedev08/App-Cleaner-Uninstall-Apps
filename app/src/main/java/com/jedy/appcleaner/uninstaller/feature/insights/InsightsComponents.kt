@@ -14,6 +14,7 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.spring
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -38,6 +39,7 @@ import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.CleaningServices
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.CleaningServices
 import androidx.compose.material.icons.rounded.Lock
@@ -77,8 +79,10 @@ import androidx.compose.ui.unit.dp
 import com.jedy.appcleaner.uninstaller.R
 import com.jedy.appcleaner.uninstaller.core.format.formatBytes
 import com.jedy.appcleaner.uninstaller.core.model.AppSize
+import com.jedy.appcleaner.uninstaller.core.model.LargeApps
 import com.jedy.appcleaner.uninstaller.core.ui.component.AppCard
 import com.jedy.appcleaner.uninstaller.core.ui.component.AppIcon
+import com.jedy.appcleaner.uninstaller.core.ui.component.AppRowDefaults
 import com.jedy.appcleaner.uninstaller.core.ui.component.IconBadge
 import com.jedy.appcleaner.uninstaller.core.ui.component.PrimaryButton
 import com.jedy.appcleaner.uninstaller.core.ui.component.ProBadge
@@ -137,61 +141,6 @@ internal fun percentOf(part: Long, whole: Long): String? {
 }
 
 /**
- * Pill segmented control (30 / 60 / 90 days, Total / Cache). The green thumb slides between
- * segments; `offset` mirrors itself in RTL, as does the Row, so the thumb stays under its label.
- */
-@Composable
-internal fun PillSegmented(
-    options: List<String>,
-    selectedIndex: Int,
-    onSelect: (Int) -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    val colors = AppTheme.colors
-    BoxWithConstraints(
-        modifier
-            .fillMaxWidth()
-            .height(48.dp)
-            .clip(RoundedCornerShape(Dimens.chipRadius))
-            .background(colors.surface)
-            .padding(4.dp),
-    ) {
-        val segment = maxWidth / options.size
-        val thumbOffset by animateDpAsState(
-            segment * selectedIndex,
-            spring(dampingRatio = 0.8f, stiffness = Spring.StiffnessMediumLow),
-            label = "segmentThumb",
-        )
-        Box(
-            Modifier
-                .offset { IntOffset(thumbOffset.roundToPx(), 0) }
-                .width(segment)
-                .fillMaxHeight()
-                .clip(RoundedCornerShape(Dimens.chipRadius))
-                .background(colors.accent),
-        )
-        Row(Modifier.fillMaxSize().selectableGroup()) {
-            options.forEachIndexed { index, label ->
-                val selected = index == selectedIndex
-                val textColor by animateColorAsState(
-                    if (selected) colors.onAccent else colors.textSecondary, label = "segmentText",
-                )
-                Box(
-                    Modifier
-                        .weight(1f)
-                        .fillMaxHeight()
-                        .clip(RoundedCornerShape(Dimens.chipRadius))
-                        .selectable(selected = selected, role = Role.Tab, onClick = { onSelect(index) }),
-                    contentAlignment = Alignment.Center,
-                ) {
-                    Text(label, style = MaterialTheme.typography.labelMedium, color = textColor, maxLines = 1)
-                }
-            }
-        }
-    }
-}
-
-/**
  * State (a): no Usage Access. Sells the value first (what you will see), then the reassurance
  * (it stays on your phone), then one clear action. Opens the disclosure (Screen 11), never
  * Settings directly — Play requires the prominent disclosure first.
@@ -240,11 +189,10 @@ private fun PrivacyNote() {
 }
 
 /**
- * State (b), where free users decide to pay. The real finding in clear, as a loss: the big
- * severity-coloured number, what it is, what it costs ("1.3 GB sitting idle"), then the CTA —
- * above the preview so it is on screen on every phone height (below the rows it fell under the
- * fold, hiding the one action this state exists for). Every figure is the user's own; the
- * colour comes from SeverityRules, so a small finding is amber, never a fake red.
+ * State (b), where free users decide to pay. The real finding in clear: the big number in
+ * textPrimary, what it is, what it costs ("1.3 GB sitting idle"), then the green CTA — above the
+ * preview so it is on screen on every phone height. A neutral outlined card with one quiet PRO
+ * marker (design review §3.3: red is for destructive actions only, gold is quiet).
  *
  * @param number already count-up animated by the caller, e.g. "9 apps · 1.3 GB".
  * @param loss the cost framing; null when there is no honest figure to show.
@@ -252,34 +200,32 @@ private fun PrivacyNote() {
 @Composable
 internal fun LockedTeaser(
     number: String,
-    severity: Severity,
     caption: String,
     loss: String?,
     body: String,
     preview: List<PreviewRow>,
-    deviceTotalBytes: Long,
     onUnlock: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Column(modifier.fillMaxWidth().padding(horizontal = Dimens.gutter, vertical = 8.dp)) {
-        AppCard(color = severity.surface, contentPadding = PaddingValues(24.dp)) {
+    Column(modifier.fillMaxWidth().padding(horizontal = Dimens.gutter, vertical = Dimens.space8)) {
+        AppCard(modifier = Modifier.fillMaxWidth(), contentPadding = PaddingValues(Dimens.space24)) {
             ProBadge()
-            Spacer(Modifier.height(16.dp))
+            Spacer(Modifier.height(Dimens.space16))
             Text(
                 text = number,
-                style = MaterialTheme.typography.displaySmall,
+                style = MaterialTheme.typography.headlineLarge,
                 fontWeight = FontWeight.ExtraBold,
-                color = severity.color,
+                color = AppTheme.colors.textPrimary,
             )
-            Spacer(Modifier.height(4.dp))
+            Spacer(Modifier.height(Dimens.space4))
             Text(caption, style = MaterialTheme.typography.titleMedium, color = AppTheme.colors.textPrimary)
             if (loss != null) {
-                Spacer(Modifier.height(16.dp))
-                Text(loss, style = MaterialTheme.typography.titleLarge, color = AppTheme.colors.textPrimary)
+                Spacer(Modifier.height(Dimens.space16))
+                Text(loss, style = MaterialTheme.typography.titleMedium, color = AppTheme.colors.textPrimary)
             }
-            Spacer(Modifier.height(6.dp))
+            Spacer(Modifier.height(Dimens.space4))
             Text(body, style = MaterialTheme.typography.bodyMedium, color = AppTheme.colors.textSecondary)
-            Spacer(Modifier.height(20.dp))
+            Spacer(Modifier.height(Dimens.space24))
             PrimaryButton(
                 text = stringResource(R.string.insights_see_which_apps),
                 onClick = onUnlock,
@@ -287,10 +233,9 @@ internal fun LockedTeaser(
                 modifier = Modifier.fillMaxWidth(),
             )
         }
-        Spacer(Modifier.height(12.dp))
+        Spacer(Modifier.height(Dimens.space12))
         RedactedPreview(
             rows = preview,
-            deviceTotalBytes = deviceTotalBytes,
             description = stringResource(R.string.insights_locked_rows_description),
         )
     }
@@ -299,11 +244,11 @@ internal fun LockedTeaser(
 /**
  * The redacted rows: clearly the user's real list, never readable. Labels and sizes are drawn
  * as bars, so no text exists on any API level or for a screen reader; each row's size bar has
- * its real length and severity colour. On API 31+ the rows (with real, unrecognisable icons) are
+ * its real length and the Large colour when it is Large. On API 31+ the rows (with real, unrecognisable icons) are
  * also blurred; below 31, where blur is a no-op, icons become solid placeholders instead.
  */
 @Composable
-private fun RedactedPreview(rows: List<PreviewRow>, deviceTotalBytes: Long, description: String) {
+private fun RedactedPreview(rows: List<PreviewRow>, description: String) {
     val canBlur = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
     val largest = rows.maxOfOrNull { it.bytes }?.takeIf { it > 0 } ?: 1L
     val count = rows.size.coerceIn(MIN_PREVIEW_ROWS, MAX_PREVIEW_ROWS)
@@ -317,7 +262,7 @@ private fun RedactedPreview(rows: List<PreviewRow>, deviceTotalBytes: Long, desc
                 RedactedRow(
                     packageName = row?.packageName?.takeIf { canBlur },
                     fraction = row?.let { it.bytes.toFloat() / largest } ?: PLACEHOLDER_FRACTIONS[index % PLACEHOLDER_FRACTIONS.size],
-                    severity = row?.let { SeverityRules.appSize(it.bytes, deviceTotalBytes) } ?: Severity.OK,
+                    large = row?.let { LargeApps.isLarge(it.bytes) } ?: false,
                     index = index,
                 )
             }
@@ -331,15 +276,17 @@ private fun RedactedPreview(rows: List<PreviewRow>, deviceTotalBytes: Long, desc
 }
 
 @Composable
-private fun RedactedRow(packageName: String?, fraction: Float, severity: Severity, index: Int) {
+private fun RedactedRow(packageName: String?, fraction: Float, large: Boolean, index: Int) {
     val ink = AppTheme.colors.textSecondary
+    val barColor = if (large) AppTheme.colors.sizeBarLarge else AppTheme.colors.accent
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(20.dp))
+            .clip(AppRowDefaults.Shape)
             .background(AppTheme.colors.surface)
-            .heightIn(min = Dimens.appRowHeight)
-            .padding(horizontal = 14.dp, vertical = 12.dp),
+            .border(Dimens.hairline, AppTheme.colors.border, AppRowDefaults.Shape)
+            .height(Dimens.appRowHeight)
+            .padding(horizontal = Dimens.space12),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         if (packageName != null) {
@@ -352,13 +299,14 @@ private fun RedactedRow(packageName: String?, fraction: Float, severity: Severit
                     .background(AppTheme.colors.surfaceMuted),
             )
         }
-        Spacer(Modifier.width(14.dp))
-        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Spacer(Modifier.width(Dimens.space12))
+        Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(Dimens.space8)) {
             Bar(widthFraction = LABEL_WIDTHS[index % LABEL_WIDTHS.size], height = 12, color = ink.copy(alpha = 0.35f))
-            Bar(widthFraction = fraction.coerceIn(0.05f, 1f), height = 6, color = severity.color)
+            Bar(widthFraction = fraction.coerceIn(0.05f, 1f), height = 6, color = barColor)
         }
-        Spacer(Modifier.width(14.dp))
-        Bar(widthFraction = null, height = 12, color = severity.color.copy(alpha = 0.6f))
+        Spacer(Modifier.width(Dimens.space12))
+        Bar(widthFraction = null, height = 12, color = ink.copy(alpha = 0.35f))
+        Spacer(Modifier.width(Dimens.space12))
     }
 }
 
@@ -374,14 +322,13 @@ private fun Bar(widthFraction: Float?, height: Int, color: Color) {
 }
 
 /**
- * The premium summary at the top of a list: big severity number, what it means, optional
+ * The premium summary at the top of a list: the big number (textPrimary), what it means, optional
  * [extra] content and the "Select all 9" pill. Selection covers the rows currently visible
  * under the search filter; nothing hidden is ever added silently.
  */
 @Composable
 internal fun SummaryCard(
     number: String,
-    severity: Severity,
     caption: String,
     visiblePackages: List<String>,
     selected: Set<String>,
@@ -390,21 +337,20 @@ internal fun SummaryCard(
     extra: (@Composable ColumnScope.() -> Unit)? = null,
 ) {
     AppCard(
-        modifier = modifier.fillMaxWidth().padding(horizontal = Dimens.gutter, vertical = 8.dp),
-        color = severity.surface,
-        contentPadding = PaddingValues(22.dp),
+        modifier = modifier.fillMaxWidth().padding(horizontal = Dimens.gutter, vertical = Dimens.space8),
+        contentPadding = PaddingValues(Dimens.gutter),
     ) {
         Text(
             text = number,
-            style = MaterialTheme.typography.headlineLarge,
+            style = MaterialTheme.typography.headlineMedium,
             fontWeight = FontWeight.ExtraBold,
-            color = severity.color,
+            color = AppTheme.colors.textPrimary,
         )
         Spacer(Modifier.height(2.dp))
-        Text(caption, style = MaterialTheme.typography.titleSmall, color = AppTheme.colors.textPrimary)
+        Text(caption, style = MaterialTheme.typography.titleSmall, color = AppTheme.colors.textSecondary)
         extra?.invoke(this)
         if (visiblePackages.isNotEmpty()) {
-            Spacer(Modifier.height(14.dp))
+            Spacer(Modifier.height(Dimens.space16))
             SelectAllPill(visiblePackages, selected, onSelectAll)
         }
     }
@@ -420,7 +366,7 @@ private fun SelectAllPill(
     Row(
         modifier = Modifier
             .clip(RoundedCornerShape(Dimens.chipRadius))
-            .background(AppTheme.colors.surfaceElevated)
+            .background(AppTheme.colors.surfaceMuted)
             .toggleable(value = allSelected, role = Role.Checkbox, onValueChange = { onSelectAll(visiblePackages, !allSelected) })
             .padding(end = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
@@ -434,14 +380,17 @@ private fun SelectAllPill(
     }
 }
 
-/** The three size segments' colours, shared by every bar and the legend. */
+/**
+ * The three size segments' colours, shared by every bar and the legend. Indicator fills only;
+ * no red (design review §3.3: red is for destructive actions).
+ */
 private data class SegmentColors(val app: Color, val data: Color, val cache: Color)
 
 @Composable
 private fun segmentColors() = SegmentColors(
     app = AppTheme.colors.accent,
-    data = AppTheme.colors.warning,
-    cache = AppTheme.colors.danger,
+    data = AppTheme.colors.storageOther,
+    cache = AppTheme.colors.warning,
 )
 
 /**
@@ -501,55 +450,24 @@ private fun LegendItem(color: Color, label: String, amount: String, modifier: Mo
 }
 
 /**
- * "Cache: 640 MB in 12 apps". Cache is the one part of an app's size a user can reclaim without
- * uninstalling, so the card says where (App info) and offers the Cache sort to find them.
+ * Where cache can be cleared. Cache is the one part of an app's size a user can reclaim without
+ * uninstalling, so the Cache filter's summary says where (App info).
  */
 @Composable
-internal fun CacheCallout(
-    cache: CacheSummary,
-    deviceTotalBytes: Long,
-    onSortByCache: (() -> Unit)?,
-    modifier: Modifier = Modifier,
-) {
-    val context = LocalContext.current
-    AppCard(modifier = modifier.fillMaxWidth().padding(horizontal = Dimens.gutter, vertical = 4.dp)) {
-        Row(verticalAlignment = Alignment.Top) {
-            IconBadge(
-                icon = Icons.Rounded.CleaningServices,
-                severity = InsightSeverity.cache(cache.bytes, deviceTotalBytes),
-                size = 44.dp,
-            )
-            Spacer(Modifier.width(14.dp))
-            Column(Modifier.weight(1f)) {
-                Text(
-                    text = stringResource(
-                        R.string.insights_cache_callout_title,
-                        formatBytes(context, cache.bytes),
-                        pluralStringResource(R.plurals.insights_apps_count, cache.apps, cache.apps),
-                    ),
-                    style = MaterialTheme.typography.titleMedium,
-                    color = AppTheme.colors.textPrimary,
-                )
-                Spacer(Modifier.height(4.dp))
-                Text(
-                    text = stringResource(R.string.insights_cache_callout_body),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = AppTheme.colors.textSecondary,
-                )
-                if (onSortByCache != null) {
-                    Text(
-                        text = stringResource(R.string.insights_sort_by_cache),
-                        style = MaterialTheme.typography.labelMedium,
-                        color = AppTheme.colors.accentText,
-                        modifier = Modifier
-                            .padding(top = 4.dp)
-                            .clip(RoundedCornerShape(8.dp))
-                            .clickable(onClick = onSortByCache)
-                            .padding(vertical = 8.dp),
-                    )
-                }
-            }
-        }
+internal fun CacheHint(modifier: Modifier = Modifier) {
+    Row(modifier.fillMaxWidth().padding(top = Dimens.space12), verticalAlignment = Alignment.Top) {
+        Icon(
+            Icons.Outlined.CleaningServices,
+            contentDescription = null,
+            tint = AppTheme.colors.textSecondary,
+            modifier = Modifier.size(18.dp),
+        )
+        Spacer(Modifier.width(Dimens.space8))
+        Text(
+            text = stringResource(R.string.insights_cache_callout_body),
+            style = MaterialTheme.typography.bodySmall,
+            color = AppTheme.colors.textSecondary,
+        )
     }
 }
 
@@ -617,15 +535,15 @@ internal fun InsightsLoading(text: String, modifier: Modifier = Modifier) {
                 Modifier
                     .fillMaxWidth()
                     .alpha(pulse)
-                    .clip(RoundedCornerShape(20.dp))
+                    .clip(AppRowDefaults.Shape)
                     .background(AppTheme.colors.surface)
-                    .heightIn(min = Dimens.appRowHeight)
-                    .padding(horizontal = 14.dp, vertical = 12.dp),
+                    .height(Dimens.appRowHeight)
+                    .padding(horizontal = Dimens.space12),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Box(Modifier.size(Dimens.appIconSize).clip(RoundedCornerShape(Dimens.appIconSize / 4)).background(AppTheme.colors.surfaceMuted))
-                Spacer(Modifier.width(14.dp))
-                Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                Spacer(Modifier.width(Dimens.space12))
+                Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(Dimens.space8)) {
                     Bar(LABEL_WIDTHS[index % LABEL_WIDTHS.size], 12, AppTheme.colors.surfaceMuted)
                     Bar(PLACEHOLDER_FRACTIONS[index % PLACEHOLDER_FRACTIONS.size], 6, AppTheme.colors.surfaceMuted)
                 }

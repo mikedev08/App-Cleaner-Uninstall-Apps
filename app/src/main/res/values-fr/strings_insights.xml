@@ -66,11 +66,6 @@
     <string name="insights_private_note">Tout reste sur votre téléphone</string>
     <string name="insights_unused_teaser_loss">Soit %1$s qui dorment sur votre téléphone.</string>
     <string name="insights_unused_teaser_body">Découvrez de quelles applis il s’agit et supprimez-les d’un coup.</string>
-    <plurals name="insights_large_teaser_caption">
-        <item quantity="one">Occupés par %d appli, votre plus grosse</item>
-        <item quantity="many">Occupés par vos %d plus grosses applis</item>
-        <item quantity="other">Occupés par vos %d plus grosses applis</item>
-    </plurals>
     <string name="insights_large_teaser_loss">Soit %1$s du stockage de votre téléphone.</string>
     <string name="insights_large_teaser_body">Voyez la taille de chaque appli, répartie entre appli, données et cache.</string>
     <string name="insights_see_which_apps">Voir quelles applis</string>
@@ -78,14 +73,18 @@
     <string name="insights_idle_for">Pas ouverte depuis %1$s</string>
     <string name="insights_no_use_on_record">Aucune utilisation enregistrée</string>
     <string name="insights_unused_empty_body">Rien à nettoyer pour le moment.</string>
-    <string name="insights_cache_callout_title">Cache : %1$s dans %2$s</string>
     <string name="insights_cache_callout_body">Le cache, ce sont des fichiers temporaires que l’appli recrée quand elle en a besoin. Vous pouvez le vider depuis la page Infos sur l’appli, sans la désinstaller.</string>
-    <string name="insights_cache_chip">%1$s de cache</string>
-    <string name="insights_sort_total">Total</string>
-    <string name="insights_sort_by_cache">Trier par cache</string>
-    <plurals name="insights_large_total_caption">
-        <item quantity="one">Occupés par %d appli</item>
-        <item quantity="many">Occupés par %d applis</item>
-        <item quantity="other">Occupés par %d applis</item>
+    <!-- Design review 2026-09: one Large rule, the Cache filter. -->
+    <string name="insights_large_caption">Applis de %1$s ou plus</string>
+    <string name="insights_large_none_title">Aucune grosse appli</string>
+    <string name="insights_large_none_body">Aucune de vos applis n’utilise %1$s ou plus.</string>
+    <string name="insights_cache_access_title">Voyez quelles applis ont le plus de cache</string>
+    <plurals name="insights_cache_caption">
+        <item quantity="one">Cache de %d appli</item>
+        <item quantity="many">Cache de %d applis</item>
+        <item quantity="other">Cache de %d applis</item>
     </plurals>
+    <string name="insights_cache_teaser_body">Voyez quelles applis le stockent, puis videz-le depuis Infos sur l’appli.</string>
+    <string name="insights_cache_row_meta">%1$s au total</string>
+    <string name="insights_cache_none_title">Aucun cache à vider</string>
 </resources>
