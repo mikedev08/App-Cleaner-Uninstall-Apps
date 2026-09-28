@@ -286,7 +286,8 @@ internal fun AppsTabs(
     modifier: Modifier = Modifier,
 ) {
     val colors = AppTheme.colors
-    val tabs = HomeTab.entries
+    // TODO(apps agent): add the Cache filter (All · Unused · Large · Cache) with SegmentedControl.
+    val tabs = HomeTab.entries - HomeTab.CACHE
     BoxWithConstraints(
         modifier
             .fillMaxWidth()
@@ -341,4 +342,5 @@ private fun HomeTab.labelRes(): Int = when (this) {
     HomeTab.ALL -> R.string.apps_tab_all
     HomeTab.UNUSED -> R.string.home_tab_unused
     HomeTab.LARGE -> R.string.home_tab_large
+    HomeTab.CACHE -> R.string.home_tab_large // TODO(apps agent): a "Cache" label.
 }

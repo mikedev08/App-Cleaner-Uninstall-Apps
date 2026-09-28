@@ -76,7 +76,7 @@ internal fun ProHeroCard(onUpgrade: () -> Unit, modifier: Modifier = Modifier) {
             .clickable(onClick = onUpgrade)
             .padding(24.dp),
     ) {
-        ProBadge()
+        ProBadge(strong = true)
         Text(
             text = stringResource(R.string.settings_premium_upgrade_title),
             style = MaterialTheme.typography.headlineMedium,

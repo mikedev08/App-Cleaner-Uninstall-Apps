@@ -233,7 +233,7 @@ private fun SizeLine(label: String, value: String, fraction: Float) {
             Text(value, style = MaterialTheme.typography.titleSmall, color = colors.textPrimary)
         }
         // Neutral green bars: this is a breakdown of one app, not a warning.
-        SizeBar(fraction = fraction, severity = Severity.OK, height = 8.dp)
+        SizeBar(fraction = fraction, height = 8.dp)
     }
 }
 

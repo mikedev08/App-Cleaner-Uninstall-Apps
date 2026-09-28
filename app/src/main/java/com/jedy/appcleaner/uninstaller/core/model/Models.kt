@@ -50,7 +50,38 @@ data class UnusedApp(
     val lastUsedAt: Long?,
 )
 
-enum class HomeTab { ALL, UNUSED, LARGE }
+/**
+ * The Apps screen filters, in display order: All · Unused · Large · Cache (design review §2.6 —
+ * the same names Home and Scan use). [CACHE] lists apps by cache size.
+ */
+enum class HomeTab { ALL, UNUSED, LARGE, CACHE }
+
+/**
+ * The one definition of a "Large" app (design review §2A / priority #0). Home's category row, the
+ * Scan result and the Apps "Large" filter must all count with [isLarge], so the three numbers
+ * always agree. Never re-derive a threshold elsewhere, and never use a share-of-disk rule.
+ *
+ * **Which bytes to pass:** the app's *best known size* — the measured app + data + cache total
+ * ([AppSize.totalBytes]) when StorageStatsManager has one, else the APK bytes
+ * ([InstalledApp.apkBytes]). Use [bestKnownBytes] rather than computing it by hand. This is the
+ * same number `ScanMath.sizeOf` uses for the scan headline.
+ */
+object LargeApps {
+    /** 250 MB in the decimal units Android's size formatter shows, so "250 MB" is exactly the line. */
+    const val THRESHOLD_BYTES: Long = 250_000_000L
+
+    fun isLarge(bestKnownBytes: Long): Boolean = bestKnownBytes >= THRESHOLD_BYTES
+
+    fun isLarge(app: InstalledApp, size: AppSize?): Boolean = isLarge(app.bestKnownBytes(size))
+
+    fun isLarge(app: InstalledApp, sizes: Map<String, AppSize>): Boolean = isLarge(app.bestKnownBytes(sizes))
+}
+
+/** Measured app + data + cache total when known, else the APK bytes. What [LargeApps] judges. */
+fun InstalledApp.bestKnownBytes(size: AppSize?): Long = size?.totalBytes ?: apkBytes
+
+/** [bestKnownBytes] looked up in a package-name → [AppSize] map. */
+fun InstalledApp.bestKnownBytes(sizes: Map<String, AppSize>): Long = bestKnownBytes(sizes[packageName])
 
 /** PRD §4, Screen 4 sort menu. [LAST_USED] is premium. */
 enum class SortOrder {
@@ -67,6 +98,7 @@ enum class SortOrder {
             HomeTab.ALL -> SIZE
             HomeTab.UNUSED -> LAST_USED
             HomeTab.LARGE -> SIZE
+            HomeTab.CACHE -> SIZE
         }
     }
 }

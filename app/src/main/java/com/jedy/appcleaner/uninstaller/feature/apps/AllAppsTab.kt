@@ -50,6 +50,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.jedy.appcleaner.uninstaller.R
 import com.jedy.appcleaner.uninstaller.core.format.formatBytes
+import com.jedy.appcleaner.uninstaller.core.model.LargeApps
 import com.jedy.appcleaner.uninstaller.core.model.SortOrder
 import com.jedy.appcleaner.uninstaller.core.ui.component.AppCard
 import com.jedy.appcleaner.uninstaller.core.ui.component.AppRow
@@ -216,7 +217,7 @@ private fun AppListRow(
         onToggleSelected = { onToggleSelected(row.packageName) },
         onClick = { onOpenDetails(row.packageName) },
         trailingText = formatBytes(context, row.sizeBytes),
-        severity = row.severity,
+        large = LargeApps.isLarge(row.sizeBytes),
         sizeFraction = row.sizeFraction,
         chips = if (hog || idle != null) {
             {

@@ -5,8 +5,10 @@ import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -27,8 +29,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.rounded.Check
-import androidx.compose.material.icons.rounded.Lock
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -45,22 +47,29 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import com.jedy.appcleaner.uninstaller.R
 import com.jedy.appcleaner.uninstaller.core.ui.theme.AppTheme
 import com.jedy.appcleaner.uninstaller.core.ui.theme.Dimens
 import com.jedy.appcleaner.uninstaller.core.ui.theme.Severity
 import com.jedy.appcleaner.uninstaller.core.ui.theme.color
+import com.jedy.appcleaner.uninstaller.core.ui.theme.contentColor
 import com.jedy.appcleaner.uninstaller.core.ui.theme.surface
 
 /*
- * Design system v2 kit. Every screen builds from these so the app reads as one product:
- * big soft cards (no borders, no shadows), pill buttons, bold numbers, severity colour.
+ * Design system v2.1 kit (design review, Sept 2026). Every screen builds from these so the app
+ * reads as one product: soft cards with a 1dp border, pill buttons, bold numbers in textPrimary,
+ * colour only on indicators. Color.kt lists the colour rules these components enforce.
  */
 
-/** The one filled CTA per screen. [destructive] paints it Remove Red (uninstall actions only). */
+/**
+ * The one filled CTA per screen. [destructive] paints it Remove Red: Uninstall / Remove only,
+ * never a positive action like "Free up 1.1 GB" (that stays green).
+ */
 @Composable
 fun PrimaryButton(
     text: String,
@@ -93,7 +102,7 @@ fun PrimaryButton(
     }
 }
 
-/** Tonal secondary action. */
+/** Tonal secondary action. Stack it [Dimens.stackedButtonGap] below a [PrimaryButton]. */
 @Composable
 fun SecondaryButton(
     text: String,
@@ -131,26 +140,38 @@ private fun PillSurface(
     )
 }
 
-/** A soft rounded card. Pass [onClick] to make the whole card tappable. */
+/**
+ * A soft rounded card. Pass [onClick] to make the whole card tappable.
+ *
+ * Design review §3.2.6: a plain `surface` card gets a 1dp `border` outline so it separates from
+ * the background in both themes. Tinted cards (accent / warning / premium surfaces) default to no
+ * border; pass [border] to override. Place cards at [Dimens.gutter], [Dimens.cardGap] apart.
+ */
 @Composable
 fun AppCard(
     modifier: Modifier = Modifier,
     onClick: (() -> Unit)? = null,
     color: Color = AppTheme.colors.surface,
     contentPadding: PaddingValues = PaddingValues(Dimens.gutter),
+    border: BorderStroke? = if (color == AppTheme.colors.surface) BorderStroke(Dimens.hairline, AppTheme.colors.border) else null,
     content: @Composable ColumnScope.() -> Unit,
 ) {
+    val shape = RoundedCornerShape(Dimens.cardRadius)
     Column(
         modifier = modifier
-            .clip(RoundedCornerShape(Dimens.cardRadius))
+            .clip(shape)
             .background(color)
+            .then(if (border != null) Modifier.border(border, shape) else Modifier)
             .then(if (onClick != null) Modifier.clickable(onClick = onClick) else Modifier)
             .padding(contentPadding),
         content = content,
     )
 }
 
-/** Section title with an optional trailing text action ("See all"). */
+/**
+ * Section title with an optional trailing text action ("See all"). Place it at [Dimens.gutter]
+ * with [Dimens.headingToContent] below it and [Dimens.sectionGap] above it.
+ */
 @Composable
 fun SectionHeader(
     title: String,
@@ -213,7 +234,10 @@ fun StorageGauge(
     }
 }
 
-/** A dashboard tile: icon badge, label, big value. [locked] shows the gold lock (premium). */
+/**
+ * A dashboard tile: icon badge, label, big value in textPrimary. [locked] shows the quiet
+ * [ProBadge]. [caption] is neutral text: severity never colours text (design review §3.3).
+ */
 @Composable
 fun StatTile(
     icon: ImageVector,
@@ -236,43 +260,74 @@ fun StatTile(
         Text(label, style = MaterialTheme.typography.bodyMedium, color = AppTheme.colors.textSecondary, maxLines = 2)
         if (caption != null) {
             Spacer(Modifier.height(2.dp))
-            Text(caption, style = MaterialTheme.typography.bodySmall, color = severity.color, maxLines = 1)
+            Text(caption, style = MaterialTheme.typography.bodySmall, color = AppTheme.colors.textSecondary, maxLines = 1)
         }
     }
 }
 
-/** Rounded-square icon on a severity-tinted surface. */
+/** Rounded-square icon on a severity-tinted surface, tinted with [Severity.contentColor]. */
 @Composable
 fun IconBadge(icon: ImageVector, modifier: Modifier = Modifier, severity: Severity = Severity.OK, size: Dp = 40.dp) {
-    val tint = if (severity == Severity.OK) AppTheme.colors.accentText else severity.color
     Box(
         modifier.size(size).clip(RoundedCornerShape(size * 0.32f)).background(severity.surface),
         contentAlignment = Alignment.Center,
     ) {
-        Icon(icon, contentDescription = null, tint = tint, modifier = Modifier.size(size * 0.55f))
+        Icon(icon, contentDescription = null, tint = severity.contentColor, modifier = Modifier.size(size * 0.55f))
     }
 }
 
-/** Gold "PRO" pill with a lock — the only premium marker. */
+/**
+ * The one premium marker (design review §5). Quiet by default: `premiumGoldText` on
+ * `premiumGoldSurface`, text only, no lock glyph. Show it once per locked row, at the trailing
+ * edge or under the title, never squeezed into a title line or a segment label (segments use
+ * [LockIcon]).
+ *
+ * [strong] = the full gold fill, for the **single** upsell spot (the Settings Pro card) and
+ * nowhere else, so the green primary action stays the loudest thing on screen.
+ */
 @Composable
-fun ProBadge(modifier: Modifier = Modifier, text: String = "PRO") {
-    Row(
-        modifier
+fun ProBadge(modifier: Modifier = Modifier, text: String = "PRO", strong: Boolean = false) {
+    val colors = AppTheme.colors
+    Text(
+        text = text,
+        style = MaterialTheme.typography.labelSmall,
+        color = if (strong) colors.onPremiumGold else colors.premiumGoldText,
+        maxLines = 1,
+        softWrap = false,
+        modifier = modifier
             .clip(RoundedCornerShape(Dimens.chipRadius))
-            .background(AppTheme.colors.premiumGold)
+            .background(if (strong) colors.premiumGold else colors.premiumGoldSurface)
             .padding(horizontal = 8.dp, vertical = 3.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Icon(Icons.Rounded.Lock, contentDescription = null, tint = AppTheme.colors.onPremiumGold, modifier = Modifier.size(11.dp))
-        Spacer(Modifier.width(3.dp))
-        Text(text, style = MaterialTheme.typography.labelSmall, color = AppTheme.colors.onPremiumGold)
-    }
+    )
 }
 
-/** Small tinted chip: "Space hog", "Not opened in 3 months", "Keyboard". */
+/**
+ * The small lock for a Pro-only option *inside* a control: a locked segment, a sort-menu entry,
+ * a small button. Neutral [tint] by default (gold belongs to [ProBadge]); pass the colour of the
+ * text beside it. Rows use [ProBadge] instead, so each locked thing shows exactly one marker.
+ */
+@Composable
+fun LockIcon(
+    modifier: Modifier = Modifier,
+    tint: Color = AppTheme.colors.textSecondary,
+    size: Dp = 14.dp,
+    contentDescription: String? = stringResource(R.string.cd_pro_feature),
+) {
+    Icon(Icons.Outlined.Lock, contentDescription = contentDescription, tint = tint, modifier = modifier.size(size))
+}
+
+/**
+ * Small tinted chip ("Not opened in 3 months", "Reinstalled", "Large"). Background is
+ * [Severity.surface]; text and icon are [Severity.contentColor], never amber or red text.
+ *
+ * It measures at its intrinsic width on one line (`softWrap = false`) so its unit is never cut
+ * off: [AppRow] gives the chip its full width first and shrinks the subtitle instead. Use
+ * [Severity.WARNING] for a "Large" chip (it matches the Large bar), never [Severity.DANGER],
+ * which is for destructive states. At most one chip per row fits a 360dp phone.
+ */
 @Composable
 fun SeverityChip(text: String, severity: Severity, modifier: Modifier = Modifier, icon: ImageVector? = null) {
-    val fg = if (severity == Severity.OK) AppTheme.colors.accentText else severity.color
+    val fg = severity.contentColor
     Row(
         modifier
             .clip(RoundedCornerShape(Dimens.chipRadius))
@@ -284,29 +339,47 @@ fun SeverityChip(text: String, severity: Severity, modifier: Modifier = Modifier
             Icon(icon, contentDescription = null, tint = fg, modifier = Modifier.size(12.dp))
             Spacer(Modifier.width(4.dp))
         }
-        Text(text, style = MaterialTheme.typography.labelSmall, color = fg, maxLines = 1)
+        Text(
+            text,
+            style = MaterialTheme.typography.labelSmall,
+            color = fg,
+            maxLines = 1,
+            softWrap = false,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.weight(1f, fill = false),
+        )
     }
 }
 
-/** Thin rounded bar showing [fraction] of the biggest item; colour follows [severity]. */
+/**
+ * Thin rounded bar showing [fraction] of the biggest item in the list. Two colours only (design
+ * review §3.3): `accent` normally, `sizeBarLarge` when the app is [large] (`LargeApps.isLarge`).
+ * The bar carries the meaning; the size text beside it stays textPrimary. It fills its width, so
+ * give it a fixed-width slot (as [AppRow] does) to line the right ends up down a list.
+ */
 @Composable
-fun SizeBar(fraction: Float, severity: Severity, modifier: Modifier = Modifier, height: Dp = 6.dp) {
+fun SizeBar(fraction: Float, modifier: Modifier = Modifier, large: Boolean = false, height: Dp = 6.dp) {
     val animated by animateFloatAsState(fraction.coerceIn(0.02f, 1f), tween(700), label = "sizebar")
+    val fill = if (large) AppTheme.colors.sizeBarLarge else AppTheme.colors.accent
     Box(
         modifier.fillMaxWidth().height(height).clip(CircleShape).background(AppTheme.colors.gaugeTrack),
     ) {
-        Box(Modifier.fillMaxHeight().fillMaxWidth(animated).clip(CircleShape).background(severity.color))
+        Box(Modifier.fillMaxHeight().fillMaxWidth(animated).clip(CircleShape).background(fill))
     }
 }
 
-/** Round selection check (replaces the square Material checkbox in lists). */
+/**
+ * Round selection check (replaces the square Material checkbox in lists) in a 48dp touch target.
+ * Unchecked is a 2dp `textMuted` ring, so it shows on a card (design review §5).
+ */
 @Composable
-fun RoundCheck(checked: Boolean, onToggle: (() -> Unit)?, modifier: Modifier = Modifier, size: Dp = 26.dp) {
+fun RoundCheck(checked: Boolean, onToggle: (() -> Unit)?, modifier: Modifier = Modifier, size: Dp = 24.dp) {
     val colors = AppTheme.colors
-    val bg by animateColorAsState(if (checked) colors.accent else Color.Transparent, label = "check")
+    val fill by animateColorAsState(if (checked) colors.accent else Color.Transparent, label = "check")
+    val ring by animateColorAsState(if (checked) colors.accent else colors.textMuted, label = "checkRing")
     Box(
         modifier
-            .size(size + 16.dp)
+            .size(maxOf(size + 16.dp, Dimens.minTouchTarget))
             .clip(CircleShape)
             .then(if (onToggle != null) Modifier.clickable(onClick = onToggle) else Modifier),
         contentAlignment = Alignment.Center,
@@ -315,11 +388,8 @@ fun RoundCheck(checked: Boolean, onToggle: (() -> Unit)?, modifier: Modifier = M
             Modifier
                 .size(size)
                 .clip(CircleShape)
-                .background(bg)
-                .then(
-                    if (checked) Modifier
-                    else Modifier.background(colors.surfaceMuted, CircleShape).padding(2.dp).background(colors.background, CircleShape)
-                ),
+                .background(fill)
+                .border(2.dp, ring, CircleShape),
             contentAlignment = Alignment.Center,
         ) {
             if (checked) Icon(Icons.Rounded.Check, contentDescription = null, tint = colors.onAccent, modifier = Modifier.size(size * 0.66f))
@@ -327,7 +397,10 @@ fun RoundCheck(checked: Boolean, onToggle: (() -> Unit)?, modifier: Modifier = M
     }
 }
 
-/** Big number + caption block used on heroes and results ("3.4 GB" / "can be freed"). */
+/**
+ * Big number + caption block used on heroes and results ("3.4 GB" / "can be freed"). Good news
+ * passes `color = AppTheme.colors.positive`; never a severity colour.
+ */
 @Composable
 fun BigNumber(value: String, caption: String?, modifier: Modifier = Modifier, color: Color = AppTheme.colors.textPrimary) {
     Column(modifier, horizontalAlignment = Alignment.CenterHorizontally) {

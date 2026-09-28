@@ -9,4 +9,5 @@
     <string name="action_back">Retour</string>
     <string name="action_open_settings">Ouvrir les paramètres</string>
     <string name="label_premium">Premium</string>
+    <string name="cd_pro_feature">Fonction Pro</string>
 </resources>

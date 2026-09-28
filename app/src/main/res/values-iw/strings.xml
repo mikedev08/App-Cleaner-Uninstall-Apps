@@ -9,4 +9,5 @@
     <string name="action_back">חזרה</string>
     <string name="action_open_settings">פתיחת ההגדרות</string>
     <string name="label_premium">פרימיום</string>
+    <string name="cd_pro_feature">תכונת Pro</string>
 </resources>

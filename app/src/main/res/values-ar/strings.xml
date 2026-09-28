@@ -9,4 +9,5 @@
     <string name="action_back">رجوع</string>
     <string name="action_open_settings">فتح الإعدادات</string>
     <string name="label_premium">بريميوم</string>
+    <string name="cd_pro_feature">ميزة Pro</string>
 </resources>

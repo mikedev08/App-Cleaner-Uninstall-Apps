@@ -154,7 +154,8 @@ fun AppsScreen(
                         onOpenDetails = viewModel::openDetails,
                         modifier = Modifier.fillMaxSize().padding(bottomPadding),
                     )
-                    HomeTab.LARGE -> LargeTab(
+                    // TODO(apps agent): CACHE gets its own list; it shows the Large tab until then.
+                    HomeTab.LARGE, HomeTab.CACHE -> LargeTab(
                         searchQuery = state.query,
                         onRequestAccess = { onOpenUsageAccess(UsageAccessTrigger.LARGE_TAB) },
                         onUnlock = { onOpenPaywall(PaywallSource.LARGE_TAB) },

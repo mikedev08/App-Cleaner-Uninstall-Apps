@@ -30,6 +30,7 @@ import androidx.lifecycle.compose.LifecycleEventEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.jedy.appcleaner.uninstaller.R
 import com.jedy.appcleaner.uninstaller.core.format.formatBytes
+import com.jedy.appcleaner.uninstaller.core.model.LargeApps
 import com.jedy.appcleaner.uninstaller.core.ui.component.AppRow
 import com.jedy.appcleaner.uninstaller.core.ui.component.EmptyState
 import com.jedy.appcleaner.uninstaller.core.ui.component.SeverityChip
@@ -328,7 +329,7 @@ private fun UnusedAppRow(
         onToggleSelected = onToggle,
         onClick = onOpenDetails,
         trailingText = formatBytes(LocalContext.current, row.bytes),
-        severity = SeverityRules.appSize(row.bytes, deviceTotalBytes),
+        large = LargeApps.isLarge(row.bytes),
         sizeFraction = row.bytes.toFloat() / largestBytes,
         chips = { SeverityChip(idle, SeverityRules.idle(lastUsedAt, now), icon = Icons.Rounded.Schedule) },
     )
@@ -377,14 +378,13 @@ private fun LargeAppRow(
         onToggleSelected = onToggle,
         onClick = onOpenDetails,
         trailingText = size?.let { formatBytes(context, it.totalBytes) },
-        severity = size?.let { SeverityRules.appSize(it.totalBytes, deviceTotalBytes) } ?: Severity.OK,
+        large = size != null && LargeApps.isLarge(size.totalBytes),
         chips = cacheChip,
-        badge = size?.let {
+        bar = size?.let {
             {
                 StackedSizeBar(
                     size = it,
                     lengthFraction = it.totalBytes.toFloat() / largestBytes,
-                    modifier = Modifier.padding(top = 4.dp, end = 8.dp),
                 )
             }
         },

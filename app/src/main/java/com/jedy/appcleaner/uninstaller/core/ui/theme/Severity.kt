@@ -6,9 +6,12 @@ import androidx.compose.ui.graphics.Color
 import com.jedy.appcleaner.uninstaller.core.format.DAY_MILLIS
 
 /**
- * The urgency layer (redesign brief: "use red to show which apps take the most space").
- * Every level is computed from real numbers, so the red a user sees is always true — Play's
- * Deceptive Behavior policy bans fake alarms, and honest urgency is also what converts.
+ * The urgency layer for **indicators**: the storage gauge fill and tinted chips/tiles. Every level
+ * is computed from real numbers (Play's Deceptive Behavior policy bans fake alarms).
+ *
+ * Design review §3.3: severity never colours text. Sizes and numbers are [AppColors.textPrimary];
+ * good news is [AppColors.positive]. Whether an app is "Large" is `LargeApps.isLarge` (core/model),
+ * not a severity level, and it is drawn with one colour ([AppColors.sizeBarLarge]).
  */
 enum class Severity { OK, WARNING, DANGER }
 
@@ -21,9 +24,14 @@ object SeverityRules {
     }
 
     /**
-     * An app's footprint relative to the phone: red when one app takes ≥ 2% of total storage or
-     * ≥ 1 GB ("space hog"), amber from 0.5% or 250 MB.
+     * Legacy three-step size ramp (red ≥ 1 GB or 2% of the phone, amber ≥ 250 MB or 0.5%). It
+     * disagrees with the Large count, which is how Home showed "0 Space hogs" above five 400 MB
+     * apps (design review §2A).
      */
+    @Deprecated(
+        "One definition of Large: use LargeApps.isLarge(bestKnownBytes) and colour only the bar.",
+        ReplaceWith("LargeApps.isLarge(bytes)", "com.jedy.appcleaner.uninstaller.core.model.LargeApps"),
+    )
     fun appSize(bytes: Long, deviceTotalBytes: Long): Severity {
         val share = if (deviceTotalBytes > 0) bytes.toDouble() / deviceTotalBytes else 0.0
         return when {
@@ -44,6 +52,10 @@ object SeverityRules {
     }
 }
 
+/**
+ * Indicator **fill** (gauge arc, dots, bars). Never use it as a text colour: amber text is 2:1.
+ * For text or icons on [surface] use [contentColor].
+ */
 val Severity.color: Color
     @Composable @ReadOnlyComposable get() = when (this) {
         Severity.OK -> AppTheme.colors.accent
@@ -51,9 +63,18 @@ val Severity.color: Color
         Severity.DANGER -> AppTheme.colors.danger
     }
 
+/** The tinted background of a chip or icon tile at this level. */
 val Severity.surface: Color
     @Composable @ReadOnlyComposable get() = when (this) {
         Severity.OK -> AppTheme.colors.accentSurface
         Severity.WARNING -> AppTheme.colors.warningSurface
         Severity.DANGER -> AppTheme.colors.dangerSurface
+    }
+
+/** Text and icons drawn on [surface] (≥4.5:1 in both themes). */
+val Severity.contentColor: Color
+    @Composable @ReadOnlyComposable get() = when (this) {
+        Severity.OK -> AppTheme.colors.accentText
+        Severity.WARNING -> AppTheme.colors.onWarningSurface
+        Severity.DANGER -> AppTheme.colors.onDangerSurface
     }

@@ -40,6 +40,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.jedy.appcleaner.uninstaller.R
 import com.jedy.appcleaner.uninstaller.core.format.formatBytes
 import com.jedy.appcleaner.uninstaller.core.model.HomeTab
+import com.jedy.appcleaner.uninstaller.core.model.LargeApps
 import com.jedy.appcleaner.uninstaller.core.model.PaywallSource
 import com.jedy.appcleaner.uninstaller.core.model.UsageAccessTrigger
 import com.jedy.appcleaner.uninstaller.core.ui.component.AppRow
@@ -180,7 +181,7 @@ fun HomeScreen(
                             .orEmpty(),
                         onClick = { onOpenApps(HomeTab.ALL) },
                         trailingText = formatBytes(context, big.bytes),
-                        severity = big.severity,
+                        large = LargeApps.isLarge(big.bytes),
                         sizeFraction = big.sizeFraction,
                         chips = if (big.severity == Severity.DANGER) {
                             { SeverityChip(stringResource(R.string.apps_chip_space_hog), Severity.DANGER, icon = Icons.Rounded.LocalFireDepartment) }

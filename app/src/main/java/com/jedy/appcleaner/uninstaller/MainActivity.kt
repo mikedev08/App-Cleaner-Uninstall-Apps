@@ -1,8 +1,11 @@
 package com.jedy.appcleaner.uninstaller
 
 import android.content.Intent
+import android.graphics.Color
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
+import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
@@ -38,7 +41,13 @@ class MainActivity : ComponentActivity() {
             keep
         }
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
+        // Design review §2A: no system scrim behind 3-button navigation. The default one was a
+        // bluish-navy band in dark mode; content scrolls under transparent buttons instead, and
+        // every scrolling screen ends with `bottomContentPadding()` so its last item clears them.
+        // Bar icon colours follow the in-app theme (AppCleanerTheme), not the system one.
+        val transparent = SystemBarStyle.auto(Color.TRANSPARENT, Color.TRANSPARENT)
+        enableEdgeToEdge(statusBarStyle = transparent, navigationBarStyle = transparent)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) window.isNavigationBarContrastEnforced = false
 
         viewModel.resolveStartRoute()
         if (savedInstanceState == null) intent.toReminderLaunch()?.let(viewModel::onReminderLaunch)
