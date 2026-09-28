@@ -20,12 +20,6 @@
     <string name="settings_section_reminders">Rappels de nettoyage</string>
     <string name="settings_reminders_toggle">Rappel hebdomadaire</string>
     <string name="settings_reminders_body">Seulement si des applis inutilisées s’accumulent.</string>
-    <string name="settings_reminders_threshold">Une appli est oubliée après</string>
-    <plurals name="settings_threshold_days">
-        <item quantity="one">%d jour</item>
-        <item quantity="many">%d jours</item>
-        <item quantity="other">%d jours</item>
-    </plurals>
     <string name="settings_notifications_off">Les notifications d\'App Cleaner sont désactivées.</string>
     <string name="settings_notifications_allow">Autoriser les notifications</string>
     <string name="settings_reminders_needs_access">Les rappels ont besoin de l’accès aux données d’utilisation pour trouver les applis inutilisées.</string>

@@ -20,12 +20,6 @@
     <string name="settings_section_reminders">תזכורות ניקוי</string>
     <string name="settings_reminders_toggle">תזכורת שבועית</string>
     <string name="settings_reminders_body">רק כשמצטברות אפליקציות שלא בשימוש.</string>
-    <string name="settings_reminders_threshold">אפליקציה נחשבת לא בשימוש אחרי</string>
-    <plurals name="settings_threshold_days">
-        <item quantity="one">יום אחד</item>
-        <item quantity="two">יומיים</item>
-        <item quantity="other">%d ימים</item>
-    </plurals>
     <string name="settings_notifications_off">ההתראות של App Cleaner כבויות.</string>
     <string name="settings_notifications_allow">הפעלת התראות</string>
     <string name="settings_reminders_needs_access">כדי למצוא אפליקציות שלא בשימוש, התזכורות צריכות גישה לנתוני שימוש.</string>

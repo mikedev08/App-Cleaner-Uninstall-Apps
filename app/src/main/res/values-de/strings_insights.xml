@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <plurals name="insights_days">
-        <item quantity="one">%d Tag</item>
-        <item quantity="other">%d Tage</item>
-    </plurals>
     <plurals name="insights_apps_count">
         <item quantity="one">%d App</item>
         <item quantity="other">%d Apps</item>

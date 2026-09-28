@@ -20,12 +20,6 @@
     <string name="settings_section_reminders">Recordatorios de limpieza</string>
     <string name="settings_reminders_toggle">Avisos semanales</string>
     <string name="settings_reminders_body">Solo cuando se acumulen apps sin usar.</string>
-    <string name="settings_reminders_threshold">Considerar una app sin usar después de</string>
-    <plurals name="settings_threshold_days">
-        <item quantity="one">%d día</item>
-        <item quantity="many">%d días</item>
-        <item quantity="other">%d días</item>
-    </plurals>
     <string name="settings_notifications_off">Las notificaciones de App Cleaner están desactivadas.</string>
     <string name="settings_notifications_allow">Permitir notificaciones</string>
     <string name="settings_reminders_needs_access">Los recordatorios necesitan acceso a datos de uso para encontrar apps sin usar.</string>

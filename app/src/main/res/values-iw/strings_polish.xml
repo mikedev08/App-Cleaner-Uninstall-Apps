@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="apps_filter_unused">לא בשימוש</string>
-    <string name="apps_filter_heavy">אפליקציות כבדות</string>
-    <string name="apps_filter_temp_files">קבצים זמניים</string>
-</resources>

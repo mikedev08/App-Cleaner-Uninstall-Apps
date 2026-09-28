@@ -2,10 +2,6 @@
 <resources>
     <!-- Insights: Unused tab (PRD §4 Screen 5), Large tab (Screen 6), cleanup reminders (Feature 4). -->
 
-    <plurals name="insights_days">
-        <item quantity="one">%d day</item>
-        <item quantity="other">%d days</item>
-    </plurals>
     <plurals name="insights_apps_count">
         <item quantity="one">%d app</item>
         <item quantity="other">%d apps</item>

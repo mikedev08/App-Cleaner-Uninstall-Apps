@@ -1,13 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <plurals name="insights_days">
-        <item quantity="zero">%d يوم</item>
-        <item quantity="one">يوم واحد</item>
-        <item quantity="two">يومان</item>
-        <item quantity="few">%d أيام</item>
-        <item quantity="many">%d يومًا</item>
-        <item quantity="other">%d يوم</item>
-    </plurals>
     <plurals name="insights_apps_count">
         <item quantity="zero">%d تطبيق</item>
         <item quantity="one">تطبيق واحد</item>

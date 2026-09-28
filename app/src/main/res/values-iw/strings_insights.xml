@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <plurals name="insights_days">
-        <item quantity="one">יום אחד</item>
-        <item quantity="two">יומיים</item>
-        <item quantity="other">%d ימים</item>
-    </plurals>
     <plurals name="insights_apps_count">
         <item quantity="one">אפליקציה אחת</item>
         <item quantity="two">שתי אפליקציות</item>

@@ -297,9 +297,9 @@ private val FilterChipHeight = 40.dp
 @StringRes
 private fun HomeTab.labelRes(): Int = when (this) {
     HomeTab.ALL -> R.string.apps_tab_all
-    HomeTab.UNUSED -> R.string.apps_filter_unused
-    HomeTab.LARGE -> R.string.apps_filter_heavy
-    HomeTab.CACHE -> R.string.apps_filter_temp_files
+    HomeTab.UNUSED -> R.string.apps_tab_unused
+    HomeTab.LARGE -> R.string.apps_tab_large
+    HomeTab.CACHE -> R.string.apps_tab_cache
 }
 
 /** One icon per category, the same outlined glyphs Home and Scan use for these categories. */

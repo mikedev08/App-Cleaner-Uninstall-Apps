@@ -24,13 +24,6 @@
     <string name="settings_section_reminders">Напоминания об очистке</string>
     <string name="settings_reminders_toggle">Напоминания раз в неделю</string>
     <string name="settings_reminders_body">Только когда накопятся неиспользуемые приложения.</string>
-    <string name="settings_reminders_threshold">Считать приложение неиспользуемым через</string>
-    <plurals name="settings_threshold_days">
-        <item quantity="one">%d день</item>
-        <item quantity="few">%d дня</item>
-        <item quantity="many">%d дней</item>
-        <item quantity="other">%d дня</item>
-    </plurals>
     <string name="settings_notifications_off">Уведомления App Cleaner отключены.</string>
     <string name="settings_notifications_allow">Разрешить уведомления</string>
     <string name="settings_reminders_needs_access">Чтобы находить неиспользуемые приложения, напоминаниям нужен доступ к истории использования.</string>

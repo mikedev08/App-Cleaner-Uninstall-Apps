@@ -28,11 +28,6 @@
     <string name="settings_section_reminders">Cleanup reminders</string>
     <string name="settings_reminders_toggle">Weekly reminders</string>
     <string name="settings_reminders_body">Only when unused apps pile up.</string>
-    <string name="settings_reminders_threshold">Count an app as unused after</string>
-    <plurals name="settings_threshold_days">
-        <item quantity="one">%d day</item>
-        <item quantity="other">%d days</item>
-    </plurals>
     <string name="settings_notifications_off">Notifications are off for App Cleaner.</string>
     <string name="settings_notifications_allow">Allow notifications</string>
     <string name="settings_reminders_needs_access">Reminders need Usage access to find unused apps.</string>

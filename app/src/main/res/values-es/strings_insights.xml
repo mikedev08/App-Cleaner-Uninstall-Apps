@@ -1,10 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <plurals name="insights_days">
-        <item quantity="one">%d día</item>
-        <item quantity="many">%d días</item>
-        <item quantity="other">%d días</item>
-    </plurals>
     <plurals name="insights_apps_count">
         <item quantity="one">%d app</item>
         <item quantity="many">%d apps</item>

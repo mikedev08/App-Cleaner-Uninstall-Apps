@@ -20,15 +20,6 @@
     <string name="settings_section_reminders">تذكيرات التنظيف</string>
     <string name="settings_reminders_toggle">تذكير أسبوعي</string>
     <string name="settings_reminders_body">فقط عندما تتراكم التطبيقات غير المستخدمة.</string>
-    <string name="settings_reminders_threshold">اعتبار التطبيق غير مستخدم بعد</string>
-    <plurals name="settings_threshold_days">
-        <item quantity="zero">%d يوم</item>
-        <item quantity="one">يوم واحد</item>
-        <item quantity="two">يومان</item>
-        <item quantity="few">%d أيام</item>
-        <item quantity="many">%d يومًا</item>
-        <item quantity="other">%d يوم</item>
-    </plurals>
     <string name="settings_notifications_off">الإشعارات متوقفة لتطبيق App Cleaner.</string>
     <string name="settings_notifications_allow">السماح بالإشعارات</string>
     <string name="settings_reminders_needs_access">تحتاج التذكيرات إلى «الوصول إلى بيانات الاستخدام» للعثور على التطبيقات التي لا تستخدمها.</string>

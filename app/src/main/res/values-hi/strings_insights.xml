@@ -1,9 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <plurals name="insights_days">
-        <item quantity="one">%d दिन</item>
-        <item quantity="other">%d दिन</item>
-    </plurals>
     <plurals name="insights_apps_count">
         <item quantity="one">%d ऐप</item>
         <item quantity="other">%d ऐप</item>

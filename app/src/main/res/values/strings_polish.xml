@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <!-- Apps screen filter chips (a scrollable row, so each label is shown in full). -->
-    <string name="apps_filter_unused">Unused apps</string>
-    <string name="apps_filter_heavy">Heavy apps</string>
-    <string name="apps_filter_temp_files">Temp files</string>
-</resources>

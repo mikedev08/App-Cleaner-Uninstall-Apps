@@ -20,11 +20,6 @@
     <string name="settings_section_reminders">Aufräum-Erinnerungen</string>
     <string name="settings_reminders_toggle">Wöchentliche Erinnerungen</string>
     <string name="settings_reminders_body">Nur wenn sich ungenutzte Apps häufen.</string>
-    <string name="settings_reminders_threshold">Als ungenutzt gilt eine App nach</string>
-    <plurals name="settings_threshold_days">
-        <item quantity="one">%d Tag</item>
-        <item quantity="other">%d Tagen</item>
-    </plurals>
     <string name="settings_notifications_off">Benachrichtigungen für App Cleaner sind deaktiviert.</string>
     <string name="settings_notifications_allow">Benachrichtigungen erlauben</string>
     <string name="settings_reminders_needs_access">Erinnerungen brauchen den „Zugriff auf Nutzungsdaten“, um ungenutzte Apps zu finden.</string>

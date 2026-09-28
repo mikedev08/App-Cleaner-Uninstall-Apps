@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="apps_filter_unused">未使用的应用</string>
-    <string name="apps_filter_heavy">大型应用</string>
-    <string name="apps_filter_temp_files">临时文件</string>
-</resources>
