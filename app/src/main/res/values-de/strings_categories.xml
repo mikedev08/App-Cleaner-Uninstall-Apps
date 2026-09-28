@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="home_cat_overlap_note">
+        <item quantity="one">%d App ist unbenutzt und groß – nur einmal gezählt.</item>
+        <item quantity="other">%d Apps sind unbenutzt und groß – nur einmal gezählt.</item>
+    </plurals>
+    <plurals name="scan_cta_review_large">
+        <item quantity="one">%1$d große App ansehen · %2$s</item>
+        <item quantity="other">%1$d große Apps ansehen · %2$s</item>
+    </plurals>
+    <plurals name="scan_pro_hint_unused">
+        <item quantity="one">Deine %d unbenutzte App mit Pro ansehen</item>
+        <item quantity="other">Deine %d unbenutzten Apps mit Pro ansehen</item>
+    </plurals>
+    <string name="settings_pro_benefit_no_ads">Keine Werbung</string>
+</resources>

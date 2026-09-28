@@ -14,7 +14,8 @@ import com.jedy.appcleaner.uninstaller.core.model.bestKnownBytes
  *
  * One size source and one Large rule for every screen: an app's size is its best-known size
  * ([sizeOf]) and it is Large when [LargeApps.isLarge] says so — the same call the Apps "Large"
- * filter makes. The three rows are disjoint (see [ScanResult]), so the headline is their sum.
+ * filter makes. The rows show whole categories and may overlap; the headline counts each app
+ * once (see [ScanResult]).
  */
 object ScanMath {
 
@@ -33,42 +34,46 @@ object ScanMath {
         val bytesByPackage = apps.associate { it.packageName to sizeOf(it, sizes) }
         // Unused apps must still be installed: the list and the inventory can be a refresh apart.
         val unusedPackages = unused.mapTo(HashSet()) { it.app.packageName }.filterTo(HashSet()) { it in bytesByPackage }
-        val unusedBytes = unusedPackages.sumOf { bytesByPackage.getValue(it) }
         val largePackages = bytesByPackage.filterValues(LargeApps::isLarge).keys
-        // An app that is both unused and large is counted once, under Unused.
-        val largeOnly = largePackages.filter { it !in unusedPackages }
-        val largeOnlyBytes = largeOnly.sumOf { bytesByPackage.getValue(it) }
+        // Unused ∪ Large, each app once: the apps the headline and "Review N apps" count.
+        val reviewPackages = unusedPackages + largePackages
         // Only installed apps: the size cache can briefly outlive an uninstall.
         val cacheByPackage = apps.mapNotNull { app -> sizes[app.packageName]?.let { app.packageName to it.cacheBytes } }
-        // An unused or large app's size already includes its cache. Counting that cache twice would
-        // inflate the headline, so the Cache row only adds the cache of the apps the user keeps.
-        val keptCache = cacheByPackage.filter { (pkg, _) -> pkg !in unusedPackages && pkg !in largePackages }
-        val keptCacheBytes = keptCache.sumOf { it.second }
+            .filter { it.second > 0 }
+        // A reviewed app's size already includes its cache; the headline only adds everyone else's.
+        val otherCacheBytes = cacheByPackage.filter { (pkg, _) -> pkg !in reviewPackages }.sumOf { it.second }
+        val reviewAppBytes = reviewPackages.sumOf { bytesByPackage.getValue(it) }
         return ScanResult(
             scannedAt = now,
             storage = storage,
             appCount = apps.size,
             appsBytes = bytesByPackage.values.sum(),
             unusedCount = unusedPackages.size,
-            unusedBytes = unusedBytes,
+            unusedBytes = unusedPackages.sumOf { bytesByPackage.getValue(it) },
             thresholdDays = thresholdDays,
             largeCount = largePackages.size,
             largeBytes = largePackages.sumOf { bytesByPackage.getValue(it) },
-            largeOnlyCount = largeOnly.size,
-            largeOnlyBytes = largeOnlyBytes,
+            cacheAppCount = cacheByPackage.size,
             cacheBytes = cacheByPackage.sumOf { it.second },
-            cacheAppCount = cacheByPackage.count { it.second > 0 },
-            keptCacheBytes = keptCacheBytes,
-            keptCacheAppCount = keptCache.count { it.second > 0 },
-            reclaimableBytes = unusedBytes + largeOnlyBytes + keptCacheBytes,
+            overlapCount = unusedPackages.count { it in largePackages },
+            reviewAppCount = reviewPackages.size,
+            reviewAppBytes = reviewAppBytes,
+            otherCacheBytes = otherCacheBytes,
+            reclaimableBytes = reviewAppBytes + otherCacheBytes,
             hasUsageAccess = hasUsageAccess,
             sizesAreEstimates = apps.any { it.packageName !in sizes },
         )
     }
 
-    /** The apps the Large row counts (Large and not in [unused]): what "Remove N large apps" selects. */
-    fun largeOnlyPackages(apps: List<InstalledApp>, sizes: Map<String, AppSize>, unused: Set<String>): List<String> =
-        apps.filter { it.packageName !in unused && LargeApps.isLarge(it, sizes) }.map { it.packageName }
+    /** Every Large app (the Large row and filter): what free "Review N big apps" selects. */
+    fun largePackages(apps: List<InstalledApp>, sizes: Map<String, AppSize>): List<String> =
+        apps.filter { LargeApps.isLarge(it, sizes) }.map { it.packageName }
+
+    /** Unused ∪ Large, each once, unused first: what premium "Review N apps" selects. */
+    fun reviewPackages(apps: List<InstalledApp>, sizes: Map<String, AppSize>, unused: Set<String>): List<String> {
+        val installed = apps.mapTo(HashSet()) { it.packageName }
+        return (unused.filter { it in installed } + largePackages(apps, sizes)).distinct()
+    }
 
     /** Share of the phone in use right now, 0..1 (0 when the volume could not be read). */
     fun usedFraction(storage: DeviceStorage): Float =

@@ -54,7 +54,6 @@ import com.jedy.appcleaner.uninstaller.core.model.InstalledApp
 import com.jedy.appcleaner.uninstaller.core.ui.component.AppCard
 import com.jedy.appcleaner.uninstaller.core.ui.component.AppIcon
 import com.jedy.appcleaner.uninstaller.core.ui.component.PrimaryButton
-import com.jedy.appcleaner.uninstaller.core.ui.component.ProBadge
 import com.jedy.appcleaner.uninstaller.core.ui.component.SecondaryButton
 import com.jedy.appcleaner.uninstaller.core.ui.component.SizeBar
 import com.jedy.appcleaner.uninstaller.core.ui.theme.AppTheme
@@ -65,7 +64,7 @@ import kotlinx.coroutines.withContext
 /**
  * PRD §4 Screen 7, the App Details sheet, opened from a row on any tab. A big icon and the size
  * (neutral text, with the one "Large" chip when it is) lead; "What's using space" splits App / Data
- * / Cache for premium users and is a PRO teaser for free ones. "App info" is labelled as the
+ * / Cache for every user (it needs Usage Access, never Pro). "App info" is labelled as the
  * place to clear cache because that is the only honest route for it (PRD §0 decision 5).
  */
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
@@ -73,7 +72,6 @@ import kotlinx.coroutines.withContext
 internal fun AppDetailsSheet(
     details: AppDetailsUi,
     onDismiss: () -> Unit,
-    onUnlockSizes: () -> Unit,
     onRequestUsageAccess: () -> Unit,
     onUninstall: () -> Unit,
 ) {
@@ -123,7 +121,7 @@ internal fun AppDetailsSheet(
                     SecondaryButton(stringResource(R.string.apps_details_play), onClick = { context.openPlayListing(app.packageName) }, icon = Icons.Rounded.Shop)
                 }
             }
-            SpaceSection(details, onUnlockSizes = onUnlockSizes, onRequestUsageAccess = onRequestUsageAccess)
+            SpaceSection(details, onRequestUsageAccess = onRequestUsageAccess)
             FactsSection(details)
             Text(
                 text = stringResource(R.string.apps_details_cache_hint),
@@ -173,7 +171,7 @@ private fun DetailsHero(details: AppDetailsUi) {
             color = colors.textPrimary,
         )
         Text(
-            text = stringResource(if (details.size != null && details.isPremium && details.hasUsageAccess) R.string.apps_details_total_caption else R.string.apps_details_apk_caption),
+            text = stringResource(if (details.size != null) R.string.apps_details_total_caption else R.string.apps_details_apk_caption),
             style = MaterialTheme.typography.bodyMedium,
             color = colors.textSecondary,
         )
@@ -184,27 +182,24 @@ private fun DetailsHero(details: AppDetailsUi) {
     }
 }
 
-/** "What's using space": App / Data / Cache bars, gated exactly as Screen 7 describes. */
+/**
+ * "What's using space": App / Data / Cache bars. Free for everyone; without Usage Access it is
+ * the "Allow access" link (the sizes need it), never a paywall.
+ */
 @Composable
-private fun SpaceSection(details: AppDetailsUi, onUnlockSizes: () -> Unit, onRequestUsageAccess: () -> Unit) {
+private fun SpaceSection(details: AppDetailsUi, onRequestUsageAccess: () -> Unit) {
     val colors = AppTheme.colors
-    val entitled = details.isPremium && details.hasUsageAccess
     val size = details.size
     Section(title = stringResource(R.string.apps_details_whats_using)) {
         when {
-            entitled && size != null -> SizeBreakdown(size)
-            entitled && details.isMeasuring -> Text(stringResource(R.string.home_details_size_measuring), style = MaterialTheme.typography.bodyMedium, color = colors.textSecondary)
+            size != null -> SizeBreakdown(size)
+            details.hasUsageAccess && details.isMeasuring -> Text(stringResource(R.string.home_details_size_measuring), style = MaterialTheme.typography.bodyMedium, color = colors.textSecondary)
             // PRD §6 item 10: an unmounted volume is "Size unavailable", never 0 B.
-            entitled -> Text(stringResource(R.string.home_details_size_unavailable), style = MaterialTheme.typography.bodyMedium, color = colors.textSecondary)
-            details.isPremium -> LinkRow(
+            details.hasUsageAccess -> Text(stringResource(R.string.home_details_size_unavailable), style = MaterialTheme.typography.bodyMedium, color = colors.textSecondary)
+            else -> LinkRow(
                 text = stringResource(R.string.home_details_allow_access),
                 leading = { Icon(Icons.Rounded.Timeline, contentDescription = null, tint = colors.accentText, modifier = Modifier.size(20.dp)) },
                 onClick = onRequestUsageAccess,
-            )
-            else -> LinkRow(
-                text = stringResource(R.string.apps_details_unlock_teaser),
-                leading = { ProBadge() },
-                onClick = onUnlockSizes,
             )
         }
     }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="home_cat_overlap_note">
+        <item quantity="other">%d 个应用既没在用又很大，只算一次。</item>
+    </plurals>
+    <plurals name="scan_cta_review_large">
+        <item quantity="other">查看 %1$d 个大型应用 · %2$s</item>
+    </plurals>
+    <plurals name="scan_pro_hint_unused">
+        <item quantity="other">升级 Pro 查看 %d 个没在用的应用</item>
+    </plurals>
+    <string name="settings_pro_benefit_no_ads">无广告</string>
+</resources>

@@ -126,6 +126,7 @@ fun HomeScreen(
                     onOpen = { onOpenApps(it.tab) },
                     onAllowAccess = { onOpenUsageAccess(UsageAccessTrigger.STORAGE_CARD) },
                     modifier = Modifier.padding(horizontal = Dimens.gutter),
+                    overlapCount = HomeCategories.overlapCount(state.summary),
                 )
             }
             // Last on the screen: arriving ~2.5 s after launch, it pushes nothing down.

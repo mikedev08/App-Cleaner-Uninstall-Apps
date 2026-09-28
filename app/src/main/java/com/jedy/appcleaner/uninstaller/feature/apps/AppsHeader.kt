@@ -202,9 +202,9 @@ internal fun CollapsingHeaderLayout(
 }
 
 /**
- * All · Unused · Large · Cache, the shared equal-width [SegmentedControl]. For free users the
- * premium filters carry the control's lock icon only; tapping one still opens its tab, whose
- * teaser shows the user's real numbers.
+ * All · Unused · Large · Cache, the shared equal-width [SegmentedControl]. Only Unused is Pro:
+ * for free users it carries the control's lock icon; tapping it still opens its tab, whose
+ * teaser shows the user's real numbers. Large and Cache are free.
  */
 @Composable
 internal fun AppsFilters(
@@ -215,7 +215,7 @@ internal fun AppsFilters(
 ) {
     val tabs = HomeTab.entries
     SegmentedControl(
-        options = tabs.map { SegmentOption(stringResource(it.labelRes()), locked = it != HomeTab.ALL && !isPremium) },
+        options = tabs.map { SegmentOption(stringResource(it.labelRes()), locked = it == HomeTab.UNUSED && !isPremium) },
         selectedIndex = tabs.indexOf(selected),
         onSelect = { onSelected(tabs[it]) },
         modifier = modifier,

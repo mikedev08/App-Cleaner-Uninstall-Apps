@@ -3,13 +3,12 @@ package com.jedy.appcleaner.uninstaller.feature.uninstall
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jedy.appcleaner.uninstaller.core.model.HomeTab
-import com.jedy.appcleaner.uninstaller.data.billing.Premium
+import com.jedy.appcleaner.uninstaller.core.model.bestKnownBytes
 import com.jedy.appcleaner.uninstaller.data.inventory.AppInventory
 import com.jedy.appcleaner.uninstaller.data.storage.StorageBreakdown
 import com.jedy.appcleaner.uninstaller.data.uninstall.AppWarning
 import com.jedy.appcleaner.uninstaller.data.uninstall.AppWarnings
 import com.jedy.appcleaner.uninstaller.data.uninstall.UninstallEngine
-import com.jedy.appcleaner.uninstaller.data.usage.UsageAccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
@@ -35,7 +34,7 @@ data class ConfirmApp(
 data class ConfirmUiState(
     val apps: List<ConfirmApp> = emptyList(),
     val totalBytes: Long = 0,
-    /** APK-only sizes (free, or no Usage Access): the summary says "about" (PRD Feature 2). */
+    /** Some size is APK-only (not measured, e.g. no Usage Access): the summary says "about" (PRD Feature 2). */
     val isEstimate: Boolean = true,
     val isStarting: Boolean = false,
 )
@@ -48,8 +47,6 @@ data class ConfirmUiState(
 class UninstallConfirmViewModel @Inject constructor(
     inventory: AppInventory,
     private val storage: StorageBreakdown,
-    premium: Premium,
-    usageAccess: UsageAccess,
     private val warnings: AppWarnings,
     private val engine: UninstallEngine,
 ) : ViewModel() {
@@ -62,23 +59,19 @@ class UninstallConfirmViewModel @Inject constructor(
     /** Emits the new batch id once it is safely in Room. */
     val started: Flow<Long> = _started.receiveAsFlow()
 
-    private val fullSizes = combine(premium.isPremium, usageAccess.isGranted, storage.sizes) { isPremium, granted, sizes ->
-        if (isPremium && granted) sizes else null
-    }
-
     val uiState: StateFlow<ConfirmUiState> = combine(
-        packages, inventory.apps, fullSizes, flagged, starting,
+        packages, inventory.apps, storage.sizes, flagged, starting,
     ) { selected, apps, sizes, warningMap, isStarting ->
         val byPackage = apps.associateBy { it.packageName }
         var estimate = false
         val rows = selected.map { pkg ->
             val app = byPackage[pkg]
-            val full = sizes?.get(pkg)?.totalBytes
-            if (full == null) estimate = true
+            if (pkg !in sizes) estimate = true
             ConfirmApp(
                 packageName = pkg,
                 label = app?.label ?: pkg,
-                bytes = full ?: app?.apkBytes,
+                // The best-known size, exactly what the row and the Selection Bar showed.
+                bytes = app?.bestKnownBytes(sizes),
                 warnings = warningMap[pkg].orEmpty(),
             )
         }

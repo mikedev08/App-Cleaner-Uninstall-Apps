@@ -81,13 +81,8 @@ class UninstallResultViewModel @Inject constructor(
 
     private val summary = batchId.filterNotNull().flatMapLatest(engine::observeSummary)
 
-    /** Measured sizes only where the Confirm Sheet would show them too (premium + Usage Access). */
-    private val fullSizes = combine(premium.isPremium, usageAccess.isGranted, storage.sizes) { isPremium, granted, sizes ->
-        if (isPremium && granted) sizes else null
-    }
-
     private val teaser: Flow<UnusedTeaser> = combine(
-        usageAccess.isGranted, inventory.apps, preferences.unusedThresholdDays, summary, fullSizes,
+        usageAccess.isGranted, inventory.apps, preferences.unusedThresholdDays, summary, storage.sizes,
     ) { granted, apps, days, current, sizes ->
         if (!granted) return@combine UnusedTeaser(0, days)
         // The inventory may not have caught up with this batch yet; never tease an app just removed.

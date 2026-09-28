@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="home_cat_overlap_note">
+        <item quantity="one">%d אפליקציה לא בשימוש וגם גדולה — נספרה פעם אחת.</item>
+        <item quantity="two">%d אפליקציות לא בשימוש וגם גדולות — נספרו פעם אחת.</item>
+        <item quantity="other">%d אפליקציות לא בשימוש וגם גדולות — נספרו פעם אחת.</item>
+    </plurals>
+    <plurals name="scan_cta_review_large">
+        <item quantity="one">בדיקת %1$d אפליקציה גדולה · %2$s</item>
+        <item quantity="two">בדיקת %1$d אפליקציות גדולות · %2$s</item>
+        <item quantity="other">בדיקת %1$d אפליקציות גדולות · %2$s</item>
+    </plurals>
+    <plurals name="scan_pro_hint_unused">
+        <item quantity="one">הצגת %d אפליקציה שלא בשימוש עם Pro</item>
+        <item quantity="two">הצגת %d אפליקציות שלא בשימוש עם Pro</item>
+        <item quantity="other">הצגת %d אפליקציות שלא בשימוש עם Pro</item>
+    </plurals>
+    <string name="settings_pro_benefit_no_ads">בלי פרסומות</string>
+</resources>

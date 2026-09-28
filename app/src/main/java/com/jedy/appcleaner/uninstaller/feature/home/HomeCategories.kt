@@ -60,71 +60,72 @@ sealed interface CategoryValue {
     /** Needs Usage Access: the row leads to the disclosure instead of showing a misleading zero. */
     data object NeedsAccess : CategoryValue
 
-    /**
-     * Nothing to add: a quiet single line, not tappable. [countedAbove] = the category does have
-     * apps, but every one is already counted in a row above (e.g. every large app is unused).
-     */
-    data class Empty(val countedAbove: Boolean) : CategoryValue
+    /** Nothing in the category: a quiet single line, not tappable. */
+    data object Empty : CategoryValue
 
-    /**
-     * [count] apps taking [bytes]. [more] = part of the category is already counted in a row
-     * above, so this row reads "2 more apps" / "40 other apps" and the rows still add up.
-     */
-    data class Value(val count: Int, val bytes: Long, val more: Boolean) : CategoryValue
+    /** The whole category: [count] apps taking [bytes], the same numbers its Apps filter shows. */
+    data class Value(val count: Int, val bytes: Long) : CategoryValue
 }
 
 data class CategoryRow(val category: Category, val value: CategoryValue, val locked: Boolean)
 
 /**
- * The category rows shared by Home and the Scan result, so both screens show the same three
- * numbers and those numbers add up to the "You can free up X" headline (see [ScanResult]).
+ * The category rows shared by Home and the Scan result, so both screens (and the Apps filters)
+ * show the same three numbers. Each row is its whole category, so the rows may overlap; the
+ * "could be freed" headline counts every app once (see [ScanResult]) and [overlapCount] explains
+ * the difference in one line.
  */
 object HomeCategories {
 
     /**
-     * Pro-only Apps filters: the row shows one lock at its trailing edge. Keep in step with the
-     * Apps screen's own gating.
+     * Pro-only Apps filters: the row shows one lock at its trailing edge. Only Unused is Pro;
+     * Large and Cache are free. Keep in step with the Apps screen's own gating.
      */
-    val proOnly: Set<Category> = setOf(Category.UNUSED, Category.LARGE, Category.CACHE)
+    val proOnly: Set<Category> = setOf(Category.UNUSED)
 
     fun rows(summary: ScanResult?, isPremium: Boolean): List<CategoryRow> = Category.entries.map { category ->
         val value = if (summary == null) CategoryValue.Loading else valueOf(category, summary)
         CategoryRow(category, value, locked = !isPremium && category in proOnly && value is CategoryValue.Value)
     }
 
+    /** Apps in both the Unused and the Large row ("3 apps are both unused and big"); 0 = no note. */
+    fun overlapCount(summary: ScanResult?): Int =
+        summary?.takeIf { it.hasUsageAccess && it.unusedCount > 0 && it.largeCount > 0 }?.overlapCount ?: 0
+
     private fun valueOf(category: Category, r: ScanResult): CategoryValue = when (category) {
         Category.UNUSED -> when {
             !r.hasUsageAccess -> CategoryValue.NeedsAccess
-            r.unusedCount == 0 -> CategoryValue.Empty(countedAbove = false)
-            else -> CategoryValue.Value(r.unusedCount, r.unusedBytes, more = false)
+            r.unusedCount == 0 -> CategoryValue.Empty
+            else -> CategoryValue.Value(r.unusedCount, r.unusedBytes)
         }
+        // Free, and never asks for access: without it the sizes are APK sizes (same rule as the filter).
         Category.LARGE -> when {
-            r.largeOnlyCount == 0 -> CategoryValue.Empty(countedAbove = r.largeCount > 0)
-            else -> CategoryValue.Value(r.largeOnlyCount, r.largeOnlyBytes, more = r.largeAlsoUnusedCount > 0)
+            r.largeCount == 0 -> CategoryValue.Empty
+            else -> CategoryValue.Value(r.largeCount, r.largeBytes)
         }
         Category.CACHE -> when {
             !r.hasUsageAccess -> CategoryValue.NeedsAccess
-            r.keptCacheBytes <= 0 -> CategoryValue.Empty(countedAbove = r.cacheBytes > 0)
-            else -> CategoryValue.Value(r.keptCacheAppCount, r.keptCacheBytes, more = r.cacheBytes > r.keptCacheBytes)
+            r.cacheAppCount == 0 -> CategoryValue.Empty
+            else -> CategoryValue.Value(r.cacheAppCount, r.cacheBytes)
         }
     }
 
     /**
-     * Where Home's "Review" goes: the first filter with something in it for premium, the free
-     * All list (everything a free user can act on) otherwise.
+     * Where Home's "Review" goes: the first filter with something in it that this user can open
+     * (Unused only for premium), else the All list.
      */
     fun reviewTab(result: ScanResult, isPremium: Boolean): HomeTab = when {
-        !isPremium -> HomeTab.ALL
-        result.hasUsageAccess && result.unusedCount > 0 -> HomeTab.UNUSED
-        result.largeOnlyCount > 0 -> HomeTab.LARGE
-        result.hasUsageAccess && result.keptCacheBytes > 0 -> HomeTab.CACHE
+        isPremium && result.hasUsageAccess && result.unusedCount > 0 -> HomeTab.UNUSED
+        result.largeCount > 0 -> HomeTab.LARGE
+        result.hasUsageAccess && result.cacheAppCount > 0 -> HomeTab.CACHE
         else -> HomeTab.ALL
     }
 }
 
 /**
  * The grouped card: Unused · Large · Cache, one row each, "count" under the title, the size in
- * textPrimary at the end, then a chevron — or a single lock when the filter is Pro.
+ * textPrimary at the end, then a chevron — or a single lock when the filter is Pro. When
+ * [overlapCount] > 0 one plain line under the rows says those apps are counted once.
  */
 @Composable
 internal fun CategoryCard(
@@ -132,6 +133,7 @@ internal fun CategoryCard(
     onOpen: (Category) -> Unit,
     onAllowAccess: () -> Unit,
     modifier: Modifier = Modifier,
+    overlapCount: Int = 0,
 ) {
     AppCard(modifier = modifier.fillMaxWidth(), contentPadding = PaddingValues(vertical = Dimens.space4)) {
         rows.forEachIndexed { index, row ->
@@ -153,6 +155,14 @@ internal fun CategoryCard(
                 },
             )
         }
+        if (overlapCount > 0) {
+            Text(
+                pluralStringResource(R.plurals.home_cat_overlap_note, overlapCount, overlapCount),
+                style = MaterialTheme.typography.bodySmall,
+                color = AppTheme.colors.textSecondary,
+                modifier = Modifier.padding(start = RowPadding, end = RowPadding, top = Dimens.space4, bottom = Dimens.space12),
+            )
+        }
     }
 }
 
@@ -161,7 +171,7 @@ private fun CategoryRowItem(row: CategoryRow, onClick: (() -> Unit)?) {
     val colors = AppTheme.colors
     val context = LocalContext.current
     val value = row.value
-    val quiet = value is CategoryValue.Empty
+    val quiet = value == CategoryValue.Empty
     Row(
         Modifier
             .fillMaxWidth()
@@ -196,13 +206,13 @@ private fun CategoryRowItem(row: CategoryRow, onClick: (() -> Unit)?) {
                     overflow = TextOverflow.Ellipsis,
                 )
                 is CategoryValue.Value -> Text(
-                    countText(row.category, value),
+                    pluralStringResource(R.plurals.home_list_count, value.count, value.count),
                     style = MaterialTheme.typography.bodyMedium,
                     color = colors.textSecondary,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis,
                 )
-                is CategoryValue.Empty -> Unit
+                CategoryValue.Empty -> Unit
             }
         }
         Spacer(Modifier.width(Dimens.space8))
@@ -212,8 +222,8 @@ private fun CategoryRowItem(row: CategoryRow, onClick: (() -> Unit)?) {
                 modifier = Modifier.width(56.dp),
                 widthFraction = 1f,
             )
-            is CategoryValue.Empty -> Text(
-                stringResource(if (value.countedAbove) R.string.home_cat_counted_above else R.string.home_cat_none),
+            CategoryValue.Empty -> Text(
+                stringResource(R.string.home_cat_none),
                 style = MaterialTheme.typography.bodyMedium,
                 color = colors.textMuted,
                 maxLines = 1,
@@ -242,16 +252,6 @@ private fun CategoryRowItem(row: CategoryRow, onClick: (() -> Unit)?) {
                 }
             }
         }
-    }
-}
-
-@Composable
-private fun countText(category: Category, value: CategoryValue.Value): String {
-    val n = value.count
-    return when {
-        category == Category.CACHE && value.more -> pluralStringResource(R.plurals.home_cat_other_apps, n, n)
-        value.more -> pluralStringResource(R.plurals.home_cat_more_apps, n, n)
-        else -> pluralStringResource(R.plurals.home_list_count, n, n)
     }
 }
 

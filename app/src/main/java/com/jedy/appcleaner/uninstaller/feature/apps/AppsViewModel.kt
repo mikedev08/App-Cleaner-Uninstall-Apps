@@ -16,7 +16,6 @@ import com.jedy.appcleaner.uninstaller.data.billing.Premium
 import com.jedy.appcleaner.uninstaller.data.inventory.AppInventory
 import com.jedy.appcleaner.uninstaller.data.inventory.InventoryHealth
 import com.jedy.appcleaner.uninstaller.data.prefs.AppPreferences
-import com.jedy.appcleaner.uninstaller.data.prefs.SizeDisplay
 import com.jedy.appcleaner.uninstaller.data.storage.StorageBreakdown
 import com.jedy.appcleaner.uninstaller.data.usage.UsageAccess
 import com.jedy.appcleaner.uninstaller.data.usage.UsageInsights
@@ -52,7 +51,7 @@ data class AppsUiState(
     /** Size sort only: "Large" / "Everything else". */
     val sections: AppsSections? = null,
     val totalAppCount: Int = 0,
-    /** What the whole library takes, in the sizes this user sees (header summary). */
+    /** What the whole library takes, best-known sizes (header summary). */
     val totalBytes: Long = 0,
     val sortOrder: SortOrder = SortOrder.SIZE,
     val selected: Set<String> = emptySet(),
@@ -66,7 +65,7 @@ data class AppsUiState(
     val selectedCount: Int get() = selected.size
 }
 
-/** Screen 7, the App Details sheet. Premium-only fields are already gated. */
+/** Screen 7, the App Details sheet. Premium-only fields (last opened) are already gated. */
 data class AppDetailsUi(
     val app: InstalledApp,
     val isPremium: Boolean,
@@ -74,10 +73,10 @@ data class AppDetailsUi(
     /** Null = no record inside the usage window (see [usageWindowStart]) or not entitled. */
     val lastUsedAt: Long?,
     val usageWindowStart: Long,
-    /** App / Data / Cache from StorageStatsManager; null until measured or when unavailable. */
+    /** App / Data / Cache from StorageStatsManager (free); null until measured or when unavailable. */
     val size: AppSize?,
     val isMeasuring: Boolean,
-    /** The size headline this user is entitled to (measured total for premium, else APK). */
+    /** The best-known size: [size]'s total when measured, else the APK. The same figure as the row. */
     val displayBytes: Long,
     /** `LargeApps.isLarge` on the best-known size: the same rule as the Large filter and Home. */
     val isLarge: Boolean,
@@ -126,7 +125,7 @@ class AppsViewModel @Inject constructor(
     val uninstallRequest: StateFlow<UninstallRequest?> = _uninstallRequest
 
     private data class ViewFilters(val tab: HomeTab, val query: String, val searchOpen: Boolean, val refreshing: Boolean)
-    private data class Entitlement(val isPremium: Boolean, val hasAccess: Boolean, val sizeDisplay: SizeDisplay, val sort: SortOrder)
+    private data class Entitlement(val isPremium: Boolean, val hasAccess: Boolean, val sort: SortOrder)
     private data class Sources(
         val apps: List<InstalledApp>,
         val loading: Boolean,
@@ -141,7 +140,6 @@ class AppsViewModel @Inject constructor(
         combine(
             premium.isPremium,
             usageAccess.isGranted,
-            preferences.sizeDisplay,
             preferences.sortOrder(HomeTab.ALL),
             ::Entitlement,
         ),
@@ -160,14 +158,13 @@ class AppsViewModel @Inject constructor(
     val details: StateFlow<AppDetailsUi?> = combine(
         detailsSelection,
         inventory.apps,
-        combine(premium.isPremium, usageAccess.isGranted, preferences.sizeDisplay, ::Triple),
+        combine(premium.isPremium, usageAccess.isGranted, ::Pair),
         combine(storage.sizes, usageInsights.lastUsed, usageInsights.windowStart, ::Triple),
-    ) { selectionState, apps, (isPremium, hasAccess, sizeDisplay), (sizes, lastUsed, windowStart) ->
+    ) { selectionState, apps, (isPremium, hasAccess), (sizes, lastUsed, windowStart) ->
         val chosen = selectionState ?: return@combine null
         val app = apps.firstOrNull { it.packageName == chosen.packageName } ?: chosen.snapshot ?: return@combine null
-        val size = if (isPremium) chosen.measured ?: sizes[app.packageName] else null
-        val bytes = if (isPremium && hasAccess && size != null) size.totalBytes
-        else AppsListLogic.displayBytes(app, sizes, useTotal = isPremium && sizeDisplay == SizeDisplay.TOTAL)
+        // The app / data / cache split is free; only "last opened" stays premium.
+        val size = chosen.measured ?: sizes[app.packageName]
         AppDetailsUi(
             app = app,
             isPremium = isPremium,
@@ -176,8 +173,8 @@ class AppsViewModel @Inject constructor(
             usageWindowStart = windowStart,
             size = size,
             isMeasuring = chosen.isMeasuring,
-            displayBytes = bytes,
-            isLarge = LargeApps.isLarge(app.bestKnownBytes(chosen.measured ?: sizes[app.packageName])),
+            displayBytes = app.bestKnownBytes(size),
+            isLarge = LargeApps.isLarge(app.bestKnownBytes(size)),
         )
     }.stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), null)
 
@@ -207,29 +204,26 @@ class AppsViewModel @Inject constructor(
     }
 
     private fun buildState(filters: ViewFilters, entitlement: Entitlement, sources: Sources, notices: Notices): AppsUiState {
-        val useTotal = entitlement.isPremium && entitlement.sizeDisplay == SizeDisplay.TOTAL
         val now = System.currentTimeMillis()
         // Idle chips need real usage data: premium, access granted, and the map actually loaded.
         val showIdle = entitlement.isPremium && entitlement.hasAccess && sources.lastUsed.isNotEmpty()
-        val bytes = sources.apps.associate { it.packageName to AppsListLogic.displayBytes(it, sources.sizes, useTotal) }
+        // One size for every user and every surface: the best-known size (design decision 2026-09).
+        val bytes = sources.apps.associate { it.packageName to it.bestKnownBytes(sources.sizes) }
         val largest = bytes.values.maxOrNull() ?: 0L
         val allRows = sources.apps.map { app ->
             val size = bytes.getValue(app.packageName)
-            val best = app.bestKnownBytes(sources.sizes)
             val lastUsed = sources.lastUsed[app.packageName]?.let(::notInFuture)
             AppsRow(
                 app = app,
                 sizeBytes = size,
                 lastUsedAt = if (entitlement.isPremium) lastUsed else null,
-                large = LargeApps.isLarge(best),
-                bestKnownBytes = best,
+                large = LargeApps.isLarge(size),
                 sizeFraction = AppsListLogic.sizeFraction(size, largest),
                 idle = if (showIdle) AppsListLogic.idleChip(lastUsed, app.firstInstallTime, notices.windowStart, now) else null,
             )
         }
         val sort = AppsListLogic.effectiveSort(entitlement.sort, entitlement.isPremium)
         val visible = AppsListLogic.sort(allRows.filter { AppsListLogic.matches(it.app, filters.query) }, sort)
-        val rowsByPackage = allRows.associateBy { it.packageName }
         val appsByPackage = sources.apps.associateBy { it.packageName }
         return AppsUiState(
             tab = filters.tab,
@@ -243,7 +237,7 @@ class AppsViewModel @Inject constructor(
             totalBytes = bytes.values.sum(),
             sortOrder = sort,
             selected = sources.selected,
-            selectedBytes = sources.selected.sumOf { rowsByPackage[it]?.sizeBytes ?: 0L },
+            selectedBytes = AppsListLogic.selectedBytes(sources.selected, appsByPackage, sources.sizes),
             hiddenSelectedCount = AppsListLogic.hiddenBySearch(sources.selected, appsByPackage, filters.query),
             allVisibleSelected = visible.isNotEmpty() && visible.all { it.packageName in sources.selected },
             isPremium = entitlement.isPremium,
@@ -314,13 +308,13 @@ class AppsViewModel @Inject constructor(
     fun onClearSelection() = selection.clear()
 
     /**
-     * Screen 7. Premium users with Usage Access get a fresh StorageStatsManager measurement; the
+     * Screen 7. Anyone with Usage Access gets a fresh StorageStatsManager measurement; the
      * cached size (if any) shows meanwhile so the sheet never opens blank.
      */
     fun openDetails(packageName: String) {
         measureJob?.cancel()
         val listed = inventory.apps.value.firstOrNull { it.packageName == packageName }
-        val canMeasure = premium.isPremium.value && usageAccess.isGranted.value
+        val canMeasure = usageAccess.isGranted.value
         detailsSelection.value = DetailsSelection(packageName, snapshot = listed, isMeasuring = canMeasure)
         if (listed == null) {
             viewModelScope.launch {

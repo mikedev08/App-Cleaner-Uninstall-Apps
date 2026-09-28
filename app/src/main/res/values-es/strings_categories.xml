@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="home_cat_overlap_note">
+        <item quantity="one">%d app no se usa y es grande: se cuenta una vez.</item>
+        <item quantity="many">%d apps no se usan y son grandes: se cuentan una vez.</item>
+        <item quantity="other">%d apps no se usan y son grandes: se cuentan una vez.</item>
+    </plurals>
+    <plurals name="scan_cta_review_large">
+        <item quantity="one">Revisar %1$d app grande · %2$s</item>
+        <item quantity="many">Revisar %1$d apps grandes · %2$s</item>
+        <item quantity="other">Revisar %1$d apps grandes · %2$s</item>
+    </plurals>
+    <plurals name="scan_pro_hint_unused">
+        <item quantity="one">Mira tu %d app sin usar con Pro</item>
+        <item quantity="many">Mira tus %d apps sin usar con Pro</item>
+        <item quantity="other">Mira tus %d apps sin usar con Pro</item>
+    </plurals>
+    <string name="settings_pro_benefit_no_ads">Sin anuncios</string>
+</resources>

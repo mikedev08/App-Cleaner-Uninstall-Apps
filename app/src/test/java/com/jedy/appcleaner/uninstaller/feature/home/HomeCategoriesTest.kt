@@ -27,38 +27,54 @@ class HomeCategoriesTest {
     )
 
     @Test
-    fun `rows are Unused, Large, Cache and add up to the headline`() {
+    fun `rows are Unused, Large, Cache, each its whole category`() {
         val result = scan(unused = listOf(game))
         val rows = HomeCategories.rows(result, isPremium = true)
         assertEquals(listOf(Category.UNUSED, Category.LARGE, Category.CACHE), rows.map { it.category })
-        val values = rows.map { it.value as CategoryValue.Value }
-        assertEquals(result.reclaimableBytes, values.sumOf { it.bytes })
-        // Large: game is counted under Unused, so video reads "1 more app".
-        assertEquals(CategoryValue.Value(1, 450 * mb, more = true), values[1])
-        assertEquals(CategoryValue.Value(1, 5 * mb, more = true), values[2])
+        assertEquals(CategoryValue.Value(1, 1_600 * mb), rows[0].value)
+        // Large: every large app (game and video), the same count the Apps "Large" filter shows.
+        assertEquals(CategoryValue.Value(2, 2_050 * mb), rows[1].value)
+        assertEquals(CategoryValue.Value(result.largeCount, result.largeBytes), rows[1].value)
+        // Cache: every app holding cache.
+        assertEquals(CategoryValue.Value(3, 155 * mb), rows[2].value)
         assertTrue(rows.none { it.locked })
     }
 
     @Test
-    fun `free users see one lock per row that has something in it`() {
+    fun `headline counts every app once and the overlap gets one line`() {
+        val result = scan(unused = listOf(game))
+        // game (unused and large) + video (large) + notes' cache.
+        assertEquals(1_600 * mb + 450 * mb + 5 * mb, result.reclaimableBytes)
+        assertEquals(1, HomeCategories.overlapCount(result))
+        assertEquals(0, HomeCategories.overlapCount(scan()))
+        assertEquals(0, HomeCategories.overlapCount(null))
+    }
+
+    @Test
+    fun `only Unused is Pro`() {
+        assertEquals(setOf(Category.UNUSED), HomeCategories.proOnly)
         val rows = HomeCategories.rows(scan(unused = listOf(game)), isPremium = false)
-        assertTrue(rows.all { it.locked })
+        assertEquals(listOf(true, false, false), rows.map { it.locked })
     }
 
     @Test
     fun `zero rows are quiet, not a chevron to an empty list`() {
         val rows = HomeCategories.rows(scan(apps = listOf(notes), unused = listOf(notes)), isPremium = false)
-        assertEquals(CategoryValue.Empty(countedAbove = false), rows[1].value)
-        // notes' cache is inside its unused size: counted above, nothing to add.
-        assertEquals(CategoryValue.Empty(countedAbove = true), rows[2].value)
+        assertEquals(CategoryValue.Empty, rows[1].value)
         assertFalse(rows[1].locked)
+        val noCache = ScanMath.compute(
+            apps = listOf(notes), unused = emptyList(), sizes = mapOf(notes.packageName to AppSize(20 * mb, 0, 0, 0)),
+            storage = DeviceStorage(128_000 * mb, 28_000 * mb), thresholdDays = 60, hasUsageAccess = true, now = 0,
+        )
+        assertEquals(CategoryValue.Empty, HomeCategories.rows(noCache, isPremium = true)[2].value)
     }
 
     @Test
-    fun `without usage access unused and cache ask for it and large still counts`() {
-        val rows = HomeCategories.rows(scan(hasAccess = false), isPremium = true)
+    fun `without usage access unused and cache ask for it and large counts by APK size`() {
+        val rows = HomeCategories.rows(scan(hasAccess = false), isPremium = false)
         assertEquals(CategoryValue.NeedsAccess, rows[0].value)
-        assertEquals(CategoryValue.Value(2, 1_900 * mb, more = false), rows[1].value)
+        assertEquals(CategoryValue.Value(2, 1_900 * mb), rows[1].value)
+        assertFalse(rows[1].locked)
         assertEquals(CategoryValue.NeedsAccess, rows[2].value)
     }
 
@@ -68,22 +84,36 @@ class HomeCategoriesTest {
     }
 
     @Test
-    fun `review goes to the first filter with something in it, or All for free users`() {
+    fun `review goes to the first filter with something in it this user can open`() {
         val result = scan(unused = listOf(game))
         assertEquals(HomeTab.UNUSED, HomeCategories.reviewTab(result, isPremium = true))
         assertEquals(HomeTab.LARGE, HomeCategories.reviewTab(scan(), isPremium = true))
-        assertEquals(HomeTab.ALL, HomeCategories.reviewTab(result, isPremium = false))
+        assertEquals(HomeTab.LARGE, HomeCategories.reviewTab(result, isPremium = false))
+        val cacheOnly = scan(apps = listOf(notes))
+        assertEquals(HomeTab.CACHE, HomeCategories.reviewTab(cacheOnly, isPremium = false))
     }
 
     @Test
     fun `scan button says what it frees and never quotes a Pro number to free users`() {
         val result = scan(unused = listOf(game))
+        // Premium: Unused ∪ Large, each once (game + video).
         assertEquals(ScanCta.ReviewApps(2, 2_050 * mb, HomeTab.ALL), ScanCtas.primary(result, isPremium = true))
-        assertEquals(ScanCta.RemoveLarge(1, 450 * mb), ScanCtas.primary(result, isPremium = false))
-        // Only unused apps to free: the free button is the visible lock, with no number.
-        val onlyUnused = scan(apps = listOf(game, notes), unused = listOf(game, notes))
+        // Free: every big app, and a quiet Pro line for the unused one.
+        assertEquals(ScanCta.ReviewLarge(2, 2_050 * mb), ScanCtas.primary(result, isPremium = false))
+        assertTrue(ScanCtas.showProHint(result, isPremium = false))
+        assertFalse(ScanCtas.showProHint(result, isPremium = true))
+        assertFalse(ScanCtas.showProHint(scan(), isPremium = false))
+        // Only unused apps and no cache: the free button is the visible lock, with no number.
+        val onlyUnused = ScanMath.compute(
+            apps = listOf(notes), unused = listOf(UnusedApp(notes, lastUsedAt = null)),
+            sizes = mapOf(notes.packageName to AppSize(20 * mb, 0, 0, 0)),
+            storage = DeviceStorage(128_000 * mb, 28_000 * mb), thresholdDays = 60, hasUsageAccess = true, now = 0,
+        )
         assertEquals(ScanCta.Unlock, ScanCtas.primary(onlyUnused, isPremium = false))
-        assertEquals(ScanCta.ReviewApps(2, 1_625 * mb, HomeTab.UNUSED), ScanCtas.primary(onlyUnused, isPremium = true))
+        assertFalse(ScanCtas.showProHint(onlyUnused, isPremium = false))
+        assertEquals(ScanCta.ReviewApps(1, 20 * mb, HomeTab.UNUSED), ScanCtas.primary(onlyUnused, isPremium = true))
+        // Free, cache only: cache is free too.
+        assertEquals(ScanCta.ReviewCache(5 * mb), ScanCtas.primary(scan(apps = listOf(notes)), isPremium = false))
         assertEquals(ScanCta.AllowAccess, ScanCtas.primary(scan(hasAccess = false), isPremium = true))
     }
 

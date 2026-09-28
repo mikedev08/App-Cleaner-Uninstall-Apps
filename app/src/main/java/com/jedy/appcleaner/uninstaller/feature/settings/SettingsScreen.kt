@@ -31,7 +31,6 @@ import androidx.compose.material.icons.rounded.NotificationsActive
 import androidx.compose.material.icons.rounded.NotificationsOff
 import androidx.compose.material.icons.rounded.QueryStats
 import androidx.compose.material.icons.rounded.Restore
-import androidx.compose.material.icons.rounded.SdStorage
 import androidx.compose.material.icons.rounded.StarRate
 import androidx.compose.material.icons.rounded.Timelapse
 import androidx.compose.material3.CircularProgressIndicator
@@ -78,7 +77,6 @@ import com.jedy.appcleaner.uninstaller.data.billing.BillingLinks
 import com.jedy.appcleaner.uninstaller.data.billing.openExternalUrl
 import com.jedy.appcleaner.uninstaller.data.billing.startActivitySafely
 import com.jedy.appcleaner.uninstaller.data.prefs.AppPreferences
-import com.jedy.appcleaner.uninstaller.data.prefs.SizeDisplay
 import com.jedy.appcleaner.uninstaller.data.prefs.ThemeMode
 import kotlinx.coroutines.launch
 
@@ -167,10 +165,6 @@ fun SettingsScreen(
                     language = language,
                     onOpenLanguage = { languageSheetVisible = true },
                     onThemeSelected = viewModel::setThemeMode,
-                    onSizeSelected = { value ->
-                        if (value == SizeDisplay.TOTAL && !state.isPremium) onOpenPaywall(PaywallSource.SETTINGS)
-                        else viewModel.setSizeDisplay(value)
-                    },
                     onUsageAccess = {
                         if (state.usageAccessGranted) {
                             if (!context.startActivitySafely(viewModel.usageAccessSettingsIntent())) showLinkError()
@@ -291,7 +285,6 @@ private fun PreferencesGroup(
     language: AppLanguage,
     onOpenLanguage: () -> Unit,
     onThemeSelected: (ThemeMode) -> Unit,
-    onSizeSelected: (SizeDisplay) -> Unit,
     onUsageAccess: () -> Unit,
     onRate: () -> Unit,
 ) {
@@ -309,20 +302,6 @@ private fun PreferencesGroup(
             segments = ThemeMode.entries.map { SegmentOption(stringResource(it.labelRes())) },
             selectedIndex = ThemeMode.entries.indexOf(state.themeMode),
             onSelect = { onThemeSelected(ThemeMode.entries[it]) },
-        )
-        SegmentedSettingRow(
-            icon = Icons.Rounded.SdStorage,
-            title = stringResource(R.string.settings_size_display),
-            subtitle = if (state.sizeDisplay == SizeDisplay.TOTAL && state.isPremium && !state.usageAccessGranted) {
-                stringResource(R.string.settings_size_needs_access)
-            } else {
-                null
-            },
-            segments = SizeDisplay.entries.map {
-                SegmentOption(stringResource(it.labelRes()), locked = it == SizeDisplay.TOTAL && !state.isPremium)
-            },
-            selectedIndex = SizeDisplay.entries.indexOf(state.sizeDisplay),
-            onSelect = { onSizeSelected(SizeDisplay.entries[it]) },
         )
         SettingsRow(
             icon = Icons.Rounded.QueryStats,
@@ -454,9 +433,4 @@ private fun ThemeMode.labelRes(): Int = when (this) {
     ThemeMode.SYSTEM -> R.string.settings_theme_system
     ThemeMode.LIGHT -> R.string.settings_theme_light
     ThemeMode.DARK -> R.string.settings_theme_dark
-}
-
-private fun SizeDisplay.labelRes(): Int = when (this) {
-    SizeDisplay.APK -> R.string.settings_size_apk_short
-    SizeDisplay.TOTAL -> R.string.settings_size_total_short
 }

@@ -6,6 +6,8 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -42,11 +44,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.LifecycleResumeEffect
@@ -59,6 +63,7 @@ import com.jedy.appcleaner.uninstaller.core.model.UsageAccessTrigger
 import com.jedy.appcleaner.uninstaller.core.ui.component.AppCard
 import com.jedy.appcleaner.uninstaller.core.ui.component.AppTopBar
 import com.jedy.appcleaner.uninstaller.core.ui.component.IconBadge
+import com.jedy.appcleaner.uninstaller.core.ui.component.LockIcon
 import com.jedy.appcleaner.uninstaller.core.ui.component.PrimaryButton
 import com.jedy.appcleaner.uninstaller.core.ui.component.TopBarAction
 import com.jedy.appcleaner.uninstaller.core.ui.component.bottomContentPadding
@@ -169,9 +174,9 @@ private fun PhaseLayout(actions: (@Composable () -> Unit)?, centered: Boolean = 
 
 /**
  * Result CTAs (design review §2.6): the label says what the tap frees and how many apps it
- * touches ([ScanCtas]). Free users get only what the free app can do (removing large apps from
- * the All list), and anything Pro-only carries the lock and leads to the paywall. The secondary
- * "Review all apps" is a text action, [Dimens.stackedButtonGap] below.
+ * touches ([ScanCtas]). Free users get what the free app can do (Large, then cache); Unused is
+ * Pro and carries the one quiet lock ([ProHint], or the "Review with Pro" button when it is all
+ * there is). The secondary "Review all apps" is a text action, [Dimens.stackedButtonGap] below.
  */
 @Composable
 private fun ResultActions(
@@ -203,11 +208,11 @@ private fun ResultActions(
             onClick = { onOpenApps(HomeTab.CACHE) },
             modifier = Modifier.fillMaxWidth(),
         )
-        is ScanCta.RemoveLarge -> PrimaryButton(
-            pluralStringResource(R.plurals.scan_cta_remove_large, cta.count, cta.count, formatBytes(context, cta.bytes)),
+        is ScanCta.ReviewLarge -> PrimaryButton(
+            pluralStringResource(R.plurals.scan_cta_review_large, cta.count, cta.count, formatBytes(context, cta.bytes)),
             onClick = {
-                viewModel.preselectLarge(result)
-                onOpenApps(HomeTab.ALL)
+                viewModel.preselectLarge()
+                onOpenApps(HomeTab.LARGE)
             },
             modifier = Modifier.fillMaxWidth(),
         )
@@ -219,7 +224,36 @@ private fun ResultActions(
         )
         ScanCta.None -> Unit
     }
+    if (ScanCtas.showProHint(result, isPremium)) {
+        ProHint(result.unusedCount, onClick = { onOpenPaywall(PaywallSource.SCAN_RESULT) })
+    }
     TextAction(stringResource(R.string.scan_cta_review), onClick = { onOpenApps(HomeTab.ALL) }, modifier = Modifier.fillMaxWidth())
+}
+
+/** The quiet Pro line under a free button: lock + "5 unused apps · Pro", in secondary text. */
+@Composable
+private fun ProHint(unusedCount: Int, onClick: () -> Unit) {
+    val colors = AppTheme.colors
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .heightIn(min = Dimens.minTouchTarget)
+            .clip(RoundedCornerShape(Dimens.chipRadius))
+            .clickable(onClick = onClick)
+            .padding(horizontal = Dimens.space16),
+        horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        LockIcon(size = 16.dp)
+        Spacer(Modifier.width(Dimens.space8))
+        Text(
+            pluralStringResource(R.plurals.scan_pro_hint_unused, unusedCount, unusedCount),
+            style = MaterialTheme.typography.labelLarge,
+            color = colors.textSecondary,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+        )
+    }
 }
 
 @Composable

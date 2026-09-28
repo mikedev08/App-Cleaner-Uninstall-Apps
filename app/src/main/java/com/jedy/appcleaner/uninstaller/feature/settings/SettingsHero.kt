@@ -96,8 +96,8 @@ internal fun ProHeroCard(trialAvailable: Boolean, onUpgrade: () -> Unit, modifie
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             HeroBenefit(stringResource(R.string.settings_pro_benefit_unused))
-            HeroBenefit(stringResource(R.string.settings_pro_benefit_storage))
             HeroBenefit(stringResource(R.string.settings_pro_benefit_reminders))
+            HeroBenefit(stringResource(R.string.settings_pro_benefit_no_ads))
         }
         Spacer(Modifier.height(Dimens.space24))
         PrimaryButton(

@@ -22,9 +22,6 @@ private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(na
 
 enum class ThemeMode { SYSTEM, LIGHT, DARK }
 
-/** How sizes are shown in the list (Settings → "Show app size as"). */
-enum class SizeDisplay { APK, TOTAL }
-
 /**
  * Small, local app state. Nothing here ever leaves the device (PRD §2, on-device inventory).
  * Every key the V1 feature set needs is declared here so features never race to add one.
@@ -38,7 +35,7 @@ class AppPreferences @Inject constructor(
         val onboardingPaywallShown = booleanPreferencesKey("onboarding_paywall_shown")
         val languageTag = stringPreferencesKey("language_tag")
         val themeMode = stringPreferencesKey("theme_mode")
-        val sizeDisplay = stringPreferencesKey("size_display")
+        // "size_display" (the old "Show app size as" setting) may still be on disk; it is never read.
         val unusedThresholdDays = intPreferencesKey("unused_threshold_days")
         val remindersEnabled = booleanPreferencesKey("reminders_enabled")
         val remindersInitialised = booleanPreferencesKey("reminders_initialised")
@@ -74,11 +71,6 @@ class AppPreferences @Inject constructor(
         prefs[Keys.themeMode]?.let { runCatching { ThemeMode.valueOf(it) }.getOrNull() } ?: ThemeMode.SYSTEM
     }
     suspend fun setThemeMode(mode: ThemeMode) = set(Keys.themeMode, mode.name)
-
-    val sizeDisplay: Flow<SizeDisplay> = data.map { prefs ->
-        prefs[Keys.sizeDisplay]?.let { runCatching { SizeDisplay.valueOf(it) }.getOrNull() } ?: SizeDisplay.APK
-    }
-    suspend fun setSizeDisplay(value: SizeDisplay) = set(Keys.sizeDisplay, value.name)
 
     // Sorting (PRD §4, Screen 4: persists per tab)
     fun sortOrder(tab: HomeTab): Flow<SortOrder> = data.map { prefs ->

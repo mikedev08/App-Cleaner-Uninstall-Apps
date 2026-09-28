@@ -49,9 +49,10 @@ class ScanMathTest {
         assertEquals(listOf(game, chat), expected)
         assertEquals(2, result.largeCount)
         assertEquals(1_500 * mb + 260 * mb, result.largeBytes)
-        // Nothing is unused, so the Large row is the whole category.
-        assertEquals(2, result.largeOnlyCount)
-        assertEquals(result.largeBytes, result.largeOnlyBytes)
+        // Nothing is unused: no overlap, and the apps to review are exactly the large ones.
+        assertEquals(0, result.overlapCount)
+        assertEquals(2, result.reviewAppCount)
+        assertEquals(result.largeBytes, result.reviewAppBytes)
     }
 
     @Test
@@ -69,12 +70,14 @@ class ScanMathTest {
     }
 
     @Test
-    fun `an app that is unused and large is counted once, under Unused`() {
+    fun `an app that is unused and large shows in both rows and is counted once in the headline`() {
         val result = compute(unused = listOf(game))
+        assertEquals(1, result.unusedCount)
+        assertEquals(1_500 * mb, result.unusedBytes)
         assertEquals(1, result.largeCount)
-        assertEquals(0, result.largeOnlyCount)
-        assertEquals(0L, result.largeOnlyBytes)
-        assertEquals(1, result.largeAlsoUnusedCount)
+        assertEquals(1_500 * mb, result.largeBytes)
+        assertEquals(1, result.overlapCount)
+        assertEquals(1, result.reviewAppCount)
         assertEquals(1_500 * mb, result.reclaimableBytes)
     }
 
@@ -96,28 +99,43 @@ class ScanMathTest {
         // Unused row: game (1.6 GB, its own cache inside).
         assertEquals(1, result.unusedCount)
         assertEquals(1_600 * mb, result.unusedBytes)
-        // Large row: bigChat only (game is already under Unused).
+        // Large row: the whole category, game included (the Apps "Large" filter's count).
         assertEquals(2, result.largeCount)
-        assertEquals(1, result.largeOnlyCount)
-        assertEquals(450 * mb, result.largeOnlyBytes)
-        // Cache row: only the apps in neither row above (chat + notes).
+        assertEquals(2_050 * mb, result.largeBytes)
+        assertEquals(1, result.overlapCount)
+        // Cache row: every app with cache, the Apps "Cache" filter's set.
         assertEquals(185 * mb, result.cacheBytes)
         assertEquals(4, result.cacheAppCount)
-        assertEquals(35 * mb, result.keptCacheBytes)
-        assertEquals(2, result.keptCacheAppCount)
-        // Headline = the rows shown.
-        assertEquals(result.unusedBytes + result.largeOnlyBytes + result.keptCacheBytes, result.reclaimableBytes)
-        assertEquals(1_600 * mb + 450 * mb + 35 * mb, result.reclaimableBytes)
-        // "Review N apps" is the Unused + Large rows.
+        // "Review N apps" is Unused ∪ Large, each app once.
         assertEquals(2, result.reviewAppCount)
         assertEquals(2_050 * mb, result.reviewAppBytes)
+        // Headline: those apps once, plus the cache of the apps in neither (chat + notes).
+        assertEquals(35 * mb, result.otherCacheBytes)
+        assertEquals(result.reviewAppBytes + result.otherCacheBytes, result.reclaimableBytes)
+        assertEquals(2_085 * mb, result.reclaimableBytes)
     }
 
     @Test
-    fun `largeOnlyPackages matches the Large row`() {
+    fun `cache row counts only apps that hold cache`() {
+        val sizes = mapOf(
+            chat.packageName to size(app = 200 * mb, data = 0, cache = 30 * mb),
+            notes.packageName to size(app = 20 * mb, data = 0, cache = 0),
+        )
+        val result = compute(sizes = sizes)
+        assertEquals(1, result.cacheAppCount)
+        assertEquals(30 * mb, result.cacheBytes)
+    }
+
+    @Test
+    fun `selection helpers pick the Large row and the headline's apps`() {
         val sizes = mapOf(chat.packageName to size(app = 200 * mb, data = 60 * mb, cache = 0))
-        assertEquals(listOf(chat.packageName), ScanMath.largeOnlyPackages(apps, sizes, unused = setOf(game.packageName)))
-        assertEquals(compute(sizes = sizes, unused = listOf(game)).largeOnlyCount, 1)
+        val result = compute(sizes = sizes, unused = listOf(game, notes))
+        val large = ScanMath.largePackages(apps, sizes)
+        assertEquals(listOf(game.packageName, chat.packageName), large)
+        assertEquals(result.largeCount, large.size)
+        val review = ScanMath.reviewPackages(apps, sizes, unused = setOf(game.packageName, notes.packageName, "com.gone"))
+        assertEquals(setOf(game.packageName, notes.packageName, chat.packageName), review.toSet())
+        assertEquals(result.reviewAppCount, review.size)
     }
 
     @Test

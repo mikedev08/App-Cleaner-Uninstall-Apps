@@ -5,21 +5,24 @@ import com.jedy.appcleaner.uninstaller.core.model.AppSize
 import com.jedy.appcleaner.uninstaller.core.model.HomeTab
 import com.jedy.appcleaner.uninstaller.core.model.InstalledApp
 import com.jedy.appcleaner.uninstaller.core.model.SortOrder
+import com.jedy.appcleaner.uninstaller.core.model.bestKnownBytes
 import com.jedy.appcleaner.uninstaller.core.ui.theme.Severity
 import com.jedy.appcleaner.uninstaller.core.ui.theme.SeverityRules
 import java.text.Collator
 
-/** One All-tab row: the app plus the size this user is entitled to see for it. */
+/** One All-tab row: the app plus its size. */
 data class AppsRow(
     val app: InstalledApp,
-    /** Total footprint for premium users on "Total" display with a measured size, else APK bytes. */
+    /**
+     * The best-known size (`InstalledApp.bestKnownBytes`: measured app + data + cache when known,
+     * else the APK). The same number for every user, and the one the Selection Bar, the Confirm
+     * Sheet and the Large section add up.
+     */
     val sizeBytes: Long,
     /** Last use (premium sort / meta only); null when unknown or not entitled. */
     val lastUsedAt: Long?,
-    /** `LargeApps.isLarge(bestKnownBytes)`: the one Large rule Home and Scan count with. */
+    /** `LargeApps.isLarge(sizeBytes)`: the one Large rule Home and Scan count with. */
     val large: Boolean = false,
-    /** Measured total when known, else APK: what [large] and the Large section total use. */
-    val bestKnownBytes: Long = sizeBytes,
     /** 0..1 of the biggest app in the list, for the size bar. */
     val sizeFraction: Float = 0f,
     /** Premium idle chip ("Not opened in 3 mo"); null when not entitled or recently used. */
@@ -39,7 +42,7 @@ data class IdleChip(val severity: Severity, val months: Int) {
  * best-known sizes, so "Large · 9 apps · 3.1 GB" is the same figure Home and Scan show.
  */
 data class AppsSections(val large: List<AppsRow>, val rest: List<AppsRow>) {
-    val largeBytes: Long get() = large.sumOf { it.bestKnownBytes }
+    val largeBytes: Long get() = large.sumOf { it.sizeBytes }
 }
 
 /**
@@ -57,11 +60,11 @@ internal object AppsListLogic {
     }
 
     /**
-     * Settings "Show app size as": Total only means something for premium users whose size has
-     * been measured; everyone else sees APK bytes (the free-tier size everywhere, Feature 1).
+     * What the Selection Bar says removing [selected] frees: the best-known size of each
+     * installed app, exactly what the Confirm Sheet lists (apps no longer installed count 0).
      */
-    fun displayBytes(app: InstalledApp, sizes: Map<String, AppSize>, useTotal: Boolean): Long =
-        if (useTotal) sizes[app.packageName]?.totalBytes ?: app.apkBytes else app.apkBytes
+    fun selectedBytes(selected: Set<String>, apps: Map<String, InstalledApp>, sizes: Map<String, AppSize>): Long =
+        selected.sumOf { pkg -> apps[pkg]?.bestKnownBytes(sizes) ?: 0L }
 
     /** A persisted premium sort survives a lapsed subscription on disk but not on screen. */
     fun effectiveSort(order: SortOrder, isPremium: Boolean): SortOrder =

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="home_cat_overlap_note">
+        <item quantity="one">%d appli est inutilisée et grosse : comptée une fois.</item>
+        <item quantity="many">%d applis sont inutilisées et grosses : comptées une fois.</item>
+        <item quantity="other">%d applis sont inutilisées et grosses : comptées une fois.</item>
+    </plurals>
+    <plurals name="scan_cta_review_large">
+        <item quantity="one">Voir %1$d grosse appli · %2$s</item>
+        <item quantity="many">Voir %1$d grosses applis · %2$s</item>
+        <item quantity="other">Voir %1$d grosses applis · %2$s</item>
+    </plurals>
+    <plurals name="scan_pro_hint_unused">
+        <item quantity="one">Voir votre %d appli inutilisée avec Pro</item>
+        <item quantity="many">Voir vos %d applis inutilisées avec Pro</item>
+        <item quantity="other">Voir vos %d applis inutilisées avec Pro</item>
+    </plurals>
+    <string name="settings_pro_benefit_no_ads">Sans publicité</string>
+</resources>

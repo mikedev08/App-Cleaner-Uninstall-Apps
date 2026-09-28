@@ -28,21 +28,22 @@ data class ScanProgress(val step: ScanStep, val fraction: Float)
  * the StorageStatsManager app + data + cache total when Usage Access is granted, the APK size
  * otherwise — see [sizesAreEstimates]).
  *
- * **The three categories and the headline** (design review §2A, "the numbers contradict each
- * other"). Home's category rows and the Scan result show the same three rows, and the headline is
- * exactly their sum, so every app and every byte is counted once:
+ * **The three categories** (design review §2A, "the numbers contradict each other"). Home's
+ * category rows, the Scan result rows and the Apps filters show the *whole* category, so each
+ * number is the same on every screen:
  *
- * | Row    | Count / bytes shown                   | What it is                                           |
- * |--------|---------------------------------------|------------------------------------------------------|
- * | Unused | [unusedCount] / [unusedBytes]         | not opened in [thresholdDays] (needs Usage Access)   |
- * | Large  | [largeOnlyCount] / [largeOnlyBytes]   | `LargeApps.isLarge` apps that are *not* also Unused  |
- * | Cache  | [keptCacheAppCount] / [keptCacheBytes]| cache of the apps in neither row above               |
+ * | Row    | Count / bytes shown             | What it is (the same set the Apps filter lists)     |
+ * |--------|---------------------------------|-----------------------------------------------------|
+ * | Unused | [unusedCount] / [unusedBytes]   | not opened in [thresholdDays] (needs Usage Access)  |
+ * | Large  | [largeCount] / [largeBytes]     | every `LargeApps.isLarge` app, unused or not        |
+ * | Cache  | [cacheAppCount] / [cacheBytes]  | every app holding any cache (needs Usage Access)    |
  *
- * [reclaimableBytes] = unusedBytes + largeOnlyBytes + keptCacheBytes. An unused or large app's
- * size already contains its own cache, which is why the Cache row only adds the rest.
+ * The rows overlap: an app can be both unused and large ([overlapCount], which the screens explain
+ * in one line), and an unused or large app's size already contains its own cache.
  *
- * [largeCount] / [largeBytes] and [cacheBytes] / [cacheAppCount] are the whole categories — the
- * same sets the Apps "Large" and "Cache" filters list — for "N more are also unused" style notes.
+ * **The headline** counts every app and every byte once:
+ * [reclaimableBytes] = [reviewAppBytes] (the sizes of the Unused ∪ Large apps) +
+ * [otherCacheBytes] (the cache of the apps in neither).
  */
 data class ScanResult(
     val scannedAt: Long,
@@ -56,26 +57,18 @@ data class ScanResult(
     /** Every app `LargeApps.isLarge` calls Large, unused or not (the Apps "Large" filter). */
     val largeCount: Int,
     val largeBytes: Long,
-    /** The Large apps that are not also Unused: what the Large row adds to the headline. */
-    val largeOnlyCount: Int,
-    val largeOnlyBytes: Long,
-    /** Total cache across installed apps (needs Usage Access). */
-    val cacheBytes: Long,
+    /** Every installed app with cache > 0, and their total cache (the Apps "Cache" filter). */
     val cacheAppCount: Int,
-    /** Cache of the apps that are neither Unused nor Large: what the Cache row adds. */
-    val keptCacheBytes: Long,
-    val keptCacheAppCount: Int,
-    /** Headline: unusedBytes + largeOnlyBytes + keptCacheBytes, the sum of the three rows. */
+    val cacheBytes: Long,
+    /** Apps that are both Unused and Large: in both rows, counted once in the headline. */
+    val overlapCount: Int,
+    /** The Unused ∪ Large apps: what "Review N apps" selects, each app once. */
+    val reviewAppCount: Int,
+    val reviewAppBytes: Long,
+    /** Cache of the apps that are neither Unused nor Large: what the headline adds for cache. */
+    val otherCacheBytes: Long,
+    /** Headline: reviewAppBytes + otherCacheBytes. */
     val reclaimableBytes: Long,
     val hasUsageAccess: Boolean,
     val sizesAreEstimates: Boolean,
-) {
-    /** Unused + Large apps: what "Review N apps" selects. */
-    val reviewAppCount: Int get() = unusedCount + largeOnlyCount
-
-    /** What removing [reviewAppCount] apps frees (the headline minus the kept apps' cache). */
-    val reviewAppBytes: Long get() = unusedBytes + largeOnlyBytes
-
-    /** Large apps also counted under Unused (shown as "N more" / "counted in Unused"). */
-    val largeAlsoUnusedCount: Int get() = largeCount - largeOnlyCount
-}
+)

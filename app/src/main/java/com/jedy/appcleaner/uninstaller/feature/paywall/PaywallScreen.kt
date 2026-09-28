@@ -41,7 +41,6 @@ import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material.icons.rounded.CloudOff
 import androidx.compose.material.icons.rounded.HourglassBottom
 import androidx.compose.material.icons.rounded.NotificationsActive
-import androidx.compose.material.icons.rounded.PieChart
 import androidx.compose.material.icons.rounded.Schedule
 import androidx.compose.material.icons.rounded.WorkspacePremium
 import androidx.compose.material3.ButtonDefaults
@@ -330,7 +329,6 @@ private data class Benefit(val icon: ImageVector, val titleRes: Int, val bodyRes
 
 private val benefits = listOf(
     Benefit(Icons.Rounded.HourglassBottom, R.string.paywall_benefit_unused_title, R.string.paywall_benefit_unused_body),
-    Benefit(Icons.Rounded.PieChart, R.string.paywall_benefit_storage_title, R.string.paywall_benefit_storage_body),
     Benefit(Icons.Rounded.NotificationsActive, R.string.paywall_benefit_reminders_title, R.string.paywall_benefit_reminders_body),
     Benefit(Icons.Rounded.Block, R.string.paywall_benefit_no_ads_title, R.string.paywall_benefit_no_ads_body),
 )

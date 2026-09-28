@@ -56,16 +56,16 @@ sealed interface ScanCta {
     /** Quick scan: the honest next step is the full scan. */
     data object AllowAccess : ScanCta
 
-    /** Premium: "Review 34 apps · 3.2 GB" pre-selects the Unused and Large apps. */
+    /** Premium: "Review 34 apps · 3.2 GB" pre-selects the Unused ∪ Large apps, each once. */
     data class ReviewApps(val count: Int, val bytes: Long, val tab: HomeTab) : ScanCta
 
-    /** Premium, only cache to free: "Review cache · 520 MB". */
+    /** Only cache to free (free or premium): "Review cache · 520 MB", the Cache row's figure. */
     data class ReviewCache(val bytes: Long) : ScanCta
 
-    /** Free: "Remove 3 large apps · 1.0 GB", pre-selected on the free All list. */
-    data class RemoveLarge(val count: Int, val bytes: Long) : ScanCta
+    /** Free: "Review 11 big apps · 4.2 GB", every Large app pre-selected on the free Large filter. */
+    data class ReviewLarge(val count: Int, val bytes: Long) : ScanCta
 
-    /** Free, and everything to free is Pro-only: "Review with Pro" with the lock → paywall. */
+    /** Free, and the only thing to free is Pro-only (Unused): "Review with Pro" with the lock → paywall. */
     data object Unlock : ScanCta
 
     /** Nothing to free: only "Review all apps". */
@@ -75,8 +75,8 @@ sealed interface ScanCta {
 object ScanCtas {
     /**
      * Design review §2A: a free-looking button never quotes a Pro-only number. Premium reviews
-     * everything the rows count as apps (Unused + Large); free users are offered the Large apps,
-     * which they can remove from the free All list; the rest is behind a visible lock.
+     * every app the headline counts (Unused ∪ Large, each once); free users are offered the Large
+     * apps (free), then cache (free); Unused alone is behind the visible lock.
      */
     fun primary(result: ScanResult, isPremium: Boolean): ScanCta = when {
         !result.hasUsageAccess -> ScanCta.AllowAccess
@@ -84,14 +84,22 @@ object ScanCtas {
             count = result.reviewAppCount,
             bytes = result.reviewAppBytes,
             // Only the All list shows Unused and Large apps together.
-            tab = if (result.largeOnlyCount > 0) HomeTab.ALL else HomeTab.UNUSED,
+            tab = if (result.largeCount > result.overlapCount) HomeTab.ALL else HomeTab.UNUSED,
         )
-        isPremium && result.keptCacheBytes > 0 -> ScanCta.ReviewCache(result.keptCacheBytes)
+        isPremium && result.cacheAppCount > 0 -> ScanCta.ReviewCache(result.cacheBytes)
         isPremium -> ScanCta.None
-        result.largeOnlyCount > 0 -> ScanCta.RemoveLarge(result.largeOnlyCount, result.largeOnlyBytes)
-        result.unusedCount > 0 || result.keptCacheBytes > 0 -> ScanCta.Unlock
+        result.largeCount > 0 -> ScanCta.ReviewLarge(result.largeCount, result.largeBytes)
+        result.cacheAppCount > 0 -> ScanCta.ReviewCache(result.cacheBytes)
+        result.unusedCount > 0 -> ScanCta.Unlock
         else -> ScanCta.None
     }
+
+    /**
+     * Free users with unused apps whose primary button is a free action: one quiet "N unused apps
+     * · Pro" line under it (a count, never a Pro size), so Unused is never silently dropped.
+     */
+    fun showProHint(result: ScanResult, isPremium: Boolean): Boolean =
+        !isPremium && result.hasUsageAccess && result.unusedCount > 0 && primary(result, isPremium) != ScanCta.Unlock
 }
 
 data class ScanUiState(
@@ -183,21 +191,20 @@ class ScanViewModel @Inject constructor(
     }
 
     /**
-     * Premium "Review N apps": select exactly the apps the rows counted (Unused, then the Large
-     * apps that are not unused), computed with the same rules and threshold, so the selection
-     * bar repeats the button's N.
+     * Premium "Review N apps": select exactly the apps the headline counted (Unused ∪ Large, each
+     * once), computed with the same rules and threshold, so the selection bar repeats the
+     * button's N and bytes.
      */
     fun preselectReview(result: ScanResult) {
         val apps = inventory.apps.value
-        val unused = unusedPackages(result)
         selection.clear()
-        selection.select(unused + ScanMath.largeOnlyPackages(apps, storage.sizes.value, unused))
+        selection.select(ScanMath.reviewPackages(apps, storage.sizes.value, unusedPackages(result)))
     }
 
-    /** Free "Remove N large apps": the Large row's apps, on the free All list. */
-    fun preselectLarge(result: ScanResult) {
+    /** Free "Review N big apps": every Large app, the Large row and filter's set. */
+    fun preselectLarge() {
         selection.clear()
-        selection.select(ScanMath.largeOnlyPackages(inventory.apps.value, storage.sizes.value, unusedPackages(result)))
+        selection.select(ScanMath.largePackages(inventory.apps.value, storage.sizes.value))
     }
 
     private fun unusedPackages(result: ScanResult): Set<String> =

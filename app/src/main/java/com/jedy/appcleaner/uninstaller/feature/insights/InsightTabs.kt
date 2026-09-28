@@ -53,7 +53,7 @@ private val DefaultContentPadding = PaddingValues(bottom = Dimens.selectionBarHe
  *
  * @param searchQuery the Apps screen's inline search text; filter rows by label and package name.
  * @param onRequestAccess open the Usage Access disclosure.
- * @param onUnlock open the paywall.
+ * @param onUnlock open the paywall (Unused only: Large and Cache are free and have no lock).
  * @param onOpenDetails open the App Details sheet for a package.
  */
 @Composable
@@ -158,14 +158,14 @@ fun UnusedTab(
 }
 
 /**
- * The Large filter: exactly the apps `LargeApps.isLarge` counts on Home and Scan, with their
- * stacked App / Data / Cache bars and a legend in the summary.
+ * The Large filter (free): exactly the apps `LargeApps.isLarge` counts on Home and Scan, with
+ * their stacked App / Data / Cache bars and a legend in the summary. Without Usage Access the same
+ * apps are listed by APK size, under a prompt to allow access for the full sizes.
  */
 @Composable
 fun LargeTab(
     searchQuery: String,
     onRequestAccess: () -> Unit,
-    onUnlock: () -> Unit,
     onOpenDetails: (packageName: String) -> Unit,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = DefaultContentPadding,
@@ -175,15 +175,13 @@ fun LargeTab(
     val selected by viewModel.selected.collectAsStateWithLifecycle()
 
     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) { viewModel.onResume() }
-    val teaserVisible = (content as? LargeContent.Locked)?.count?.let { it > 0 } == true
-    LaunchedEffect(teaserVisible) { if (teaserVisible) viewModel.onTeaserViewed() }
 
     val current = content
     val visible = remember(current, searchQuery) {
-        (current as? LargeContent.Unlocked)?.rows?.let { InsightSort.filter(it, searchQuery) }.orEmpty()
+        (current as? LargeContent.Listed)?.rows?.let { InsightSort.filter(it, searchQuery) }.orEmpty()
     }
     val largest = remember(current) {
-        (current as? LargeContent.Unlocked)?.rows?.maxOfOrNull { it.bytes }?.takeIf { it > 0 } ?: 1L
+        (current as? LargeContent.Listed)?.rows?.maxOfOrNull { it.bytes }?.takeIf { it > 0 } ?: 1L
     }
     val context = LocalContext.current
     val threshold = formatBytes(context, LargeApps.THRESHOLD_BYTES)
@@ -193,41 +191,18 @@ fun LargeTab(
         contentPadding = contentPadding,
     ) {
         when (current) {
-            LargeContent.NoAccess -> item(key = "access") {
-                AccessCard(
-                    icon = Icons.Rounded.SdStorage,
-                    title = stringResource(R.string.insights_large_access_title),
-                    body = stringResource(R.string.insights_large_access_body),
-                    onRequestAccess = onRequestAccess,
-                    modifier = Modifier.animateItem(),
-                )
-            }
+            // Large never asks for access instead of its list; kept for the shared shape.
+            LargeContent.NoAccess -> largeAccessItem(onRequestAccess)
             LargeContent.Loading -> item(key = "loading") {
                 InsightsLoading(stringResource(R.string.insights_loading_large), Modifier.animateItem())
             }
             LargeContent.Unavailable -> unavailableItem()
-            is LargeContent.Locked -> item(key = "teaser") {
-                if (current.count == 0) {
-                    LargeEmpty(threshold, Modifier.animateItem())
-                } else {
-                    val count = rememberCountUp(current.count.toLong()).toInt()
-                    val bytes = rememberCountUp(current.bytes)
-                    LockedTeaser(
-                        number = countAndSize(count, bytes),
-                        caption = stringResource(R.string.insights_large_caption, threshold),
-                        loss = percentOf(current.bytes, current.deviceTotalBytes)?.let {
-                            stringResource(R.string.insights_large_teaser_loss, it)
-                        },
-                        body = stringResource(R.string.insights_large_teaser_body),
-                        preview = current.preview,
-                        onUnlock = onUnlock,
-                        modifier = Modifier.animateItem(),
-                    )
-                }
-            }
-            is LargeContent.Unlocked -> if (current.rows.isEmpty()) {
+            is LargeContent.Listed -> if (current.rows.isEmpty()) {
+                if (current.needsAccess) largeAccessItem(onRequestAccess)
                 item(key = "empty") { LargeEmpty(threshold, Modifier.animateItem()) }
             } else {
+                // APK sizes only: offer the full sizes above the (same) list.
+                if (current.needsAccess) largeAccessItem(onRequestAccess)
                 item(key = "summary") {
                     val count = rememberCountUp(current.rows.size.toLong()).toInt()
                     val bytes = rememberCountUp(current.totalBytes)
@@ -267,14 +242,14 @@ fun LargeTab(
 
 /**
  * The Cache filter (design review §2.6): apps by cache size, the one part of an app's footprint
- * a user can reclaim without uninstalling. It replaced the Large tab's Total / Cache toggle and
- * is premium like Large; it shares [LargeTabViewModel].
+ * a user can reclaim without uninstalling. It replaced the Large tab's Total / Cache toggle. Free
+ * like Large; without Usage Access it asks for access (never the paywall). It shares
+ * [LargeTabViewModel].
  */
 @Composable
 fun CacheTab(
     searchQuery: String,
     onRequestAccess: () -> Unit,
-    onUnlock: () -> Unit,
     onOpenDetails: (packageName: String) -> Unit,
     modifier: Modifier = Modifier,
     contentPadding: PaddingValues = DefaultContentPadding,
@@ -284,15 +259,13 @@ fun CacheTab(
     val selected by viewModel.selected.collectAsStateWithLifecycle()
 
     LifecycleEventEffect(Lifecycle.Event.ON_RESUME) { viewModel.onResume() }
-    val teaserVisible = (content as? LargeContent.Locked)?.count?.let { it > 0 } == true
-    LaunchedEffect(teaserVisible) { if (teaserVisible) viewModel.onCacheTeaserViewed() }
 
     val current = content
     val visible = remember(current, searchQuery) {
-        (current as? LargeContent.Unlocked)?.rows?.let { InsightSort.filter(it, searchQuery) }.orEmpty()
+        (current as? LargeContent.Listed)?.rows?.let { InsightSort.filter(it, searchQuery) }.orEmpty()
     }
     val largest = remember(current) {
-        (current as? LargeContent.Unlocked)?.rows?.maxOfOrNull { it.size?.cacheBytes ?: 0L }?.takeIf { it > 0 } ?: 1L
+        (current as? LargeContent.Listed)?.rows?.maxOfOrNull { it.size?.cacheBytes ?: 0L }?.takeIf { it > 0 } ?: 1L
     }
     val context = LocalContext.current
 
@@ -314,23 +287,7 @@ fun CacheTab(
                 InsightsLoading(stringResource(R.string.insights_loading_large), Modifier.animateItem())
             }
             LargeContent.Unavailable -> unavailableItem()
-            is LargeContent.Locked -> item(key = "teaser") {
-                if (current.count == 0) {
-                    CacheEmpty(Modifier.animateItem())
-                } else {
-                    val bytes = rememberCountUp(current.bytes)
-                    LockedTeaser(
-                        number = formatBytes(context, bytes),
-                        caption = pluralStringResource(R.plurals.insights_cache_caption, current.count, current.count),
-                        loss = null,
-                        body = stringResource(R.string.insights_cache_teaser_body),
-                        preview = current.preview,
-                        onUnlock = onUnlock,
-                        modifier = Modifier.animateItem(),
-                    )
-                }
-            }
-            is LargeContent.Unlocked -> if (current.rows.isEmpty()) {
+            is LargeContent.Listed -> if (current.rows.isEmpty()) {
                 item(key = "empty") { CacheEmpty(Modifier.animateItem()) }
             } else {
                 item(key = "summary") {
@@ -513,6 +470,19 @@ private fun CacheEmpty(modifier: Modifier = Modifier) {
         body = stringResource(R.string.insights_unused_empty_body),
         modifier = modifier,
     )
+}
+
+/** Large's Usage Access prompt: the full app + data + cache sizes need it (never Pro). */
+private fun LazyListScope.largeAccessItem(onRequestAccess: () -> Unit) {
+    item(key = "access") {
+        AccessCard(
+            icon = Icons.Rounded.SdStorage,
+            title = stringResource(R.string.insights_large_access_title),
+            body = stringResource(R.string.insights_large_access_body),
+            onRequestAccess = onRequestAccess,
+            modifier = Modifier.animateItem(),
+        )
+    }
 }
 
 private fun LazyListScope.unavailableItem() {

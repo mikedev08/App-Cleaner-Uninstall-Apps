@@ -4,7 +4,8 @@ package com.jedy.appcleaner.uninstaller.core.model
  * One user-installed app, as the inventory knows it (PRD Feature 1).
  *
  * [apkBytes] is the base APK plus every split: readable without any permission, so it is the
- * free-tier size everywhere. Full app + data + cache sizes come from [AppSize] (premium).
+ * fallback size everywhere. Full app + data + cache sizes come from [AppSize] (free, needs Usage
+ * Access); every screen shows [bestKnownBytes].
  */
 data class InstalledApp(
     val packageName: String,
@@ -26,7 +27,7 @@ data class InstalledApp(
     }
 }
 
-/** StorageStatsManager breakdown for one app (premium, needs Usage Access). */
+/** StorageStatsManager breakdown for one app (free for everyone, needs Usage Access). */
 data class AppSize(
     val appBytes: Long,
     val dataBytes: Long,
@@ -109,7 +110,9 @@ enum class PaywallSource(val value: String) {
     HOME("home"),
     SCAN_RESULT("scan_result"),
     UNUSED_TAB("unused_tab"),
+    /** No longer opened: Large and Cache are free. Kept so old analytics values still parse. */
     LARGE_TAB("large_tab"),
+    /** No longer opened: the details sheet's size breakdown is free. Kept for analytics. */
     DETAILS_SHEET("details_sheet"),
     REMINDER_TOGGLE("reminder_toggle"),
     SORT_MENU("sort_menu"),

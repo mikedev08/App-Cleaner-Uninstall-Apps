@@ -54,8 +54,8 @@ object ResultMath {
 
     /**
      * The loss-framed teaser ("9 more apps you haven't opened are still using 1.3 GB"). Uses the
-     * measured size when [fullSizes] is available (premium with Usage Access — the same rule as the
-     * Confirm Sheet), else the APK size, and then says "about".
+     * measured size when [fullSizes] has one (the best-known size, the same rule as every row and
+     * the Confirm Sheet), else the APK size, and then says "about".
      */
     fun unusedTeaser(unused: List<UnusedApp>, fullSizes: Map<String, AppSize>?, thresholdDays: Int): UnusedTeaser {
         var estimate = false

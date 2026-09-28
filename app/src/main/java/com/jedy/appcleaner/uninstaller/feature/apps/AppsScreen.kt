@@ -172,7 +172,6 @@ fun AppsScreen(
                         HomeTab.LARGE -> LargeTab(
                             searchQuery = state.query,
                             onRequestAccess = { onOpenUsageAccess(UsageAccessTrigger.LARGE_TAB) },
-                            onUnlock = { onOpenPaywall(PaywallSource.LARGE_TAB) },
                             onOpenDetails = viewModel::openDetails,
                             modifier = tabModifier,
                             contentPadding = bottomPadding,
@@ -180,7 +179,6 @@ fun AppsScreen(
                         HomeTab.CACHE -> CacheTab(
                             searchQuery = state.query,
                             onRequestAccess = { onOpenUsageAccess(UsageAccessTrigger.LARGE_TAB) },
-                            onUnlock = { onOpenPaywall(PaywallSource.LARGE_TAB) },
                             onOpenDetails = viewModel::openDetails,
                             modifier = tabModifier,
                             contentPadding = bottomPadding,
@@ -203,7 +201,6 @@ fun AppsScreen(
         AppDetailsSheet(
             details = current,
             onDismiss = viewModel::closeDetails,
-            onUnlockSizes = { onOpenPaywall(PaywallSource.DETAILS_SHEET) },
             onRequestUsageAccess = { onOpenUsageAccess(UsageAccessTrigger.LARGE_TAB) },
             onUninstall = { viewModel.requestUninstallOne(current.app.packageName) },
         )

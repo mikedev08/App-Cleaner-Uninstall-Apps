@@ -4,6 +4,7 @@ import com.jedy.appcleaner.uninstaller.core.model.AppSize
 import com.jedy.appcleaner.uninstaller.core.format.DAY_MILLIS
 import com.jedy.appcleaner.uninstaller.core.model.InstalledApp
 import com.jedy.appcleaner.uninstaller.core.model.SortOrder
+import com.jedy.appcleaner.uninstaller.core.model.bestKnownBytes
 import com.jedy.appcleaner.uninstaller.core.ui.theme.Severity
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertEquals
@@ -70,11 +71,13 @@ class AppsListLogicTest {
     }
 
     @Test
-    fun `display size uses the measured total only when asked and known`() {
+    fun `selection total is the best-known size of each selected app, the same as the confirm sheet`() {
         val sizes = mapOf(maps.packageName to AppSize(appBytes = 300, dataBytes = 700, cacheBytes = 0, measuredAt = 0))
-        assertEquals(1_000L, AppsListLogic.displayBytes(maps, sizes, useTotal = true))
-        assertEquals(300L, AppsListLogic.displayBytes(maps, sizes, useTotal = false))
-        assertEquals(50L, AppsListLogic.displayBytes(chess, sizes, useTotal = true))
+        val byPackage = all.associateBy { it.packageName }
+        // Maps is measured (1,000), chess is not (its APK, 50); an app no longer installed adds 0.
+        val selected = setOf(maps.packageName, chess.packageName, "com.gone")
+        assertEquals(1_050L, AppsListLogic.selectedBytes(selected, byPackage, sizes))
+        assertEquals(maps.bestKnownBytes(sizes) + chess.bestKnownBytes(sizes), AppsListLogic.selectedBytes(selected, byPackage, sizes))
     }
 
     @Test
@@ -88,8 +91,8 @@ class AppsListLogicTest {
     @Test
     fun `size sort splits Large apps from the rest and totals their best-known size`() {
         val rows = listOf(
-            // Shown as its APK (300) but measured at 900: Large, and the section counts the 900.
-            AppsRow(maps, 300, null, large = true, bestKnownBytes = 900),
+            // Measured at 900 (its APK is 300): the row shows 900, and so does the section.
+            AppsRow(maps, 900, null, large = true),
             AppsRow(bank, 280, null, large = true),
             AppsRow(chess, 50, null),
         )

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Owner decisions 2026-09: rows show whole categories; Large and Cache are free, only Unused is Pro.
+         Kept in their own file so they merge cleanly with the copy pass; move them freely. -->
+    <!-- Under the Home / Scan category rows, only when an app is in both Unused and Large. -->
+    <plurals name="home_cat_overlap_note">
+        <item quantity="one">%d app is both unused and big — counted once.</item>
+        <item quantity="other">%d apps are both unused and big — counted once.</item>
+    </plurals>
+    <!-- Scan result primary button for free users: every Large app. %1$d count, %2$s size. -->
+    <plurals name="scan_cta_review_large">
+        <item quantity="one">Review %1$d big app · %2$s</item>
+        <item quantity="other">Review %1$d big apps · %2$s</item>
+    </plurals>
+    <!-- Quiet line under a free Scan button when there are unused apps (Pro). A count only, never a size. -->
+    <plurals name="scan_pro_hint_unused">
+        <item quantity="one">See your %d unused app with Pro</item>
+        <item quantity="other">See your %d unused apps with Pro</item>
+    </plurals>
+    <!-- Settings Pro card benefit (replaces "See every app's real size", which is free now). -->
+    <string name="settings_pro_benefit_no_ads">No ads</string>
+</resources>

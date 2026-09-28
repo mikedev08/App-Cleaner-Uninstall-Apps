@@ -2,9 +2,6 @@ package com.jedy.appcleaner.uninstaller.feature.insights
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.jedy.appcleaner.uninstaller.core.analytics.Analytics
-import com.jedy.appcleaner.uninstaller.core.analytics.AnalyticsEvent
-import com.jedy.appcleaner.uninstaller.core.format.bytesBucket
 import com.jedy.appcleaner.uninstaller.core.model.AppSize
 import com.jedy.appcleaner.uninstaller.core.model.HomeTab
 import com.jedy.appcleaner.uninstaller.core.model.InstalledApp
@@ -29,45 +26,39 @@ import kotlinx.coroutines.flow.stateIn
 import javax.inject.Inject
 
 /**
- * PRD §4 Screen 6: the same three access states as the Unused tab. One shape serves both size
- * filters, Large and Cache; for Cache the "bytes" are cache bytes.
+ * PRD §4 Screen 6. One shape serves both size filters, Large and Cache; for Cache the "bytes" are
+ * cache bytes. Both are free (only Unused is Pro): there is no locked state, only the access one.
  */
 sealed interface LargeContent {
     data object Loading : LargeContent
+
+    /** Cache only: cache sizes need Usage Access, so the filter asks for it (never the paywall). */
     data object NoAccess : LargeContent
 
-    /** Access granted but nothing could be measured (e.g. every volume unavailable). */
+    /** Cache only: access granted but nothing could be measured (e.g. every volume unavailable). */
     data object Unavailable : LargeContent
-
-    /**
-     * Free user: the real count and bytes in clear ("9 apps · 3.1 GB"), rows redacted.
-     * [deviceTotalBytes] turns the number into a share of the phone ("That's 2% of your storage").
-     */
-    data class Locked(
-        val count: Int,
-        val bytes: Long,
-        val preview: List<PreviewRow>,
-        val deviceTotalBytes: Long,
-    ) : LargeContent
 
     /**
      * @param totalBytes what the listed apps hold (Large: best-known sizes; Cache: cache bytes).
      * @param breakdown app / data / cache summed over the listed, measured apps (Large only).
+     * @param needsAccess Large without Usage Access: the rows are APK sizes, and a prompt above
+     *   them offers the full sizes. The count is still exactly Home's and Scan's.
      */
-    data class Unlocked(
+    data class Listed(
         val rows: List<LargeRow>,
         val totalBytes: Long,
         val measuring: Boolean,
         val breakdown: AppSize?,
         val deviceTotalBytes: Long,
+        val needsAccess: Boolean = false,
     ) : LargeContent
 }
 
 /**
  * The Large and Cache filters (PRD §4 Screen 6, Feature 3; design review §2.6). Large lists
- * exactly the apps `LargeApps.isLarge` counts on Home and Scan; Cache lists apps by cache size
- * (it replaced the old Total / Cache toggle). Sizes are measured for every user who granted
- * access; premium only unlocks the rows. Both filter bodies share this one ViewModel.
+ * exactly the apps `LargeApps.isLarge` counts on Home and Scan (best-known sizes, so APK sizes
+ * without Usage Access); Cache lists apps by cache size, the same set Home's and Scan's Cache row
+ * count. Both are free for every user. Both filter bodies share this one ViewModel.
  */
 @HiltViewModel
 class LargeTabViewModel @Inject constructor(
@@ -79,7 +70,6 @@ class LargeTabViewModel @Inject constructor(
     premium: Premium,
     preferences: AppPreferences,
     private val selection: SelectionStore,
-    private val analytics: Analytics,
     @param:DefaultDispatcher dispatcher: CoroutineDispatcher,
 ) : ViewModel() {
 
@@ -117,65 +107,45 @@ class LargeTabViewModel @Inject constructor(
         .flowOn(dispatcher)
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(STOP_TIMEOUT_MILLIS), LargeContent.Loading)
 
-    /** The access / loading gates both filters share; null = go on and build the rows. */
-    private fun gate(snap: Snapshot): LargeContent? {
+    /** Still reading: the inventory, or (with access) an empty size cache before its first pass. */
+    private fun isLoading(snap: Snapshot): Boolean {
         val (s, p, _, sizes) = snap
-        if (!s.granted) return LargeContent.NoAccess
-        if (s.inventoryLoading) return LargeContent.Loading
+        if (s.inventoryLoading) return true
         // Room-cached sizes render at once; an empty cache waits for the first measuring pass.
-        if (sizes.isEmpty() && (!p.measured || p.refreshing)) return LargeContent.Loading
-        return null
+        return s.granted && sizes.isEmpty() && (!p.measured || p.refreshing)
     }
 
     private fun rowsOf(snap: Snapshot): List<LargeRow> =
         snap.apps.map { LargeRow(it, snap.sizes[it.packageName], snap.lastUsed[it.packageName]) }
 
     private fun buildLarge(snap: Snapshot): LargeContent {
-        gate(snap)?.let { return it }
-        val all = rowsOf(snap)
-        if (all.none { it.size != null }) return LargeContent.Unavailable
-        val large = LargeInsights.largeRows(all)
-        val total = large.sumOf { it.bytes }
-        return if (snap.settings.isPremium) {
-            LargeContent.Unlocked(
-                rows = InsightSort.sort(large, snap.settings.order),
-                totalBytes = total,
-                measuring = snap.progress.refreshing,
-                breakdown = LargeInsights.breakdown(large),
-                deviceTotalBytes = deviceTotalBytes,
-            )
-        } else {
-            LargeContent.Locked(
-                count = large.size,
-                bytes = total,
-                preview = large.sortedByDescending { it.bytes }.take(PREVIEW_ROWS).map { PreviewRow(it.app.packageName, it.bytes) },
-                deviceTotalBytes = deviceTotalBytes,
-            )
-        }
+        if (isLoading(snap)) return LargeContent.Loading
+        val large = LargeInsights.largeRows(rowsOf(snap))
+        // A premium sort ("last used") left on disk after Pro ended falls back to size.
+        val order = snap.settings.order.takeUnless { it.isPremium && !snap.settings.isPremium } ?: SortOrder.SIZE
+        return LargeContent.Listed(
+            rows = InsightSort.sort(large, order),
+            totalBytes = large.sumOf { it.bytes },
+            measuring = snap.settings.granted && snap.progress.refreshing,
+            breakdown = LargeInsights.breakdown(large),
+            deviceTotalBytes = deviceTotalBytes,
+            needsAccess = !snap.settings.granted,
+        )
     }
 
     private fun buildCache(snap: Snapshot): LargeContent {
-        gate(snap)?.let { return it }
+        if (!snap.settings.granted) return LargeContent.NoAccess
+        if (isLoading(snap)) return LargeContent.Loading
         val all = rowsOf(snap)
         if (all.none { it.size != null }) return LargeContent.Unavailable
         val cached = LargeInsights.cacheRows(all)
-        val total = LargeInsights.cacheBytes(cached)
-        return if (snap.settings.isPremium) {
-            LargeContent.Unlocked(
-                rows = cached,
-                totalBytes = total,
-                measuring = snap.progress.refreshing,
-                breakdown = null,
-                deviceTotalBytes = deviceTotalBytes,
-            )
-        } else {
-            LargeContent.Locked(
-                count = cached.size,
-                bytes = total,
-                preview = cached.take(PREVIEW_ROWS).map { PreviewRow(it.app.packageName, it.size!!.cacheBytes) },
-                deviceTotalBytes = deviceTotalBytes,
-            )
-        }
+        return LargeContent.Listed(
+            rows = cached,
+            totalBytes = LargeInsights.cacheBytes(cached),
+            measuring = snap.progress.refreshing,
+            breakdown = null,
+            deviceTotalBytes = deviceTotalBytes,
+        )
     }
 
     fun onToggle(packageName: String) = selection.toggle(packageName)
@@ -185,17 +155,6 @@ class LargeTabViewModel @Inject constructor(
     }
 
     fun onResume() = access.recheck()
-
-    /** PRD §9 premium_teaser_viewed, once per entry into the blurred state. */
-    fun onTeaserViewed() {
-        val content = uiState.value as? LargeContent.Locked ?: return
-        analytics.log(AnalyticsEvent.PremiumTeaserViewed("large", content.count, bytesBucket(content.bytes)))
-    }
-
-    fun onCacheTeaserViewed() {
-        val content = cacheState.value as? LargeContent.Locked ?: return
-        analytics.log(AnalyticsEvent.PremiumTeaserViewed("cache", content.count, bytesBucket(content.bytes)))
-    }
 
     private data class Settings(
         val granted: Boolean,
@@ -215,7 +174,6 @@ class LargeTabViewModel @Inject constructor(
     )
 
     private companion object {
-        const val PREVIEW_ROWS = 5
         const val STOP_TIMEOUT_MILLIS = 5_000L
     }
 }

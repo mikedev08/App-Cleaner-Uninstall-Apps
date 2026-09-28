@@ -16,7 +16,6 @@ import com.jedy.appcleaner.uninstaller.data.billing.OfferState
 import com.jedy.appcleaner.uninstaller.data.billing.Premium
 import com.jedy.appcleaner.uninstaller.data.billing.RestoreOutcome
 import com.jedy.appcleaner.uninstaller.data.prefs.AppPreferences
-import com.jedy.appcleaner.uninstaller.data.prefs.SizeDisplay
 import com.jedy.appcleaner.uninstaller.data.prefs.ThemeMode
 import com.jedy.appcleaner.uninstaller.data.usage.UsageAccess
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -37,7 +36,6 @@ data class SettingsUiState(
     /** A real store entitlement, as opposed to the debug override: gates "Manage subscription". */
     val hasStoreSubscription: Boolean = false,
     val themeMode: ThemeMode = ThemeMode.SYSTEM,
-    val sizeDisplay: SizeDisplay = SizeDisplay.APK,
     val remindersEnabled: Boolean = false,
     val thresholdDays: Int = AppPreferences.DEFAULT_UNUSED_DAYS,
     val usageAccessGranted: Boolean = false,
@@ -58,7 +56,6 @@ sealed interface SettingsEvent {
 
 private data class PrefsSnapshot(
     val themeMode: ThemeMode,
-    val sizeDisplay: SizeDisplay,
     val remindersEnabled: Boolean,
     val thresholdDays: Int,
     val debugForcePremium: Boolean,
@@ -93,11 +90,10 @@ class SettingsViewModel @Inject constructor(
 
     private val prefs = combine(
         preferences.themeMode,
-        preferences.sizeDisplay,
         preferences.remindersEnabled,
         preferences.unusedThresholdDays,
         preferences.debugForcePremium,
-    ) { theme, size, reminders, days, forced -> PrefsSnapshot(theme, size, reminders, days, forced) }
+    ) { theme, reminders, days, forced -> PrefsSnapshot(theme, reminders, days, forced) }
 
     private val status = combine(
         premium.isPremium,
@@ -114,7 +110,6 @@ class SettingsViewModel @Inject constructor(
             isPremium = s.isPremium,
             hasStoreSubscription = s.hasStoreSubscription,
             themeMode = p.themeMode,
-            sizeDisplay = p.sizeDisplay,
             remindersEnabled = p.remindersEnabled,
             thresholdDays = p.thresholdDays,
             usageAccessGranted = s.usageAccessGranted,
@@ -148,11 +143,6 @@ class SettingsViewModel @Inject constructor(
 
     fun setThemeMode(mode: ThemeMode) {
         viewModelScope.launch { preferences.setThemeMode(mode) }
-    }
-
-    fun setSizeDisplay(value: SizeDisplay) {
-        if (value == SizeDisplay.TOTAL && !premium.isPremium.value) return
-        viewModelScope.launch { preferences.setSizeDisplay(value) }
     }
 
     fun setRemindersEnabled(enabled: Boolean) {

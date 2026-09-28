@@ -48,8 +48,9 @@ import com.jedy.appcleaner.uninstaller.feature.home.rememberPercentFormat
 /**
  * The result, the one place with the full breakdown (design review §2.6): the headline counting
  * up in green, once; the before → after bar with its legend; and the Unused · Large · Cache rows
- * in one grouped card — the same rows as Home. The headline is exactly the sum of those rows
- * ([ScanResult.reclaimableBytes]); a row with nothing in it is a quiet line, never a chevron to an
+ * in one grouped card — the same rows as Home, each its whole category. The headline
+ * ([ScanResult.reclaimableBytes]) counts every app once, and a plain line under the rows says so
+ * when an app is in two of them; a row with nothing in it is a quiet line, never a chevron to an
  * empty list.
  */
 @Composable
@@ -93,6 +94,7 @@ internal fun ScanResultContent(
             rows = HomeCategories.rows(result, isPremium),
             onOpen = onOpen,
             onAllowAccess = onAllowAccess,
+            overlapCount = HomeCategories.overlapCount(result),
         )
         if (result.sizesAreEstimates) {
             Spacer(Modifier.height(Dimens.space12))
