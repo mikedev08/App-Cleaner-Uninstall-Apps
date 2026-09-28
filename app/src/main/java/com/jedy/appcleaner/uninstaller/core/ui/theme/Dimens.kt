@@ -40,7 +40,7 @@ object Dimens {
 
     val hairline = 1.dp
 
-    /** App list row: fixed height (chips share the subtitle line), 48dp squircle icon. */
+    /** App list row: minimum height (a long name or a chip on its own line makes it taller), 48dp squircle icon. */
     val appRowHeight = 80.dp
     val appIconSize = 48.dp
 

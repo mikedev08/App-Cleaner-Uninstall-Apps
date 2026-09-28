@@ -37,9 +37,9 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.jedy.appcleaner.uninstaller.R
 import com.jedy.appcleaner.uninstaller.core.ui.theme.AppTheme
 import com.jedy.appcleaner.uninstaller.core.ui.theme.Dimens
@@ -95,12 +95,12 @@ fun AppTopBar(
             }
             Box(Modifier.weight(1f).graphicsLayer { alpha = titleAlpha }) {
                 if (title != null) {
-                    Text(
+                    // Full words, never "…": shrinks on one line first, then wraps to two.
+                    FitText(
                         text = title,
                         style = MaterialTheme.typography.titleLarge,
                         color = colors.textPrimary,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
+                        minFontSize = 15.sp,
                     )
                 }
             }
@@ -141,7 +141,7 @@ fun TopBarBackButton(onClick: () -> Unit, modifier: Modifier = Modifier) {
 /**
  * The large page title, placed as the first item of the scrolling content at the 20dp gutter
  * with [Dimens.headingToContent] below. Pair with `AppTopBar(titleVisible = …)` so the bar's
- * small title takes over as it scrolls away. Sized to stay on one line at 360dp.
+ * small title takes over as it scrolls away. A title too long for one line wraps (never "…").
  */
 @Composable
 fun LargeTitle(text: String, modifier: Modifier = Modifier, subtitle: String? = null) {
@@ -154,8 +154,6 @@ fun LargeTitle(text: String, modifier: Modifier = Modifier, subtitle: String? = 
             text = text,
             style = MaterialTheme.typography.headlineMedium,
             color = AppTheme.colors.textPrimary,
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis,
         )
         if (subtitle != null) {
             Text(subtitle, style = MaterialTheme.typography.bodyMedium, color = AppTheme.colors.textSecondary)

@@ -10,6 +10,7 @@ import com.jedy.appcleaner.uninstaller.R
 import com.jedy.appcleaner.uninstaller.core.analytics.Analytics
 import com.jedy.appcleaner.uninstaller.core.analytics.AnalyticsEvent
 import com.jedy.appcleaner.uninstaller.core.model.PaywallSource
+import com.jedy.appcleaner.uninstaller.core.model.UNUSED_THRESHOLD_DAYS
 import com.jedy.appcleaner.uninstaller.data.billing.BillingRepository
 import com.jedy.appcleaner.uninstaller.data.billing.OfferState
 import com.jedy.appcleaner.uninstaller.data.billing.Premium
@@ -83,16 +84,15 @@ class PaywallViewModel @Inject constructor(
                 inventory.apps,
                 insights.lastUsed, // only a trigger: unusedApps() reads the latest itself
                 storage.sizes,
-                preferences.unusedThresholdDays,
-            ) { granted, apps, _, sizes, days ->
+            ) { granted, apps, _, sizes ->
                 if (!granted) return@combine PaywallHeadline.Default
-                val unused = insights.unusedApps(apps, days)
+                val unused = insights.unusedApps(apps, UNUSED_THRESHOLD_DAYS)
                 if (unused.isEmpty()) {
                     PaywallHeadline.Default
                 } else {
                     PaywallHeadline.Unused(
                         count = unused.size,
-                        thresholdDays = days,
+                        thresholdDays = UNUSED_THRESHOLD_DAYS,
                         bytes = unused.sumOf { PaywallHeadline.bytesOf(it.app, sizes) },
                     )
                 }

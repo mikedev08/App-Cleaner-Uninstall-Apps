@@ -4,6 +4,7 @@ import com.jedy.appcleaner.uninstaller.core.model.AppSize
 import com.jedy.appcleaner.uninstaller.core.model.DeviceStorage
 import com.jedy.appcleaner.uninstaller.core.model.HomeTab
 import com.jedy.appcleaner.uninstaller.core.model.InstalledApp
+import com.jedy.appcleaner.uninstaller.core.model.UNUSED_THRESHOLD_DAYS
 import com.jedy.appcleaner.uninstaller.core.model.UnusedApp
 import com.jedy.appcleaner.uninstaller.data.scan.ScanMath
 import com.jedy.appcleaner.uninstaller.data.scan.ScanResult
@@ -64,7 +65,7 @@ class HomeCategoriesTest {
         assertFalse(rows[1].locked)
         val noCache = ScanMath.compute(
             apps = listOf(notes), unused = emptyList(), sizes = mapOf(notes.packageName to AppSize(20 * mb, 0, 0, 0)),
-            storage = DeviceStorage(128_000 * mb, 28_000 * mb), thresholdDays = 60, hasUsageAccess = true, now = 0,
+            storage = DeviceStorage(128_000 * mb, 28_000 * mb), thresholdDays = UNUSED_THRESHOLD_DAYS, hasUsageAccess = true, now = 0,
         )
         assertEquals(CategoryValue.Empty, HomeCategories.rows(noCache, isPremium = true)[2].value)
     }
@@ -107,7 +108,7 @@ class HomeCategoriesTest {
         val onlyUnused = ScanMath.compute(
             apps = listOf(notes), unused = listOf(UnusedApp(notes, lastUsedAt = null)),
             sizes = mapOf(notes.packageName to AppSize(20 * mb, 0, 0, 0)),
-            storage = DeviceStorage(128_000 * mb, 28_000 * mb), thresholdDays = 60, hasUsageAccess = true, now = 0,
+            storage = DeviceStorage(128_000 * mb, 28_000 * mb), thresholdDays = UNUSED_THRESHOLD_DAYS, hasUsageAccess = true, now = 0,
         )
         assertEquals(ScanCta.Unlock, ScanCtas.primary(onlyUnused, isPremium = false))
         assertFalse(ScanCtas.showProHint(onlyUnused, isPremium = false))
@@ -126,7 +127,7 @@ class HomeCategoriesTest {
         unused = if (hasAccess) unused.map { UnusedApp(it, lastUsedAt = null) } else emptyList(),
         sizes = if (hasAccess) sizes else emptyMap(),
         storage = DeviceStorage(totalBytes = 128_000 * mb, freeBytes = 28_000 * mb),
-        thresholdDays = 60,
+        thresholdDays = UNUSED_THRESHOLD_DAYS,
         hasUsageAccess = hasAccess,
         now = 0,
     )

@@ -45,6 +45,13 @@ data class DeviceStorage(
     val usedBytes: Long get() = (totalBytes - freeBytes).coerceAtLeast(0)
 }
 
+/**
+ * The one unused rule: an app counts as unused when it has not been opened for this many days.
+ * Fixed by the owner (no 30 / 60 / 90 choice any more): Scan, Home, the Apps "Unused apps" filter,
+ * reminders and the paywall all use this constant. Any value stored by older builds is ignored.
+ */
+const val UNUSED_THRESHOLD_DAYS: Int = 30
+
 /** An app the Unused finder flagged. [lastUsedAt] null = no record inside the retention window. */
 data class UnusedApp(
     val app: InstalledApp,

@@ -4,6 +4,7 @@ import com.jedy.appcleaner.uninstaller.core.model.AppSize
 import com.jedy.appcleaner.uninstaller.core.model.DeviceStorage
 import com.jedy.appcleaner.uninstaller.core.model.InstalledApp
 import com.jedy.appcleaner.uninstaller.core.model.LargeApps
+import com.jedy.appcleaner.uninstaller.core.model.UNUSED_THRESHOLD_DAYS
 import com.jedy.appcleaner.uninstaller.core.model.UnusedApp
 import com.jedy.appcleaner.uninstaller.core.model.bestKnownBytes
 import org.junit.Assert.assertEquals
@@ -63,7 +64,7 @@ class ScanMathTest {
             apps = listOf(edge, under), unused = emptyList(), sizes = emptyMap(),
             // A tiny phone: the old share-of-disk rule would have called both "space hogs".
             storage = DeviceStorage(totalBytes = 4 * gb, freeBytes = 1 * gb),
-            thresholdDays = 60, hasUsageAccess = false, now = 0,
+            thresholdDays = UNUSED_THRESHOLD_DAYS, hasUsageAccess = false, now = 0,
         )
         assertEquals(1, result.largeCount)
         assertEquals(LargeApps.THRESHOLD_BYTES, result.largeBytes)
@@ -94,7 +95,7 @@ class ScanMathTest {
         val result = ScanMath.compute(
             apps = all,
             unused = listOf(UnusedApp(game, lastUsedAt = null)),
-            sizes = sizes, storage = device, thresholdDays = 60, hasUsageAccess = true, now = 42,
+            sizes = sizes, storage = device, thresholdDays = UNUSED_THRESHOLD_DAYS, hasUsageAccess = true, now = 42,
         )
         // Unused row: game (1.6 GB, its own cache inside).
         assertEquals(1, result.unusedCount)
@@ -169,7 +170,7 @@ class ScanMathTest {
         unused = unused.map { UnusedApp(it, lastUsedAt = null) },
         sizes = sizes,
         storage = device,
-        thresholdDays = 60,
+        thresholdDays = UNUSED_THRESHOLD_DAYS,
         hasUsageAccess = true,
         now = 42,
     )

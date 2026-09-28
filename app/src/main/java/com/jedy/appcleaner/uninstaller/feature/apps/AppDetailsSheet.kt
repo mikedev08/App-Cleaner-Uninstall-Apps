@@ -44,7 +44,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.core.net.toUri
 import com.jedy.appcleaner.uninstaller.R
@@ -152,8 +151,6 @@ private fun DetailsHero(details: AppDetailsUi) {
             text = app.label,
             style = MaterialTheme.typography.headlineSmall,
             color = colors.textPrimary,
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis,
             textAlign = TextAlign.Center,
         )
         val source = stringResource(if (app.isFromPlay) R.string.home_details_from_play else R.string.home_details_from_other)

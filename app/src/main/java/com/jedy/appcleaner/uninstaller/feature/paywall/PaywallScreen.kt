@@ -470,7 +470,7 @@ private fun PlanMessage(icon: ImageVector, title: String, body: String?, onRetry
             text = stringResource(R.string.action_retry),
             style = MaterialTheme.typography.labelMedium,
             color = colors.textPrimary,
-            maxLines = 1,
+            textAlign = TextAlign.Center,
             modifier = Modifier
                 .clip(RoundedCornerShape(Dimens.chipRadius))
                 .background(colors.surfaceMuted)

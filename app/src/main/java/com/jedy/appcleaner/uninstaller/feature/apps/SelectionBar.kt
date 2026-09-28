@@ -38,7 +38,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.jedy.appcleaner.uninstaller.R
 import com.jedy.appcleaner.uninstaller.core.format.formatBytes
@@ -127,8 +126,6 @@ private fun SelectionBarContent(
                 },
                 style = MaterialTheme.typography.bodySmall,
                 color = colors.textSecondary,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
             )
         }
         Spacer(Modifier.width(Dimens.space8))

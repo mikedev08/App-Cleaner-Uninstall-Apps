@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="apps_filter_unused">Applis inutilisées</string>
+    <string name="apps_filter_heavy">Applis lourdes</string>
+    <string name="apps_filter_temp_files">Fichiers temporaires</string>
+</resources>

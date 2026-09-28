@@ -6,9 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.jedy.appcleaner.uninstaller.core.analytics.Analytics
 import com.jedy.appcleaner.uninstaller.core.analytics.AnalyticsEvent
 import com.jedy.appcleaner.uninstaller.core.format.bytesBucket
+import com.jedy.appcleaner.uninstaller.core.model.UNUSED_THRESHOLD_DAYS
 import com.jedy.appcleaner.uninstaller.data.billing.Premium
 import com.jedy.appcleaner.uninstaller.data.inventory.AppInventory
-import com.jedy.appcleaner.uninstaller.data.prefs.AppPreferences
 import com.jedy.appcleaner.uninstaller.data.storage.StorageBreakdown
 import com.jedy.appcleaner.uninstaller.data.uninstall.BatchSummary
 import com.jedy.appcleaner.uninstaller.data.uninstall.Clock
@@ -48,7 +48,7 @@ data class UnusedTeaser(
 
 data class ResultUiState(
     val summary: BatchSummary? = null,
-    val teaser: UnusedTeaser = UnusedTeaser(0, AppPreferences.DEFAULT_UNUSED_DAYS),
+    val teaser: UnusedTeaser = UnusedTeaser(0, UNUSED_THRESHOLD_DAYS),
     val isRetrying: Boolean = false,
     /** Gauge before → after. Null until the batch is finished and storage has been read. */
     val storageDrop: StorageDrop? = null,
@@ -66,7 +66,6 @@ class UninstallResultViewModel @Inject constructor(
     private val usageAccess: UsageAccess,
     private val usageInsights: UsageInsights,
     private val storage: StorageBreakdown,
-    private val preferences: AppPreferences,
     private val premium: Premium,
     private val analytics: Analytics,
     private val clock: Clock,
@@ -82,8 +81,9 @@ class UninstallResultViewModel @Inject constructor(
     private val summary = batchId.filterNotNull().flatMapLatest(engine::observeSummary)
 
     private val teaser: Flow<UnusedTeaser> = combine(
-        usageAccess.isGranted, inventory.apps, preferences.unusedThresholdDays, summary, storage.sizes,
-    ) { granted, apps, days, current, sizes ->
+        usageAccess.isGranted, inventory.apps, summary, storage.sizes,
+    ) { granted, apps, current, sizes ->
+        val days = UNUSED_THRESHOLD_DAYS
         if (!granted) return@combine UnusedTeaser(0, days)
         // The inventory may not have caught up with this batch yet; never tease an app just removed.
         val gone = current?.items

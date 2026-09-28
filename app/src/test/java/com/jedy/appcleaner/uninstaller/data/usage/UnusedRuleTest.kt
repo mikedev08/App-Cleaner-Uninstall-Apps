@@ -2,6 +2,7 @@ package com.jedy.appcleaner.uninstaller.data.usage
 
 import com.jedy.appcleaner.uninstaller.core.format.DAY_MILLIS
 import com.jedy.appcleaner.uninstaller.core.model.InstalledApp
+import com.jedy.appcleaner.uninstaller.core.model.UNUSED_THRESHOLD_DAYS
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNull
 import org.junit.Assert.assertTrue
@@ -27,68 +28,67 @@ class UnusedRuleTest {
 
     @Test
     fun `app not used within the threshold and installed long ago is unused`() {
-        val result = UnusedRule.find(listOf(app("a", 400)), mapOf("a" to daysAgo(61)), emptySet(), 60, now)
+        val result = UnusedRule.find(listOf(app("a", 400)), mapOf("a" to daysAgo(31)), emptySet(), UNUSED_THRESHOLD_DAYS, now)
         assertEquals(listOf("a"), result.map { it.app.packageName })
-        assertEquals(daysAgo(61), result.single().lastUsedAt)
+        assertEquals(daysAgo(31), result.single().lastUsedAt)
     }
 
     @Test
     fun `app used within the threshold is not unused`() {
-        val result = UnusedRule.find(listOf(app("a", 400)), mapOf("a" to daysAgo(59)), emptySet(), 60, now)
+        val result = UnusedRule.find(listOf(app("a", 400)), mapOf("a" to daysAgo(29)), emptySet(), UNUSED_THRESHOLD_DAYS, now)
         assertTrue(result.isEmpty())
     }
 
     @Test
     fun `exactly at the threshold counts as unused`() {
-        val result = UnusedRule.find(listOf(app("a", 60)), mapOf("a" to daysAgo(60)), emptySet(), 60, now)
+        val result = UnusedRule.find(listOf(app("a", 30)), mapOf("a" to daysAgo(30)), emptySet(), UNUSED_THRESHOLD_DAYS, now)
         assertEquals(1, result.size)
     }
 
     @Test
     fun `recently installed app is never unused even without any usage record`() {
-        val result = UnusedRule.find(listOf(app("new", 7)), emptyMap(), emptySet(), 60, now)
+        val result = UnusedRule.find(listOf(app("new", 7)), emptyMap(), emptySet(), UNUSED_THRESHOLD_DAYS, now)
         assertTrue(result.isEmpty())
     }
 
     @Test
     fun `no usage record means unused with a null last-used time`() {
-        val result = UnusedRule.find(listOf(app("a", 400)), emptyMap(), emptySet(), 30, now)
+        val result = UnusedRule.find(listOf(app("a", 400)), emptyMap(), emptySet(), UNUSED_THRESHOLD_DAYS, now)
         assertNull(result.single().lastUsedAt)
     }
 
     @Test
     fun `always-running packages are excluded`() {
         val apps = listOf(app("keyboard", 400), app("game", 400))
-        val result = UnusedRule.find(apps, emptyMap(), setOf("keyboard"), 30, now)
+        val result = UnusedRule.find(apps, emptyMap(), setOf("keyboard"), UNUSED_THRESHOLD_DAYS, now)
         assertEquals(listOf("game"), result.map { it.app.packageName })
     }
 
     @Test
     fun `a last-used time in the future is treated as used today`() {
-        val result = UnusedRule.find(listOf(app("a", 400)), mapOf("a" to now + 40 * DAY_MILLIS), emptySet(), 30, now)
+        val result = UnusedRule.find(listOf(app("a", 400)), mapOf("a" to now + 40 * DAY_MILLIS), emptySet(), UNUSED_THRESHOLD_DAYS, now)
         assertTrue(result.isEmpty())
     }
 
     @Test
     fun `an install time in the future is treated as just installed`() {
         val future = app("a", 0).copy(firstInstallTime = now + DAY_MILLIS)
-        assertTrue(UnusedRule.find(listOf(future), emptyMap(), emptySet(), 30, now).isEmpty())
+        assertTrue(UnusedRule.find(listOf(future), emptyMap(), emptySet(), UNUSED_THRESHOLD_DAYS, now).isEmpty())
     }
 
     @Test
-    fun `threshold changes the answer from the same timestamps`() {
+    fun `the unused threshold is a fixed 30 days`() {
+        assertEquals(30, UNUSED_THRESHOLD_DAYS)
         val apps = listOf(app("a", 400))
-        val lastUsed = mapOf("a" to daysAgo(45))
-        assertEquals(1, UnusedRule.find(apps, lastUsed, emptySet(), 30, now).size)
-        assertEquals(0, UnusedRule.find(apps, lastUsed, emptySet(), 60, now).size)
-        assertEquals(0, UnusedRule.find(apps, lastUsed, emptySet(), 90, now).size)
+        assertEquals(1, UnusedRule.find(apps, mapOf("a" to daysAgo(45)), emptySet(), UNUSED_THRESHOLD_DAYS, now).size)
+        assertEquals(0, UnusedRule.find(apps, mapOf("a" to daysAgo(20)), emptySet(), UNUSED_THRESHOLD_DAYS, now).size)
     }
 
     @Test
     fun `sorted least recently used first with no-record apps leading`() {
         val apps = listOf(app("recent", 400), app("never", 400, label = "Zed"), app("old", 400), app("never2", 400, label = "Alpha"))
         val lastUsed = mapOf("recent" to daysAgo(100), "old" to daysAgo(300))
-        val result = UnusedRule.find(apps, lastUsed, emptySet(), 60, now)
+        val result = UnusedRule.find(apps, lastUsed, emptySet(), UNUSED_THRESHOLD_DAYS, now)
         assertEquals(listOf("never2", "never", "old", "recent"), result.map { it.app.packageName })
     }
 

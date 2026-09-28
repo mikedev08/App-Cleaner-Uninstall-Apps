@@ -32,7 +32,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.jedy.appcleaner.uninstaller.R
 import com.jedy.appcleaner.uninstaller.core.format.formatBytes
@@ -193,8 +193,6 @@ private fun CategoryRowItem(row: CategoryRow, onClick: (() -> Unit)?) {
                 stringResource(row.category.titleRes),
                 style = MaterialTheme.typography.titleMedium,
                 color = if (quiet) colors.textSecondary else colors.textPrimary,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
             )
             when (value) {
                 CategoryValue.Loading -> PlaceholderLine(MaterialTheme.typography.bodyMedium, widthFraction = 0.4f)
@@ -202,15 +200,11 @@ private fun CategoryRowItem(row: CategoryRow, onClick: (() -> Unit)?) {
                     stringResource(R.string.scan_intro_allow),
                     style = MaterialTheme.typography.bodyMedium,
                     color = colors.positive,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
                 )
                 is CategoryValue.Value -> Text(
                     pluralStringResource(R.plurals.home_list_count, value.count, value.count),
                     style = MaterialTheme.typography.bodyMedium,
                     color = colors.textSecondary,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
                 )
                 CategoryValue.Empty -> Unit
             }
@@ -226,7 +220,6 @@ private fun CategoryRowItem(row: CategoryRow, onClick: (() -> Unit)?) {
                 stringResource(R.string.home_cat_none),
                 style = MaterialTheme.typography.bodyMedium,
                 color = colors.textMuted,
-                maxLines = 1,
             )
             is CategoryValue.Value -> Text(
                 formatBytes(context, value.bytes),
@@ -288,7 +281,7 @@ internal fun TextAction(
             .padding(horizontal = Dimens.space16),
         contentAlignment = Alignment.Center,
     ) {
-        Text(text, style = MaterialTheme.typography.labelLarge, color = color, maxLines = 1, overflow = TextOverflow.Ellipsis)
+        Text(text, style = MaterialTheme.typography.labelLarge, color = color, textAlign = TextAlign.Center)
     }
 }
 

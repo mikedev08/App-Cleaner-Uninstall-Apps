@@ -39,8 +39,8 @@ android {
     }
 
     androidResources {
-        // The eight languages the PRD commits to.
-        localeFilters += listOf("en", "es", "fr", "de", "zh", "hi", "ar", "iw")
+        // The nine languages the app ships (the PRD's eight plus Russian).
+        localeFilters += listOf("en", "es", "fr", "de", "zh", "hi", "ar", "iw", "ru")
     }
 
     buildTypes {
@@ -59,7 +59,7 @@ android {
         buildConfig = true
     }
     bundle {
-        // The in-app language picker offers all eight languages, so none may be split out.
+        // The in-app language picker offers all nine languages, so none may be split out.
         language {
             enableSplit = false
         }

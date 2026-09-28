@@ -3,6 +3,7 @@ package com.jedy.appcleaner.uninstaller.feature.scan
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jedy.appcleaner.uninstaller.core.model.HomeTab
+import com.jedy.appcleaner.uninstaller.core.model.UNUSED_THRESHOLD_DAYS
 import com.jedy.appcleaner.uninstaller.core.selection.SelectionStore
 import com.jedy.appcleaner.uninstaller.data.billing.Premium
 import com.jedy.appcleaner.uninstaller.data.inventory.AppInventory
@@ -209,7 +210,7 @@ class ScanViewModel @Inject constructor(
 
     private fun unusedPackages(result: ScanResult): Set<String> =
         if (!result.hasUsageAccess) emptySet()
-        else usageInsights.unusedApps(inventory.apps.value, result.thresholdDays).mapTo(HashSet()) { it.app.packageName }
+        else usageInsights.unusedApps(inventory.apps.value, UNUSED_THRESHOLD_DAYS).mapTo(HashSet()) { it.app.packageName }
 
     private fun pendingSteps(): Map<ScanStage, StepStatus> = ScanStage.entries.associateWith { StepStatus.PENDING }
 

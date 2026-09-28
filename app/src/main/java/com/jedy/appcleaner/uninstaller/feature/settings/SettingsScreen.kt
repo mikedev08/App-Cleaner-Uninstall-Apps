@@ -32,7 +32,6 @@ import androidx.compose.material.icons.rounded.NotificationsOff
 import androidx.compose.material.icons.rounded.QueryStats
 import androidx.compose.material.icons.rounded.Restore
 import androidx.compose.material.icons.rounded.StarRate
-import androidx.compose.material.icons.rounded.Timelapse
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
@@ -52,7 +51,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalResources
-import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -76,7 +74,6 @@ import com.jedy.appcleaner.uninstaller.core.ui.theme.Dimens
 import com.jedy.appcleaner.uninstaller.data.billing.BillingLinks
 import com.jedy.appcleaner.uninstaller.data.billing.openExternalUrl
 import com.jedy.appcleaner.uninstaller.data.billing.startActivitySafely
-import com.jedy.appcleaner.uninstaller.data.prefs.AppPreferences
 import com.jedy.appcleaner.uninstaller.data.prefs.ThemeMode
 import kotlinx.coroutines.launch
 
@@ -86,7 +83,7 @@ import kotlinx.coroutines.launch
  * Layout, top to bottom: the shared AppTopBar (its small title fades in once the big one scrolls
  * away), the big "Settings" title, Preferences, Reminders, then Subscription led by the Pro card
  * (settings first, the sell second), all on the 20dp gutter. Choices with two or
- * three values (theme, size mode, reminder threshold) are inline segmented controls instead of dialogs,
+ * three values (the theme) are inline segmented controls instead of dialogs,
  * because seeing every option at once is faster than opening a dialog to find them. The old
  * About section is gone: version and legal links are a one-line footer, since nobody visits
  * Settings to read them.
@@ -185,10 +182,6 @@ fun SettingsScreen(
                     onToggle = { enabled ->
                         if (state.isPremium) viewModel.setRemindersEnabled(enabled)
                         else onOpenPaywall(PaywallSource.REMINDER_TOGGLE)
-                    },
-                    onThreshold = { days ->
-                        if (state.isPremium) viewModel.setUnusedThresholdDays(days)
-                        else if (days != state.thresholdDays) onOpenPaywall(PaywallSource.REMINDER_TOGGLE)
                     },
                     onAllowNotifications = {
                         if (!context.startActivitySafely(viewModel.notificationSettingsIntent())) showLinkError()
@@ -323,7 +316,6 @@ private fun PreferencesGroup(
 private fun RemindersGroup(
     state: SettingsUiState,
     onToggle: (Boolean) -> Unit,
-    onThreshold: (Int) -> Unit,
     onAllowNotifications: () -> Unit,
     onAllowUsageAccess: () -> Unit,
 ) {
@@ -337,22 +329,6 @@ private fun RemindersGroup(
             onCheckedChange = onToggle,
             // Under the title, never beside it: a pill on the title line made it wrap at 360dp.
             status = if (locked) ({ ProBadge() }) else null,
-        )
-        val thresholds = AppPreferences.UNUSED_THRESHOLDS
-        SegmentedSettingRow(
-            icon = Icons.Rounded.Timelapse,
-            title = stringResource(R.string.settings_reminders_threshold),
-            // The value the scan really uses is always shown selected, Pro or not (design review §9:
-            // an empty control next to "haven't opened in 60 days" looked broken). A free user
-            // sees the other values locked; the row's PRO badge above is the one Pro marker.
-            segments = thresholds.map {
-                SegmentOption(
-                    label = pluralStringResource(R.plurals.settings_threshold_days, it, it),
-                    locked = locked && it != state.thresholdDays,
-                )
-            },
-            selectedIndex = thresholds.indexOf(state.thresholdDays).coerceAtLeast(0),
-            onSelect = { onThreshold(thresholds[it]) },
         )
         AnimatedVisibility(
             visible = !state.notificationsEnabled,

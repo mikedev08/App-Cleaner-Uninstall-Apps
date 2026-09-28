@@ -1,6 +1,20 @@
 package com.jedy.appcleaner.uninstaller.feature.apps
 
 import androidx.annotation.StringRes
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.relocation.BringIntoViewRequester
+import androidx.compose.foundation.relocation.bringIntoViewRequester
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.material.icons.outlined.Apps
+import androidx.compose.material.icons.outlined.HourglassEmpty
+import androidx.compose.material.icons.outlined.Inventory2
+import androidx.compose.material.icons.outlined.Layers
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.semantics.Role
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -62,8 +76,6 @@ import com.jedy.appcleaner.uninstaller.core.model.SortOrder
 import com.jedy.appcleaner.uninstaller.core.ui.component.AppTopBar
 import com.jedy.appcleaner.uninstaller.core.ui.component.LargeTitle
 import com.jedy.appcleaner.uninstaller.core.ui.component.LockIcon
-import com.jedy.appcleaner.uninstaller.core.ui.component.SegmentOption
-import com.jedy.appcleaner.uninstaller.core.ui.component.SegmentedControl
 import com.jedy.appcleaner.uninstaller.core.ui.component.TopBarAction
 import com.jedy.appcleaner.uninstaller.core.ui.theme.AppTheme
 import com.jedy.appcleaner.uninstaller.core.ui.theme.Dimens
@@ -202,9 +214,12 @@ internal fun CollapsingHeaderLayout(
 }
 
 /**
- * All · Unused · Large · Cache, the shared equal-width [SegmentedControl]. Only Unused is Pro:
- * for free users it carries the control's lock icon; tapping it still opens its tab, whose
- * teaser shows the user's real numbers. Large and Cache are free.
+ * All · Unused apps · Heavy apps · Temp files, as a horizontally scrollable row of pill chips:
+ * every label is always complete, in every language, at 360dp (the row scrolls instead of
+ * squeezing or "…"-ing a label). Each chip leads with its category icon; the selected one is
+ * filled green. Only Unused apps is Pro: for free users it carries one small lock; tapping it
+ * still opens its tab, whose teaser shows the user's real numbers. The selected chip is scrolled
+ * into view, so a deep link to Temp files never leaves it off-screen.
  */
 @Composable
 internal fun AppsFilters(
@@ -213,21 +228,86 @@ internal fun AppsFilters(
     onSelected: (HomeTab) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    val tabs = HomeTab.entries
-    SegmentedControl(
-        options = tabs.map { SegmentOption(stringResource(it.labelRes()), locked = it == HomeTab.UNUSED && !isPremium) },
-        selectedIndex = tabs.indexOf(selected),
-        onSelect = { onSelected(tabs[it]) },
-        modifier = modifier,
-    )
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .horizontalScroll(rememberScrollState())
+            .selectableGroup()
+            .padding(horizontal = Dimens.gutter),
+        horizontalArrangement = Arrangement.spacedBy(Dimens.space8),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        HomeTab.entries.forEach { tab ->
+            FilterChip(
+                label = stringResource(tab.labelRes()),
+                icon = tab.icon(),
+                selected = tab == selected,
+                locked = tab == HomeTab.UNUSED && !isPremium,
+                onClick = { onSelected(tab) },
+            )
+        }
+    }
 }
+
+@Composable
+private fun FilterChip(
+    label: String,
+    icon: ImageVector,
+    selected: Boolean,
+    locked: Boolean,
+    onClick: () -> Unit,
+) {
+    val colors = AppTheme.colors
+    val container by animateColorAsState(if (selected) colors.accent else colors.surface, label = "filterBg")
+    val content by animateColorAsState(if (selected) colors.onAccent else colors.textPrimary, label = "filterText")
+    val iconTint by animateColorAsState(if (selected) colors.onAccent else colors.textSecondary, label = "filterIcon")
+    val outline by animateColorAsState(if (selected) colors.accent else colors.border, label = "filterBorder")
+    val bringIntoView = remember { BringIntoViewRequester() }
+    LaunchedEffect(selected) { if (selected) bringIntoView.bringIntoView() }
+    val shape = RoundedCornerShape(Dimens.chipRadius)
+    Row(
+        modifier = Modifier
+            .bringIntoViewRequester(bringIntoView)
+            .heightIn(min = FilterChipHeight)
+            .clip(shape)
+            .background(container)
+            .border(Dimens.hairline, outline, shape)
+            .selectable(selected = selected, role = Role.Tab, onClick = onClick)
+            .padding(start = Dimens.space12, end = Dimens.space16),
+        verticalAlignment = Alignment.CenterVertically,
+    ) {
+        Icon(icon, contentDescription = null, tint = iconTint, modifier = Modifier.size(18.dp))
+        Spacer(Modifier.width(6.dp))
+        Text(
+            text = label,
+            style = MaterialTheme.typography.labelMedium,
+            color = content,
+            maxLines = 1,
+            softWrap = false,
+        )
+        if (locked) {
+            Spacer(Modifier.width(Dimens.space4))
+            LockIcon(tint = iconTint, size = 13.dp)
+        }
+    }
+}
+
+private val FilterChipHeight = 40.dp
 
 @StringRes
 private fun HomeTab.labelRes(): Int = when (this) {
     HomeTab.ALL -> R.string.apps_tab_all
-    HomeTab.UNUSED -> R.string.apps_tab_unused
-    HomeTab.LARGE -> R.string.apps_tab_large
-    HomeTab.CACHE -> R.string.apps_tab_cache
+    HomeTab.UNUSED -> R.string.apps_filter_unused
+    HomeTab.LARGE -> R.string.apps_filter_heavy
+    HomeTab.CACHE -> R.string.apps_filter_temp_files
+}
+
+/** One icon per category, the same outlined glyphs Home and Scan use for these categories. */
+internal fun HomeTab.icon(): ImageVector = when (this) {
+    HomeTab.ALL -> Icons.Outlined.Apps
+    HomeTab.UNUSED -> Icons.Outlined.HourglassEmpty
+    HomeTab.LARGE -> Icons.Outlined.Inventory2
+    HomeTab.CACHE -> Icons.Outlined.Layers
 }
 
 /**

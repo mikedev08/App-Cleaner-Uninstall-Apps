@@ -14,10 +14,9 @@ import javax.inject.Singleton
  * WorkManager scheduling for the premium reminder and the free nudge (PRD Feature 4, §2).
  *
  * Nothing outside Insights calls this: the Settings screen only writes
- * `AppPreferences.remindersEnabled` / `unusedThresholdDays`, and
+ * `AppPreferences.remindersEnabled`, and
  * [com.jedy.appcleaner.uninstaller.data.usage.InsightsSync] turns those prefs plus the entitlement
- * into [schedule] / [cancel]. The threshold is read by the worker at run time, so changing it
- * never needs a reschedule.
+ * into [schedule] / [cancel]. The worker uses the fixed `UNUSED_THRESHOLD_DAYS`.
  */
 @Singleton
 class WorkManagerCleanupReminders @Inject constructor(

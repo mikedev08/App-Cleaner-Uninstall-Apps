@@ -18,7 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.jedy.appcleaner.uninstaller.R
 import com.jedy.appcleaner.uninstaller.core.ui.component.AppCard
@@ -112,8 +111,6 @@ internal fun PremiumEndedBanner(
                 text = stringResource(R.string.home_premium_ended),
                 style = MaterialTheme.typography.bodyMedium,
                 color = colors.textPrimary,
-                maxLines = 2,
-                overflow = TextOverflow.Ellipsis,
                 modifier = Modifier.weight(1f),
             )
             TextAction(text = stringResource(R.string.home_premium_renew), onClick = onRenew, color = colors.premiumGoldText)

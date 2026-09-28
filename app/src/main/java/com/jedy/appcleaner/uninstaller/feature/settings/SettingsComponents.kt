@@ -131,7 +131,7 @@ internal fun SettingsRow(
                 text = value,
                 style = MaterialTheme.typography.bodyMedium,
                 color = colors.textSecondary,
-                maxLines = 2,
+                // Wraps under itself if it must ("No API key"), never "…".
                 textAlign = TextAlign.End,
                 modifier = Modifier.widthIn(max = 140.dp),
             )
@@ -306,7 +306,7 @@ internal fun SmallPill(text: String, onClick: (() -> Unit)?) {
         text = text,
         style = MaterialTheme.typography.labelMedium,
         color = colors.onAccent,
-        maxLines = 1,
+        textAlign = TextAlign.Center,
         modifier = Modifier
             .clip(CircleShape)
             .background(colors.accent)

@@ -12,11 +12,17 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.AutoAwesome
+import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.Smartphone
+import androidx.compose.material.icons.outlined.TaskAlt
 import androidx.compose.material.icons.rounded.Spa
+import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -26,6 +32,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
@@ -67,11 +74,15 @@ internal fun ScanResultContent(
     val shown = rememberCountUp(headlineBytes.toFloat(), durationMillis = 1_400)
 
     Column(modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(
-            stringResource(R.string.scan_result_label),
-            style = MaterialTheme.typography.labelMedium,
-            color = colors.positive,
-        )
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(Icons.Outlined.TaskAlt, contentDescription = null, tint = colors.positive, modifier = Modifier.size(16.dp))
+            Spacer(Modifier.width(6.dp))
+            Text(
+                stringResource(R.string.scan_result_label),
+                style = MaterialTheme.typography.labelMedium,
+                color = colors.positive,
+            )
+        }
         Spacer(Modifier.height(Dimens.space12))
         if (headlineBytes > 0) {
             BigNumber(
@@ -98,12 +109,21 @@ internal fun ScanResultContent(
         )
         if (result.sizesAreEstimates) {
             Spacer(Modifier.height(Dimens.space12))
-            Text(
-                stringResource(R.string.scan_estimates_note),
-                style = MaterialTheme.typography.bodySmall,
-                color = colors.textSecondary,
-                textAlign = TextAlign.Center,
-            )
+            Row(verticalAlignment = Alignment.Top) {
+                Icon(
+                    Icons.Outlined.Info,
+                    contentDescription = null,
+                    tint = colors.textSecondary,
+                    modifier = Modifier.padding(top = 1.dp).size(16.dp),
+                )
+                Spacer(Modifier.width(6.dp))
+                Text(
+                    stringResource(R.string.scan_estimates_note),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = colors.textSecondary,
+                    modifier = Modifier.weight(1f, fill = false),
+                )
+            }
         }
     }
 }
@@ -131,17 +151,23 @@ private fun BeforeAfter(result: ScanResult) {
         Spacer(Modifier.height(Dimens.space12))
         // Stacked, so both labels stay whole at 360dp in every language.
         Column(verticalArrangement = Arrangement.spacedBy(Dimens.space4)) {
-            LegendItem(nowColor, stringResource(R.string.scan_legend_now, percent(before)))
-            LegendItem(afterColor, stringResource(R.string.scan_legend_after, percent(after)))
+            LegendItem(Icons.Outlined.Smartphone, nowColor, colors.textPrimary, stringResource(R.string.scan_legend_now, percent(before)))
+            LegendItem(Icons.Outlined.AutoAwesome, afterColor, colors.onAccent, stringResource(R.string.scan_legend_after, percent(after)))
         }
     }
 }
 
+/**
+ * One legend line. The key is a small disc in the bar's tone with a glyph inside (phone = today,
+ * sparkle = after cleanup), so the swatch and the icon are one mark, not two.
+ */
 @Composable
-private fun LegendItem(swatch: Color, label: String, modifier: Modifier = Modifier) {
+private fun LegendItem(icon: ImageVector, swatch: Color, glyph: Color, label: String, modifier: Modifier = Modifier) {
     Row(modifier, verticalAlignment = Alignment.CenterVertically) {
-        Box(Modifier.size(10.dp).clip(CircleShape).background(swatch))
+        Box(Modifier.size(20.dp).clip(CircleShape).background(swatch), contentAlignment = Alignment.Center) {
+            Icon(icon, contentDescription = null, tint = glyph, modifier = Modifier.size(13.dp))
+        }
         Spacer(Modifier.width(Dimens.space8))
-        Text(label, style = MaterialTheme.typography.bodyMedium, color = AppTheme.colors.textPrimary, maxLines = 1)
+        Text(label, style = MaterialTheme.typography.bodyMedium, color = AppTheme.colors.textPrimary)
     }
 }

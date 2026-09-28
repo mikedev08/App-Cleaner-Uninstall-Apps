@@ -137,7 +137,8 @@ fun AppsScreen(
                             selected = state.tab,
                             isPremium = state.isPremium,
                             onSelected = viewModel::onTabSelected,
-                            modifier = Modifier.padding(horizontal = Dimens.gutter, vertical = Dimens.space12),
+                            // The chips scroll edge to edge; the 20dp gutter is inside the row.
+                            modifier = Modifier.padding(vertical = Dimens.space12),
                         )
                         Box(
                             Modifier

@@ -3,6 +3,7 @@ package com.jedy.appcleaner.uninstaller.feature.uninstall
 import com.jedy.appcleaner.uninstaller.core.model.AppSize
 import com.jedy.appcleaner.uninstaller.core.model.DeviceStorage
 import com.jedy.appcleaner.uninstaller.core.model.InstalledApp
+import com.jedy.appcleaner.uninstaller.core.model.UNUSED_THRESHOLD_DAYS
 import com.jedy.appcleaner.uninstaller.core.model.UnusedApp
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
@@ -59,28 +60,28 @@ class ResultMathTest {
     fun `teaser uses measured sizes when available and is exact`() {
         val unused = listOf(unused("a", apk = 10), unused("b", apk = 20))
         val sizes = mapOf("a" to size(300), "b" to size(700))
-        val teaser = ResultMath.unusedTeaser(unused, sizes, thresholdDays = 30)
+        val teaser = ResultMath.unusedTeaser(unused, sizes, thresholdDays = UNUSED_THRESHOLD_DAYS)
         assertEquals(2, teaser.count)
         assertEquals(1_000L, teaser.bytes)
         assertFalse(teaser.isEstimate)
-        assertEquals(30, teaser.thresholdDays)
+        assertEquals(UNUSED_THRESHOLD_DAYS, teaser.thresholdDays)
     }
 
     @Test
     fun `teaser falls back to apk size and says about`() {
         val unused = listOf(unused("a", apk = 10), unused("b", apk = 20))
-        val partial = ResultMath.unusedTeaser(unused, mapOf("a" to size(300)), thresholdDays = 60)
+        val partial = ResultMath.unusedTeaser(unused, mapOf("a" to size(300)), thresholdDays = UNUSED_THRESHOLD_DAYS)
         assertEquals(320L, partial.bytes)
         assertTrue(partial.isEstimate)
 
-        val free = ResultMath.unusedTeaser(unused, fullSizes = null, thresholdDays = 60)
+        val free = ResultMath.unusedTeaser(unused, fullSizes = null, thresholdDays = UNUSED_THRESHOLD_DAYS)
         assertEquals(30L, free.bytes)
         assertTrue(free.isEstimate)
     }
 
     @Test
     fun `no unused apps means a hidden teaser`() {
-        val teaser = ResultMath.unusedTeaser(emptyList(), emptyMap(), thresholdDays = 90)
+        val teaser = ResultMath.unusedTeaser(emptyList(), emptyMap(), thresholdDays = UNUSED_THRESHOLD_DAYS)
         assertEquals(0, teaser.count)
         assertEquals(0L, teaser.bytes)
     }

@@ -9,6 +9,7 @@ import com.jedy.appcleaner.uninstaller.core.model.AppSize
 import com.jedy.appcleaner.uninstaller.core.model.HomeTab
 import com.jedy.appcleaner.uninstaller.core.model.InstalledApp
 import com.jedy.appcleaner.uninstaller.core.model.SortOrder
+import com.jedy.appcleaner.uninstaller.core.model.UNUSED_THRESHOLD_DAYS
 import com.jedy.appcleaner.uninstaller.core.selection.SelectionStore
 import com.jedy.appcleaner.uninstaller.data.billing.Premium
 import com.jedy.appcleaner.uninstaller.data.inventory.AppInventory
@@ -30,7 +31,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class UnusedUiState(
-    val thresholdDays: Int = AppPreferences.DEFAULT_UNUSED_DAYS,
+    val thresholdDays: Int = UNUSED_THRESHOLD_DAYS,
     val content: UnusedContent = UnusedContent.Loading,
 )
 
@@ -63,8 +64,8 @@ sealed interface UnusedContent {
 
 /**
  * Unused tab (PRD §4 Screen 5, Feature 3). The rule runs for every user who granted access —
- * the entitlement only decides whether rows render in clear (PRD §0 decision 3). Switching the
- * threshold recomputes from the cached timestamps, so the chips answer instantly.
+ * the entitlement only decides whether rows render in clear (PRD §0 decision 3). The threshold is
+ * the fixed [UNUSED_THRESHOLD_DAYS].
  */
 @HiltViewModel
 class UnusedTabViewModel @Inject constructor(
@@ -87,10 +88,9 @@ class UnusedTabViewModel @Inject constructor(
     private val settings = combine(
         access.isGranted,
         premium.isPremium,
-        preferences.unusedThresholdDays,
         preferences.sortOrder(HomeTab.UNUSED),
         inventory.isInitialLoading,
-    ) { granted, isPremium, threshold, order, loading -> Settings(granted, isPremium, threshold, order, loading) }
+    ) { granted, isPremium, order, loading -> Settings(granted, isPremium, UNUSED_THRESHOLD_DAYS, order, loading) }
 
     val uiState: StateFlow<UnusedUiState> = combine(
         settings,
@@ -103,7 +103,7 @@ class UnusedTabViewModel @Inject constructor(
         .stateIn(viewModelScope, SharingStarted.Eagerly, UnusedUiState())
 
     init {
-        // PRD §9 unused_apps_found: whenever the count or the threshold changes.
+        // PRD §9 unused_apps_found: whenever the count changes.
         viewModelScope.launch {
             uiState
                 .mapNotNull { state ->
@@ -140,10 +140,6 @@ class UnusedTabViewModel @Inject constructor(
             val preview = rows.sortedByDescending { it.bytes }.take(PREVIEW_ROWS).map { PreviewRow(it.app.packageName, it.bytes) }
             UnusedContent.Locked(rows.size, total, preview, deviceTotalBytes, now)
         }
-    }
-
-    fun onThresholdSelected(days: Int) {
-        viewModelScope.launch { preferences.setUnusedThresholdDays(days) }
     }
 
     fun onToggle(packageName: String) = selection.toggle(packageName)

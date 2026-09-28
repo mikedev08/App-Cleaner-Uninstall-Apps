@@ -2,8 +2,8 @@ package com.jedy.appcleaner.uninstaller.data.scan
 
 import com.jedy.appcleaner.uninstaller.core.model.DeviceStorage
 import com.jedy.appcleaner.uninstaller.core.model.InstalledApp
+import com.jedy.appcleaner.uninstaller.core.model.UNUSED_THRESHOLD_DAYS
 import com.jedy.appcleaner.uninstaller.data.inventory.AppInventory
-import com.jedy.appcleaner.uninstaller.data.prefs.AppPreferences
 import com.jedy.appcleaner.uninstaller.data.storage.StorageBreakdown
 import com.jedy.appcleaner.uninstaller.data.usage.UsageAccess
 import com.jedy.appcleaner.uninstaller.data.usage.UsageInsights
@@ -14,7 +14,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -38,7 +37,6 @@ class DefaultCleanupScan @Inject constructor(
     private val usageInsights: UsageInsights,
     private val storage: StorageBreakdown,
     private val usageAccess: UsageAccess,
-    private val preferences: AppPreferences,
     private val store: ScanResultStore,
     @param:ApplicationScope private val scope: CoroutineScope,
     @param:IoDispatcher private val io: CoroutineDispatcher,
@@ -87,7 +85,7 @@ class DefaultCleanupScan @Inject constructor(
     }
 
     private suspend fun compute(apps: List<InstalledApp>, scannedAt: Long): ScanResult {
-        val threshold = preferences.unusedThresholdDays.first()
+        val threshold = UNUSED_THRESHOLD_DAYS
         val hasAccess = usageAccess.isGranted.value
         val device = withContext(io) {
             runCatching { storage.deviceStorage() }.getOrDefault(DeviceStorage(totalBytes = 0, freeBytes = 0))

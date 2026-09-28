@@ -45,6 +45,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.input.nestedscroll.NestedScrollConnection
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
@@ -53,6 +54,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.jedy.appcleaner.uninstaller.R
 import com.jedy.appcleaner.uninstaller.core.format.formatBytes
+import com.jedy.appcleaner.uninstaller.core.model.HomeTab
 import com.jedy.appcleaner.uninstaller.core.model.SortOrder
 import com.jedy.appcleaner.uninstaller.core.ui.component.AppCard
 import com.jedy.appcleaner.uninstaller.core.ui.component.AppRow
@@ -158,6 +160,7 @@ internal fun AllAppsTab(
             } else {
                 item(key = "section_large", contentType = "section") {
                     SectionTitle(
+                        icon = HomeTab.LARGE.icon(),
                         title = stringResource(R.string.apps_section_large),
                         subtitle = stringResource(
                             R.string.apps_summary,
@@ -171,6 +174,7 @@ internal fun AllAppsTab(
                 if (sections.rest.isNotEmpty()) {
                     item(key = "section_rest", contentType = "section") {
                         SectionTitle(
+                            icon = HomeTab.ALL.icon(),
                             title = stringResource(R.string.apps_section_rest),
                             subtitle = null,
                             modifier = Modifier.animateItem().padding(top = Dimens.space16),
@@ -265,33 +269,37 @@ internal fun idleText(idle: IdleChip): String =
     else pluralStringResource(R.plurals.apps_chip_idle_months_short, idle.months, idle.months)
 
 /**
- * Section heading: the title and a neutral "9 apps · 3.1 GB" on one line when they fit; on a
- * narrow phone the figure drops below the title instead of squeezing it onto two lines.
+ * Section heading: the category icon and title, and a neutral "9 apps · 3.1 GB" on one line when
+ * they fit; on a narrow phone the figure drops below the title instead. A title too long for the
+ * row wraps (never "…").
  */
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun SectionTitle(title: String, subtitle: String?, modifier: Modifier = Modifier) {
+private fun SectionTitle(icon: ImageVector, title: String, subtitle: String?, modifier: Modifier = Modifier) {
     val colors = AppTheme.colors
     FlowRow(
         modifier.fillMaxWidth().padding(start = Dimens.gutter, end = Dimens.gutter, top = Dimens.space8, bottom = Dimens.space8),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalArrangement = Arrangement.spacedBy(2.dp),
     ) {
-        Text(
-            title,
-            style = MaterialTheme.typography.titleLarge,
-            color = colors.textPrimary,
-            maxLines = 1,
-            softWrap = false,
+        Row(
             modifier = Modifier.align(Alignment.CenterVertically).padding(end = Dimens.space12),
-        )
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            Icon(icon, contentDescription = null, tint = colors.textSecondary, modifier = Modifier.size(20.dp))
+            Spacer(Modifier.width(Dimens.space8))
+            Text(
+                title,
+                style = MaterialTheme.typography.titleLarge,
+                color = colors.textPrimary,
+                modifier = Modifier.weight(1f, fill = false),
+            )
+        }
         if (subtitle != null) {
             Text(
                 subtitle,
                 style = MaterialTheme.typography.labelMedium,
                 color = colors.textSecondary,
-                maxLines = 1,
-                softWrap = false,
                 modifier = Modifier.align(Alignment.CenterVertically),
             )
         }

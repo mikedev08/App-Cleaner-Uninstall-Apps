@@ -3,7 +3,7 @@ package com.jedy.appcleaner.uninstaller.core.locale
 import java.util.Locale
 
 /**
- * The eight languages App Cleaner V1 ships (PRD §1).
+ * The nine languages App Cleaner ships: the PRD §1 eight plus Russian.
  *
  * [isRtl] drives the one exception to the global LTR rule: only Arabic and Hebrew flip the
  * layout. Every other language renders LTR regardless of the device's own direction.
@@ -21,7 +21,8 @@ enum class AppLanguage(
     MANDARIN("zh", "Mandarin", "中文"),
     HINDI("hi", "Hindi", "हिन्दी"),
     ARABIC("ar", "Arabic", "العربية", isRtl = true),
-    HEBREW("iw", "Hebrew", "עברית", isRtl = true);
+    HEBREW("iw", "Hebrew", "עברית", isRtl = true),
+    RUSSIAN("ru", "Russian", "Русский");
 
     /**
      * Hebrew is stored under its legacy code because that is what the `values-iw` resource folder

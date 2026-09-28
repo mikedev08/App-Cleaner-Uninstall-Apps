@@ -15,12 +15,14 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Info
+import androidx.compose.material.icons.outlined.FolderOff
+import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.rounded.WarningAmber
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -36,11 +38,14 @@ import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.SpanStyle
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
-import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -131,28 +136,23 @@ private fun ConfirmSheetContent(
                 ConfirmAppCard(app, Modifier.animateItem())
             }
         }
-        Row(
+        Column(
             Modifier.padding(start = Dimens.gutter, end = Dimens.gutter, top = Dimens.gutter),
-            verticalAlignment = Alignment.Top,
-            horizontalArrangement = Arrangement.spacedBy(10.dp),
+            verticalArrangement = Arrangement.spacedBy(Dimens.space8),
         ) {
-            Icon(
-                Icons.Rounded.Info, contentDescription = null, tint = AppTheme.colors.textSecondary,
-                modifier = Modifier.padding(top = 1.dp).size(18.dp),
+            InfoLine(
+                icon = Icons.Outlined.History,
+                text = stringResource(R.string.uninstall_confirm_info),
+                style = MaterialTheme.typography.bodyMedium,
+                color = AppTheme.colors.textSecondary,
             )
-            Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
-                Text(
-                    text = stringResource(R.string.uninstall_confirm_info),
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = AppTheme.colors.textSecondary,
-                )
-                // PRD §6 item 21: app data is not recoverable, and the sheet doesn't pretend otherwise.
-                Text(
-                    text = stringResource(R.string.uninstall_confirm_data_short),
-                    style = MaterialTheme.typography.bodySmall,
-                    color = AppTheme.colors.textMuted,
-                )
-            }
+            // PRD §6 item 21: app data is not recoverable, and the sheet doesn't pretend otherwise.
+            InfoLine(
+                icon = Icons.Outlined.FolderOff,
+                text = stringResource(R.string.uninstall_confirm_data_short),
+                style = MaterialTheme.typography.bodySmall,
+                color = AppTheme.colors.textMuted,
+            )
         }
         Row(
             Modifier.fillMaxWidth().padding(horizontal = Dimens.gutter).padding(top = Dimens.gutter),
@@ -201,6 +201,15 @@ private fun FreeLine(size: String) {
     )
 }
 
+/** One note under the list: a neutral 18dp glyph, then the sentence (it wraps, never "…"). */
+@Composable
+private fun InfoLine(icon: ImageVector, text: String, style: TextStyle, color: Color) {
+    Row(verticalAlignment = Alignment.Top, horizontalArrangement = Arrangement.spacedBy(10.dp)) {
+        Icon(icon, contentDescription = null, tint = AppTheme.colors.textSecondary, modifier = Modifier.padding(top = 1.dp).size(18.dp))
+        Text(text = text, style = style, color = color)
+    }
+}
+
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 private fun ConfirmAppCard(app: ConfirmApp, modifier: Modifier = Modifier) {
@@ -224,8 +233,7 @@ private fun ConfirmAppCard(app: ConfirmApp, modifier: Modifier = Modifier) {
                 text = app.label,
                 style = MaterialTheme.typography.titleMedium,
                 color = colors.textPrimary,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
+                maxLines = 2,
             )
             if (app.warnings.isNotEmpty()) {
                 FlowRow(
@@ -245,8 +253,6 @@ private fun ConfirmAppCard(app: ConfirmApp, modifier: Modifier = Modifier) {
                     text = stringResource(app.warnings.first().textRes()),
                     style = MaterialTheme.typography.bodySmall,
                     color = colors.textSecondary,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
                 )
             }
         }
@@ -256,7 +262,8 @@ private fun ConfirmAppCard(app: ConfirmApp, modifier: Modifier = Modifier) {
             style = MaterialTheme.typography.titleSmall,
             // Sizes are neutral text (design review §3.3).
             color = if (bytes == null) colors.textMuted else colors.textPrimary,
-            maxLines = 1,
+            textAlign = TextAlign.End,
+            modifier = Modifier.widthIn(max = 112.dp),
         )
     }
 }

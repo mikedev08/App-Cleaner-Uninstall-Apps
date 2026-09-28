@@ -35,8 +35,8 @@ class AppPreferences @Inject constructor(
         val onboardingPaywallShown = booleanPreferencesKey("onboarding_paywall_shown")
         val languageTag = stringPreferencesKey("language_tag")
         val themeMode = stringPreferencesKey("theme_mode")
-        // "size_display" (the old "Show app size as" setting) may still be on disk; it is never read.
-        val unusedThresholdDays = intPreferencesKey("unused_threshold_days")
+        // "size_display" (the old "Show app size as" setting) and "unused_threshold_days" (the old
+        // 30 / 60 / 90 choice, now the fixed UNUSED_THRESHOLD_DAYS) may still be on disk; never read.
         val remindersEnabled = booleanPreferencesKey("reminders_enabled")
         val remindersInitialised = booleanPreferencesKey("reminders_initialised")
         val lastReminderCount = intPreferencesKey("last_reminder_count")
@@ -78,10 +78,7 @@ class AppPreferences @Inject constructor(
     }
     suspend fun setSortOrder(tab: HomeTab, order: SortOrder) = set(Keys.sort(tab), order.name)
 
-    // Unused finder + reminders (PRD Features 3 and 4)
-    val unusedThresholdDays: Flow<Int> = data.map { it[Keys.unusedThresholdDays] ?: DEFAULT_UNUSED_DAYS }
-    suspend fun setUnusedThresholdDays(days: Int) = set(Keys.unusedThresholdDays, days)
-
+    // Reminders (PRD Feature 4)
     val remindersEnabled: Flow<Boolean> = data.map { it[Keys.remindersEnabled] ?: false }
     suspend fun setRemindersEnabled(value: Boolean) = set(Keys.remindersEnabled, value)
 
@@ -111,9 +108,4 @@ class AppPreferences @Inject constructor(
     /** Debug builds only: lets QA and screenshots see premium without a RevenueCat key. */
     val debugForcePremium: Flow<Boolean> = data.map { it[Keys.debugForcePremium] ?: false }
     suspend fun setDebugForcePremium(value: Boolean) = set(Keys.debugForcePremium, value)
-
-    companion object {
-        const val DEFAULT_UNUSED_DAYS = 60
-        val UNUSED_THRESHOLDS = listOf(30, 60, 90)
-    }
 }

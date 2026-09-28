@@ -32,6 +32,9 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.ArrowForward
+import androidx.compose.material.icons.outlined.Info
+import androidx.compose.material.icons.outlined.PauseCircle
+import androidx.compose.material.icons.outlined.TaskAlt
 import androidx.compose.material.icons.rounded.CheckCircle
 import androidx.compose.material.icons.rounded.ExpandMore
 import androidx.compose.material.icons.rounded.HourglassBottom
@@ -53,13 +56,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -228,7 +233,9 @@ private fun FreedHero(summary: BatchSummary, drop: StorageDrop?) {
     Spacer(Modifier.height(6.dp))
     val removed = summary.removedCount
     val removedText = pluralStringResource(R.plurals.uninstall_result_removed, removed, removed)
-    Text(
+    StatLine(
+        icon = Icons.Outlined.TaskAlt,
+        tint = colors.positive,
         text = if (drop != null) {
             stringResource(
                 R.string.uninstall_result_subline, removedText,
@@ -239,9 +246,23 @@ private fun FreedHero(summary: BatchSummary, drop: StorageDrop?) {
         },
         // Balanced breaks: at 360dp the default greedy wrap leaves "full" alone on line two.
         style = MaterialTheme.typography.titleMedium.copy(lineBreak = LineBreak.Heading),
-        color = colors.textSecondary,
-        textAlign = TextAlign.Center,
     )
+}
+
+/** A centred result line with one leading glyph (18dp); the text wraps under itself, never "…". */
+@Composable
+private fun StatLine(icon: ImageVector, tint: Color, text: String, style: TextStyle) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Icon(icon, contentDescription = null, tint = tint, modifier = Modifier.size(18.dp))
+        Spacer(Modifier.width(Dimens.space8))
+        Text(
+            text = text,
+            style = style,
+            color = AppTheme.colors.textSecondary,
+            textAlign = TextAlign.Center,
+            modifier = Modifier.weight(1f, fill = false),
+        )
+    }
 }
 
 @Composable
@@ -268,21 +289,21 @@ private fun Notes(summary: BatchSummary) {
     val notAttempted = summary.notRemoved.any { it.state == ItemState.WAITING || it.state == ItemState.IN_PROGRESS }
     if (summary.batch.stoppedEarly && notAttempted) {
         Spacer(Modifier.height(Dimens.gutterSmall))
-        Text(
+        StatLine(
+            icon = Icons.Outlined.PauseCircle,
+            tint = AppTheme.colors.textSecondary,
             text = stringResource(R.string.uninstall_result_stopped_note),
             style = MaterialTheme.typography.bodyMedium,
-            color = AppTheme.colors.textSecondary,
-            textAlign = TextAlign.Center,
         )
     }
     val already = summary.alreadyRemovedCount
     if (already > 0) {
         Spacer(Modifier.height(Dimens.gutterSmall))
-        Text(
+        StatLine(
+            icon = Icons.Outlined.Info,
+            tint = AppTheme.colors.textSecondary,
             text = pluralStringResource(R.plurals.uninstall_result_already_removed, already, already),
             style = MaterialTheme.typography.bodyMedium,
-            color = AppTheme.colors.textSecondary,
-            textAlign = TextAlign.Center,
         )
     }
 }
@@ -369,11 +390,10 @@ private fun NotRemovedRow(
         Column(Modifier.weight(1f)) {
             Text(
                 entry.item.label, style = MaterialTheme.typography.titleSmall, color = colors.textPrimary,
-                maxLines = 1, overflow = TextOverflow.Ellipsis,
+                maxLines = 2,
             )
             Text(
                 entry.reasonText(), style = MaterialTheme.typography.bodySmall, color = colors.textSecondary,
-                maxLines = 2, overflow = TextOverflow.Ellipsis,
             )
         }
         Spacer(Modifier.width(8.dp))

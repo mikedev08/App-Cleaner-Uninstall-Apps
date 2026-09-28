@@ -25,13 +25,15 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.semantics.Role
 import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
@@ -44,14 +46,16 @@ import com.jedy.appcleaner.uninstaller.core.ui.theme.Dimens
 data class SegmentOption(val label: String, val locked: Boolean = false)
 
 /**
- * The one segmented control (design review §5): Apps filters, Settings choices, 30 / 60 / 90 days,
- * Total / Cache. It enforces:
+ * The one segmented control (design review §5), for short fixed choices such as the Settings
+ * theme (System / Light / Dark). It enforces:
  * - **equal-width segments**, whatever the labels say;
  * - a **sliding green thumb** that is **always on a segment**. [selectedIndex] is clamped into
  *   range, so the control is never shown empty; a free user on a Pro-only control still sees the
  *   current (free) value selected, and the Pro values carry the lock;
  * - **one lock treatment**: a locked segment shows only a small [LockIcon] after its label, never
- *   a PRO pill squeezed inside.
+ *   a PRO pill squeezed inside;
+ * - **full words, never "…"**: a label shrinks (down to 10sp) to stay on one line, and only if it
+ *   still does not fit does it wrap onto a second line inside the pill.
  *
  * Tapping a locked segment still calls [onSelect]; the caller routes it to the paywall and leaves
  * [selectedIndex] unchanged. The thumb's offset mirrors in RTL along with the row.
@@ -90,8 +94,22 @@ fun SegmentedControl(
                 .background(colors.accent),
         )
         Row(Modifier.fillMaxSize().selectableGroup()) {
+            val style = MaterialTheme.typography.labelMedium
+            val measurer = rememberTextMeasurer()
+            val density = LocalDensity.current
             options.forEachIndexed { index, option ->
                 val isSelected = index == selected
+                // Room for the label: the segment less its padding and, when locked, the lock.
+                val room = segment - Dimens.space4 * 2 - (if (option.locked) 17.dp else 0.dp)
+                val fitsOneLine = remember(option.label, room, style, density) {
+                    val width = measurer.measure(
+                        text = option.label,
+                        style = style.copy(fontSize = MinLabelSize),
+                        maxLines = 1,
+                        softWrap = false,
+                    ).size.width
+                    width <= with(density) { room.toPx() }
+                }
                 val content by animateColorAsState(
                     if (isSelected) colors.onAccent else colors.textSecondary, label = "segmentText",
                 )
@@ -107,15 +125,14 @@ fun SegmentedControl(
                 ) {
                     Text(
                         text = option.label,
-                        style = MaterialTheme.typography.labelMedium,
+                        style = style,
                         color = content,
-                        maxLines = 1,
-                        // Four segments at 360dp leave ~70dp: "Temp files", "Temporaires" shrink to fit.
+                        // Shrink first; wrap to a second line only when even 10sp is too wide.
+                        maxLines = if (fitsOneLine) 1 else 2,
                         autoSize = TextAutoSize.StepBased(
-                            minFontSize = 10.sp,
-                            maxFontSize = MaterialTheme.typography.labelMedium.fontSize,
+                            minFontSize = MinLabelSize,
+                            maxFontSize = style.fontSize,
                         ),
-                        overflow = TextOverflow.Ellipsis,
                         textAlign = TextAlign.Center,
                         modifier = Modifier.weight(1f, fill = false),
                     )
@@ -128,3 +145,5 @@ fun SegmentedControl(
         }
     }
 }
+
+private val MinLabelSize = 10.sp

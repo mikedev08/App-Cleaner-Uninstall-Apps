@@ -9,10 +9,14 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.CheckCircle
 import androidx.compose.material.icons.outlined.History
 import androidx.compose.material.icons.outlined.Settings
+import androidx.compose.material.icons.outlined.WarningAmber
 import androidx.compose.material.icons.rounded.CleaningServices
 import androidx.compose.material.icons.rounded.Radar
 import androidx.compose.material3.Icon
@@ -25,13 +29,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.jedy.appcleaner.uninstaller.R
 import com.jedy.appcleaner.uninstaller.core.format.formatBytes
 import com.jedy.appcleaner.uninstaller.core.model.DeviceStorage
 import com.jedy.appcleaner.uninstaller.core.ui.component.AppCard
 import com.jedy.appcleaner.uninstaller.core.ui.component.AppTopBar
+import com.jedy.appcleaner.uninstaller.core.ui.component.FitText
 import com.jedy.appcleaner.uninstaller.core.ui.component.PlaceholderLine
 import com.jedy.appcleaner.uninstaller.core.ui.component.PrimaryButton
 import com.jedy.appcleaner.uninstaller.core.ui.component.StorageGauge
@@ -97,12 +102,13 @@ internal fun StorageHero(storage: DeviceStorage?, usedFraction: Float, severity:
             Box(Modifier.align(Alignment.BottomCenter).padding(bottom = Dimens.space4)) {
                 when {
                     storage == null -> PlaceholderLine(MaterialTheme.typography.bodyMedium, Modifier.size(width = 96.dp, height = 20.dp), widthFraction = 1f)
-                    known -> Text(
+                    known -> FitText(
                         text = stringResource(R.string.home_hero_used_of, formatBytes(context, storage.usedBytes), formatBytes(context, storage.totalBytes)),
                         style = MaterialTheme.typography.bodyMedium,
                         color = colors.textSecondary,
-                        maxLines = 1,
-                        softWrap = false,
+                        minFontSize = 11.sp,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.widthIn(max = GaugeSize - 40.dp),
                     )
                 }
             }
@@ -123,20 +129,30 @@ internal fun StorageHero(storage: DeviceStorage?, usedFraction: Float, severity:
                 textAlign = TextAlign.Center,
             )
             else -> {
-                Text(
-                    text = stringResource(
-                        when (severity) {
-                            Severity.DANGER -> R.string.home_headline_danger
-                            Severity.WARNING -> R.string.home_headline_warning
-                            Severity.OK -> R.string.home_headline_ok
-                        },
-                    ),
-                    style = statusStyle,
-                    color = colors.textPrimary,
-                    textAlign = TextAlign.Center,
-                    maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
-                )
+                // One glyph before the status: a green check when there is room, a neutral warning
+                // sign when space is short (the ring carries the amber / red; text never does).
+                Row(verticalAlignment = Alignment.CenterVertically) {
+                    Icon(
+                        imageVector = if (severity == Severity.OK) Icons.Outlined.CheckCircle else Icons.Outlined.WarningAmber,
+                        contentDescription = null,
+                        tint = if (severity == Severity.OK) colors.positive else colors.textSecondary,
+                        modifier = Modifier.size(22.dp),
+                    )
+                    Spacer(Modifier.width(Dimens.space8))
+                    Text(
+                        text = stringResource(
+                            when (severity) {
+                                Severity.DANGER -> R.string.home_headline_danger
+                                Severity.WARNING -> R.string.home_headline_warning
+                                Severity.OK -> R.string.home_headline_ok
+                            },
+                        ),
+                        style = statusStyle,
+                        color = colors.textPrimary,
+                        textAlign = TextAlign.Center,
+                        modifier = Modifier.weight(1f, fill = false),
+                    )
+                }
                 Spacer(Modifier.height(Dimens.space4))
                 val free = formatBytes(context, storage.freeBytes)
                 Text(
@@ -144,7 +160,6 @@ internal fun StorageHero(storage: DeviceStorage?, usedFraction: Float, severity:
                     style = freeStyle,
                     color = if (severity == Severity.OK) colors.positive else colors.textPrimary,
                     textAlign = TextAlign.Center,
-                    maxLines = 1,
                 )
             }
         }

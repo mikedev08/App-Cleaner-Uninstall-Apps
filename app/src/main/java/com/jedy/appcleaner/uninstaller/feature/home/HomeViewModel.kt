@@ -8,12 +8,12 @@ import com.jedy.appcleaner.uninstaller.core.model.AppSize
 import com.jedy.appcleaner.uninstaller.core.model.DeviceStorage
 import com.jedy.appcleaner.uninstaller.core.model.HomeTab
 import com.jedy.appcleaner.uninstaller.core.model.InstalledApp
+import com.jedy.appcleaner.uninstaller.core.model.UNUSED_THRESHOLD_DAYS
 import com.jedy.appcleaner.uninstaller.core.selection.SelectionStore
 import com.jedy.appcleaner.uninstaller.core.ui.theme.Severity
 import com.jedy.appcleaner.uninstaller.core.ui.theme.SeverityRules
 import com.jedy.appcleaner.uninstaller.data.billing.Premium
 import com.jedy.appcleaner.uninstaller.data.inventory.AppInventory
-import com.jedy.appcleaner.uninstaller.data.prefs.AppPreferences
 import com.jedy.appcleaner.uninstaller.data.scan.CleanupScan
 import com.jedy.appcleaner.uninstaller.data.scan.ScanMath
 import com.jedy.appcleaner.uninstaller.data.scan.ScanResult
@@ -76,7 +76,6 @@ class HomeViewModel @Inject constructor(
     private val usageAccess: UsageAccess,
     private val usageInsights: UsageInsights,
     private val premium: Premium,
-    private val preferences: AppPreferences,
     private val scan: CleanupScan,
     private val selection: SelectionStore,
     private val analytics: Analytics,
@@ -96,7 +95,6 @@ class HomeViewModel @Inject constructor(
         val loading: Boolean,
         val sizes: Map<String, AppSize>,
         val lastUsed: Map<String, Long>,
-        val threshold: Int,
     )
     private data class Entitlement(val isPremium: Boolean, val hasAccess: Boolean, val premiumEnded: Boolean)
 
@@ -106,7 +104,6 @@ class HomeViewModel @Inject constructor(
             inventory.isInitialLoading,
             storage.sizes,
             usageInsights.lastUsed,
-            preferences.unusedThresholdDays,
             ::Live,
         ),
         combine(premium.isPremium, usageAccess.isGranted, premiumLapse.showBanner, ::Entitlement),
@@ -134,10 +131,10 @@ class HomeViewModel @Inject constructor(
             ScanMath.compute(
                 apps = live.apps,
                 // lastUsed feeds unusedApps(); an empty map means it has not loaded yet.
-                unused = if (entitlement.hasAccess && live.lastUsed.isNotEmpty()) usageInsights.unusedApps(live.apps, live.threshold) else emptyList(),
+                unused = if (entitlement.hasAccess && live.lastUsed.isNotEmpty()) usageInsights.unusedApps(live.apps, UNUSED_THRESHOLD_DAYS) else emptyList(),
                 sizes = live.sizes,
                 storage = it,
-                thresholdDays = live.threshold,
+                thresholdDays = UNUSED_THRESHOLD_DAYS,
                 hasUsageAccess = entitlement.hasAccess,
                 now = System.currentTimeMillis(),
             )

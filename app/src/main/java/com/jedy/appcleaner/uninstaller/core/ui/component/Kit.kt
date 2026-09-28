@@ -49,7 +49,6 @@ import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.jedy.appcleaner.uninstaller.R
@@ -98,7 +97,8 @@ fun PrimaryButton(
             Icon(icon, contentDescription = null, tint = content, modifier = Modifier.size(20.dp))
             Spacer(Modifier.width(8.dp))
         }
-        Text(text, style = MaterialTheme.typography.labelLarge, color = content, maxLines = 1, overflow = TextOverflow.Ellipsis)
+        // Full words, never "…": a long label wraps inside the pill, which grows.
+        Text(text, style = MaterialTheme.typography.labelLarge, color = content, textAlign = TextAlign.Center)
     }
 }
 
@@ -116,7 +116,7 @@ fun SecondaryButton(
             Icon(icon, contentDescription = null, tint = colors.textPrimary, modifier = Modifier.size(20.dp))
             Spacer(Modifier.width(8.dp))
         }
-        Text(text, style = MaterialTheme.typography.labelLarge, color = colors.textPrimary, maxLines = 1)
+        Text(text, style = MaterialTheme.typography.labelLarge, color = colors.textPrimary, textAlign = TextAlign.Center)
     }
 }
 
@@ -257,10 +257,10 @@ fun StatTile(
         }
         Spacer(Modifier.height(14.dp))
         Text(value, style = MaterialTheme.typography.headlineSmall, color = AppTheme.colors.textPrimary, maxLines = 1)
-        Text(label, style = MaterialTheme.typography.bodyMedium, color = AppTheme.colors.textSecondary, maxLines = 2)
+        Text(label, style = MaterialTheme.typography.bodyMedium, color = AppTheme.colors.textSecondary)
         if (caption != null) {
             Spacer(Modifier.height(2.dp))
-            Text(caption, style = MaterialTheme.typography.bodySmall, color = AppTheme.colors.textSecondary, maxLines = 1)
+            Text(caption, style = MaterialTheme.typography.bodySmall, color = AppTheme.colors.textSecondary)
         }
     }
 }
@@ -320,8 +320,9 @@ fun LockIcon(
  * Small tinted chip ("Not opened in 3 months", "Reinstalled", "Large"). Background is
  * [Severity.surface]; text and icon are [Severity.contentColor], never amber or red text.
  *
- * It measures at its intrinsic width on one line (`softWrap = false`) so its unit is never cut
- * off: [AppRow] gives the chip its full width first and shrinks the subtitle instead. Use
+ * It measures at its intrinsic width, so its unit is never cut off: [AppRow] gives the chip its
+ * full width first and moves it under the subtitle when both do not fit. In the rare slot too
+ * narrow for it, it wraps rather than showing "…". Use
  * [Severity.WARNING] for a "Large" chip (it matches the Large bar), never [Severity.DANGER],
  * which is for destructive states. At most one chip per row fits a 360dp phone.
  */
@@ -343,9 +344,6 @@ fun SeverityChip(text: String, severity: Severity, modifier: Modifier = Modifier
             text,
             style = MaterialTheme.typography.labelSmall,
             color = fg,
-            maxLines = 1,
-            softWrap = false,
-            overflow = TextOverflow.Ellipsis,
             modifier = Modifier.weight(1f, fill = false),
         )
     }

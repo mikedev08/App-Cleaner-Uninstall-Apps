@@ -5,6 +5,7 @@ import androidx.hilt.work.HiltWorker
 import androidx.work.CoroutineWorker
 import androidx.work.WorkerParameters
 import com.jedy.appcleaner.uninstaller.core.model.InstalledApp
+import com.jedy.appcleaner.uninstaller.core.model.UNUSED_THRESHOLD_DAYS
 import com.jedy.appcleaner.uninstaller.data.billing.Premium
 import com.jedy.appcleaner.uninstaller.data.inventory.AppInventory
 import com.jedy.appcleaner.uninstaller.data.prefs.AppPreferences
@@ -46,7 +47,7 @@ class CleanupReminderWorker @AssistedInject constructor(
         val apps = inventory.awaitApps()
         if (apps.isEmpty()) return Result.success()
         insights.refresh()
-        val threshold = preferences.unusedThresholdDays.first()
+        val threshold = UNUSED_THRESHOLD_DAYS
         val now = System.currentTimeMillis()
         val unused = insights.unusedApps(apps, threshold, now)
 

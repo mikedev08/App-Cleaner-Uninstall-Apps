@@ -37,7 +37,6 @@ data class SettingsUiState(
     val hasStoreSubscription: Boolean = false,
     val themeMode: ThemeMode = ThemeMode.SYSTEM,
     val remindersEnabled: Boolean = false,
-    val thresholdDays: Int = AppPreferences.DEFAULT_UNUSED_DAYS,
     val usageAccessGranted: Boolean = false,
     val notificationsEnabled: Boolean = true,
     val debugForcePremium: Boolean = false,
@@ -57,7 +56,6 @@ sealed interface SettingsEvent {
 private data class PrefsSnapshot(
     val themeMode: ThemeMode,
     val remindersEnabled: Boolean,
-    val thresholdDays: Int,
     val debugForcePremium: Boolean,
 )
 
@@ -71,7 +69,7 @@ private data class StatusSnapshot(
 
 /**
  * Screen 13 (PRD §4). Settings only *writes* preferences: the theme is observed by
- * MainViewModel, and the reminder switch and threshold are observed by the Insights feature,
+ * MainViewModel, and the reminder switch is observed by the Insights feature,
  * which schedules or cancels its workers. Premium gates are enforced here as well as in the UI,
  * so a stray call can never switch a free user onto a premium setting.
  */
@@ -91,9 +89,8 @@ class SettingsViewModel @Inject constructor(
     private val prefs = combine(
         preferences.themeMode,
         preferences.remindersEnabled,
-        preferences.unusedThresholdDays,
         preferences.debugForcePremium,
-    ) { theme, reminders, days, forced -> PrefsSnapshot(theme, reminders, days, forced) }
+    ) { theme, reminders, forced -> PrefsSnapshot(theme, reminders, forced) }
 
     private val status = combine(
         premium.isPremium,
@@ -111,7 +108,6 @@ class SettingsViewModel @Inject constructor(
             hasStoreSubscription = s.hasStoreSubscription,
             themeMode = p.themeMode,
             remindersEnabled = p.remindersEnabled,
-            thresholdDays = p.thresholdDays,
             usageAccessGranted = s.usageAccessGranted,
             notificationsEnabled = s.notificationsEnabled,
             debugForcePremium = p.debugForcePremium,
@@ -152,11 +148,6 @@ class SettingsViewModel @Inject constructor(
             // A deliberate choice here supersedes the one-time "switch on at first unlock" default.
             preferences.setRemindersInitialised(true)
         }
-    }
-
-    fun setUnusedThresholdDays(days: Int) {
-        if (!premium.isPremium.value || days !in AppPreferences.UNUSED_THRESHOLDS) return
-        viewModelScope.launch { preferences.setUnusedThresholdDays(days) }
     }
 
     fun setDebugForcePremium(enabled: Boolean) {

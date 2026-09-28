@@ -73,7 +73,6 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.jedy.appcleaner.uninstaller.R
@@ -437,14 +436,18 @@ private fun LegendItem(color: Color, label: String, amount: String, modifier: Mo
         Row(verticalAlignment = Alignment.CenterVertically) {
             Box(Modifier.size(8.dp).clip(CircleShape).background(color))
             Spacer(Modifier.width(6.dp))
-            Text(label, style = MaterialTheme.typography.labelSmall, color = AppTheme.colors.textSecondary, maxLines = 1)
+            // Full words: "Temp files" wraps in its third of the row rather than showing "…".
+            Text(
+                label,
+                style = MaterialTheme.typography.labelSmall,
+                color = AppTheme.colors.textSecondary,
+                modifier = Modifier.weight(1f, fill = false),
+            )
         }
         Text(
             amount,
             style = MaterialTheme.typography.titleSmall,
             color = AppTheme.colors.textPrimary,
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
         )
     }
 }

@@ -30,6 +30,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.CleaningServices
 import androidx.compose.material.icons.outlined.MoreVert
 import androidx.compose.material.icons.rounded.Apps
 import androidx.compose.material.icons.rounded.Check
@@ -241,11 +242,16 @@ private fun HeroStatCard(state: HistoryUiState, modifier: Modifier = Modifier) {
         color = colors.accentSurface,
         contentPadding = PaddingValues(horizontal = Dimens.gutter, vertical = Dimens.space24),
     ) {
-        Text(
-            text = stringResource(R.string.history_hero_freed, formatSize(context, state.totalBytes)),
-            style = MaterialTheme.typography.displaySmall,
-            color = colors.positive,
-        )
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(Icons.Outlined.CleaningServices, contentDescription = null, tint = colors.positive, modifier = Modifier.size(28.dp))
+            Spacer(Modifier.width(Dimens.space8))
+            Text(
+                text = stringResource(R.string.history_hero_freed, formatSize(context, state.totalBytes)),
+                style = MaterialTheme.typography.displaySmall,
+                color = colors.positive,
+                modifier = Modifier.weight(1f, fill = false),
+            )
+        }
         Spacer(Modifier.height(Dimens.space8))
         Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(Icons.Rounded.Apps, contentDescription = null, tint = colors.textSecondary, modifier = Modifier.size(18.dp))
@@ -327,7 +333,7 @@ private fun StatusPill(text: String, icon: ImageVector? = null) {
             Icon(icon, contentDescription = null, tint = colors.accentText, modifier = Modifier.size(16.dp))
             Spacer(Modifier.width(Dimens.space4))
         }
-        Text(text, style = MaterialTheme.typography.labelMedium, color = colors.textSecondary, maxLines = 1)
+        Text(text, style = MaterialTheme.typography.labelMedium, color = colors.textSecondary, textAlign = TextAlign.Center)
     }
 }
 

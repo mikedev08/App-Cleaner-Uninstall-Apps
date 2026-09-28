@@ -4,7 +4,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
@@ -33,10 +32,7 @@ import com.jedy.appcleaner.uninstaller.core.format.formatBytes
 import com.jedy.appcleaner.uninstaller.core.model.LargeApps
 import com.jedy.appcleaner.uninstaller.core.ui.component.AppRow
 import com.jedy.appcleaner.uninstaller.core.ui.component.EmptyState
-import com.jedy.appcleaner.uninstaller.core.ui.component.SegmentOption
-import com.jedy.appcleaner.uninstaller.core.ui.component.SegmentedControl
 import com.jedy.appcleaner.uninstaller.core.ui.theme.Dimens
-import com.jedy.appcleaner.uninstaller.data.prefs.AppPreferences
 import com.jedy.appcleaner.uninstaller.feature.apps.QuietChip
 
 /** Room under the last row for the floating Selection Bar, when the caller passes no padding. */
@@ -89,11 +85,6 @@ fun UnusedTab(
         modifier = modifier.fillMaxSize(),
         contentPadding = contentPadding,
     ) {
-        if (content != UnusedContent.NoAccess) {
-            item(key = "threshold") {
-                ThresholdControl(days, viewModel::onThresholdSelected, Modifier.animateItem())
-            }
-        }
         when (content) {
             UnusedContent.NoAccess -> item(key = "access") {
                 AccessCard(
@@ -316,24 +307,6 @@ fun CacheTab(
             }
         }
     }
-}
-
-/**
- * PRD §4 Screen 5: 30 · 60 · 90 days, on the shared segmented control. Persisted and shared with
- * the reminder worker. It always shows a selection: a stored value outside the options (older
- * builds) shows as the default. It works for free users too (the teaser count follows it), so
- * it carries no lock.
- */
-@Composable
-private fun ThresholdControl(selected: Int, onSelected: (Int) -> Unit, modifier: Modifier = Modifier) {
-    val thresholds = AppPreferences.UNUSED_THRESHOLDS
-    val index = thresholds.indexOf(selected).takeIf { it >= 0 } ?: thresholds.indexOf(AppPreferences.DEFAULT_UNUSED_DAYS)
-    SegmentedControl(
-        options = thresholds.map { SegmentOption(pluralStringResource(R.plurals.insights_days, it, it)) },
-        selectedIndex = index,
-        onSelect = { onSelected(thresholds[it]) },
-        modifier = modifier.padding(horizontal = Dimens.gutter, vertical = Dimens.space8),
-    )
 }
 
 /**
