@@ -33,20 +33,20 @@
         <item quantity="other">¡Genial! Has abierto todas tus apps en los últimos %d días.</item>
     </plurals>
     <string name="insights_no_match">Ninguna app coincide con «%1$s»</string>
-    <string name="insights_loading_unused">Buscando apps que no usas…</string>
+    <string name="insights_loading_unused">Buscando apps sin usar…</string>
     <string name="insights_loading_large">Calculando el tamaño de las apps…</string>
 
     <string name="insights_legend_app">App</string>
-    <string name="insights_legend_data">Guardados</string>
-    <string name="insights_legend_cache">Temporales</string>
-    <string name="insights_size_breakdown">App %1$s · Archivos %2$s · Temporales %3$s</string>
+    <string name="insights_legend_data">Archivos guardados</string>
+    <string name="insights_legend_cache">Archivos temporales</string>
+    <string name="insights_size_breakdown">App %1$s · Archivos %2$s · Archivos temporales %3$s</string>
     <string name="insights_size_unavailable">Tamaño no disponible</string>
     <string name="insights_size_measuring">Calculando…</string>
     <string name="insights_large_empty_title">Aún no hay tamaños que mostrar</string>
     <string name="insights_large_empty_body">App Cleaner no pudo calcular el tamaño de las apps ahora mismo. Inténtalo de nuevo en un momento.</string>
 
     <string name="insights_reminder_channel_name">Recordatorios de limpieza</string>
-    <string name="insights_reminder_channel_description">Un aviso cuando se acumulan apps que no usas y, de vez en cuando, un recordatorio para hacer limpieza.</string>
+    <string name="insights_reminder_channel_description">Un aviso cuando se acumulan apps sin usar y, de vez en cuando, un recordatorio para hacer limpieza.</string>
     <plurals name="insights_reminder_title">
         <item quantity="one">%1$d app sin abrir en %2$d días · %3$s</item>
         <item quantity="many">%1$d apps sin abrir en %2$d días · %3$s</item>
@@ -60,7 +60,7 @@
         <item quantity="other">Tienes %d apps instaladas</item>
     </plurals>
 
-    <string name="insights_unused_access_title">Descubre las apps que olvidaste</string>
+    <string name="insights_unused_access_title">Mira tus apps sin usar</string>
     <string name="insights_unused_access_body">Activa el acceso a datos de uso para que App Cleaner vea qué apps no has abierto y cuánto espacio ocupan.</string>
     <string name="insights_large_access_body">Activa el acceso a datos de uso para ver el tamaño completo de cada app, con sus archivos guardados y temporales.</string>
     <string name="insights_private_note">Nada sale de tu teléfono</string>
@@ -74,7 +74,7 @@
     <string name="insights_cache_callout_body">Los archivos temporales son archivos que las apps guardan para abrirse más rápido. Las apps los vuelven a crear cuando los necesitan, así que puedes borrarlos en Info de la app sin quitar la app.</string>
     <!-- Design review 2026-09: one Large rule, the Cache filter. -->
     <string name="insights_large_caption">Apps que ocupan %1$s o más</string>
-    <string name="insights_large_none_title">No hay apps grandes</string>
+    <string name="insights_large_none_title">No hay apps pesadas</string>
     <string name="insights_large_none_body">Ninguna de tus apps ocupa %1$s o más.</string>
     <string name="insights_cache_access_title">Mira qué apps tienen más archivos temporales</string>
     <plurals name="insights_cache_caption">

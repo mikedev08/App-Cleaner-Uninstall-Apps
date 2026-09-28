@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="onboarding_skip">Пропустить</string>
+    <string name="onboarding_next">Далее</string>
+    <string name="onboarding_get_started">Начать</string>
+    <string name="onboarding_page_indicator">Страница %1$d из %2$d</string>
+    <string name="onboarding_1_title">Удаляйте много приложений сразу</string>
+    <string name="onboarding_1_body">Выберите, подтвердите — готово. Не нужно искать в настройках.</string>
+    <string name="onboarding_2_title">Смотрите, что занимает место</string>
+    <string name="onboarding_2_body">Размер каждого приложения, от большего к меньшему.</string>
+    <string name="onboarding_3_title">Найдите неиспользуемые приложения</string>
+    <string name="onboarding_gauge_caption">занято</string>
+    <string name="onboarding_3_body">Посмотрите, какие приложения вы не открывали 30 дней.</string>
+</resources>

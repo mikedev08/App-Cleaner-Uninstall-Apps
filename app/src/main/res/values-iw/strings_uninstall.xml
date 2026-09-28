@@ -83,9 +83,9 @@
         <item quantity="other">להסיר %1$d אפליקציות?</item>
     </plurals>
     <plurals name="uninstall_result_teaser_loss">
-        <item quantity="one">עוד אפליקציה אחת שלא פתחת עדיין תופסת %2$s</item>
-        <item quantity="two">עוד %1$d אפליקציות שלא פתחת עדיין תופסות %2$s</item>
-        <item quantity="other">עוד %1$d אפליקציות שלא פתחת עדיין תופסות %2$s</item>
+        <item quantity="one">עוד אפליקציה אחת שלא בשימוש תופסת %2$s</item>
+        <item quantity="two">עוד %1$d אפליקציות שלא בשימוש תופסות %2$s</item>
+        <item quantity="other">עוד %1$d אפליקציות שלא בשימוש תופסות %2$s</item>
     </plurals>
     <plurals name="uninstall_result_teaser_days">
         <item quantity="one">לא נפתחו כבר יום אחד</item>

@@ -4,7 +4,7 @@
     <string name="usage_what_label">Qué vemos</string>
     <string name="usage_what_body">Cuándo abriste cada app por última vez y cuánto espacio ocupa.</string>
     <string name="usage_why_label">Para qué</string>
-    <string name="usage_why_body">Para encontrar apps que no usas y apps grandes.</string>
+    <string name="usage_why_body">Para encontrar apps sin usar y apps pesadas.</string>
     <string name="usage_where_label">Adónde va</string>
     <string name="usage_hint_caption">En la siguiente pantalla, activa esto:</string>
     <string name="usage_hint_toggle">Permitir acceso al uso</string>

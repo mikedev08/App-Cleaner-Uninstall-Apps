@@ -3,8 +3,8 @@
     <string name="scan_close">סגירה</string>
     <string name="scan_intro_access_title">הפעלת גישה לנתוני שימוש</string>
     <string name="scan_intro_access_body">כך App Cleaner יכולה לראות אילו אפליקציות לא פתחת. שום דבר לא יוצא מהטלפון.</string>
-    <string name="scan_intro_point_unused">אפליקציות שלא פתחת כבר חודשים</string>
-    <string name="scan_intro_point_hogs">אפליקציות גדולות (250MB ומעלה)</string>
+    <string name="scan_intro_point_unused">אפליקציות שלא פתחת כבר 30 יום</string>
+    <string name="scan_intro_point_hogs">אפליקציות כבדות (250 MB ומעלה)</string>
     <string name="scan_intro_point_cache">קבצים זמניים שאפליקציות שומרות כדי להיפתח מהר יותר</string>
     <string name="scan_intro_allow">הפעלת גישה לנתוני שימוש</string>
     <string name="scan_intro_quick">בדיקה מהירה</string>
@@ -17,7 +17,7 @@
     <string name="scan_result_label">סיימנו</string>
     <string name="scan_result_could_free">אפשר לפנות</string>
     <string name="scan_result_tidy_title">הטלפון שלך מסודר</string>
-    <string name="scan_result_tidy_body">כרגע שום דבר גדול לא תופס מקום.</string>
+    <string name="scan_result_tidy_body">כרגע שום דבר לא תופס הרבה מקום.</string>
     <string name="scan_cta_review">לכל האפליקציות</string>
     <string name="scan_cta_allow_full">מתן גישה לבדיקה מלאה</string>
     <string name="scan_estimates_note">חלק מהגדלים הם הערכה. כדי לראות גדלים מדויקים, צריך להפעיל גישה לנתוני שימוש.</string>

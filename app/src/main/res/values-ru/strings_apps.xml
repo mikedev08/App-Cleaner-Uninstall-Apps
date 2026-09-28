@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="apps_title">Приложения</string>
+    <string name="apps_action_back">Назад</string>
+    <string name="apps_summary">%1$s · %2$s</string>
+    <string name="apps_tab_all">Все</string>
+    <string name="apps_section_rest">Всё остальное</string>
+    <string name="apps_details_whats_using">Что занимает место</string>
+    <string name="apps_details_total_caption">Общий размер</string>
+    <string name="apps_details_apk_caption">Размер приложения</string>
+    <string name="apps_details_app_info">О приложении</string>
+    <string name="apps_details_play">Google Play</string>
+    <string name="apps_details_cache_hint">Чтобы удалить временные файлы этого приложения, нажмите «О приложении», а затем «Хранилище».</string>
+    <string name="apps_tab_unused">Неиспользуемые приложения</string>
+    <string name="apps_tab_large">Тяжёлые приложения</string>
+    <string name="apps_tab_cache">Временные файлы</string>
+    <string name="apps_section_large">Тяжёлые приложения</string>
+    <string name="apps_chip_large">Тяжёлое</string>
+    <plurals name="apps_chip_idle_months_short">
+        <item quantity="one">Не открывалось %d месяц</item>
+        <item quantity="few">Не открывалось %d месяца</item>
+        <item quantity="many">Не открывалось %d месяцев</item>
+        <item quantity="other">Не открывалось %d месяца</item>
+    </plurals>
+    <string name="apps_chip_idle_year_short">Не открывалось год</string>
+</resources>

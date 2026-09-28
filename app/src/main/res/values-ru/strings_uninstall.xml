@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="uninstall_confirm_expectation">Android попросит подтвердить каждое удаление.</string>
+    <string name="uninstall_size_about">около %1$s</string>
+    <string name="uninstall_size_unavailable">Размер недоступен</string>
+    <string name="uninstall_warning_device_admin">У него особый доступ к телефону. Сначала отключите его.</string>
+    <string name="uninstall_warning_keyboard">Ваша клавиатура — нужно будет выбрать другую</string>
+    <string name="uninstall_warning_launcher">Ваш главный экран — нужно будет выбрать другой</string>
+    <string name="uninstall_warning_sms">Ваше приложение для сообщений — нужно будет выбрать другое</string>
+    <string name="uninstall_warning_dialer">Ваше приложение для звонков — нужно будет выбрать другое</string>
+    <string name="uninstall_warning_always_running">Работает постоянно — без него телефон может работать иначе</string>
+    <string name="uninstall_resume_body">App Cleaner закрылся, не успев удалить все приложения.</string>
+    <string name="uninstall_resume_discard">Нет, спасибо</string>
+    <string name="uninstall_progress_title">Удаляем приложения</string>
+    <string name="uninstall_progress_count">Удаляем %1$d из %2$d</string>
+    <string name="uninstall_state_waiting">Ожидает</string>
+    <string name="uninstall_state_confirming">Ждём вашего подтверждения</string>
+    <string name="uninstall_state_removed">Удалено</string>
+    <string name="uninstall_state_skipped">Пропущено</string>
+    <string name="uninstall_state_failed">Не удалено</string>
+    <string name="uninstall_state_already_removed">Уже удалено</string>
+    <string name="uninstall_stop">Остановить</string>
+    <string name="uninstall_stopping">Остановимся после этого приложения…</string>
+    <string name="uninstall_stop_title">Прекратить удаление?</string>
+    <string name="uninstall_stop_body">Уже удалённые приложения не вернутся. Остальные останутся на телефоне.</string>
+    <string name="uninstall_stop_keep_going">Продолжить</string>
+    <string name="uninstall_stalled_title">Не видите окно Android?</string>
+    <string name="uninstall_stalled_action">Показать снова</string>
+    <string name="uninstall_result_freed">Освобождено %1$s</string>
+    <string name="uninstall_result_none_title">Ни одно приложение не удалено</string>
+    <string name="uninstall_result_none_body">Всё, что вы выбрали, осталось на телефоне.</string>
+    <string name="uninstall_result_stopped_note">Вы остановили удаление. Остальные приложения остались на телефоне.</string>
+    <string name="uninstall_reason_cancelled">Вы отменили</string>
+    <string name="uninstall_reason_not_attempted">Не удаляли — вы остановили</string>
+    <string name="uninstall_reason_blocked">Телефон не позволяет удалить это приложение</string>
+    <string name="uninstall_reason_device_admin">Сначала отключите его особый доступ</string>
+    <string name="uninstall_reason_not_removed">Android не удалил это приложение</string>
+    <string name="uninstall_reason_other">Android не смог удалить это приложение (код %1$d)</string>
+    <string name="uninstall_retry_all">Повторить для всех</string>
+    <string name="uninstall_result_teaser_action">Посмотреть неиспользуемые</string>
+    <string name="uninstall_cd_show_details">Показать подробности</string>
+    <string name="uninstall_cd_hide_details">Скрыть подробности</string>
+    <plurals name="uninstall_confirm_button">
+        <item quantity="one">Удалить %1$d приложение</item>
+        <item quantity="few">Удалить %1$d приложения</item>
+        <item quantity="many">Удалить %1$d приложений</item>
+        <item quantity="other">Удалить %1$d приложения</item>
+    </plurals>
+    <plurals name="uninstall_resume_title">
+        <item quantity="one">Закончить удаление %1$d приложения?</item>
+        <item quantity="few">Закончить удаление %1$d приложений?</item>
+        <item quantity="many">Закончить удаление %1$d приложений?</item>
+        <item quantity="other">Закончить удаление %1$d приложения?</item>
+    </plurals>
+    <plurals name="uninstall_result_removed">
+        <item quantity="one">Удалено %1$d приложение</item>
+        <item quantity="few">Удалено %1$d приложения</item>
+        <item quantity="many">Удалено %1$d приложений</item>
+        <item quantity="other">Удалено %1$d приложения</item>
+    </plurals>
+    <plurals name="uninstall_result_not_removed">
+        <item quantity="one">Не удалено: %1$d</item>
+        <item quantity="few">Не удалено: %1$d</item>
+        <item quantity="many">Не удалено: %1$d</item>
+        <item quantity="other">Не удалено: %1$d</item>
+    </plurals>
+    <plurals name="uninstall_result_already_removed">
+        <item quantity="one">%1$d приложение уже было удалено</item>
+        <item quantity="few">%1$d приложения уже были удалены</item>
+        <item quantity="many">%1$d приложений уже были удалены</item>
+        <item quantity="other">%1$d приложения уже были удалены</item>
+    </plurals>
+    <string name="uninstall_confirm_info">Android попросит подтвердить каждое удаление. Вернуть приложения можно из истории.</string>
+    <string name="uninstall_confirm_data_short">Всё, что сохранено в этих приложениях, тоже удалится.</string>
+    <string name="uninstall_confirm_free">Освободится %1$s</string>
+    <string name="uninstall_chip_device_admin">Особый доступ</string>
+    <string name="uninstall_chip_keyboard">Ваша клавиатура</string>
+    <string name="uninstall_chip_launcher">Ваш главный экран</string>
+    <string name="uninstall_chip_sms">Ваши сообщения</string>
+    <string name="uninstall_chip_dialer">Ваши звонки</string>
+    <string name="uninstall_chip_always_running">Работает постоянно</string>
+    <string name="uninstall_progress_of">%1$d из %2$d</string>
+    <string name="uninstall_result_now_full">Теперь телефон заполнен на %1$d%%</string>
+    <string name="uninstall_result_gauge_caption">занято</string>
+    <plurals name="uninstall_confirm_headline">
+        <item quantity="one">Удалить %1$d приложение?</item>
+        <item quantity="few">Удалить %1$d приложения?</item>
+        <item quantity="many">Удалить %1$d приложений?</item>
+        <item quantity="other">Удалить %1$d приложения?</item>
+    </plurals>
+    <plurals name="uninstall_result_teaser_loss">
+        <item quantity="one">Ещё %1$d неиспользуемое приложение занимает %2$s</item>
+        <item quantity="few">Ещё %1$d неиспользуемых приложения занимают %2$s</item>
+        <item quantity="many">Ещё %1$d неиспользуемых приложений занимают %2$s</item>
+        <item quantity="other">Ещё %1$d неиспользуемых приложения занимают %2$s</item>
+    </plurals>
+    <plurals name="uninstall_result_teaser_days">
+        <item quantity="one">Не открывались %1$d день</item>
+        <item quantity="few">Не открывались %1$d дня</item>
+        <item quantity="many">Не открывались %1$d дней</item>
+        <item quantity="other">Не открывались %1$d дня</item>
+    </plurals>
+</resources>

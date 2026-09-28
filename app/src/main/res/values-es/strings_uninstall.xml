@@ -83,9 +83,9 @@
         <item quantity="other">¿Quitar %1$d apps?</item>
     </plurals>
     <plurals name="uninstall_result_teaser_loss">
-        <item quantity="one">%1$d app más que no has abierto aún ocupa %2$s</item>
-        <item quantity="many">%1$d apps más que no has abierto aún ocupan %2$s</item>
-        <item quantity="other">%1$d apps más que no has abierto aún ocupan %2$s</item>
+        <item quantity="one">Aún te queda %1$d app sin usar que ocupa %2$s</item>
+        <item quantity="many">Aún te quedan %1$d apps sin usar que ocupan %2$s</item>
+        <item quantity="other">Aún te quedan %1$d apps sin usar que ocupan %2$s</item>
     </plurals>
     <plurals name="uninstall_result_teaser_days">
         <item quantity="one">Sin abrir en %1$d día</item>

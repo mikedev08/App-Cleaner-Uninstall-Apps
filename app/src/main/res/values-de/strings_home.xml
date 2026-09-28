@@ -67,10 +67,10 @@
     <string name="home_subline_left">Nur noch %1$s frei</string>
     <string name="home_subline_free">%1$s frei</string>
     <string name="home_scan_cta">Mein Handy prüfen</string>
-    <string name="home_scan_cta_caption">Findet Apps, die du nicht nutzt, große Apps und temporäre Dateien.</string>
+    <string name="home_scan_cta_caption">Findet ungenutzte Apps, große Apps und temporäre Dateien.</string>
     <string name="home_last_scan_title">Letzte Prüfung</string>
     <string name="home_last_scan_free_up_prefix">Du kannst freimachen</string>
-    <string name="home_last_scan_tidy">Nichts Großes aufzuräumen</string>
+    <string name="home_last_scan_tidy">Kaum etwas aufzuräumen</string>
     <string name="home_last_scan_again">Noch mal prüfen</string>
     <string name="home_time_just_now">Gerade eben</string>
     <string name="home_stats_title">Was deinen Platz belegt</string>

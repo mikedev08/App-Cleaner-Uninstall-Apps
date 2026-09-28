@@ -12,11 +12,11 @@
     <string name="apps_details_play">Play Store</string>
     <string name="apps_details_cache_hint">इस ऐप की टेम्प फ़ाइलें साफ़ करने के लिए, ऐप की जानकारी पर टैप करें, फिर स्टोरेज पर।</string>
     <!-- Design review 2026-09: All · Unused · Large · Cache. -->
-    <string name="apps_tab_unused">बंद पड़े</string>
-    <string name="apps_tab_large">बड़े</string>
+    <string name="apps_tab_unused">इस्तेमाल न होने वाले ऐप</string>
+    <string name="apps_tab_large">भारी ऐप</string>
     <string name="apps_tab_cache">टेम्प फ़ाइलें</string>
-    <string name="apps_section_large">बड़े ऐप</string>
-    <string name="apps_chip_large">बड़ा</string>
+    <string name="apps_section_large">भारी ऐप</string>
+    <string name="apps_chip_large">भारी</string>
     <plurals name="apps_chip_idle_months_short">
         <item quantity="one">%d महीने से नहीं खुला</item>
         <item quantity="other">%d महीने से नहीं खुला</item>

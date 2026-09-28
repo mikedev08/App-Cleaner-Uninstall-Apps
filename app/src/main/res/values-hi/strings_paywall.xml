@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="paywall_headline">भूले हुए ऐप खोजें</string>
+    <string name="paywall_headline">इस्तेमाल न होने वाले ऐप ढूंढें</string>
     <string name="paywall_subtitle">वे ऐप देखें जो अब आप इस्तेमाल नहीं करते, और कुछ ही टैप में उन्हें हटाएं।</string>
     <plurals name="paywall_finding_unused">
         <item quantity="one">%1$d ऐप %2$d दिनों से नहीं खोला · %3$s</item>
         <item quantity="other">%1$d ऐप %2$d दिनों से नहीं खोले · %3$s</item>
     </plurals>
     <plurals name="paywall_finding_large">
-        <item quantity="one">आपका सबसे बड़ा ऐप %2$s जगह लेता है</item>
-        <item quantity="other">आपके %1$d सबसे बड़े ऐप %2$s जगह लेते हैं</item>
+        <item quantity="one">आपका सबसे भारी ऐप %2$s जगह लेता है</item>
+        <item quantity="other">आपके %1$d सबसे भारी ऐप %2$s जगह लेते हैं</item>
     </plurals>
     <string name="paywall_finding_subtitle">पूरी सूची देखने और कुछ ही टैप में उन्हें हटाने के लिए Pro लें।</string>
     <string name="paywall_benefit_unused_title">इस्तेमाल न होने वाले ऐप ढूंढें</string>
-    <string name="paywall_benefit_unused_body">वे ऐप देखें जिन्हें आपने काफ़ी समय से नहीं खोला।</string>
+    <string name="paywall_benefit_unused_body">वे ऐप देखें जिन्हें आपने 30 दिनों से नहीं खोला।</string>
     <string name="paywall_benefit_reminders_title">हर हफ़्ते रिमाइंडर</string>
-    <string name="paywall_benefit_reminders_body">जब बंद पड़े ऐप जमा हो जाएं, तो एक छोटी-सी याद।</string>
+    <string name="paywall_benefit_reminders_body">जब इस्तेमाल न होने वाले ऐप जमा हो जाएं, तो एक छोटी-सी याद।</string>
     <string name="paywall_benefit_no_ads_title">कोई विज्ञापन नहीं</string>
     <string name="paywall_benefit_no_ads_body">App Cleaner बिना किसी विज्ञापन के इस्तेमाल करें।</string>
     <plurals name="paywall_plan_trial">

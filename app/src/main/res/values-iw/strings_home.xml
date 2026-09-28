@@ -70,10 +70,10 @@
     <string name="home_subline_left">נשארו רק %1$s</string>
     <string name="home_subline_free">%1$s פנויים</string>
     <string name="home_scan_cta">לבדוק את הטלפון</string>
-    <string name="home_scan_cta_caption">מוצאים אפליקציות שלא בשימוש, אפליקציות גדולות וקבצים זמניים.</string>
+    <string name="home_scan_cta_caption">מוצאים אפליקציות שלא בשימוש, אפליקציות כבדות וקבצים זמניים.</string>
     <string name="home_last_scan_title">בדיקה אחרונה</string>
     <string name="home_last_scan_free_up_prefix">אפשר לפנות</string>
-    <string name="home_last_scan_tidy">אין משהו גדול לנקות</string>
+    <string name="home_last_scan_tidy">אין הרבה מה לנקות</string>
     <string name="home_last_scan_again">לבדוק שוב</string>
     <string name="home_time_just_now">ממש עכשיו</string>
     <string name="home_stats_title">לאן הולך המקום שלך</string>

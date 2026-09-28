@@ -23,7 +23,7 @@
         <item quantity="other">真棒！最近 %d 天里每个应用你都打开过。</item>
     </plurals>
     <string name="insights_no_match">没有与“%1$s”匹配的应用</string>
-    <string name="insights_loading_unused">正在查找你不用的应用…</string>
+    <string name="insights_loading_unused">正在查找闲置应用…</string>
     <string name="insights_loading_large">正在检查应用大小…</string>
 
     <string name="insights_legend_app">应用</string>
@@ -36,7 +36,7 @@
     <string name="insights_large_empty_body">App Cleaner 现在没法检查应用大小，请稍后再试。</string>
 
     <string name="insights_reminder_channel_name">清理提醒</string>
-    <string name="insights_reminder_channel_description">当你不用的应用越积越多时提醒你，并不时提示你清理一下。</string>
+    <string name="insights_reminder_channel_description">闲置应用越积越多时提醒你，并不时提示你清理一下。</string>
     <plurals name="insights_reminder_title">
         <item quantity="other">%1$d 个应用已 %2$d 天没打开 · %3$s</item>
     </plurals>
@@ -46,7 +46,7 @@
         <item quantity="other">你安装了 %d 个应用</item>
     </plurals>
 
-    <string name="insights_unused_access_title">找出你遗忘的应用</string>
+    <string name="insights_unused_access_title">看看你的闲置应用</string>
     <string name="insights_unused_access_body">开启“使用情况访问权限”，App Cleaner 就能看到哪些应用你没打开过，以及它们占了多少空间。</string>
     <string name="insights_large_access_body">开启“使用情况访问权限”，就能看到每个应用的完整大小，包括保存的文件和临时文件。</string>
     <string name="insights_private_note">信息不会离开你的手机</string>
@@ -60,7 +60,7 @@
     <string name="insights_cache_callout_body">临时文件是应用为了打开得更快而保存的文件。需要时应用会重新生成，所以你可以在“应用信息”里清除它们，不用移除应用。</string>
     <!-- Design review 2026-09: one Large rule, the Cache filter. -->
     <string name="insights_large_caption">占用 %1$s 或以上的应用</string>
-    <string name="insights_large_none_title">没有大应用</string>
+    <string name="insights_large_none_title">没有占空间大的应用</string>
     <string name="insights_large_none_body">没有哪个应用占用 %1$s 或以上。</string>
     <string name="insights_cache_access_title">看看哪些应用的临时文件最多</string>
     <plurals name="insights_cache_caption">

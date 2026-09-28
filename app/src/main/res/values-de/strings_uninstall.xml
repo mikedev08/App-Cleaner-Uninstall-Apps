@@ -77,8 +77,8 @@
         <item quantity="other">%1$d Apps entfernen?</item>
     </plurals>
     <plurals name="uninstall_result_teaser_loss">
-        <item quantity="one">%1$d weitere App, die du nicht geöffnet hast, belegt noch %2$s</item>
-        <item quantity="other">%1$d weitere Apps, die du nicht geöffnet hast, belegen noch %2$s</item>
+        <item quantity="one">%1$d weitere ungenutzte App belegt noch %2$s</item>
+        <item quantity="other">%1$d weitere ungenutzte Apps belegen noch %2$s</item>
     </plurals>
     <plurals name="uninstall_result_teaser_days">
         <item quantity="one">Seit %1$d Tag nicht geöffnet</item>

@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="language_title">Выберите язык</string>
+    <string name="language_subtitle">Его можно изменить в любой момент в настройках.</string>
+    <string name="language_change">Сменить язык</string>
+</resources>

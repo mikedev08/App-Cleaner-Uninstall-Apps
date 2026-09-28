@@ -12,11 +12,11 @@
     <string name="apps_details_play">متجر Play</string>
     <string name="apps_details_cache_hint">لمسح الملفات المؤقتة لهذا التطبيق، اضغط على «معلومات التطبيق» ثم «مساحة التخزين».</string>
     <!-- Design review 2026-09: All · Unused · Large · Cache. -->
-    <string name="apps_tab_unused">منسية</string>
-    <string name="apps_tab_large">كبيرة</string>
+    <string name="apps_tab_unused">تطبيقات غير مستخدمة</string>
+    <string name="apps_tab_large">تطبيقات كبيرة الحجم</string>
     <string name="apps_tab_cache">ملفات مؤقتة</string>
-    <string name="apps_section_large">تطبيقات كبيرة</string>
-    <string name="apps_chip_large">كبير</string>
+    <string name="apps_section_large">تطبيقات كبيرة الحجم</string>
+    <string name="apps_chip_large">كبير الحجم</string>
     <plurals name="apps_chip_idle_months_short">
         <item quantity="zero">لم يُفتح منذ %d شهر</item>
         <item quantity="one">لم يُفتح منذ شهر</item>

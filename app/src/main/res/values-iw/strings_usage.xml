@@ -4,7 +4,7 @@
     <string name="usage_what_label">מה אנחנו רואים</string>
     <string name="usage_what_body">מתי כל אפליקציה נפתחה לאחרונה, וכמה מקום היא תופסת.</string>
     <string name="usage_why_label">למה</string>
-    <string name="usage_why_body">כדי למצוא אפליקציות שלא בשימוש ואפליקציות גדולות.</string>
+    <string name="usage_why_body">כדי למצוא אפליקציות שלא בשימוש ואפליקציות כבדות.</string>
     <string name="usage_where_label">לאן המידע הולך</string>
     <string name="usage_hint_caption">במסך הבא, צריך להפעיל את זה:</string>
     <string name="usage_hint_toggle">מתן גישה לנתוני שימוש</string>

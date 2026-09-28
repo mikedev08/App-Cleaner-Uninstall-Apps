@@ -3,7 +3,7 @@
     <string name="scan_close">Schließen</string>
     <string name="scan_intro_access_title">Zugriff erlauben</string>
     <string name="scan_intro_access_body">Mit dem „Zugriff auf Nutzungsdaten“ sieht App Cleaner, welche Apps du länger nicht geöffnet hast. Nichts verlässt dein Handy.</string>
-    <string name="scan_intro_point_unused">Apps, die du seit Monaten nicht geöffnet hast</string>
+    <string name="scan_intro_point_unused">Apps, die du seit 30 Tagen nicht geöffnet hast</string>
     <string name="scan_intro_point_hogs">Große Apps (250 MB oder mehr)</string>
     <string name="scan_intro_point_cache">Temporäre Dateien, mit denen Apps schneller starten</string>
     <string name="scan_intro_allow">Zugriff auf Nutzungsdaten erlauben</string>
@@ -17,7 +17,7 @@
     <string name="scan_result_label">Fertig</string>
     <string name="scan_result_could_free">kannst du freimachen</string>
     <string name="scan_result_tidy_title">Dein Handy ist aufgeräumt</string>
-    <string name="scan_result_tidy_body">Gerade belegt nichts Großes Platz.</string>
+    <string name="scan_result_tidy_body">Gerade belegt nichts viel Platz.</string>
     <string name="scan_cta_review">Alle Apps ansehen</string>
     <string name="scan_cta_allow_full">Zugriff für volle Prüfung erlauben</string>
     <string name="scan_estimates_note">Manche Größen sind nur ungefähr. Schalte „Zugriff auf Nutzungsdaten“ ein, um genaue Größen zu sehen.</string>

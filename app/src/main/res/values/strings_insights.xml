@@ -36,7 +36,7 @@
         <item quantity="other">Nice! You\'ve opened every app in the last %d days.</item>
     </plurals>
     <string name="insights_no_match">No apps match ‘%1$s’</string>
-    <string name="insights_loading_unused">Looking for apps you don’t use…</string>
+    <string name="insights_loading_unused">Looking for unused apps…</string>
     <string name="insights_loading_large">Checking app sizes…</string>
 
     <string name="insights_legend_app">App</string>
@@ -50,7 +50,7 @@
 
     <!-- Cleanup reminders (notifications) -->
     <string name="insights_reminder_channel_name">Cleanup reminders</string>
-    <string name="insights_reminder_channel_description">A heads-up when apps you don’t use pile up, and an occasional nudge to clean up.</string>
+    <string name="insights_reminder_channel_description">A heads-up when unused apps pile up, and an occasional nudge to clean up.</string>
     <!-- "9 apps unused for 60+ days · 2.1 GB". %1$d apps, %2$d days, %3$s size. -->
     <plurals name="insights_reminder_title">
         <item quantity="one">%1$d app not opened in %2$d days · %3$s</item>
@@ -64,7 +64,7 @@
     </plurals>
 
     <!-- Design system v2 redesign. -->
-    <string name="insights_unused_access_title">See the apps you forgot about</string>
+    <string name="insights_unused_access_title">See your unused apps</string>
     <string name="insights_unused_access_body">Turn on Usage access so App Cleaner can see which apps you haven\'t opened, and how much space they take.</string>
     <string name="insights_large_access_body">Turn on Usage access to see each app\'s full size, with its saved and temp files.</string>
     <string name="insights_private_note">Nothing leaves your phone</string>
@@ -83,7 +83,7 @@
     <string name="insights_cache_callout_body">Temp files are files apps keep so they open faster. Apps make them again when needed, so you can clear them in App info without removing the app.</string>
     <!-- Design review 2026-09: one Large rule, the Cache filter. -->
     <string name="insights_large_caption">Apps that take up %1$s or more</string>
-    <string name="insights_large_none_title">No big apps</string>
+    <string name="insights_large_none_title">No heavy apps</string>
     <string name="insights_large_none_body">None of your apps takes up %1$s or more.</string>
     <string name="insights_cache_access_title">See which apps have the most temp files</string>
     <plurals name="insights_cache_caption">

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="paywall_headline">Найдите неиспользуемые приложения</string>
+    <string name="paywall_subtitle">Посмотрите, какими приложениями вы больше не пользуетесь, и удалите их в пару касаний.</string>
+    <plurals name="paywall_finding_unused">
+        <item quantity="one">%1$d приложение не открывалось %2$d дней · %3$s</item>
+        <item quantity="few">%1$d приложения не открывались %2$d дней · %3$s</item>
+        <item quantity="many">%1$d приложений не открывались %2$d дней · %3$s</item>
+        <item quantity="other">%1$d приложения не открывались %2$d дней · %3$s</item>
+    </plurals>
+    <plurals name="paywall_finding_large">
+        <item quantity="one">%1$d самое тяжёлое приложение занимает %2$s</item>
+        <item quantity="few">%1$d самых тяжёлых приложения занимают %2$s</item>
+        <item quantity="many">%1$d самых тяжёлых приложений занимают %2$s</item>
+        <item quantity="other">%1$d самых тяжёлых приложения занимают %2$s</item>
+    </plurals>
+    <string name="paywall_finding_subtitle">Оформите Pro, чтобы увидеть весь список и удалить их в пару касаний.</string>
+    <string name="paywall_benefit_unused_title">Находите неиспользуемые приложения</string>
+    <string name="paywall_benefit_unused_body">Смотрите, какие приложения вы не открывали 30 дней.</string>
+    <string name="paywall_benefit_reminders_title">Напоминания раз в неделю</string>
+    <string name="paywall_benefit_reminders_body">Короткое напоминание, когда накопятся неиспользуемые приложения.</string>
+    <string name="paywall_benefit_no_ads_title">Без рекламы</string>
+    <string name="paywall_benefit_no_ads_body">Пользуйтесь App Cleaner совсем без рекламы.</string>
+    <plurals name="paywall_plan_trial">
+        <item quantity="one">%1$d день бесплатно, затем %2$s в неделю</item>
+        <item quantity="few">%1$d дня бесплатно, затем %2$s в неделю</item>
+        <item quantity="many">%1$d дней бесплатно, затем %2$s в неделю</item>
+        <item quantity="other">%1$d дня бесплатно, затем %2$s в неделю</item>
+    </plurals>
+    <string name="paywall_plan_weekly">%1$s в неделю</string>
+    <string name="paywall_plan_caption_trial">Недельный план · Во время пробного периода вы ничего не платите</string>
+    <string name="paywall_plan_caption_weekly">Недельный план · Отменить можно в любой момент</string>
+    <string name="paywall_plan_loading">Загружаем цену…</string>
+    <string name="paywall_offline">Подключитесь к интернету, чтобы начать бесплатный пробный период</string>
+    <string name="paywall_not_available">Подписки пока недоступны</string>
+    <string name="paywall_not_available_body">Все бесплатные функции продолжают работать.</string>
+    <string name="paywall_cta_trial">Попробовать бесплатно</string>
+    <string name="paywall_cta_subscribe">Подписаться</string>
+    <string name="paywall_terms_trial">После пробного периода продлевается каждую неделю. Отменить можно в любой момент в Google Play.</string>
+    <string name="paywall_terms_plain">Продлевается каждую неделю. Отменить можно в любой момент в Google Play.</string>
+    <string name="paywall_restore">Восстановить покупки</string>
+    <string name="paywall_terms">Условия</string>
+    <string name="paywall_privacy">Конфиденциальность</string>
+    <string name="paywall_premium_title">У вас есть Pro</string>
+    <string name="paywall_premium_body">Все функции открыты. Спасибо, что поддерживаете App Cleaner.</string>
+</resources>

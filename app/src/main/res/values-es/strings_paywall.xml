@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="paywall_headline">Encuentra las apps que olvidaste</string>
+    <string name="paywall_headline">Encuentra tus apps sin usar</string>
     <string name="paywall_subtitle">Mira las apps que ya no usas y quítalas en pocos toques.</string>
     <plurals name="paywall_finding_unused">
         <item quantity="one">%1$d app sin abrir en %2$d días · %3$s</item>
@@ -8,13 +8,13 @@
         <item quantity="other">%1$d apps sin abrir en %2$d días · %3$s</item>
     </plurals>
     <plurals name="paywall_finding_large">
-        <item quantity="one">Tu app más grande ocupa %2$s</item>
-        <item quantity="many">Tus %1$d apps más grandes ocupan %2$s</item>
-        <item quantity="other">Tus %1$d apps más grandes ocupan %2$s</item>
+        <item quantity="one">Tu app más pesada ocupa %2$s</item>
+        <item quantity="many">Tus %1$d apps más pesadas ocupan %2$s</item>
+        <item quantity="other">Tus %1$d apps más pesadas ocupan %2$s</item>
     </plurals>
     <string name="paywall_finding_subtitle">Consigue Pro para ver la lista completa y quitarlas en pocos toques.</string>
-    <string name="paywall_benefit_unused_title">Encuentra apps que no usas</string>
-    <string name="paywall_benefit_unused_body">Mira las apps que hace tiempo que no abres.</string>
+    <string name="paywall_benefit_unused_title">Encuentra apps sin usar</string>
+    <string name="paywall_benefit_unused_body">Mira las apps que no abres desde hace 30 días.</string>
     <string name="paywall_benefit_reminders_title">Avisos semanales</string>
     <string name="paywall_benefit_reminders_body">Un aviso amable cuando se acumulan apps sin usar.</string>
     <string name="paywall_benefit_no_ads_title">Sin anuncios</string>

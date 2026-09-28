@@ -4,7 +4,7 @@
     <string name="usage_what_label">我们会看到什么</string>
     <string name="usage_what_body">每个应用上次打开的时间，以及它占了多少空间。</string>
     <string name="usage_why_label">用途</string>
-    <string name="usage_why_body">为了找出不常用的应用和大应用。</string>
+    <string name="usage_why_body">为了找出闲置应用和占空间大的应用。</string>
     <string name="usage_where_label">信息会去哪</string>
     <string name="usage_hint_caption">在下一个页面，打开这个开关：</string>
     <string name="usage_hint_toggle">允许访问使用记录</string>

@@ -32,7 +32,7 @@
     <string name="settings_section_subscription">Suscripción</string>
     <string name="settings_restore">Restaurar compras</string>
     <string name="settings_rate">Valorar App Cleaner</string>
-    <string name="settings_pro_benefit_unused">Encuentra apps que no usas</string>
+    <string name="settings_pro_benefit_unused">Encuentra apps sin usar</string>
     <string name="settings_pro_benefit_reminders">Recibe avisos semanales para limpiar</string>
     <string name="settings_section_preferences">Preferencias</string>
     <string name="settings_footer_privacy">Privacidad</string>

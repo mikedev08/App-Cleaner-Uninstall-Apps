@@ -37,7 +37,7 @@
     <string name="uninstall_reason_not_removed">Android n\'a pas supprimé cette appli</string>
     <string name="uninstall_reason_other">Android n\'a pas pu supprimer cette appli (code %1$d)</string>
     <string name="uninstall_retry_all">Tout réessayer</string>
-    <string name="uninstall_result_teaser_action">Voir les applis oubliées</string>
+    <string name="uninstall_result_teaser_action">Voir les applis inutilisées</string>
     <string name="uninstall_cd_show_details">Afficher les détails</string>
     <string name="uninstall_cd_hide_details">Masquer les détails</string>
     <plurals name="uninstall_confirm_button">
@@ -83,9 +83,9 @@
         <item quantity="other">Supprimer %1$d applis ?</item>
     </plurals>
     <plurals name="uninstall_result_teaser_loss">
-        <item quantity="one">%1$d autre appli que vous n’avez pas ouverte prend encore %2$s</item>
-        <item quantity="many">%1$d autres applis que vous n’avez pas ouvertes prennent encore %2$s</item>
-        <item quantity="other">%1$d autres applis que vous n’avez pas ouvertes prennent encore %2$s</item>
+        <item quantity="one">%1$d autre appli inutilisée prend encore %2$s</item>
+        <item quantity="many">%1$d autres applis inutilisées prennent encore %2$s</item>
+        <item quantity="other">%1$d autres applis inutilisées prennent encore %2$s</item>
     </plurals>
     <plurals name="uninstall_result_teaser_days">
         <item quantity="one">Pas ouvertes depuis %1$d jour</item>

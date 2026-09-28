@@ -35,7 +35,7 @@
     <string name="settings_section_subscription">الاشتراك</string>
     <string name="settings_restore">استعادة المشتريات</string>
     <string name="settings_rate">قيّم App Cleaner</string>
-    <string name="settings_pro_benefit_unused">اعثر على التطبيقات التي لا تستخدمها</string>
+    <string name="settings_pro_benefit_unused">اعثر على التطبيقات غير المستخدمة</string>
     <string name="settings_pro_benefit_reminders">تلقَّ تذكيرات أسبوعية للتنظيف</string>
     <string name="settings_section_preferences">التفضيلات</string>
     <string name="settings_footer_privacy">الخصوصية</string>

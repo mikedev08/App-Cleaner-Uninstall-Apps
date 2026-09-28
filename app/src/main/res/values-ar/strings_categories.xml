@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <plurals name="home_cat_overlap_note">
-        <item quantity="zero">%d تطبيق غير مستخدم وكبير — يُحسب مرة واحدة.</item>
-        <item quantity="one">%d تطبيق غير مستخدم وكبير — يُحسب مرة واحدة.</item>
-        <item quantity="two">%d تطبيق غير مستخدم وكبير — يُحسب مرة واحدة.</item>
-        <item quantity="few">%d تطبيقات غير مستخدمة وكبيرة — تُحسب مرة واحدة.</item>
-        <item quantity="many">%d تطبيقًا غير مستخدم وكبير — يُحسب مرة واحدة.</item>
-        <item quantity="other">%d تطبيق غير مستخدم وكبير — يُحسب مرة واحدة.</item>
+        <item quantity="zero">%d تطبيق غير مستخدم وكبير الحجم — يُحسب مرة واحدة.</item>
+        <item quantity="one">%d تطبيق غير مستخدم وكبير الحجم — يُحسب مرة واحدة.</item>
+        <item quantity="two">%d تطبيق غير مستخدم وكبير الحجم — يُحسب مرة واحدة.</item>
+        <item quantity="few">%d تطبيقات غير مستخدمة وكبيرة الحجم — تُحسب مرة واحدة.</item>
+        <item quantity="many">%d تطبيقًا غير مستخدم وكبير الحجم — يُحسب مرة واحدة.</item>
+        <item quantity="other">%d تطبيق غير مستخدم وكبير الحجم — يُحسب مرة واحدة.</item>
     </plurals>
     <plurals name="scan_cta_review_large">
-        <item quantity="zero">مراجعة %1$d تطبيق كبير · %2$s</item>
-        <item quantity="one">مراجعة %1$d تطبيق كبير · %2$s</item>
-        <item quantity="two">مراجعة %1$d تطبيق كبير · %2$s</item>
-        <item quantity="few">مراجعة %1$d تطبيقات كبيرة · %2$s</item>
-        <item quantity="many">مراجعة %1$d تطبيقًا كبيرًا · %2$s</item>
-        <item quantity="other">مراجعة %1$d تطبيق كبير · %2$s</item>
+        <item quantity="zero">عرض %1$d تطبيق كبير الحجم · %2$s</item>
+        <item quantity="one">عرض %1$d تطبيق كبير الحجم · %2$s</item>
+        <item quantity="two">عرض %1$d تطبيق كبير الحجم · %2$s</item>
+        <item quantity="few">عرض %1$d تطبيقات كبيرة الحجم · %2$s</item>
+        <item quantity="many">عرض %1$d تطبيقًا كبير الحجم · %2$s</item>
+        <item quantity="other">عرض %1$d تطبيق كبير الحجم · %2$s</item>
     </plurals>
     <plurals name="scan_pro_hint_unused">
         <item quantity="zero">اعرض %d تطبيق غير مستخدم مع Pro</item>

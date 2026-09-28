@@ -86,10 +86,10 @@
     <string name="home_subline_left">Only %1$s left</string>
     <string name="home_subline_free">%1$s free</string>
     <string name="home_scan_cta">Check my phone</string>
-    <string name="home_scan_cta_caption">Find apps you don\'t use, big apps and temp files.</string>
+    <string name="home_scan_cta_caption">Find unused apps, heavy apps and temp files.</string>
     <string name="home_last_scan_title">Last check</string>
     <string name="home_last_scan_free_up_prefix">You can free up</string>
-    <string name="home_last_scan_tidy">Nothing big to clean up</string>
+    <string name="home_last_scan_tidy">Not much to clean up</string>
     <string name="home_last_scan_again">Check again</string>
     <string name="home_time_just_now">Just now</string>
     <string name="home_stats_title">Where your space goes</string>

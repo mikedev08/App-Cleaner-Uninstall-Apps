@@ -48,7 +48,7 @@
         <item quantity="other">رائع! فتحت كل تطبيقاتك خلال آخر %d يوم.</item>
     </plurals>
     <string name="insights_no_match">لا توجد تطبيقات تطابق «%1$s»</string>
-    <string name="insights_loading_unused">جارٍ البحث عن التطبيقات التي لا تستخدمها…</string>
+    <string name="insights_loading_unused">جارٍ البحث عن التطبيقات غير المستخدمة…</string>
     <string name="insights_loading_large">جارٍ حساب أحجام التطبيقات…</string>
 
     <string name="insights_legend_app">التطبيق</string>
@@ -61,7 +61,7 @@
     <string name="insights_large_empty_body">تعذّر على App Cleaner حساب أحجام التطبيقات الآن. حاول مرة أخرى بعد قليل.</string>
 
     <string name="insights_reminder_channel_name">تذكيرات التنظيف</string>
-    <string name="insights_reminder_channel_description">تنبيه عندما تتراكم التطبيقات التي لا تستخدمها، وتذكير من حين لآخر بالتنظيف.</string>
+    <string name="insights_reminder_channel_description">تنبيه عندما تتراكم التطبيقات غير المستخدمة، وتذكير من حين لآخر بالتنظيف.</string>
     <plurals name="insights_reminder_title">
         <item quantity="zero">%1$d تطبيق لم يُفتح منذ %2$d يومًا · %3$s</item>
         <item quantity="one">تطبيق واحد لم يُفتح منذ %2$d يومًا · %3$s</item>
@@ -81,7 +81,7 @@
         <item quantity="other">لديك %d تطبيق مثبّت</item>
     </plurals>
 
-    <string name="insights_unused_access_title">اكتشف التطبيقات التي نسيتها</string>
+    <string name="insights_unused_access_title">اعرف تطبيقاتك غير المستخدمة</string>
     <string name="insights_unused_access_body">فعّل «الوصول إلى بيانات الاستخدام» ليعرف App Cleaner التطبيقات التي لم تفتحها، والمساحة التي تأخذها.</string>
     <string name="insights_large_access_body">فعّل «الوصول إلى بيانات الاستخدام» لترى الحجم الكامل لكل تطبيق، مع ملفاته المحفوظة والمؤقتة.</string>
     <string name="insights_private_note">لا شيء يغادر هاتفك</string>
@@ -95,7 +95,7 @@
     <string name="insights_cache_callout_body">الملفات المؤقتة ملفات تحتفظ بها التطبيقات لتفتح بسرعة أكبر. تصنعها التطبيقات من جديد عند الحاجة، لذا يمكنك مسحها من «معلومات التطبيق» دون إزالة التطبيق.</string>
     <!-- Design review 2026-09: one Large rule, the Cache filter. -->
     <string name="insights_large_caption">تطبيقات تأخذ %1$s أو أكثر</string>
-    <string name="insights_large_none_title">لا توجد تطبيقات كبيرة</string>
+    <string name="insights_large_none_title">لا توجد تطبيقات كبيرة الحجم</string>
     <string name="insights_large_none_body">لا يأخذ أي من تطبيقاتك %1$s أو أكثر.</string>
     <string name="insights_cache_access_title">اعرف أي التطبيقات فيها أكثر ملفات مؤقتة</string>
     <plurals name="insights_cache_caption">

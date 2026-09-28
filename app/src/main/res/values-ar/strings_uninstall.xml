@@ -101,12 +101,12 @@
         <item quantity="other">إزالة %1$d تطبيق؟</item>
     </plurals>
     <plurals name="uninstall_result_teaser_loss">
-        <item quantity="zero">%1$d تطبيق آخر لم تفتحه ما زال يأخذ %2$s</item>
-        <item quantity="one">تطبيق آخر لم تفتحه ما زال يأخذ %2$s</item>
-        <item quantity="two">تطبيقان آخران لم تفتحهما ما زالا يأخذان %2$s</item>
-        <item quantity="few">%1$d تطبيقات أخرى لم تفتحها ما زالت تأخذ %2$s</item>
-        <item quantity="many">%1$d تطبيقًا آخر لم تفتحها ما زالت تأخذ %2$s</item>
-        <item quantity="other">%1$d تطبيق آخر لم تفتحها ما زالت تأخذ %2$s</item>
+        <item quantity="zero">%1$d تطبيق آخر غير مستخدم ما زال يأخذ %2$s</item>
+        <item quantity="one">تطبيق آخر غير مستخدم ما زال يأخذ %2$s</item>
+        <item quantity="two">تطبيقان آخران غير مستخدمين ما زالا يأخذان %2$s</item>
+        <item quantity="few">%1$d تطبيقات أخرى غير مستخدمة ما زالت تأخذ %2$s</item>
+        <item quantity="many">%1$d تطبيقًا آخر غير مستخدم ما زال يأخذ %2$s</item>
+        <item quantity="other">%1$d تطبيق آخر غير مستخدم ما زال يأخذ %2$s</item>
     </plurals>
     <plurals name="uninstall_result_teaser_days">
         <item quantity="zero">لم يُفتح منذ %1$d يوم</item>

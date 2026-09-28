@@ -19,18 +19,18 @@
     <string name="settings_usage_access_allow">允许</string>
     <string name="settings_section_reminders">清理提醒</string>
     <string name="settings_reminders_toggle">每周提醒</string>
-    <string name="settings_reminders_body">只在不常用的应用变多时提醒。</string>
+    <string name="settings_reminders_body">只在闲置应用变多时提醒。</string>
     <string name="settings_reminders_threshold">多久没打开算不常用</string>
     <plurals name="settings_threshold_days">
         <item quantity="other">%d 天</item>
     </plurals>
     <string name="settings_notifications_off">App Cleaner 的通知已关闭。</string>
     <string name="settings_notifications_allow">允许通知</string>
-    <string name="settings_reminders_needs_access">提醒功能需要开启使用情况访问权限，才能找到不常用的应用。</string>
+    <string name="settings_reminders_needs_access">提醒功能需要开启使用情况访问权限，才能找到闲置应用。</string>
     <string name="settings_section_subscription">订阅</string>
     <string name="settings_restore">恢复购买</string>
     <string name="settings_rate">为 App Cleaner 评分</string>
-    <string name="settings_pro_benefit_unused">找出不常用的应用</string>
+    <string name="settings_pro_benefit_unused">找出闲置应用</string>
     <string name="settings_pro_benefit_reminders">每周提醒你清理</string>
     <string name="settings_section_preferences">偏好设置</string>
     <string name="settings_footer_privacy">隐私</string>

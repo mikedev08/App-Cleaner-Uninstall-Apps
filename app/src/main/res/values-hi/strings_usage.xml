@@ -4,7 +4,7 @@
     <string name="usage_what_label">हम क्या देखते हैं</string>
     <string name="usage_what_body">आपने हर ऐप आख़िरी बार कब खोला, और वह कितनी जगह लेता है।</string>
     <string name="usage_why_label">क्यों</string>
-    <string name="usage_why_body">उन ऐप को ढूंढने के लिए जो आप इस्तेमाल नहीं करते, और बड़े ऐप भी।</string>
+    <string name="usage_why_body">इस्तेमाल न होने वाले ऐप और भारी ऐप ढूंढने के लिए।</string>
     <string name="usage_where_label">यह कहां जाता है</string>
     <string name="usage_hint_caption">अगली स्क्रीन पर, इसे चालू करें:</string>
     <string name="usage_hint_toggle">इस्तेमाल का ऐक्सेस दें</string>

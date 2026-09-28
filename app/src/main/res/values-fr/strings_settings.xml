@@ -19,7 +19,7 @@
     <string name="settings_usage_access_allow">Autoriser</string>
     <string name="settings_section_reminders">Rappels de nettoyage</string>
     <string name="settings_reminders_toggle">Rappel hebdomadaire</string>
-    <string name="settings_reminders_body">Seulement si des applis oubliées s’accumulent.</string>
+    <string name="settings_reminders_body">Seulement si des applis inutilisées s’accumulent.</string>
     <string name="settings_reminders_threshold">Une appli est oubliée après</string>
     <plurals name="settings_threshold_days">
         <item quantity="one">%d jour</item>
@@ -28,11 +28,11 @@
     </plurals>
     <string name="settings_notifications_off">Les notifications d\'App Cleaner sont désactivées.</string>
     <string name="settings_notifications_allow">Autoriser les notifications</string>
-    <string name="settings_reminders_needs_access">Les rappels ont besoin de l’accès aux données d’utilisation pour trouver les applis oubliées.</string>
+    <string name="settings_reminders_needs_access">Les rappels ont besoin de l’accès aux données d’utilisation pour trouver les applis inutilisées.</string>
     <string name="settings_section_subscription">Abonnement</string>
     <string name="settings_restore">Restaurer les achats</string>
     <string name="settings_rate">Noter App Cleaner</string>
-    <string name="settings_pro_benefit_unused">Trouvez les applis oubliées</string>
+    <string name="settings_pro_benefit_unused">Trouvez les applis inutilisées</string>
     <string name="settings_pro_benefit_reminders">Recevez un rappel de ménage chaque semaine</string>
     <string name="settings_section_preferences">Préférences</string>
     <string name="settings_footer_privacy">Confidentialité</string>

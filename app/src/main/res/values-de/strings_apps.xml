@@ -12,14 +12,14 @@
     <string name="apps_details_play">Play Store</string>
     <string name="apps_details_cache_hint">Um die temporären Dateien dieser App zu löschen, tippe auf App-Info und dann auf „Speicher“.</string>
     <!-- Design review 2026-09: All · Unused · Large · Cache. -->
-    <string name="apps_tab_unused">Inaktiv</string>
-    <string name="apps_tab_large">Groß</string>
-    <string name="apps_tab_cache">Temporär</string>
+    <string name="apps_tab_unused">Ungenutzte Apps</string>
+    <string name="apps_tab_large">Große Apps</string>
+    <string name="apps_tab_cache">Temporäre Dateien</string>
     <string name="apps_section_large">Große Apps</string>
     <string name="apps_chip_large">Groß</string>
     <plurals name="apps_chip_idle_months_short">
-        <item quantity="one">%d Monat ungenutzt</item>
-        <item quantity="other">%d Monate ungenutzt</item>
+        <item quantity="one">Seit einem Monat nicht geöffnet</item>
+        <item quantity="other">Seit %d Monaten nicht geöffnet</item>
     </plurals>
-    <string name="apps_chip_idle_year_short">Seit 1 Jahr ungenutzt</string>
+    <string name="apps_chip_idle_year_short">Seit einem Jahr nicht geöffnet</string>
 </resources>

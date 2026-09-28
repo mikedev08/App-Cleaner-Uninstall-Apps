@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="usage_title">Включите доступ к истории использования</string>
+    <string name="usage_what_label">Что мы видим</string>
+    <string name="usage_what_body">Когда вы в последний раз открывали каждое приложение и сколько места оно занимает.</string>
+    <string name="usage_why_label">Зачем</string>
+    <string name="usage_why_body">Чтобы находить неиспользуемые и тяжёлые приложения.</string>
+    <string name="usage_where_label">Куда попадают данные</string>
+    <string name="usage_hint_caption">На следующем экране включите это:</string>
+    <string name="usage_hint_toggle">Разрешить доступ к истории использования</string>
+    <string name="usage_continue">Перейти в настройки</string>
+    <string name="usage_fallback_toast">Найдите App Cleaner в списке и включите его</string>
+    <string name="usage_settings_unavailable">Телефон не открыл страницу доступа к истории использования. Откройте настройки и найдите «Доступ к истории использования».</string>
+    <string name="usage_illustration_description">Телефон с приложениями: те, что вы не открываете, бледнее</string>
+    <string name="usage_hint_description">Анимация: в настройках включается переключатель App Cleaner</string>
+    <string name="usage_subtitle">Так App Cleaner увидит, какие приложения вы не открываете и сколько места они занимают.</string>
+    <string name="usage_where_body">Всё остаётся на телефоне. Ничего не загружается в интернет.</string>
+</resources>

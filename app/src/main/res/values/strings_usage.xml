@@ -5,7 +5,7 @@
     <string name="usage_what_label">What we see</string>
     <string name="usage_what_body">When you last opened each app, and how much space it takes.</string>
     <string name="usage_why_label">Why</string>
-    <string name="usage_why_body">To find apps you don\'t use and big apps.</string>
+    <string name="usage_why_body">To find unused apps and heavy apps.</string>
     <string name="usage_where_label">Where it goes</string>
     <string name="usage_hint_caption">On the next screen, turn this on:</string>
     <!-- Mimics the system toggle label; OEMs word it differently, so keep it generic. -->

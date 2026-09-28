@@ -67,10 +67,10 @@
     <string name="home_subline_left">सिर्फ़ %1$s बचा है</string>
     <string name="home_subline_free">%1$s खाली</string>
     <string name="home_scan_cta">मेरा फ़ोन जांचें</string>
-    <string name="home_scan_cta_caption">वे ऐप ढूंढें जो आप इस्तेमाल नहीं करते, बड़े ऐप और टेम्प फ़ाइलें।</string>
+    <string name="home_scan_cta_caption">इस्तेमाल न होने वाले ऐप, भारी ऐप और टेम्प फ़ाइलें ढूंढें।</string>
     <string name="home_last_scan_title">पिछली जांच</string>
     <string name="home_last_scan_free_up_prefix">आप इतनी जगह खाली कर सकते हैं</string>
-    <string name="home_last_scan_tidy">साफ़ करने को कुछ बड़ा नहीं है</string>
+    <string name="home_last_scan_tidy">साफ़ करने को ज़्यादा कुछ नहीं है</string>
     <string name="home_last_scan_again">फिर से जांचें</string>
     <string name="home_time_just_now">अभी-अभी</string>
     <string name="home_stats_title">आपकी जगह कहां जा रही है</string>

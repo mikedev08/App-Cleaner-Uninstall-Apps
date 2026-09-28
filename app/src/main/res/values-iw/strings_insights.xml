@@ -60,7 +60,7 @@
         <item quantity="other">יש לך %d אפליקציות מותקנות</item>
     </plurals>
 
-    <string name="insights_unused_access_title">לגלות את האפליקציות ששכחת</string>
+    <string name="insights_unused_access_title">לראות את האפליקציות שלא בשימוש</string>
     <string name="insights_unused_access_body">אחרי שמפעילים גישה לנתוני שימוש, App Cleaner יכולה לראות אילו אפליקציות לא פתחת וכמה מקום הן תופסות.</string>
     <string name="insights_large_access_body">אחרי שמפעילים גישה לנתוני שימוש, אפשר לראות את הגודל המלא של כל אפליקציה, כולל הקבצים השמורים והזמניים שלה.</string>
     <string name="insights_private_note">שום דבר לא יוצא מהטלפון</string>
@@ -74,7 +74,7 @@
     <string name="insights_cache_callout_body">קבצים זמניים הם קבצים שאפליקציות שומרות כדי להיפתח מהר יותר. האפליקציות יוצרות אותם מחדש כשצריך, אז אפשר לנקות אותם ב״פרטי האפליקציה״ בלי להסיר את האפליקציה.</string>
     <!-- Design review 2026-09: one Large rule, the Cache filter. -->
     <string name="insights_large_caption">אפליקציות שתופסות %1$s ומעלה</string>
-    <string name="insights_large_none_title">אין אפליקציות גדולות</string>
+    <string name="insights_large_none_title">אין אפליקציות כבדות</string>
     <string name="insights_large_none_body">אף אפליקציה לא תופסת %1$s ומעלה.</string>
     <string name="insights_cache_access_title">לראות לאילו אפליקציות יש הכי הרבה קבצים זמניים</string>
     <plurals name="insights_cache_caption">

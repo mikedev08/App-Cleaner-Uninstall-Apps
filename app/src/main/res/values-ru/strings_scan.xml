@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="scan_close">Закрыть</string>
+    <string name="scan_intro_access_title">Включите доступ к истории использования</string>
+    <string name="scan_intro_access_body">Так App Cleaner увидит, какие приложения вы не открываете. Данные не покидают телефон.</string>
+    <string name="scan_intro_point_unused">Приложения, которые вы не открывали 30 дней</string>
+    <string name="scan_intro_point_hogs">Тяжёлые приложения (250 МБ и больше)</string>
+    <string name="scan_intro_point_cache">Временные файлы, которые приложения хранят, чтобы быстрее открываться</string>
+    <string name="scan_intro_allow">Включить доступ</string>
+    <string name="scan_intro_quick">Быстрая проверка</string>
+    <string name="scan_intro_quick_hint">Быстрая проверка смотрит только на размеры приложений.</string>
+    <string name="scan_scanning_title">Проверяем телефон</string>
+    <string name="scan_step_apps">Смотрим ваши приложения</string>
+    <string name="scan_step_usage">Ищем неиспользуемые приложения</string>
+    <string name="scan_step_storage">Считаем размеры приложений</string>
+    <string name="scan_step_skipped">Нужен доступ к истории использования</string>
+    <string name="scan_result_label">Готово</string>
+    <string name="scan_result_could_free">можно освободить</string>
+    <string name="scan_result_tidy_title">На телефоне порядок</string>
+    <string name="scan_result_tidy_body">Сейчас ничего не занимает много места.</string>
+    <string name="scan_cta_review">Все приложения</string>
+    <string name="scan_cta_allow_full">Разрешить доступ для полной проверки</string>
+    <string name="scan_estimates_note">Некоторые размеры примерные. Включите доступ к истории использования, чтобы видеть точные.</string>
+    <string name="scan_error_title">Проверка не завершилась</string>
+    <string name="scan_error_body">На телефоне ничего не изменилось.</string>
+    <string name="scan_error_retry">Попробовать ещё раз</string>
+    <string name="scan_legend_now">Сейчас: занято %1$s</string>
+    <string name="scan_legend_after">После очистки: занято %1$s</string>
+    <string name="scan_cta_review_cache">Временные файлы · %1$s</string>
+    <string name="scan_cta_unlock">Посмотреть с Pro</string>
+    <plurals name="scan_cta_review_apps">
+        <item quantity="one">Посмотреть %1$d приложение · %2$s</item>
+        <item quantity="few">Посмотреть %1$d приложения · %2$s</item>
+        <item quantity="many">Посмотреть %1$d приложений · %2$s</item>
+        <item quantity="other">Посмотреть %1$d приложения · %2$s</item>
+    </plurals>
+</resources>

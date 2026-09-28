@@ -3,8 +3,8 @@
     <string name="scan_close">बंद करें</string>
     <string name="scan_intro_access_title">इस्तेमाल का ऐक्सेस चालू करें</string>
     <string name="scan_intro_access_body">इससे App Cleaner देख पाता है कि आपने कौन-से ऐप नहीं खोले। कुछ भी आपके फ़ोन से बाहर नहीं जाता।</string>
-    <string name="scan_intro_point_unused">वे ऐप जिन्हें आपने महीनों से नहीं खोला</string>
-    <string name="scan_intro_point_hogs">बड़े ऐप (250 MB या ज़्यादा)</string>
+    <string name="scan_intro_point_unused">वे ऐप जिन्हें आपने 30 दिनों से नहीं खोला</string>
+    <string name="scan_intro_point_hogs">भारी ऐप (250 MB या ज़्यादा)</string>
     <string name="scan_intro_point_cache">टेम्प फ़ाइलें, जो ऐप जल्दी खुलने के लिए रखते हैं</string>
     <string name="scan_intro_allow">इस्तेमाल का ऐक्सेस चालू करें</string>
     <string name="scan_intro_quick">झटपट जांच</string>
@@ -17,7 +17,7 @@
     <string name="scan_result_label">सब हो गया</string>
     <string name="scan_result_could_free">आप खाली कर सकते हैं</string>
     <string name="scan_result_tidy_title">आपका फ़ोन साफ़-सुथरा है</string>
-    <string name="scan_result_tidy_body">अभी कोई बड़ी चीज़ जगह नहीं ले रही है।</string>
+    <string name="scan_result_tidy_body">अभी कोई चीज़ ज़्यादा जगह नहीं ले रही है।</string>
     <string name="scan_cta_review">सभी ऐप देखें</string>
     <string name="scan_cta_allow_full">पूरी जांच के लिए ऐक्सेस दें</string>
     <string name="scan_estimates_note">कुछ साइज़ अंदाज़न हैं। सही साइज़ देखने के लिए इस्तेमाल का ऐक्सेस चालू करें।</string>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="paywall_headline">Finde die Apps, die du vergessen hast</string>
+    <string name="paywall_headline">Finde deine ungenutzten Apps</string>
     <string name="paywall_subtitle">Sieh die Apps, die du nicht mehr nutzt, und entferne sie mit ein paar Fingertipps.</string>
     <plurals name="paywall_finding_unused">
         <item quantity="one">%1$d App seit %2$d Tagen nicht geöffnet · %3$s</item>
@@ -11,8 +11,8 @@
         <item quantity="other">Deine %1$d größten Apps belegen %2$s</item>
     </plurals>
     <string name="paywall_finding_subtitle">Hol dir Pro, um die ganze Liste zu sehen und die Apps mit ein paar Fingertipps zu entfernen.</string>
-    <string name="paywall_benefit_unused_title">Finde Apps, die du nicht nutzt</string>
-    <string name="paywall_benefit_unused_body">Sieh die Apps, die du länger nicht geöffnet hast.</string>
+    <string name="paywall_benefit_unused_title">Finde ungenutzte Apps</string>
+    <string name="paywall_benefit_unused_body">Sieh die Apps, die du seit 30 Tagen nicht geöffnet hast.</string>
     <string name="paywall_benefit_reminders_title">Wöchentliche Erinnerungen</string>
     <string name="paywall_benefit_reminders_body">Ein freundlicher Hinweis, wenn sich ungenutzte Apps ansammeln.</string>
     <string name="paywall_benefit_no_ads_title">Keine Werbung</string>

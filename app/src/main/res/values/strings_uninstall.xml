@@ -78,8 +78,8 @@
         <item quantity="other">Remove %1$d apps?</item>
     </plurals>
     <plurals name="uninstall_result_teaser_loss">
-        <item quantity="one">%1$d more app you haven\'t opened still takes up %2$s</item>
-        <item quantity="other">%1$d more apps you haven\'t opened still take up %2$s</item>
+        <item quantity="one">%1$d more unused app still takes up %2$s</item>
+        <item quantity="other">%1$d more unused apps still take up %2$s</item>
     </plurals>
     <plurals name="uninstall_result_teaser_days">
         <item quantity="one">Not opened in %1$d day</item>

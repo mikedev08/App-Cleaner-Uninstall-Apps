@@ -31,7 +31,7 @@
     <string name="settings_section_subscription">Abo</string>
     <string name="settings_restore">Käufe wiederherstellen</string>
     <string name="settings_rate">App Cleaner bewerten</string>
-    <string name="settings_pro_benefit_unused">Finde Apps, die du nicht nutzt</string>
+    <string name="settings_pro_benefit_unused">Finde ungenutzte Apps</string>
     <string name="settings_pro_benefit_reminders">Wöchentliche Erinnerungen zum Aufräumen</string>
     <string name="settings_section_preferences">Allgemein</string>
     <string name="settings_footer_privacy">Datenschutz</string>

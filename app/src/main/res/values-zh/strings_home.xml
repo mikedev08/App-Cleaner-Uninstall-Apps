@@ -64,10 +64,10 @@
     <string name="home_subline_left">仅剩 %1$s</string>
     <string name="home_subline_free">可用 %1$s</string>
     <string name="home_scan_cta">检查我的手机</string>
-    <string name="home_scan_cta_caption">找出不常用的应用、大应用和临时文件。</string>
+    <string name="home_scan_cta_caption">找出闲置应用、占空间大的应用和临时文件。</string>
     <string name="home_last_scan_title">上次检查</string>
     <string name="home_last_scan_free_up_prefix">可释放</string>
-    <string name="home_last_scan_tidy">没什么大东西要清理</string>
+    <string name="home_last_scan_tidy">没什么需要清理的</string>
     <string name="home_last_scan_again">再检查一次</string>
     <string name="home_time_just_now">刚刚</string>
     <string name="home_stats_title">空间都去哪了</string>

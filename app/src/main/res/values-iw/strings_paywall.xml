@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="paywall_headline">מוצאים את האפליקציות ששכחת</string>
+    <string name="paywall_headline">מוצאים אפליקציות שלא בשימוש</string>
     <string name="paywall_subtitle">לראות אילו אפליקציות כבר לא בשימוש, ולהסיר אותן בכמה הקשות.</string>
     <plurals name="paywall_finding_unused">
         <item quantity="one">אפליקציה אחת לא נפתחה כבר %2$d ימים · %3$s</item>
@@ -8,13 +8,13 @@
         <item quantity="other">%1$d אפליקציות לא נפתחו כבר %2$d ימים · %3$s</item>
     </plurals>
     <plurals name="paywall_finding_large">
-        <item quantity="one">האפליקציה הכי גדולה שלך תופסת %2$s</item>
-        <item quantity="two">%1$d האפליקציות הכי גדולות שלך תופסות %2$s</item>
-        <item quantity="other">%1$d האפליקציות הכי גדולות שלך תופסות %2$s</item>
+        <item quantity="one">האפליקציה הכי כבדה שלך תופסת %2$s</item>
+        <item quantity="two">%1$d האפליקציות הכי כבדות שלך תופסות %2$s</item>
+        <item quantity="other">%1$d האפליקציות הכי כבדות שלך תופסות %2$s</item>
     </plurals>
     <string name="paywall_finding_subtitle">עם Pro רואים את כל הרשימה ומסירים אותן בכמה הקשות.</string>
     <string name="paywall_benefit_unused_title">למצוא אפליקציות שלא בשימוש</string>
-    <string name="paywall_benefit_unused_body">לראות אילו אפליקציות לא פתחת כבר הרבה זמן.</string>
+    <string name="paywall_benefit_unused_body">לראות אילו אפליקציות לא פתחת כבר 30 יום.</string>
     <string name="paywall_benefit_reminders_title">תזכורות שבועיות</string>
     <string name="paywall_benefit_reminders_body">תזכורת קטנה כשמצטברות אפליקציות שלא בשימוש.</string>
     <string name="paywall_benefit_no_ads_title">בלי פרסומות</string>

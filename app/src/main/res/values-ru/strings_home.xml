@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="home_action_search">Поиск приложений</string>
+    <string name="home_action_close_search">Закрыть поиск</string>
+    <string name="home_action_clear_search">Очистить поиск</string>
+    <string name="home_action_sort">Сортировка</string>
+    <string name="home_action_history">Удалённые приложения</string>
+    <string name="home_action_settings">Настройки</string>
+    <string name="home_action_dismiss">Скрыть</string>
+    <string name="home_search_hint">Поиск приложений</string>
+    <string name="home_sort_title">Сортировать</string>
+    <string name="home_sort_size">Размер (сначала большие)</string>
+    <string name="home_sort_name">Название (А–Я)</string>
+    <string name="home_sort_install_date">Дата установки (сначала старые)</string>
+    <string name="home_sort_last_updated">Последнее обновление</string>
+    <string name="home_sort_last_used">Последнее открытие (сначала давние)</string>
+    <string name="home_storage_unavailable">Не удаётся узнать, сколько места на телефоне.</string>
+    <plurals name="home_list_count">
+        <item quantity="one">%d приложение</item>
+        <item quantity="few">%d приложения</item>
+        <item quantity="many">%d приложений</item>
+        <item quantity="other">%d приложения</item>
+    </plurals>
+    <string name="home_select_all">Выбрать все</string>
+    <string name="home_deselect_all">Снять выбор</string>
+    <string name="home_row_installed">Установлено: %1$s</string>
+    <string name="home_row_updated">Обновлено: %1$s</string>
+    <string name="home_row_opened">Открывалось: %1$s</string>
+    <string name="home_row_not_opened">Давно не открывалось</string>
+    <string name="home_search_empty">Нет приложений по запросу «%1$s»</string>
+    <string name="home_search_empty_body">Попробуйте другое название.</string>
+    <string name="home_empty_title">Нет приложений</string>
+    <string name="home_incomplete_title">В списке могут быть не все приложения</string>
+    <string name="home_incomplete_body">Эта копия App Cleaner видит не все приложения на телефоне. Установите её из Google Play, чтобы увидеть все.</string>
+    <plurals name="home_selection_count">
+        <item quantity="one">Выбрано: %d</item>
+        <item quantity="few">Выбрано: %d</item>
+        <item quantity="many">Выбрано: %d</item>
+        <item quantity="other">Выбрано: %d</item>
+    </plurals>
+    <string name="home_selection_with_hidden">%1$s (%2$s)</string>
+    <plurals name="home_selection_hidden">
+        <item quantity="one">скрыто поиском: %d</item>
+        <item quantity="few">скрыто поиском: %d</item>
+        <item quantity="many">скрыто поиском: %d</item>
+        <item quantity="other">скрыто поиском: %d</item>
+    </plurals>
+    <string name="home_selection_clear">Снять выбор</string>
+    <string name="home_uninstall">Удалить</string>
+    <string name="home_premium_ended">Ваш план Pro закончился.</string>
+    <string name="home_premium_renew">Продлить</string>
+    <string name="home_details_version">Версия %1$s</string>
+    <string name="home_details_from_play">Установлено из Google Play</string>
+    <string name="home_details_from_other">Установлено не из Google Play</string>
+    <string name="home_details_installed">Установлено</string>
+    <string name="home_details_updated">Последнее обновление</string>
+    <string name="home_details_last_opened">Последнее открытие</string>
+    <string name="home_details_not_opened_since">Не открывалось с %1$s</string>
+    <string name="home_details_no_usage">Давно не открывалось</string>
+    <string name="home_details_app_size">Приложение</string>
+    <string name="home_details_data_size">Сохранённые файлы</string>
+    <string name="home_details_cache_size">Временные файлы</string>
+    <string name="home_details_size_measuring">Проверяем…</string>
+    <string name="home_details_size_unavailable">Размер недоступен</string>
+    <string name="home_details_allow_access">Включите доступ к истории использования, чтобы видеть сохранённые и временные файлы</string>
+    <string name="home_details_open">Открыть</string>
+    <string name="home_gauge_used">занято</string>
+    <string name="home_hero_used_of">Занято %1$s из %2$s</string>
+    <string name="home_headline_danger">Почти нет места</string>
+    <string name="home_headline_warning">Место заканчивается</string>
+    <string name="home_headline_ok">Много свободного места</string>
+    <string name="home_subline_left">Осталось всего %1$s</string>
+    <string name="home_subline_free">Свободно %1$s</string>
+    <string name="home_scan_cta">Проверить телефон</string>
+    <string name="home_scan_cta_caption">Найдём неиспользуемые и тяжёлые приложения, а также временные файлы.</string>
+    <string name="home_last_scan_title">Последняя проверка</string>
+    <string name="home_last_scan_free_up_prefix">Можно освободить</string>
+    <string name="home_last_scan_tidy">Чистить почти нечего</string>
+    <string name="home_last_scan_again">Проверить снова</string>
+    <string name="home_time_just_now">Только что</string>
+    <string name="home_stats_title">На что уходит место</string>
+    <plurals name="home_time_minutes">
+        <item quantity="one">%d минуту назад</item>
+        <item quantity="few">%d минуты назад</item>
+        <item quantity="many">%d минут назад</item>
+        <item quantity="other">%d минуты назад</item>
+    </plurals>
+    <plurals name="home_time_hours">
+        <item quantity="one">%d час назад</item>
+        <item quantity="few">%d часа назад</item>
+        <item quantity="many">%d часов назад</item>
+        <item quantity="other">%d часа назад</item>
+    </plurals>
+    <plurals name="home_time_days">
+        <item quantity="one">%d день назад</item>
+        <item quantity="few">%d дня назад</item>
+        <item quantity="many">%d дней назад</item>
+        <item quantity="other">%d дня назад</item>
+    </plurals>
+    <string name="home_hero_new_title">Посмотрите, что можно удалить</string>
+    <string name="home_review">Посмотреть</string>
+    <string name="home_cat_none">Нет</string>
+</resources>

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_title">Настройки</string>
+    <string name="settings_premium_upgrade_title">Оформите App Cleaner Pro</string>
+    <string name="settings_pro_benefit_unused">Находите неиспользуемые приложения</string>
+    <string name="settings_pro_benefit_reminders">Получайте напоминания об очистке раз в неделю</string>
+    <string name="settings_premium_upgrade_cta">Попробовать бесплатно</string>
+    <string name="settings_premium_see_plans">Тарифы Pro</string>
+    <string name="settings_premium_active_title">Pro включён</string>
+    <string name="settings_premium_active_body">Все функции открыты. Спасибо!</string>
+    <string name="settings_manage_subscription">Управлять подпиской</string>
+    <string name="settings_section_preferences">Основные</string>
+    <string name="settings_language">Язык</string>
+    <string name="settings_theme">Тема</string>
+    <string name="settings_theme_system">Как в системе</string>
+    <string name="settings_theme_light">Светлая</string>
+    <string name="settings_theme_dark">Тёмная</string>
+    <string name="settings_usage_access">Доступ к истории использования</string>
+    <string name="settings_usage_access_body">Нужен, чтобы App Cleaner видел, какие приложения вы не открываете. Данные не покидают телефон.</string>
+    <string name="settings_usage_access_granted">Разрешён</string>
+    <string name="settings_usage_access_denied">Не разрешён</string>
+    <string name="settings_usage_access_allow">Разрешить</string>
+    <string name="settings_rate">Оценить App Cleaner</string>
+    <string name="settings_section_reminders">Напоминания об очистке</string>
+    <string name="settings_reminders_toggle">Напоминания раз в неделю</string>
+    <string name="settings_reminders_body">Только когда накопятся неиспользуемые приложения.</string>
+    <string name="settings_reminders_threshold">Считать приложение неиспользуемым через</string>
+    <plurals name="settings_threshold_days">
+        <item quantity="one">%d день</item>
+        <item quantity="few">%d дня</item>
+        <item quantity="many">%d дней</item>
+        <item quantity="other">%d дня</item>
+    </plurals>
+    <string name="settings_notifications_off">Уведомления App Cleaner отключены.</string>
+    <string name="settings_notifications_allow">Разрешить уведомления</string>
+    <string name="settings_reminders_needs_access">Чтобы находить неиспользуемые приложения, напоминаниям нужен доступ к истории использования.</string>
+    <string name="settings_section_subscription">Подписка</string>
+    <string name="settings_restore">Восстановить покупки</string>
+    <string name="settings_footer_privacy">Конфиденциальность</string>
+    <string name="settings_footer_terms">Условия</string>
+</resources>

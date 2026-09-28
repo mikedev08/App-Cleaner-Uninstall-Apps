@@ -4,7 +4,7 @@
     <string name="usage_what_label">Ce que nous voyons</string>
     <string name="usage_what_body">Quand vous avez ouvert chaque appli pour la dernière fois, et la place qu’elle prend.</string>
     <string name="usage_why_label">Pourquoi</string>
-    <string name="usage_why_body">Pour trouver les applis oubliées et les grosses applis.</string>
+    <string name="usage_why_body">Pour trouver les applis inutilisées et les applis lourdes.</string>
     <string name="usage_where_label">Où vont ces données</string>
     <string name="usage_hint_caption">Sur l’écran suivant, activez ceci :</string>
     <string name="usage_hint_toggle">Autoriser l’accès aux données d’utilisation</string>

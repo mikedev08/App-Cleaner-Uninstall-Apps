@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="home_cat_overlap_note">
+        <item quantity="one">%d приложение — и неиспользуемое, и тяжёлое. Учтено один раз.</item>
+        <item quantity="few">%d приложения — и неиспользуемые, и тяжёлые. Учтены один раз.</item>
+        <item quantity="many">%d приложений — и неиспользуемые, и тяжёлые. Учтены один раз.</item>
+        <item quantity="other">%d приложения — и неиспользуемые, и тяжёлые. Учтены один раз.</item>
+    </plurals>
+    <plurals name="scan_cta_review_large">
+        <item quantity="one">Посмотреть %1$d тяжёлое приложение · %2$s</item>
+        <item quantity="few">Посмотреть %1$d тяжёлых приложения · %2$s</item>
+        <item quantity="many">Посмотреть %1$d тяжёлых приложений · %2$s</item>
+        <item quantity="other">Посмотреть %1$d тяжёлых приложения · %2$s</item>
+    </plurals>
+    <plurals name="scan_pro_hint_unused">
+        <item quantity="one">Посмотреть %d неиспользуемое приложение с Pro</item>
+        <item quantity="few">Посмотреть %d неиспользуемых приложения с Pro</item>
+        <item quantity="many">Посмотреть %d неиспользуемых приложений с Pro</item>
+        <item quantity="other">Посмотреть %d неиспользуемых приложения с Pro</item>
+    </plurals>
+    <string name="settings_pro_benefit_no_ads">Без рекламы</string>
+</resources>

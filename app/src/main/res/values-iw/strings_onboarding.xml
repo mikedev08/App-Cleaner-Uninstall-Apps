@@ -8,7 +8,7 @@
     <string name="onboarding_1_body">בוחרים, מאשרים וזהו — בלי לחפש בהגדרות.</string>
     <string name="onboarding_2_title">לראות מה תופס מקום</string>
     <string name="onboarding_2_body">הגודל של כל אפליקציה, מהגדולה לקטנה.</string>
-    <string name="onboarding_3_title">מוצאים את האפליקציות ששכחת</string>
-    <string name="onboarding_3_body">לראות אילו אפליקציות לא פתחת כבר חודשים.</string>
+    <string name="onboarding_3_title">מוצאים אפליקציות שלא בשימוש</string>
+    <string name="onboarding_3_body">לראות אילו אפליקציות לא פתחת כבר 30 יום.</string>
     <string name="onboarding_gauge_caption">מלא</string>
 </resources>

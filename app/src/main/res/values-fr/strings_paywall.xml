@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="paywall_headline">Retrouvez les applis oubliées</string>
+    <string name="paywall_headline">Trouvez vos applis inutilisées</string>
     <string name="paywall_subtitle">Voyez les applis que vous n’utilisez plus, et supprimez-les en quelques gestes.</string>
     <plurals name="paywall_finding_unused">
         <item quantity="one">%1$d appli pas ouverte depuis %2$d jours · %3$s</item>
@@ -8,15 +8,15 @@
         <item quantity="other">%1$d applis pas ouvertes depuis %2$d jours · %3$s</item>
     </plurals>
     <plurals name="paywall_finding_large">
-        <item quantity="one">Votre plus grosse appli prend %2$s</item>
-        <item quantity="many">Vos %1$d plus grosses applis prennent %2$s</item>
-        <item quantity="other">Vos %1$d plus grosses applis prennent %2$s</item>
+        <item quantity="one">Votre appli la plus lourde prend %2$s</item>
+        <item quantity="many">Vos %1$d applis les plus lourdes prennent %2$s</item>
+        <item quantity="other">Vos %1$d applis les plus lourdes prennent %2$s</item>
     </plurals>
     <string name="paywall_finding_subtitle">Passez à Pro pour voir la liste complète et les supprimer en quelques gestes.</string>
-    <string name="paywall_benefit_unused_title">Trouvez les applis oubliées</string>
-    <string name="paywall_benefit_unused_body">Voyez les applis que vous n’avez pas ouvertes depuis un moment.</string>
+    <string name="paywall_benefit_unused_title">Trouvez les applis inutilisées</string>
+    <string name="paywall_benefit_unused_body">Voyez les applis que vous n’avez pas ouvertes depuis 30 jours.</string>
     <string name="paywall_benefit_reminders_title">Un rappel chaque semaine</string>
-    <string name="paywall_benefit_reminders_body">Un petit rappel quand les applis oubliées s’accumulent.</string>
+    <string name="paywall_benefit_reminders_body">Un petit rappel quand les applis inutilisées s’accumulent.</string>
     <string name="paywall_benefit_no_ads_title">Sans pub</string>
     <string name="paywall_benefit_no_ads_body">Utilisez App Cleaner sans aucune pub.</string>
     <plurals name="paywall_plan_trial">

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_close">Закрыть</string>
+    <string name="action_cancel">Отмена</string>
+    <string name="action_retry">Попробовать ещё раз</string>
+    <string name="action_done">Готово</string>
+    <string name="action_continue">Продолжить</string>
+    <string name="action_not_now">Не сейчас</string>
+    <string name="action_back">Назад</string>
+    <string name="action_open_settings">Открыть настройки</string>
+    <string name="label_premium">Pro</string>
+    <string name="cd_pro_feature">Функция Pro</string>
+</resources>

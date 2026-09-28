@@ -12,11 +12,11 @@
     <string name="apps_details_play">Play 商店</string>
     <string name="apps_details_cache_hint">要清除这个应用的临时文件，请点“应用信息”，再点“存储”。</string>
     <!-- Design review 2026-09: All · Unused · Large · Cache. -->
-    <string name="apps_tab_unused">不常用</string>
-    <string name="apps_tab_large">大应用</string>
+    <string name="apps_tab_unused">闲置应用</string>
+    <string name="apps_tab_large">占空间大的应用</string>
     <string name="apps_tab_cache">临时文件</string>
-    <string name="apps_section_large">大应用</string>
-    <string name="apps_chip_large">大应用</string>
+    <string name="apps_section_large">占空间大的应用</string>
+    <string name="apps_chip_large">占空间大</string>
     <plurals name="apps_chip_idle_months_short">
         <item quantity="other">%d 个月没打开</item>
     </plurals>

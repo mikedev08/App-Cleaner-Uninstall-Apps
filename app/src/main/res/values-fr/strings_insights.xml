@@ -33,20 +33,20 @@
         <item quantity="other">Bravo ! Vous avez ouvert chaque appli ces %d derniers jours.</item>
     </plurals>
     <string name="insights_no_match">Aucune appli ne correspond à « %1$s »</string>
-    <string name="insights_loading_unused">On cherche les applis que vous n’ouvrez plus…</string>
+    <string name="insights_loading_unused">On cherche les applis inutilisées…</string>
     <string name="insights_loading_large">Vérification de la taille des applis…</string>
 
     <string name="insights_legend_app">Appli</string>
     <string name="insights_legend_data">Fichiers enregistrés</string>
     <string name="insights_legend_cache">Fichiers temporaires</string>
-    <string name="insights_size_breakdown">Appli %1$s · Fichiers %2$s · Temporaires %3$s</string>
+    <string name="insights_size_breakdown">Appli %1$s · Fichiers %2$s · Fichiers temporaires %3$s</string>
     <string name="insights_size_unavailable">Taille non disponible</string>
     <string name="insights_size_measuring">Vérification…</string>
     <string name="insights_large_empty_title">Aucune taille à afficher pour l’instant</string>
     <string name="insights_large_empty_body">App Cleaner n’a pas pu vérifier la taille des applis pour le moment. Réessayez dans un instant.</string>
 
     <string name="insights_reminder_channel_name">Rappels de nettoyage</string>
-    <string name="insights_reminder_channel_description">Une alerte quand les applis oubliées s’accumulent, et un petit rappel de temps en temps pour faire le ménage.</string>
+    <string name="insights_reminder_channel_description">Une alerte quand les applis inutilisées s’accumulent, et un petit rappel de temps en temps pour faire le ménage.</string>
     <plurals name="insights_reminder_title">
         <item quantity="one">%1$d appli pas ouverte depuis %2$d jours · %3$s</item>
         <item quantity="many">%1$d applis pas ouvertes depuis %2$d jours · %3$s</item>
@@ -60,7 +60,7 @@
         <item quantity="other">Vous avez %d applis installées</item>
     </plurals>
 
-    <string name="insights_unused_access_title">Retrouvez les applis que vous avez oubliées</string>
+    <string name="insights_unused_access_title">Voyez vos applis inutilisées</string>
     <string name="insights_unused_access_body">Activez l’accès aux données d’utilisation pour qu’App Cleaner voie les applis que vous n’ouvrez plus, et la place qu’elles prennent.</string>
     <string name="insights_large_access_body">Activez l’accès aux données d’utilisation pour voir la taille complète de chaque appli, avec ses fichiers enregistrés et temporaires.</string>
     <string name="insights_private_note">Rien ne quitte votre téléphone</string>
@@ -74,7 +74,7 @@
     <string name="insights_cache_callout_body">Les fichiers temporaires sont des fichiers que les applis gardent pour s’ouvrir plus vite. Elles les recréent au besoin : vous pouvez donc les effacer dans Infos sur l’appli, sans supprimer l’appli.</string>
     <!-- Design review 2026-09: one Large rule, the Cache filter. -->
     <string name="insights_large_caption">Applis qui prennent %1$s ou plus</string>
-    <string name="insights_large_none_title">Aucune grosse appli</string>
+    <string name="insights_large_none_title">Aucune appli lourde</string>
     <string name="insights_large_none_body">Aucune de vos applis ne prend %1$s ou plus.</string>
     <string name="insights_cache_access_title">Voyez quelles applis ont le plus de fichiers temporaires</string>
     <plurals name="insights_cache_caption">

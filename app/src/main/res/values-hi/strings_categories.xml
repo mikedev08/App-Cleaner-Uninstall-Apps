@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <plurals name="home_cat_overlap_note">
-        <item quantity="one">%d ऐप इस्तेमाल नहीं होता और बड़ा भी है — एक बार गिना गया।</item>
-        <item quantity="other">%d ऐप इस्तेमाल नहीं होते और बड़े भी हैं — एक बार गिने गए।</item>
+        <item quantity="one">%d ऐप इस्तेमाल नहीं होता और भारी भी है — एक बार गिना गया।</item>
+        <item quantity="other">%d ऐप इस्तेमाल नहीं होते और भारी भी हैं — एक बार गिने गए।</item>
     </plurals>
     <plurals name="scan_cta_review_large">
-        <item quantity="one">%1$d बड़ा ऐप देखें · %2$s</item>
-        <item quantity="other">%1$d बड़े ऐप देखें · %2$s</item>
+        <item quantity="one">%1$d भारी ऐप देखें · %2$s</item>
+        <item quantity="other">%1$d भारी ऐप देखें · %2$s</item>
     </plurals>
     <plurals name="scan_pro_hint_unused">
-        <item quantity="one">Pro के साथ अपना %d बिना इस्तेमाल वाला ऐप देखें</item>
-        <item quantity="other">Pro के साथ अपने %d बिना इस्तेमाल वाले ऐप देखें</item>
+        <item quantity="one">Pro के साथ अपना %d इस्तेमाल न होने वाला ऐप देखें</item>
+        <item quantity="other">Pro के साथ अपने %d इस्तेमाल न होने वाले ऐप देखें</item>
     </plurals>
     <string name="settings_pro_benefit_no_ads">कोई विज्ञापन नहीं</string>
 </resources>

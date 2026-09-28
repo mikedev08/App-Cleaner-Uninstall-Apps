@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="insights_days">
+        <item quantity="one">%d день</item>
+        <item quantity="few">%d дня</item>
+        <item quantity="many">%d дней</item>
+        <item quantity="other">%d дня</item>
+    </plurals>
+    <plurals name="insights_apps_count">
+        <item quantity="one">%d приложение</item>
+        <item quantity="few">%d приложения</item>
+        <item quantity="many">%d приложений</item>
+        <item quantity="other">%d приложения</item>
+    </plurals>
+    <string name="insights_large_access_title">Узнайте, какие приложения занимают больше всего места</string>
+    <string name="insights_allow_access">Разрешить доступ</string>
+    <plurals name="insights_unused_teaser_caption">
+        <item quantity="one">Не открывались за последний %d день</item>
+        <item quantity="few">Не открывались за последние %d дня</item>
+        <item quantity="many">Не открывались за последние %d дней</item>
+        <item quantity="other">Не открывались за последние %d дня</item>
+    </plurals>
+    <string name="insights_locked_rows_description">Оформите Pro, чтобы увидеть список приложений</string>
+    <string name="insights_not_opened_since">Не открывалось с %1$s</string>
+    <plurals name="insights_select_all">
+        <item quantity="one">Выбрать %d приложение</item>
+        <item quantity="few">Выбрать все %d</item>
+        <item quantity="many">Выбрать все %d</item>
+        <item quantity="other">Выбрать все %d</item>
+    </plurals>
+    <plurals name="insights_unused_empty">
+        <item quantity="one">Отлично! Вы открывали все приложения за последний %d день.</item>
+        <item quantity="few">Отлично! Вы открывали все приложения за последние %d дня.</item>
+        <item quantity="many">Отлично! Вы открывали все приложения за последние %d дней.</item>
+        <item quantity="other">Отлично! Вы открывали все приложения за последние %d дня.</item>
+    </plurals>
+    <string name="insights_no_match">Нет приложений по запросу «%1$s»</string>
+    <string name="insights_loading_unused">Ищем неиспользуемые приложения…</string>
+    <string name="insights_loading_large">Проверяем размеры приложений…</string>
+    <string name="insights_legend_app">Приложение</string>
+    <string name="insights_legend_data">Сохранённые файлы</string>
+    <string name="insights_legend_cache">Временные файлы</string>
+    <string name="insights_size_breakdown">Приложение %1$s · Файлы %2$s · Временные файлы %3$s</string>
+    <string name="insights_size_unavailable">Размер недоступен</string>
+    <string name="insights_size_measuring">Проверяем…</string>
+    <string name="insights_large_empty_title">Пока нет данных о размерах</string>
+    <string name="insights_large_empty_body">App Cleaner не удалось проверить размеры приложений. Попробуйте чуть позже.</string>
+    <string name="insights_reminder_channel_name">Напоминания об очистке</string>
+    <string name="insights_reminder_channel_description">Сообщим, когда накопятся неиспользуемые приложения, и иногда напомним навести порядок.</string>
+    <plurals name="insights_reminder_title">
+        <item quantity="one">%1$d приложение не открывалось %2$d дней · %3$s</item>
+        <item quantity="few">%1$d приложения не открывались %2$d дней · %3$s</item>
+        <item quantity="many">%1$d приложений не открывались %2$d дней · %3$s</item>
+        <item quantity="other">%1$d приложения не открывались %2$d дней · %3$s</item>
+    </plurals>
+    <string name="insights_reminder_text">Посмотреть?</string>
+    <string name="insights_nudge_title">Пора навести порядок?</string>
+    <plurals name="insights_nudge_text">
+        <item quantity="one">У вас установлено %d приложение</item>
+        <item quantity="few">У вас установлено %d приложения</item>
+        <item quantity="many">У вас установлено %d приложений</item>
+        <item quantity="other">У вас установлено %d приложения</item>
+    </plurals>
+    <string name="insights_unused_access_title">Посмотрите неиспользуемые приложения</string>
+    <string name="insights_unused_access_body">Включите доступ к истории использования, чтобы App Cleaner видел, какие приложения вы не открываете и сколько места они занимают.</string>
+    <string name="insights_large_access_body">Включите доступ к истории использования, чтобы видеть полный размер каждого приложения вместе с сохранёнными и временными файлами.</string>
+    <string name="insights_private_note">Данные не покидают телефон</string>
+    <string name="insights_unused_teaser_loss">Они занимают %1$s — это место можно вернуть.</string>
+    <string name="insights_unused_teaser_body">Посмотрите, что это за приложения, и удалите их все сразу.</string>
+    <string name="insights_see_which_apps">Показать приложения</string>
+    <string name="insights_last_opened_date">Последнее открытие: %1$s</string>
+    <string name="insights_idle_for">Не открывалось %1$s</string>
+    <string name="insights_no_use_on_record">Давно не открывалось</string>
+    <string name="insights_unused_empty_body">Здесь пока нечего чистить.</string>
+    <string name="insights_cache_callout_body">Временные файлы приложения хранят, чтобы быстрее открываться. Когда нужно, приложения создают их заново, поэтому их можно удалить в разделе «О приложении», не удаляя само приложение.</string>
+    <string name="insights_large_caption">Приложения, которые занимают %1$s и больше</string>
+    <string name="insights_large_none_title">Нет тяжёлых приложений</string>
+    <string name="insights_large_none_body">Ни одно приложение не занимает %1$s и больше.</string>
+    <string name="insights_cache_access_title">Узнайте, у каких приложений больше всего временных файлов</string>
+    <plurals name="insights_cache_caption">
+        <item quantity="one">Временные файлы в %d приложении</item>
+        <item quantity="few">Временные файлы в %d приложениях</item>
+        <item quantity="many">Временные файлы в %d приложениях</item>
+        <item quantity="other">Временные файлы в %d приложениях</item>
+    </plurals>
+    <string name="insights_cache_row_meta">Всё приложение: %1$s</string>
+    <string name="insights_cache_none_title">Нет временных файлов для удаления</string>
+</resources>

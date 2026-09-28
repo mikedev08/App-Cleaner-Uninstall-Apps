@@ -3,7 +3,7 @@
     <string name="settings_title">Settings</string>
 
     <string name="settings_premium_upgrade_title">Get App Cleaner Pro</string>
-    <string name="settings_pro_benefit_unused">Find apps you don\'t use</string>
+    <string name="settings_pro_benefit_unused">Find unused apps</string>
     <string name="settings_pro_benefit_reminders">Get weekly cleanup reminders</string>
     <string name="settings_premium_upgrade_cta">Try it free</string>
     <string name="settings_premium_see_plans">See Pro plans</string>

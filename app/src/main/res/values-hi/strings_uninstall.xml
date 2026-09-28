@@ -37,7 +37,7 @@
     <string name="uninstall_reason_not_removed">Android ने यह ऐप नहीं हटाया</string>
     <string name="uninstall_reason_other">Android यह ऐप नहीं हटा सका (कोड %1$d)</string>
     <string name="uninstall_retry_all">सभी फिर से आज़माएं</string>
-    <string name="uninstall_result_teaser_action">बंद पड़े ऐप देखें</string>
+    <string name="uninstall_result_teaser_action">इस्तेमाल न होने वाले ऐप देखें</string>
     <string name="uninstall_cd_show_details">विवरण दिखाएं</string>
     <string name="uninstall_cd_hide_details">विवरण छिपाएं</string>
     <plurals name="uninstall_confirm_button">
@@ -77,8 +77,8 @@
         <item quantity="other">%1$d ऐप्स हटाएं?</item>
     </plurals>
     <plurals name="uninstall_result_teaser_loss">
-        <item quantity="one">%1$d और ऐप, जिसे आपने नहीं खोला, अब भी %2$s जगह ले रहा है</item>
-        <item quantity="other">%1$d और ऐप्स, जिन्हें आपने नहीं खोला, अब भी %2$s जगह ले रहे हैं</item>
+        <item quantity="one">%1$d और इस्तेमाल न होने वाला ऐप अब भी %2$s जगह ले रहा है</item>
+        <item quantity="other">%1$d और इस्तेमाल न होने वाले ऐप अब भी %2$s जगह ले रहे हैं</item>
     </plurals>
     <plurals name="uninstall_result_teaser_days">
         <item quantity="one">%1$d दिन से नहीं खोला गया</item>

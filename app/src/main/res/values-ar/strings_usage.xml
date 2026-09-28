@@ -4,7 +4,7 @@
     <string name="usage_what_label">ما الذي نراه</string>
     <string name="usage_what_body">متى فتحت كل تطبيق آخر مرة، وكم يأخذ من المساحة.</string>
     <string name="usage_why_label">لماذا</string>
-    <string name="usage_why_body">للعثور على التطبيقات التي لا تستخدمها والتطبيقات الكبيرة.</string>
+    <string name="usage_why_body">للعثور على التطبيقات غير المستخدمة والتطبيقات كبيرة الحجم.</string>
     <string name="usage_where_label">أين تذهب البيانات</string>
     <string name="usage_hint_caption">في الشاشة التالية، فعّل هذا الخيار:</string>
     <string name="usage_hint_toggle">السماح بالوصول إلى بيانات الاستخدام</string>

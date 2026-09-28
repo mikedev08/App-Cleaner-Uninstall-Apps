@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="paywall_headline">اعثر على التطبيقات التي نسيتها</string>
+    <string name="paywall_headline">اعثر على التطبيقات غير المستخدمة</string>
     <string name="paywall_subtitle">اعرف التطبيقات التي لم تعد تستخدمها، وأزلها ببضع نقرات.</string>
     <plurals name="paywall_finding_unused">
         <item quantity="zero">%1$d تطبيق لم يُفتح منذ %2$d يومًا · %3$s</item>
@@ -19,10 +19,10 @@
         <item quantity="other">أكبر %1$d تطبيق لديك تأخذ %2$s</item>
     </plurals>
     <string name="paywall_finding_subtitle">احصل على Pro لرؤية القائمة كاملة وإزالتها ببضع نقرات.</string>
-    <string name="paywall_benefit_unused_title">اعثر على التطبيقات التي لا تستخدمها</string>
-    <string name="paywall_benefit_unused_body">اعرف التطبيقات التي لم تفتحها منذ مدة.</string>
+    <string name="paywall_benefit_unused_title">اعثر على التطبيقات غير المستخدمة</string>
+    <string name="paywall_benefit_unused_body">اعرف التطبيقات التي لم تفتحها منذ 30 يومًا.</string>
     <string name="paywall_benefit_reminders_title">تذكيرات أسبوعية</string>
-    <string name="paywall_benefit_reminders_body">تنبيه لطيف عندما تتراكم التطبيقات التي لا تستخدمها.</string>
+    <string name="paywall_benefit_reminders_body">تنبيه لطيف عندما تتراكم التطبيقات غير المستخدمة.</string>
     <string name="paywall_benefit_no_ads_title">بلا إعلانات</string>
     <string name="paywall_benefit_no_ads_body">استخدم App Cleaner بلا أي إعلانات.</string>
     <plurals name="paywall_plan_trial">

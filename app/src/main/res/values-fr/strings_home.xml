@@ -70,10 +70,10 @@
     <string name="home_subline_left">Plus que %1$s de libre</string>
     <string name="home_subline_free">%1$s libres</string>
     <string name="home_scan_cta">Vérifier mon téléphone</string>
-    <string name="home_scan_cta_caption">Trouvez les applis oubliées, les grosses applis et les fichiers temporaires.</string>
+    <string name="home_scan_cta_caption">Trouvez les applis inutilisées, les applis lourdes et les fichiers temporaires.</string>
     <string name="home_last_scan_title">Dernière vérification</string>
     <string name="home_last_scan_free_up_prefix">Vous pouvez libérer</string>
-    <string name="home_last_scan_tidy">Rien de gros à nettoyer</string>
+    <string name="home_last_scan_tidy">Pas grand-chose à nettoyer</string>
     <string name="home_last_scan_again">Vérifier à nouveau</string>
     <string name="home_time_just_now">À l’instant</string>
     <string name="home_stats_title">Où part votre espace</string>

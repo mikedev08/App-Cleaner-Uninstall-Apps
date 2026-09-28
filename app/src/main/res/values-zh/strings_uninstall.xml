@@ -37,7 +37,7 @@
     <string name="uninstall_reason_not_removed">Android 未移除此应用</string>
     <string name="uninstall_reason_other">Android 无法移除此应用（代码 %1$d）</string>
     <string name="uninstall_retry_all">全部重试</string>
-    <string name="uninstall_result_teaser_action">查看不常用的应用</string>
+    <string name="uninstall_result_teaser_action">查看闲置应用</string>
     <string name="uninstall_cd_show_details">显示详情</string>
     <string name="uninstall_cd_hide_details">隐藏详情</string>
     <plurals name="uninstall_confirm_button">
@@ -71,7 +71,7 @@
         <item quantity="other">要移除 %1$d 个应用吗？</item>
     </plurals>
     <plurals name="uninstall_result_teaser_loss">
-        <item quantity="other">还有 %1$d 个你没打开过的应用，仍占着 %2$s</item>
+        <item quantity="other">还有 %1$d 个闲置应用，仍占着 %2$s</item>
     </plurals>
     <plurals name="uninstall_result_teaser_days">
         <item quantity="other">%1$d 天没打开过</item>

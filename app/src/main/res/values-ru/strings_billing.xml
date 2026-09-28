@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="billing_restore_success">Pro восстановлен. С возвращением!</string>
+    <string name="billing_restore_nothing">В этом аккаунте Google не найдено прошлых покупок.</string>
+    <string name="billing_restore_failed">Не удалось восстановить покупки. Попробуйте ещё раз.</string>
+    <string name="billing_purchase_failed">Покупка не прошла. Попробуйте ещё раз.</string>
+    <string name="billing_purchase_pending">Платёж ещё обрабатывается. Pro включится, как только Google Play его подтвердит.</string>
+    <string name="billing_network_error">Нет связи с Google Play. Проверьте подключение и попробуйте ещё раз.</string>
+    <string name="billing_not_available">Подписки пока недоступны.</string>
+    <string name="billing_link_unavailable">На этом телефоне нет приложения, которое может открыть эту ссылку.</string>
+</resources>

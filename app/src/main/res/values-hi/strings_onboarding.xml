@@ -8,7 +8,7 @@
     <string name="onboarding_1_body">चुनें, पुष्टि करें, हो गया — सेटिंग्स में ढूँढने की ज़रूरत नहीं।</string>
     <string name="onboarding_2_title">देखें जगह कौन ले रहा है</string>
     <string name="onboarding_2_body">हर ऐप का साइज़, सबसे बड़े पहले।</string>
-    <string name="onboarding_3_title">भूले हुए ऐप खोजें</string>
-    <string name="onboarding_3_body">वे ऐप देखें जिन्हें आपने महीनों से नहीं खोला।</string>
+    <string name="onboarding_3_title">इस्तेमाल न होने वाले ऐप ढूंढें</string>
+    <string name="onboarding_3_body">वे ऐप देखें जिन्हें आपने 30 दिनों से नहीं खोला।</string>
     <string name="onboarding_gauge_caption">भरा</string>
 </resources>

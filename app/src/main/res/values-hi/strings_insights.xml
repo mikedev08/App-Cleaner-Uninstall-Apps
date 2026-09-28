@@ -28,7 +28,7 @@
         <item quantity="other">बढ़िया! आपने पिछले %d दिनों में हर ऐप खोला है।</item>
     </plurals>
     <string name="insights_no_match">“%1$s” से मेल खाने वाला कोई ऐप नहीं मिला</string>
-    <string name="insights_loading_unused">उन ऐप को ढूंढा जा रहा है जिन्हें आप इस्तेमाल नहीं करते…</string>
+    <string name="insights_loading_unused">इस्तेमाल न होने वाले ऐप ढूंढे जा रहे हैं…</string>
     <string name="insights_loading_large">ऐप के साइज़ जांच रहे हैं…</string>
 
     <string name="insights_legend_app">ऐप</string>
@@ -53,7 +53,7 @@
         <item quantity="other">आपके फ़ोन में %d ऐप इंस्टॉल हैं</item>
     </plurals>
 
-    <string name="insights_unused_access_title">वे ऐप देखें जिन्हें आप भूल गए हैं</string>
+    <string name="insights_unused_access_title">इस्तेमाल न होने वाले ऐप देखें</string>
     <string name="insights_unused_access_body">इस्तेमाल का ऐक्सेस चालू करें, ताकि App Cleaner देख सके कि आपने कौन-से ऐप नहीं खोले, और वे कितनी जगह लेते हैं।</string>
     <string name="insights_large_access_body">हर ऐप का पूरा साइज़ देखने के लिए इस्तेमाल का ऐक्सेस चालू करें, सेव की गई और टेम्प फ़ाइलों के साथ।</string>
     <string name="insights_private_note">कुछ भी आपके फ़ोन से बाहर नहीं जाता</string>
@@ -67,7 +67,7 @@
     <string name="insights_cache_callout_body">टेम्प फ़ाइलें वो फ़ाइलें हैं जो ऐप जल्दी खुलने के लिए रखते हैं। ज़रूरत पड़ने पर ऐप इन्हें फिर से बना लेते हैं, इसलिए आप ऐप हटाए बिना इन्हें “ऐप की जानकारी” में साफ़ कर सकते हैं।</string>
     <!-- Design review 2026-09: one Large rule, the Cache filter. -->
     <string name="insights_large_caption">%1$s या उससे ज़्यादा जगह लेने वाले ऐप</string>
-    <string name="insights_large_none_title">कोई बड़ा ऐप नहीं</string>
+    <string name="insights_large_none_title">कोई भारी ऐप नहीं</string>
     <string name="insights_large_none_body">आपका कोई भी ऐप %1$s या उससे ज़्यादा जगह नहीं लेता।</string>
     <string name="insights_cache_access_title">देखें किन ऐप में सबसे ज़्यादा टेम्प फ़ाइलें हैं</string>
     <plurals name="insights_cache_caption">

@@ -79,10 +79,10 @@
     <string name="home_subline_left">لم يتبقَّ سوى %1$s</string>
     <string name="home_subline_free">%1$s متاحة</string>
     <string name="home_scan_cta">افحص هاتفي</string>
-    <string name="home_scan_cta_caption">اعثر على التطبيقات التي لا تستخدمها والتطبيقات الكبيرة والملفات المؤقتة.</string>
+    <string name="home_scan_cta_caption">اعثر على التطبيقات غير المستخدمة والتطبيقات كبيرة الحجم والملفات المؤقتة.</string>
     <string name="home_last_scan_title">آخر فحص</string>
     <string name="home_last_scan_free_up_prefix">يمكنك تحرير</string>
-    <string name="home_last_scan_tidy">لا يوجد شيء كبير لتنظيفه</string>
+    <string name="home_last_scan_tidy">لا يوجد الكثير لتنظيفه</string>
     <string name="home_last_scan_again">افحص مجددًا</string>
     <string name="home_time_just_now">الآن</string>
     <string name="home_stats_title">أين تذهب مساحتك</string>

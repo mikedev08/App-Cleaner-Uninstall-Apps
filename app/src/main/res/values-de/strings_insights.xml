@@ -28,13 +28,13 @@
         <item quantity="other">Super! Du hast in den letzten %d Tagen jede App geöffnet.</item>
     </plurals>
     <string name="insights_no_match">Keine Apps passen zu „%1$s“</string>
-    <string name="insights_loading_unused">Suche nach Apps, die du nicht nutzt…</string>
+    <string name="insights_loading_unused">Ungenutzte Apps werden gesucht…</string>
     <string name="insights_loading_large">App-Größen werden geprüft…</string>
 
     <string name="insights_legend_app">App</string>
-    <string name="insights_legend_data">Dateien</string>
-    <string name="insights_legend_cache">Temporär</string>
-    <string name="insights_size_breakdown">App %1$s · Dateien %2$s · Temporär %3$s</string>
+    <string name="insights_legend_data">Gespeicherte Dateien</string>
+    <string name="insights_legend_cache">Temporäre Dateien</string>
+    <string name="insights_size_breakdown">App %1$s · Dateien %2$s · Temporäre Dateien %3$s</string>
     <string name="insights_size_unavailable">Größe nicht verfügbar</string>
     <string name="insights_size_measuring">Wird geprüft…</string>
     <string name="insights_large_empty_title">Noch keine Größen verfügbar</string>
@@ -53,7 +53,7 @@
         <item quantity="other">Du hast %d Apps installiert</item>
     </plurals>
 
-    <string name="insights_unused_access_title">Finde die Apps, die du vergessen hast</string>
+    <string name="insights_unused_access_title">Sieh deine ungenutzten Apps</string>
     <string name="insights_unused_access_body">Schalte „Zugriff auf Nutzungsdaten“ ein, damit App Cleaner sieht, welche Apps du länger nicht geöffnet hast und wie viel Platz sie brauchen.</string>
     <string name="insights_large_access_body">Schalte „Zugriff auf Nutzungsdaten“ ein, um die ganze Größe jeder App zu sehen – mit gespeicherten und temporären Dateien.</string>
     <string name="insights_private_note">Nichts verlässt dein Handy</string>

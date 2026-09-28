@@ -8,7 +8,7 @@
     <string name="onboarding_1_body">اخترها، أكِّد، وانتهى الأمر — دون البحث في الإعدادات.</string>
     <string name="onboarding_2_title">اعرف ما يأخذ المساحة</string>
     <string name="onboarding_2_body">حجم كل تطبيق، مرتّبًا من الأكبر.</string>
-    <string name="onboarding_3_title">اعثر على التطبيقات التي نسيتها</string>
-    <string name="onboarding_3_body">اعرف التطبيقات التي لم تفتحها منذ أشهر.</string>
+    <string name="onboarding_3_title">اعثر على التطبيقات غير المستخدمة</string>
+    <string name="onboarding_3_body">اعرف التطبيقات التي لم تفتحها منذ 30 يومًا.</string>
     <string name="onboarding_gauge_caption">ممتلئ</string>
 </resources>

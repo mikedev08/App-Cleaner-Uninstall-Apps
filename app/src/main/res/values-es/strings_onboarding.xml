@@ -8,7 +8,7 @@
     <string name="onboarding_1_body">Elígelas, confirma y listo, sin rebuscar en Ajustes.</string>
     <string name="onboarding_2_title">Mira qué ocupa espacio</string>
     <string name="onboarding_2_body">El tamaño de cada app, de mayor a menor.</string>
-    <string name="onboarding_3_title">Encuentra las apps que olvidaste</string>
-    <string name="onboarding_3_body">Mira las apps que no abres desde hace meses.</string>
+    <string name="onboarding_3_title">Encuentra tus apps sin usar</string>
+    <string name="onboarding_3_body">Mira las apps que no abres desde hace 30 días.</string>
     <string name="onboarding_gauge_caption">lleno</string>
 </resources>

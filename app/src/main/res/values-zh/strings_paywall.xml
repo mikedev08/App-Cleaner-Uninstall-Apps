@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="paywall_headline">找出被你遗忘的应用</string>
+    <string name="paywall_headline">找出闲置应用</string>
     <string name="paywall_subtitle">看看哪些应用你已经不用了，点几下就能移除。</string>
     <plurals name="paywall_finding_unused">
         <item quantity="other">%1$d 个应用已 %2$d 天没打开 · %3$s</item>
     </plurals>
     <plurals name="paywall_finding_large">
-        <item quantity="other">你最大的 %1$d 个应用占了 %2$s</item>
+        <item quantity="other">最占空间的 %1$d 个应用占了 %2$s</item>
     </plurals>
     <string name="paywall_finding_subtitle">开通 Pro 版，看到完整列表，点几下就能移除。</string>
-    <string name="paywall_benefit_unused_title">找出不常用的应用</string>
-    <string name="paywall_benefit_unused_body">看看哪些应用你有一阵子没打开了。</string>
+    <string name="paywall_benefit_unused_title">找出闲置应用</string>
+    <string name="paywall_benefit_unused_body">看看哪些应用你 30 天没打开过。</string>
     <string name="paywall_benefit_reminders_title">每周提醒</string>
-    <string name="paywall_benefit_reminders_body">不常用的应用越来越多时，贴心提醒你一下。</string>
+    <string name="paywall_benefit_reminders_body">闲置应用越来越多时，贴心提醒你一下。</string>
     <string name="paywall_benefit_no_ads_title">无广告</string>
     <string name="paywall_benefit_no_ads_body">使用 App Cleaner 时没有任何广告。</string>
     <plurals name="paywall_plan_trial">
