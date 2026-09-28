@@ -1,9 +1,9 @@
-# Renders prd_content.py to AppCleaner_PRD_v1_0.docx (python-docx) and .pdf (reportlab).
+# Renders prd_content.py to AppCleaner_PRD_v1_1.docx (python-docx) and .pdf (reportlab).
 import re, sys
 from prd_content import B, INFO, INTRO_NOTE, HEADER, APP
 
 ACCENT = "0F9D8A"; BODY = "333F48"; BORDER = "D0D5DA"; SHADE = "EEF1F3"; CODE = "0B6E61"
-OUT = "AppCleaner_PRD_v1_0"
+OUT = "AppCleaner_PRD_v1_1"
 TOKEN = re.compile(r"(\*\*.+?\*\*|`.+?`|\*[^*\s][^*]*?\*)")
 
 def runs(text):

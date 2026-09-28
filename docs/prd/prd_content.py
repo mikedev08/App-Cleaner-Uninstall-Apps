@@ -7,7 +7,7 @@ HEADER = "App Cleaner  |  Product Requirements Document"
 
 INFO = [
     ("App Name", TITLE),
-    ("Version", "1.0"),
+    ("Version", "1.1"),
     ("Date", "September 28, 2026"),
     ("Status", "Ready for Development (V1)"),
     ("Author", "Product — Jedy Apps"),
@@ -202,10 +202,10 @@ b2("UI Elements: Top App Bar (title “App Cleaner”, Search icon, Sort icon, H
 b2("Sort menu: Name (A–Z), Size (largest first — default), Install date (oldest first), Last updated. "
    "Premium adds Last used (least recent first). The chosen sort persists per tab in DataStore.")
 b2("Search: expands inline in the top bar, filters by label and package name as you type across the current "
-   "tab; selection is preserved while filtering (Section 6, item 21).")
+   "tab; selection is preserved while filtering (Section 6, item 24).")
 b2("Empty & Loading States: grey shimmer rows while the first-ever inventory scan runs. If search matches "
    "nothing: “No apps match ‘<query>’”. The All tab is never empty on a real device — if it is, that means "
-   "`QUERY_ALL_PACKAGES` was stripped (Section 6, item 11).")
+   "`QUERY_ALL_PACKAGES` was stripped (Section 6, item 12).")
 b1("**Screen 5: Unused Tab (inside Home)** — threshold chips at the top: 30 · 60 · 90 days (60 default). Rows show "
    "“Last opened 4 months ago” or “Not opened since at least Mar 2025”. States, in order: (a) no Usage Access "
    "→ inline card “See which apps you've stopped using” with “Allow access” → Screen 11; (b) access granted, "
@@ -222,7 +222,7 @@ b1("**Screen 7: App Details Sheet** — modal bottom sheet from any row. Icon, l
    "(Play-installed apps only) · Remove Red “Uninstall”.")
 b1("**Screen 8: Uninstall Confirm Sheet** — lists the selected apps (icon + label + size), “5 apps · about "
    "2.4 GB”, and one line of expectation-setting: “Android will ask you to confirm each app.” Any flagged app "
-   "carries a warning chip (e.g. “Your current keyboard”, Section 6 item 9). Buttons: “Cancel” and Remove Red "
+   "carries a warning chip (e.g. “Your current keyboard”, Section 6 item 10). Buttons: “Cancel” and Remove Red "
    "“Uninstall 5 apps”.")
 b1("**Screen 9: Uninstall Progress** — full-screen, sits underneath the system dialogs. Determinate bar "
    "“Removing 2 of 5”, and the queue as a list with per-app state icons: waiting, in progress, removed (teal "
@@ -276,7 +276,8 @@ h2("Main Feature 2: Batch Uninstall Engine")
 b1("**Core Mechanics & Logic:**")
 b2("Queue: tapping “Uninstall N apps” on the Confirm Sheet writes an `uninstall_queue` batch to Room (batch_id, "
    "package, order, state, snapshot_bytes). Before each item runs, its icon (PNG, 96px), label, installer and "
-   "size are written to the history snapshot table. Sizes use the best available measurement: full "
+   "size are written to the history snapshot table — text-only when the phone is critically out of space "
+   "(Section 6, “Storage almost full”). Sizes use the best available measurement: full "
    "`StorageStats` when premium and Usage Access are active, apk_bytes otherwise — the Result screen says "
    "“about” in the free case.")
 b2("Removal: for each item, call `PackageInstaller.uninstall(packageName, statusReceiver.intentSender)`. The "
@@ -291,7 +292,9 @@ b2("One dialog at a time, always in the foreground: the engine runs only while S
    "user leaves the app, the queue pauses after the current dialog and resumes when they come back — Android "
    "blocks background activity starts, and a dialog appearing over another app would be alarming anyway.")
 b1("**Micro-interactions & Edge Cases:** Skipping one app never stops the batch — a Cancel almost always means "
-   "“not that one”, so the queue moves on and the app lands in “not removed” with a “Try again” action. “Stop” "
+   "“not that one”, so the queue moves on and the app lands in “not removed” with a “Try again” action. Three "
+   "Cancels in a row are different: the engine pauses before the next dialog and asks “Stop removing the rest?” "
+   "(Section 6, “Several dialogs cancelled in a row”). “Stop” "
    "on Screen 9 ends the batch after the current dialog and goes straight to the Result screen with what was "
    "done so far. A single-app uninstall (from App Details) uses the same engine with a queue of one, so History "
    "and the freed-space count behave identically. Interruptions, device-admin apps and default-app warnings are "
@@ -301,13 +304,16 @@ h2("Main Feature 3: Unused Apps Finder & Storage Breakdown (Premium)")
 b1("**Core Mechanics & Logic:**")
 b2("Access check: `AppOpsManager.unsafeCheckOpNoThrow(OPSTR_GET_USAGE_STATS, uid, packageName) == MODE_ALLOWED`, "
    "re-checked in every `onResume`. The grant flow opens `Settings.ACTION_USAGE_ACCESS_SETTINGS` with "
-   "`Uri.parse(\"package:\" + packageName)` so the user lands on our toggle directly where the OEM supports it.")
+   "`Uri.parse(\"package:\" + packageName)` so the user lands on our toggle directly where the OEM supports it. "
+   "Returning without granting (`onResume`, access still off) puts the user back on the exact tab and scroll "
+   "position they left, with a gentle inline explanation — never the paywall (Section 6).")
 b2("Last used: `UsageStatsManager.queryUsageStats(INTERVAL_YEARLY, now − 2 years, now)`, reduced per "
    "package to the latest of `lastTimeUsed` and `lastTimeVisible` (API 29+). Android keeps daily buckets for "
    "about a week but yearly buckets for about two years, so the yearly interval is what makes a “90 days” answer "
    "possible at all.")
 b2("Unused rule: an app is unused at threshold T when `now − lastTimeUsed ≥ T` AND `now − first_install_time ≥ T` "
-   "(an app installed last week is not “unused for 60 days”). An app with no usage record inside the retention "
+   "(an app installed last week is not “unused for 60 days”). The second clause also covers phones restored from "
+   "a backup, where `first_install_time` is the restore date (Section 6, “Apps restored to a new phone”). An app with no usage record inside the retention "
    "window is shown as “Not opened since at least <window start>” — never “Never opened”, which we can't know.")
 b2("Exclusions: never list as unused the current default launcher, keyboard (`Settings.Secure.DEFAULT_INPUT_METHOD`), "
    "SMS app and dialer (`Telephony.Sms.getDefaultSmsPackage()`, `TelecomManager.getDefaultDialerPackage()`), any "
@@ -366,6 +372,16 @@ n1("**Dialog reported success but the package remains.** If `getPackageInfo()` s
 n1("**OEM interception.** Some skins (MIUI/HyperOS, older EMUI) show their own security dialog before the "
    "system one. The engine is status-driven, not UI-driven, so extra dialogs only delay the result; no special "
    "handling beyond not timing out the queue.")
+n1("**Storage almost full (the usual reason people open the app).** Users typically arrive at 95–99% full, and "
+   "the app's own writes — the Room snapshot, the history icon PNG, the icon image cache — can fail when internal "
+   "storage is close to 0 bytes. Graceful fallback, in order: (1) before writing a history icon, check "
+   "`StorageManager.getAllocatableBytes(UUID_DEFAULT)`; under 5 MB, or on any `IOException`/`ENOSPC`, skip the PNG "
+   "and save a text-only snapshot (label, size, installer, removed_at; `icon_png = null`) — History then draws a "
+   "neutral placeholder icon; (2) the icon image cache never writes to disk under the same threshold (memory "
+   "only); (3) if even the small Room insert throws `SQLiteFullException`, the uninstall still proceeds — the "
+   "snapshot is held in memory and written right after the first successful removal, which is exactly when space "
+   "comes back. A failed snapshot write never blocks, delays or cancels a removal. Logged as "
+   "`history_snapshot_degraded` (reason: low_space, io_error, db_full).")
 n1("**Very large inventories.** 500+ apps must stay smooth: the list is a `LazyColumn` with stable keys, sizes "
    "stream in as they resolve (shimmer per row, not a blocking spinner), and the queue has no batch-size limit.")
 n1("**Default and always-running apps.** Selecting the current keyboard, launcher, SMS app, an enabled "
@@ -381,7 +397,18 @@ n1("**Usage Access revoked.** Checked on every resume. Unused and Large fall bac
    "cached sizes are cleared so stale numbers are never presented as current; the reminder worker exits silently.")
 n1("**OEM without the package-specific Usage Access page.** If starting the intent with the `package:` URI throws "
    "`ActivityNotFoundException` or lands on a list, fall back to the plain `ACTION_USAGE_ACCESS_SETTINGS` and "
-   "show a 2-second overlay hint: “Find App Cleaner in the list and turn it on.”")
+   "show a 2-second overlay hint: “Find App Cleaner in the list and turn it on.” On recent Android versions "
+   "(14, 15, 16) several OEMs — Samsung, Xiaomi and Pixel included — accept the `package:` URI but ignore it and "
+   "open the general list, so the hint must show whenever the list opens, not only on an exception. When the "
+   "user comes back (`onResume`) without granting, they return to the exact tab and scroll position they left, "
+   "with a gentle inline card (“Usage access is still off — here's how to turn it on”) and a “Try again” button. "
+   "Never an aggressive paywall, never a modal, and no repeat of the full disclosure screen.")
+n1("**Apps restored to a new phone.** After Smart Switch or Google Restore, every restored app gets a fresh "
+   "`first_install_time` (the restore date), and usage history does not transfer. An app the user hasn't opened "
+   "for 80 days on the old phone therefore can't be called unused until the threshold has passed on the new one. "
+   "This is deliberate: the rule under-reports right after a restore but never mislabels an app the user may still "
+   "need. Help copy for an empty Unused list on a recently set-up phone: “Just set up this phone? Unused apps show "
+   "up after 30 days.”")
 n1("**Clock changed.** Usage timestamps and `System.currentTimeMillis()` can disagree if the user moves the clock. "
    "Any `lastTimeUsed` in the future is treated as “used today” — the finder may under-report after a clock "
    "change, but never labels an app unused that was just opened. There is no usage counter or free-tier "
@@ -406,6 +433,11 @@ n1("**Ads never touch the uninstall path.** No interstitial is ever shown betwee
    "the Result screen. The only interstitial slot is on leaving the Result screen via “Done”, skipped silently "
    "if not loaded within 2 seconds. A banner that fails to fill collapses to zero height.")
 sub("D. Interaction & Multi-Step Logic")
+n1("**Several dialogs cancelled in a row.** In a batch of 10, 10 system dialogs appear one after another. If the "
+   "user taps Cancel on 3 consecutive dialogs, the engine does not launch the next one; Screen 9 shows an in-app "
+   "prompt “Stop removing the rest?” with “Stop” (ends the batch, goes to the Result screen with what was done) "
+   "and “Keep going” (resets the streak and continues). A single Cancel, or Cancels separated by a removal, "
+   "never triggers it. Logged as `uninstall_cancel_streak_prompt` (action: stop, keep_going).")
 n1("**Selection across tabs and search.** Selection is one global set. If the search filter hides selected apps, "
    "the Selection Bar says “5 selected (2 hidden by search)” and the Confirm Sheet always shows the full list, so "
    "nothing invisible is ever uninstalled.")
@@ -429,17 +461,17 @@ b1("**Ticket 1: [Develop Core] — Inventory, Home & Onboarding.** Target API 36
 b1("**Ticket 2: [Develop Core] — Batch Uninstall Engine, Result & History.** Build the Room-backed queue, "
    "pre-dialog snapshots, `PackageInstaller.uninstall()` with the status receiver, post-success verification, "
    "Confirm Sheet (with device-admin and default-app warnings), Progress and Result screens, the resume-after-kill "
-   "banner, App Details sheet, and Uninstall History with Reinstall. Covers Section 6 items 1–11 and 21–23.")
+   "banner, App Details sheet, and Uninstall History with Reinstall. Covers Section 6 items 1–12 and 23–26.")
 b1("**Ticket 3: [Develop Premium] — Usage Access, Unused Finder, Storage Breakdown & Reminders.** Build the "
    "disclosure screen and grant flow with OEM fallback, the yearly-interval last-used query, the unused rule with "
    "exclusions, `StorageStatsManager` batching and caching, the three-state (no access / blurred / premium) tab "
    "rendering, the Large tab, and the weekly reminder worker with pre-selected deep link. Covers Section 6 "
-   "items 12–14.")
+   "items 13–16.")
 b1("**Ticket 4: [Develop Premium] — Subscription, Paywall & Ads.** Integrate Play Billing v8+ and RevenueCat "
    "with the weekly base plan and 3-day trial offer, trial-eligibility copy switching, the `premium` entitlement "
    "gate, onboarding and contextual paywall triggers, offline and lapse states, and Restore. Wire the banner, "
    "Result-screen native ad and exit interstitial with non-blocking no-fill fallback, removed for subscribers. "
-   "Implement the `AnalyticsEvent` sealed class so no event can carry a package name. Covers Section 6 items 15–20.")
+   "Implement the `AnalyticsEvent` sealed class so no event can carry a package name. Covers Section 6 items 17–22.")
 
 # ---------------------------------------------------------------- 8
 h1("8. Basic User Flow")
@@ -459,7 +491,7 @@ b1("**Step 4 (Monetisation):** On the Result screen or Home, the user opens the 
 
 # ---------------------------------------------------------------- 9
 h1("9. Funnel Analytics Events")
-p("No event parameter may contain a package name, app label or free text (Section 2, Section 6 item 15). "
+p("No event parameter may contain a package name, app label or free text (Section 2, Section 6 item 17). "
   "Byte values are bucketed: <100MB, 100MB–500MB, 500MB–1GB, 1–5GB, >5GB.")
 b1("`onboarding_start` — as soon as the language selector appears.")
 b1("`onboarding_step_viewed` — params: step_number (1, 2, 3), language_selected.")
@@ -475,6 +507,10 @@ b1("`uninstall_batch_completed` — **North Star event.** Params: removed_count,
 b1("`uninstall_failed` — params: reason (blocked, device_admin, not_removed_after_success, status_code_other), "
    "status_code. One per failed item.")
 b1("`uninstall_queue_resumed` — params: remaining_count, action (continue, discard).")
+b1("`uninstall_cancel_streak_prompt` — params: action (stop, keep_going), remaining_count. When three Cancels in a "
+   "row pause the batch (Section 6).")
+b1("`history_snapshot_degraded` — params: reason (low_space, io_error, db_full). A history entry was saved without "
+   "its icon, or late, because the phone was out of space (Section 6).")
 b1("`usage_access_prompt_shown` — params: trigger (unused_tab, large_tab, storage_card).")
 b1("`usage_access_granted` — params: seconds_in_settings, used_fallback_page (boolean).")
 b1("`premium_teaser_viewed` — params: tab (unused, large), found_count, bytes_bucket. The blurred-count state; this "
@@ -485,7 +521,7 @@ b1("`trial_started` / `subscription_started` — params: trigger_source. From th
 b1("`paywall_dismissed` — params: trigger_source, seconds_visible.")
 b1("`history_reinstall_tapped` — params: days_since_removed_bucket (0, 1–7, 8–30, >30).")
 b1("`reminder_notification_opened` — params: unused_count, threshold_days.")
-b1("`inventory_incomplete` — params: visible_count. Detects a stripped `QUERY_ALL_PACKAGES` (Section 6 item 11).")
+b1("`inventory_incomplete` — params: visible_count. Detects a stripped `QUERY_ALL_PACKAGES` (Section 6 item 12).")
 
 # ---------------------------------------------------------------- 10
 h1("10. Out of Scope for V1")
@@ -552,3 +588,7 @@ b1("**No connection gate.** Unlike InkSign v1.1, revenue is the subscription, so
    "would cost reviews for almost no ad revenue.")
 b1("**Usage Access asked for free, before the paywall,** so the paywall can show the user's real numbers.")
 b1("**Sequential system dialogs, not Accessibility.** Slower by one tap per app; the listing is safe.")
+b1("**v1.1 edge cases.** Added after review: a text-only History fallback when the phone is almost out of space "
+   "(the removal must never be blocked by our own writes), a “Stop removing the rest?” prompt after three Cancels "
+   "in a row, a gentle return path when OEMs ignore the Usage Access `package:` URI, and the restored-phone case "
+   "for the unused rule.")
