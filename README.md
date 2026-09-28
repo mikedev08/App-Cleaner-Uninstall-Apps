@@ -26,7 +26,8 @@ find, select, remove — on one screen.
 | | |
 |---|---|
 | **Find the apps** | Every app you installed, with its size, install date and last update. Search by name or package, sort biggest first. |
-| **See your storage** | A storage bar split into apps, other and free space, in the same units system Settings uses. |
+| **Scan your phone** | One tap checks every app, when you last opened it and how much space it takes, then shows how much you could free and how full the phone would be afterwards. |
+| **See your storage** | A storage gauge that turns amber, then red, as the phone fills up, in the same units system Settings uses. |
 | **Remove a batch** | Select as many apps as you like. Android shows its own confirmation for each one, in a row. |
 | **Know what happened** | Every app ends up removed, skipped or failed, and you see how much space actually came back. |
 | **Get them back** | Uninstall History keeps each removed app's icon, name and size, with a Reinstall button for apps from Google Play. |
@@ -44,22 +45,32 @@ There is no account, no login and no server. Uninstalling works offline.
 
 <div align="center">
 
-<!-- Screenshots are captured from the debug build on an emulator; see docs/screenshots. -->
+<!-- Captured from the debug build on an emulator with demo apps installed; see docs/screenshots. -->
 
-| Home | Unused | Large |
+| Home | Scan | Scan result |
 |:--:|:--:|:--:|
-| <img src="docs/screenshots/home.png" width="240"> | <img src="docs/screenshots/unused.png" width="240"> | <img src="docs/screenshots/large.png" width="240"> |
-| App list, sorted biggest first, with the storage bar | Unused apps finder | Largest apps breakdown |
+| <img src="docs/screenshots/home.png" width="240"> | <img src="docs/screenshots/scan.png" width="240"> | <img src="docs/screenshots/scan-result.png" width="240"> |
+| Storage gauge turns red when the phone is almost full | One tap checks apps, usage and storage | What you could free, and how full the phone would be after |
 
-| Confirm | Result | History |
+| Unused | Large | Confirm |
 |:--:|:--:|:--:|
-| <img src="docs/screenshots/uninstall.png" width="240"> | <img src="docs/screenshots/result.png" width="240"> | <img src="docs/screenshots/history.png" width="240"> |
-| Confirming a batch | Space freed | History and Reinstall |
+| <img src="docs/screenshots/unused.png" width="240"> | <img src="docs/screenshots/large.png" width="240"> | <img src="docs/screenshots/uninstall.png" width="240"> |
+| Apps you haven't opened, pre-selected from the scan | App, data and cache size for every app | Confirming a batch |
 
-| Paywall | Settings |
-|:--:|:--:|
-| <img src="docs/screenshots/paywall.png" width="240"> | <img src="docs/screenshots/settings.png" width="240"> |
-| Premium | Settings |
+| Result | History | Settings |
+|:--:|:--:|:--:|
+| <img src="docs/screenshots/result.png" width="240"> | <img src="docs/screenshots/history.png" width="240"> | <img src="docs/screenshots/settings.png" width="240"> |
+| Space freed, and what is still left to clean | History and Reinstall | Settings, with the Pro card for free users |
+
+| Dark: Home | Dark: Scan result | Dark: Unused |
+|:--:|:--:|:--:|
+| <img src="docs/screenshots/home-dark.png" width="240"> | <img src="docs/screenshots/scan-result-dark.png" width="240"> | <img src="docs/screenshots/unused-dark.png" width="240"> |
+| Follows the system theme | | |
+
+| Paywall |
+|:--:|
+| <img src="docs/screenshots/paywall.png" width="240"> |
+| Debug build: RevenueCat isn't configured yet, so the button unlocks Pro locally |
 
 </div>
 
@@ -294,12 +305,15 @@ new push to the same PR cancels the run it replaces.
 ## Status
 
 V1 is in development against the PRD in `docs/prd/` (v1.0, as `.docx` and `.pdf`, generated from
-`prd_content.py`). As of this commit, the shared foundation is in place — theme, data contracts,
-the Room schema, navigation, locale switching, the analytics event model and CI — and the feature
-packages are being built against it.
+`prd_content.py`). Every V1 screen is built and runs end to end on a device: onboarding, Home
+with the storage gauge, Scan, the Apps list with the All, Unused and Large tabs, batch uninstall
+with its result, Uninstall History, Usage Access, the paywall and Settings, in light and dark and
+in all eight languages (Arabic and Hebrew mirrored).
 
 Known gaps, honestly stated:
 
+- **RevenueCat has no API key yet.** Without `revenuecat.apiKey` in `local.properties`, the paywall shows "Subscriptions aren't available yet", and debug builds get an "Unlock (debug)" button that turns Pro on locally.
+- **Translations are machine-written.** The seven non-English languages still need a native review.
 - **Firebase, consent and ads are not in the build yet.** Firebase Analytics and Crashlytics, Google UMP and the ad units are specified in the PRD; until Firebase is bound, analytics go to logcat.
 - **Room migrations are destructive.** The schema is still at version 1 and drops its tables on change. Real migrations come before release.
 - **The in-app language is not in system settings.** It is applied inside the composition, so it does not appear on Android 13's per-app language page.
