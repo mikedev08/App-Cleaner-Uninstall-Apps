@@ -12,6 +12,7 @@ import com.jedy.appcleaner.uninstaller.data.reminders.WorkManagerCleanupReminder
 import com.jedy.appcleaner.uninstaller.data.storage.StorageBreakdown
 import com.jedy.appcleaner.uninstaller.di.ApplicationScope
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -69,12 +70,16 @@ class InsightsSync @Inject constructor(
 
     override fun start() {
         access.recheck()
-        ProcessLifecycleOwner.get().lifecycle.addObserver(object : DefaultLifecycleObserver {
-            override fun onStart(owner: LifecycleOwner) {
-                access.recheck()
-                requestRefresh()
-            }
-        })
+        // start() runs off the main thread (see AppStartup); Lifecycle observers must be added on
+        // it. An observer added after the process has started still gets onStart immediately.
+        scope.launch(Dispatchers.Main.immediate) {
+            ProcessLifecycleOwner.get().lifecycle.addObserver(object : DefaultLifecycleObserver {
+                override fun onStart(owner: LifecycleOwner) {
+                    access.recheck()
+                    requestRefresh()
+                }
+            })
+        }
         scope.launch { syncInsights() }
         scope.launch {
             // The free nudge is always kept scheduled; its worker skips premium users itself.

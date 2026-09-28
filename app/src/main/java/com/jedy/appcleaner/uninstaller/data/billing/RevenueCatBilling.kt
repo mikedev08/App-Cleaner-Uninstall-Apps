@@ -55,9 +55,10 @@ class RevenueCatBilling @Inject constructor(
     override val isConfigured: Boolean get() = configured
 
     /**
-     * Seeded synchronously from disk: this singleton is first built during
-     * `Application.onCreate` (via [BillingStartup]), and every screen and worker after that must
-     * see the right answer without waiting for RevenueCat. The read is one tiny file.
+     * Seeded synchronously from disk: every screen and worker must see the right answer without
+     * waiting for RevenueCat. The read is one tiny file. This singleton is normally first built by
+     * [BillingStartup] on a background thread right after `Application.onCreate`, so the blocking
+     * read stays off the main thread; a screen that asks before it finishes simply waits for it.
      */
     @Volatile private var lastEntitlement: CachedEntitlement = runBlocking { cache.read() }
     private val cacheWriteMutex = Mutex()
@@ -74,7 +75,7 @@ class RevenueCatBilling @Inject constructor(
     @Volatile private var weeklyPackage: Package? = null
     private val offerMutex = Mutex()
 
-    /** Called once from [BillingStartup] in `Application.onCreate`. */
+    /** Called once from [BillingStartup], off the main thread, at process start. */
     fun start() {
         if (apiKey.isEmpty() || configured) return
         try {

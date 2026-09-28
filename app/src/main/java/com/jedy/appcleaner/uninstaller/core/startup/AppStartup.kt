@@ -10,6 +10,11 @@ import dagger.multibindings.Multibinds
  * schedule workers, register package receivers) contributes one with `@Binds @IntoSet` in its own
  * module, so no feature ever has to edit [com.jedy.appcleaner.uninstaller.AppCleanerApplication].
  * Keep [start] cheap: launch coroutines on the application scope rather than blocking.
+ *
+ * Threading: implementations are constructed and [start]ed on a background thread (the
+ * application scope, `Dispatchers.Default`), never on the main thread, so the first frame is not
+ * held up by their dependency graphs. Anything that must run on the main thread (e.g.
+ * `ProcessLifecycleOwner` observers) has to hop there itself.
  */
 interface AppStartup {
     fun start()

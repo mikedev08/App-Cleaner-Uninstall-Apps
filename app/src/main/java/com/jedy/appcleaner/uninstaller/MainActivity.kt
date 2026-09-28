@@ -12,6 +12,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.jedy.appcleaner.uninstaller.core.locale.LocalizedContent
 import com.jedy.appcleaner.uninstaller.core.model.HomeTab
+import com.jedy.appcleaner.uninstaller.core.startup.StartupTrace
 import com.jedy.appcleaner.uninstaller.core.ui.theme.AppCleanerTheme
 import com.jedy.appcleaner.uninstaller.navigation.AppCleanerNavHost
 import com.jedy.appcleaner.uninstaller.navigation.DeepLinks
@@ -23,8 +24,17 @@ class MainActivity : ComponentActivity() {
     private val viewModel: MainViewModel by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        StartupTrace.mark("MainActivity.onCreate")
         // PRD §4 Screen 1: held only until the start route is known.
-        installSplashScreen().setKeepOnScreenCondition { viewModel.uiState.value.startRoute == null }
+        var splashDropped = false
+        installSplashScreen().setKeepOnScreenCondition {
+            val keep = viewModel.uiState.value.startRoute == null
+            if (!keep && !splashDropped) {
+                splashDropped = true
+                StartupTrace.mark("Splash released")
+            }
+            keep
+        }
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 

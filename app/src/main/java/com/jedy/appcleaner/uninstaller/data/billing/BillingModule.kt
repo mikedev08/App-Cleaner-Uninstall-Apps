@@ -24,8 +24,8 @@ abstract class BillingModule {
 
 /**
  * Configures RevenueCat at process start (PRD §2) — only when a key was built in, so a keyless
- * debug build starts silently. Also builds the billing singleton early, which seeds the
- * persisted entitlement before any screen or worker asks for it.
+ * debug build starts silently. Also builds the billing singleton early (off the main thread, see
+ * [AppStartup]), which seeds the persisted entitlement before any screen or worker asks for it.
  */
 class BillingStartup @Inject constructor(
     private val billing: RevenueCatBilling,
