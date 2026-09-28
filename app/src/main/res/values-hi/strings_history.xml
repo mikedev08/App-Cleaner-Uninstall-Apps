@@ -15,6 +15,7 @@
     <string name="history_clear_confirm">साफ़ करें</string>
     <string name="history_store_unavailable">Play Store नहीं खुल सका</string>
     <string name="history_hero_freed">%1$s खाली हुआ</string>
+    <string name="history_hero_estimated">%1$s · अनुमानित</string>
     <plurals name="history_hero_removed">
         <item quantity="one">%1$d ऐप हटाया गया</item>
         <item quantity="other">%1$d ऐप्स हटाए गए</item>

@@ -3,6 +3,7 @@
     <string name="settings_title">الإعدادات</string>
     <string name="settings_premium_upgrade_title">احصل على App Cleaner Pro</string>
     <string name="settings_premium_upgrade_cta">جرّبه مجانًا</string>
+    <string name="settings_premium_see_plans">عرض خطط Pro</string>
     <string name="settings_premium_active_title">Pro مفعّل</string>
     <string name="settings_premium_active_body">جميع الميزات مفعّلة. شكرًا لك!</string>
     <string name="settings_manage_subscription">إدارة الاشتراك</string>
@@ -15,12 +16,13 @@
     <string name="settings_size_total_short">الإجمالي</string>
     <string name="settings_size_needs_access">يتطلب الوصول إلى بيانات الاستخدام</string>
     <string name="settings_usage_access">الوصول إلى بيانات الاستخدام</string>
-    <string name="settings_usage_access_body">يعثر على التطبيقات غير المستخدمة ويقيس المساحة. تبقى البيانات على هاتفك.</string>
+    <string name="settings_usage_access_body">يعثر على التطبيقات غير المستخدمة. لا شيء يغادر هاتفك.</string>
     <string name="settings_usage_access_granted">مسموح</string>
+    <string name="settings_usage_access_denied">غير مسموح</string>
     <string name="settings_usage_access_allow">السماح</string>
     <string name="settings_section_reminders">تذكيرات التنظيف</string>
-    <string name="settings_reminders_toggle">ذكّرني بالتطبيقات غير المستخدمة</string>
-    <string name="settings_reminders_body">فحص أسبوعي، فقط عندما يكون هناك ما يستحق التنظيف.</string>
+    <string name="settings_reminders_toggle">تذكير أسبوعي</string>
+    <string name="settings_reminders_body">فقط عندما تتراكم التطبيقات غير المستخدمة.</string>
     <string name="settings_reminders_threshold">اعتبار التطبيق غير مستخدم بعد</string>
     <plurals name="settings_threshold_days">
         <item quantity="zero">%d يوم</item>
@@ -36,9 +38,9 @@
     <string name="settings_section_subscription">الاشتراك</string>
     <string name="settings_restore">استعادة المشتريات</string>
     <string name="settings_rate">قيّم App Cleaner</string>
-    <string name="settings_pro_benefit_unused">اعثر على التطبيقات التي لم تفتحها منذ أشهر</string>
+    <string name="settings_pro_benefit_unused">اعثر على التطبيقات التي لا تفتحها</string>
     <string name="settings_pro_benefit_storage">اطّلع على الحجم الحقيقي لكل تطبيق</string>
-    <string name="settings_pro_benefit_reminders">تلقَّ تذكيرًا عندما تتراكم التطبيقات المنسية</string>
+    <string name="settings_pro_benefit_reminders">تلقَّ تذكيرات للتنظيف</string>
     <string name="settings_section_preferences">التفضيلات</string>
     <string name="settings_footer_privacy">الخصوصية</string>
     <string name="settings_footer_terms">الشروط</string>

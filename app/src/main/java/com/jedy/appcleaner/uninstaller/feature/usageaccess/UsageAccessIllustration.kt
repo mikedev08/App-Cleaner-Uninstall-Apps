@@ -196,9 +196,8 @@ internal fun ToggleHint(modifier: Modifier = Modifier) {
             text = stringResource(R.string.usage_hint_caption),
             style = MaterialTheme.typography.labelMedium,
             color = AppTheme.colors.textSecondary,
-            modifier = Modifier.padding(start = 4.dp),
         )
-        Spacer(Modifier.height(10.dp))
+        Spacer(Modifier.height(Dimens.space8))
         AppCard(
             modifier = Modifier.fillMaxWidth().clearAndSetSemantics { contentDescription = description },
         ) {

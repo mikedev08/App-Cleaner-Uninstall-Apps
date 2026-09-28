@@ -3,6 +3,7 @@
     <string name="settings_title">सेटिंग्स</string>
     <string name="settings_premium_upgrade_title">App Cleaner Pro अनलॉक करें</string>
     <string name="settings_premium_upgrade_cta">मुफ़्त आज़माएँ</string>
+    <string name="settings_premium_see_plans">Pro प्लान देखें</string>
     <string name="settings_premium_active_title">Pro सक्रिय है</string>
     <string name="settings_premium_active_body">सभी सुविधाएँ अनलॉक हैं। धन्यवाद!</string>
     <string name="settings_manage_subscription">सदस्यता मैनेज करें</string>
@@ -15,12 +16,13 @@
     <string name="settings_size_total_short">कुल</string>
     <string name="settings_size_needs_access">उपयोग ऐक्सेस ज़रूरी है</string>
     <string name="settings_usage_access">उपयोग ऐक्सेस</string>
-    <string name="settings_usage_access_body">इस्तेमाल न होने वाले ऐप खोजता है और स्टोरेज मापता है। सब कुछ आपके फ़ोन पर ही रहता है।</string>
+    <string name="settings_usage_access_body">इस्तेमाल न होने वाले ऐप खोजता है। कुछ भी आपके फ़ोन से बाहर नहीं जाता।</string>
     <string name="settings_usage_access_granted">अनुमति है</string>
+    <string name="settings_usage_access_denied">अनुमति नहीं है</string>
     <string name="settings_usage_access_allow">अनुमति दें</string>
     <string name="settings_section_reminders">सफ़ाई रिमाइंडर</string>
-    <string name="settings_reminders_toggle">इस्तेमाल न होने वाले ऐप की याद दिलाएँ</string>
-    <string name="settings_reminders_body">हर हफ़्ते एक जाँच, सिर्फ़ तब जब साफ़ करने को कुछ हो।</string>
+    <string name="settings_reminders_toggle">साप्ताहिक रिमाइंडर</string>
+    <string name="settings_reminders_body">सिर्फ़ तब, जब इस्तेमाल न होने वाले ऐप जमा हों।</string>
     <string name="settings_reminders_threshold">ऐप को इतने समय बाद इस्तेमाल न होने वाला मानें</string>
     <plurals name="settings_threshold_days">
         <item quantity="one">%d दिन</item>
@@ -32,9 +34,9 @@
     <string name="settings_section_subscription">सदस्यता</string>
     <string name="settings_restore">खरीदारी वापस लाएँ</string>
     <string name="settings_rate">App Cleaner को रेट करें</string>
-    <string name="settings_pro_benefit_unused">महीनों से न खोले गए ऐप ढूँढें</string>
+    <string name="settings_pro_benefit_unused">कभी न खोले जाने वाले ऐप ढूँढें</string>
     <string name="settings_pro_benefit_storage">हर ऐप का असली साइज़ देखें</string>
-    <string name="settings_pro_benefit_reminders">भूले हुए ऐप जमा होने पर याद दिलाएँ</string>
+    <string name="settings_pro_benefit_reminders">सफ़ाई के लिए रिमाइंडर पाएँ</string>
     <string name="settings_section_preferences">प्राथमिकताएँ</string>
     <string name="settings_footer_privacy">गोपनीयता</string>
     <string name="settings_footer_terms">शर्तें</string>

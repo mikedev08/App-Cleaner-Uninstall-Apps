@@ -9,13 +9,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
@@ -23,16 +21,15 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.selection.selectable
-import androidx.compose.foundation.selection.selectableGroup
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.selection.toggleable
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.rounded.KeyboardArrowRight
+import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.rounded.Check
 import androidx.compose.material.icons.rounded.CheckCircle
-import androidx.compose.material.icons.rounded.Lock
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -46,12 +43,14 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.jedy.appcleaner.uninstaller.R
 import com.jedy.appcleaner.uninstaller.core.ui.component.AppCard
 import com.jedy.appcleaner.uninstaller.core.ui.component.IconBadge
 import com.jedy.appcleaner.uninstaller.core.ui.component.SectionHeader
+import com.jedy.appcleaner.uninstaller.core.ui.component.SegmentOption
+import com.jedy.appcleaner.uninstaller.core.ui.component.SegmentedControl
 import com.jedy.appcleaner.uninstaller.core.ui.theme.AppTheme
 import com.jedy.appcleaner.uninstaller.core.ui.theme.Dimens
 
@@ -63,15 +62,28 @@ import com.jedy.appcleaner.uninstaller.core.ui.theme.Dimens
  * "these belong together", and a line per row is exactly the 2020 look the redesign removes.
  */
 
-/** A titled group: kit [SectionHeader] above one soft [AppCard] holding the rows. */
+/**
+ * A titled group: kit [SectionHeader] on the 20dp gutter, then one soft [AppCard] holding the rows.
+ * [lead] is an optional card shown between the heading and the rows (the Pro card in
+ * Subscription). Spacing follows the scale: 32dp above the heading, 12dp from heading to content.
+ */
 @Composable
 internal fun SettingsGroup(
     title: String,
     modifier: Modifier = Modifier,
+    topSpacing: Dp = Dimens.sectionGap,
+    lead: (@Composable () -> Unit)? = null,
     content: @Composable ColumnScope.() -> Unit,
 ) {
     Column(modifier.fillMaxWidth()) {
-        SectionHeader(title = title, modifier = Modifier.padding(start = 4.dp, top = Dimens.gutterLarge, bottom = 10.dp))
+        SectionHeader(
+            title = title,
+            modifier = Modifier.padding(top = topSpacing, bottom = Dimens.headingToContent),
+        )
+        if (lead != null) {
+            lead()
+            Spacer(Modifier.height(Dimens.cardGap))
+        }
         AppCard(
             modifier = Modifier.fillMaxWidth(),
             contentPadding = PaddingValues(vertical = 6.dp),
@@ -81,8 +93,13 @@ internal fun SettingsGroup(
 }
 
 /**
- * IconBadge + label (+ optional subtitle) + value / trailing + chevron. The chevron is
- * auto-mirrored so it points "forward" in Arabic and Hebrew too.
+ * IconBadge + label (+ optional status line and subtitle) + value / trailing + chevron. The
+ * chevron is auto-mirrored so it points "forward" in Arabic and Hebrew too.
+ *
+ * The trailing edge is the same on every row: [value] is sized to its text (never given a weight,
+ * which used to leave a gap before the chevron), so every chevron sits on the card's end padding.
+ * [status] sits under the title (Usage Access "Allowed", a PRO badge) instead of beside it, so
+ * the title and description keep the row's full width at 360dp.
  */
 @Composable
 internal fun SettingsRow(
@@ -93,7 +110,7 @@ internal fun SettingsRow(
     subtitle: String? = null,
     value: String? = null,
     enabled: Boolean = true,
-    titleBadge: (@Composable () -> Unit)? = null,
+    status: (@Composable () -> Unit)? = null,
     trailing: (@Composable () -> Unit)? = null,
     showChevron: Boolean = onClick != null,
 ) {
@@ -103,20 +120,20 @@ internal fun SettingsRow(
             .fillMaxWidth()
             .heightIn(min = 64.dp)
             .then(if (onClick != null) Modifier.clickable(enabled = enabled, onClick = onClick) else Modifier)
-            .padding(horizontal = 16.dp, vertical = 10.dp),
+            .padding(horizontal = RowPadding, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(14.dp),
+        horizontalArrangement = Arrangement.spacedBy(RowGap),
     ) {
         IconBadge(icon = icon)
-        RowText(title = title, subtitle = subtitle, badge = titleBadge, modifier = Modifier.weight(1f))
+        RowText(title = title, subtitle = subtitle, status = status, modifier = Modifier.weight(1f))
         if (value != null) {
             Text(
                 text = value,
                 style = MaterialTheme.typography.bodyMedium,
                 color = colors.textSecondary,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.weight(0.6f, fill = false),
+                maxLines = 2,
+                textAlign = TextAlign.End,
+                modifier = Modifier.widthIn(max = 140.dp),
             )
         }
         trailing?.invoke()
@@ -141,38 +158,37 @@ internal fun SettingsSwitchRow(
     subtitle: String?,
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
-    titleBadge: (@Composable () -> Unit)? = null,
+    status: (@Composable () -> Unit)? = null,
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .heightIn(min = 64.dp)
             .toggleable(value = checked, role = Role.Switch, onValueChange = onCheckedChange)
-            .padding(horizontal = 16.dp, vertical = 10.dp),
+            .padding(horizontal = RowPadding, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(14.dp),
+        horizontalArrangement = Arrangement.spacedBy(RowGap),
     ) {
         IconBadge(icon = icon)
-        RowText(title = title, subtitle = subtitle, badge = titleBadge, modifier = Modifier.weight(1f))
+        RowText(title = title, subtitle = subtitle, status = status, modifier = Modifier.weight(1f))
         AppSwitch(checked = checked)
     }
 }
 
+private val RowPadding = Dimens.space16
+private val RowGap = 14.dp
+
 @Composable
-private fun RowText(title: String, subtitle: String?, badge: (@Composable () -> Unit)?, modifier: Modifier) {
+private fun RowText(title: String, subtitle: String?, status: (@Composable () -> Unit)?, modifier: Modifier) {
     val colors = AppTheme.colors
     Column(modifier) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Text(
-                text = title,
-                style = MaterialTheme.typography.titleMedium,
-                color = colors.textPrimary,
-                modifier = Modifier.weight(1f, fill = false),
-            )
-            if (badge != null) {
-                Spacer(Modifier.width(8.dp))
-                badge()
-            }
+        Text(
+            text = title,
+            style = MaterialTheme.typography.titleMedium,
+            color = colors.textPrimary,
+        )
+        if (status != null) {
+            Box(Modifier.padding(top = Dimens.space4)) { status() }
         }
         if (subtitle != null) {
             Text(
@@ -230,130 +246,55 @@ internal fun AppSwitch(checked: Boolean, modifier: Modifier = Modifier) {
     }
 }
 
-/** One option of a [PillSegmentedControl]. [locked] adds a small gold lock (premium only). */
-internal data class Segment(val label: String, val locked: Boolean = false)
-
 /**
- * Inline pill segmented control (Theme, size mode, reminder threshold): every option is visible
- * and one tap away, where the old radio dialog hid them behind a second screen. The selection is
- * a green pill that slides between segments. [selectedIndex] = -1 shows none selected (a locked,
- * premium-only control for a free user).
+ * A labelled kit [SegmentedControl] inside a group card, under its row's icon and title. The
+ * control always shows the current value; Pro-only options carry the kit's lock.
  */
-@Composable
-internal fun PillSegmentedControl(
-    segments: List<Segment>,
-    selectedIndex: Int,
-    onSelect: (Int) -> Unit,
-    modifier: Modifier = Modifier,
-) {
-    val colors = AppTheme.colors
-    BoxWithConstraints(
-        modifier
-            .fillMaxWidth()
-            .height(48.dp)
-            .clip(CircleShape)
-            .background(colors.surfaceMuted)
-            .padding(4.dp),
-    ) {
-        val segmentWidth = maxWidth / segments.size
-        val indicatorOffset by animateDpAsState(
-            segmentWidth * selectedIndex.coerceAtLeast(0),
-            spring(dampingRatio = 0.8f, stiffness = Spring.StiffnessMediumLow),
-            label = "segmentIndicator",
-        )
-        if (selectedIndex >= 0) {
-            Box(
-                Modifier
-                    .offset(x = indicatorOffset)
-                    .width(segmentWidth)
-                    .fillMaxHeight()
-                    .clip(CircleShape)
-                    .background(colors.accent),
-            )
-        }
-        Row(Modifier.fillMaxWidth().fillMaxHeight().selectableGroup()) {
-            segments.forEachIndexed { index, segment ->
-                val selected = index == selectedIndex
-                val content by animateColorAsState(
-                    if (selected) colors.onAccent else colors.textSecondary,
-                    tween(200),
-                    label = "segmentText",
-                )
-                Row(
-                    modifier = Modifier
-                        .weight(1f)
-                        .fillMaxHeight()
-                        .clip(CircleShape)
-                        .selectable(selected = selected, role = Role.RadioButton) { onSelect(index) }
-                        .padding(horizontal = 8.dp),
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically,
-                ) {
-                    Text(
-                        text = segment.label,
-                        style = MaterialTheme.typography.labelMedium,
-                        color = content,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                        textAlign = TextAlign.Center,
-                        modifier = Modifier.weight(1f, fill = false),
-                    )
-                    if (segment.locked) {
-                        Spacer(Modifier.width(4.dp))
-                        Icon(
-                            Icons.Rounded.Lock,
-                            contentDescription = null,
-                            tint = colors.premiumGold,
-                            modifier = Modifier.size(13.dp),
-                        )
-                    }
-                }
-            }
-        }
-    }
-}
-
-/** A labelled [PillSegmentedControl] inside a group card, indented under its row's icon. */
 @Composable
 internal fun SegmentedSettingRow(
     icon: ImageVector,
     title: String,
-    segments: List<Segment>,
+    segments: List<SegmentOption>,
     selectedIndex: Int,
     onSelect: (Int) -> Unit,
     subtitle: String? = null,
-    titleBadge: (@Composable () -> Unit)? = null,
 ) {
-    Column(Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 10.dp)) {
-        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(14.dp)) {
+    Column(Modifier.fillMaxWidth().padding(horizontal = RowPadding, vertical = 10.dp)) {
+        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(RowGap)) {
             IconBadge(icon = icon)
-            RowText(title = title, subtitle = subtitle, badge = titleBadge, modifier = Modifier.weight(1f))
+            RowText(title = title, subtitle = subtitle, status = null, modifier = Modifier.weight(1f))
         }
-        PillSegmentedControl(
-            segments = segments,
+        SegmentedControl(
+            options = segments,
             selectedIndex = selectedIndex,
             onSelect = onSelect,
-            modifier = Modifier.padding(top = 12.dp),
+            modifier = Modifier.padding(top = Dimens.space12),
         )
     }
 }
 
-/** Usage Access state: a green "Allowed" tick, or a small green "Allow" pill that asks for it. */
+/**
+ * Usage Access state, shown under the row title: a green "Allowed" tick, or a neutral
+ * "Not allowed" (the whole row is the way to allow it, and ends in a chevron).
+ */
 @Composable
 internal fun UsageAccessStatus(granted: Boolean) {
     val colors = AppTheme.colors
-    if (granted) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(Icons.Rounded.CheckCircle, contentDescription = null, tint = colors.accentText, modifier = Modifier.size(18.dp))
-            Spacer(Modifier.width(4.dp))
-            Text(
-                text = stringResource(R.string.settings_usage_access_granted),
-                style = MaterialTheme.typography.labelMedium,
-                color = colors.accentText,
-            )
-        }
-    } else {
-        SmallPill(text = stringResource(R.string.settings_usage_access_allow), onClick = null)
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Icon(
+            imageVector = if (granted) Icons.Rounded.CheckCircle else Icons.Outlined.Info,
+            contentDescription = null,
+            tint = if (granted) colors.accentText else colors.textSecondary,
+            modifier = Modifier.size(16.dp),
+        )
+        Spacer(Modifier.width(Dimens.space4))
+        Text(
+            text = stringResource(
+                if (granted) R.string.settings_usage_access_granted else R.string.settings_usage_access_denied,
+            ),
+            style = MaterialTheme.typography.labelMedium,
+            color = if (granted) colors.accentText else colors.textSecondary,
+        )
     }
 }
 

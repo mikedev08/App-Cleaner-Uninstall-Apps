@@ -3,10 +3,11 @@
     <string name="settings_title">Settings</string>
 
     <string name="settings_premium_upgrade_title">Unlock App Cleaner Pro</string>
-    <string name="settings_pro_benefit_unused">Find apps you haven\'t opened in months</string>
-    <string name="settings_pro_benefit_storage">See the real size of every app</string>
-    <string name="settings_pro_benefit_reminders">Get a nudge when forgotten apps pile up</string>
+    <string name="settings_pro_benefit_unused">Find apps you never open</string>
+    <string name="settings_pro_benefit_storage">See every app\'s real size</string>
+    <string name="settings_pro_benefit_reminders">Get reminders to clean up</string>
     <string name="settings_premium_upgrade_cta">Try it free</string>
+    <string name="settings_premium_see_plans">See Pro plans</string>
     <string name="settings_premium_active_title">Pro is active</string>
     <string name="settings_premium_active_body">Every feature is unlocked. Thank you!</string>
     <string name="settings_premium_active_debug" translatable="false">Forced on by the debug switch below.</string>
@@ -23,14 +24,15 @@
     <string name="settings_size_total_short">Total</string>
     <string name="settings_size_needs_access">Needs Usage Access</string>
     <string name="settings_usage_access">Usage Access</string>
-    <string name="settings_usage_access_body">Finds unused apps and measures storage. Stays on your phone.</string>
+    <string name="settings_usage_access_body">Finds unused apps. Nothing leaves your phone.</string>
     <string name="settings_usage_access_granted">Allowed</string>
+    <string name="settings_usage_access_denied">Not allowed</string>
     <string name="settings_usage_access_allow">Allow</string>
     <string name="settings_rate">Rate App Cleaner</string>
 
     <string name="settings_section_reminders">Cleanup reminders</string>
-    <string name="settings_reminders_toggle">Remind me about unused apps</string>
-    <string name="settings_reminders_body">A weekly check, only when there\'s something to clean.</string>
+    <string name="settings_reminders_toggle">Weekly reminders</string>
+    <string name="settings_reminders_body">Only when unused apps pile up.</string>
     <string name="settings_reminders_threshold">Count an app as unused after</string>
     <plurals name="settings_threshold_days">
         <item quantity="one">%d day</item>
@@ -52,5 +54,5 @@
     <string name="settings_debug_force_premium" translatable="false">Force premium (debug)</string>
     <string name="settings_debug_revenuecat" translatable="false">RevenueCat</string>
     <string name="settings_debug_configured" translatable="false">Configured</string>
-    <string name="settings_debug_not_configured" translatable="false">Not configured (no API key)</string>
+    <string name="settings_debug_not_configured" translatable="false">No API key</string>
 </resources>

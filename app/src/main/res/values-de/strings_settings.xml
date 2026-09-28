@@ -3,6 +3,7 @@
     <string name="settings_title">Einstellungen</string>
     <string name="settings_premium_upgrade_title">App Cleaner Pro freischalten</string>
     <string name="settings_premium_upgrade_cta">Kostenlos testen</string>
+    <string name="settings_premium_see_plans">Pro-Tarife ansehen</string>
     <string name="settings_premium_active_title">Pro ist aktiv</string>
     <string name="settings_premium_active_body">Alle Funktionen sind freigeschaltet. Danke!</string>
     <string name="settings_manage_subscription">Abo verwalten</string>
@@ -15,12 +16,13 @@
     <string name="settings_size_total_short">Gesamt</string>
     <string name="settings_size_needs_access">Erfordert Zugriff auf Nutzungsdaten</string>
     <string name="settings_usage_access">Zugriff auf Nutzungsdaten</string>
-    <string name="settings_usage_access_body">Findet ungenutzte Apps und misst den Speicher. Bleibt auf deinem Smartphone.</string>
+    <string name="settings_usage_access_body">Findet ungenutzte Apps. Nichts verlässt dein Smartphone.</string>
     <string name="settings_usage_access_granted">Erlaubt</string>
+    <string name="settings_usage_access_denied">Nicht erlaubt</string>
     <string name="settings_usage_access_allow">Erlauben</string>
     <string name="settings_section_reminders">Aufräum-Erinnerungen</string>
-    <string name="settings_reminders_toggle">An ungenutzte Apps erinnern</string>
-    <string name="settings_reminders_body">Eine wöchentliche Prüfung, nur wenn es etwas aufzuräumen gibt.</string>
+    <string name="settings_reminders_toggle">Wochen-Erinnerung</string>
+    <string name="settings_reminders_body">Nur wenn sich ungenutzte Apps häufen.</string>
     <string name="settings_reminders_threshold">Als ungenutzt gilt eine App nach</string>
     <plurals name="settings_threshold_days">
         <item quantity="one">%d Tag</item>
@@ -32,9 +34,9 @@
     <string name="settings_section_subscription">Abo</string>
     <string name="settings_restore">Käufe wiederherstellen</string>
     <string name="settings_rate">App Cleaner bewerten</string>
-    <string name="settings_pro_benefit_unused">Finde Apps, die du seit Monaten nicht geöffnet hast</string>
+    <string name="settings_pro_benefit_unused">Finde Apps, die du nie öffnest</string>
     <string name="settings_pro_benefit_storage">Sieh die echte Größe jeder App</string>
-    <string name="settings_pro_benefit_reminders">Erhalte einen Hinweis, wenn sich vergessene Apps häufen</string>
+    <string name="settings_pro_benefit_reminders">Erhalte Erinnerungen zum Aufräumen</string>
     <string name="settings_section_preferences">Präferenzen</string>
     <string name="settings_footer_privacy">Datenschutz</string>
     <string name="settings_footer_terms">Bedingungen</string>

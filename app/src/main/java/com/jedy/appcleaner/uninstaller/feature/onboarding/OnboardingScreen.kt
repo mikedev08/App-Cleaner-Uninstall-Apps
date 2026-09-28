@@ -34,6 +34,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.windowInsetsPadding
+import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
@@ -76,9 +77,9 @@ import com.jedy.appcleaner.uninstaller.core.ui.component.LanguagePickerSheet
 import com.jedy.appcleaner.uninstaller.core.ui.component.PrimaryButton
 import com.jedy.appcleaner.uninstaller.core.ui.theme.AppTheme
 import com.jedy.appcleaner.uninstaller.core.ui.theme.Dimens
+import kotlin.math.abs
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import kotlin.math.abs
 
 private enum class OnboardingStep { LANGUAGE, SLIDES }
 
@@ -151,7 +152,7 @@ private fun LanguageStep(
             .windowInsetsPadding(WindowInsets.safeDrawing)
             .padding(horizontal = Dimens.gutter),
     ) {
-        Spacer(Modifier.height(Dimens.gutterLarge))
+        Spacer(Modifier.height(Dimens.space24))
         GlobeBadge()
         Text(
             text = stringResource(R.string.language_title),
@@ -280,8 +281,10 @@ private fun SlidesStep(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .heightIn(min = 60.dp)
-                .padding(horizontal = Dimens.gutterSmall),
+                .heightIn(min = Dimens.topBarHeight)
+                // The language circle sits on the 20dp gutter; "Skip" has 12dp of its own padding,
+                // so its text lands on the gutter too.
+                .padding(start = Dimens.gutter, end = Dimens.gutter - SkipPadding),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
@@ -295,7 +298,9 @@ private fun SlidesStep(
                     modifier = Modifier
                         .clip(CircleShape)
                         .clickable(onClick = skip)
-                        .padding(horizontal = 16.dp, vertical = 12.dp),
+                        .heightIn(min = Dimens.minTouchTarget)
+                        .wrapContentHeight()
+                        .padding(horizontal = SkipPadding),
                 )
             }
         }
@@ -357,7 +362,7 @@ private fun SlidePage(slide: OnboardingSlide) {
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .padding(horizontal = Dimens.gutterLarge),
+            .padding(horizontal = Dimens.gutter),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
@@ -380,24 +385,27 @@ private fun SlidePage(slide: OnboardingSlide) {
                 style = MaterialTheme.typography.headlineLarge,
                 color = AppTheme.colors.textPrimary,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.padding(top = Dimens.gutterLarge),
+                modifier = Modifier.padding(top = Dimens.space24),
             )
             Text(
                 text = stringResource(slide.bodyRes),
                 style = MaterialTheme.typography.bodyLarge,
                 color = AppTheme.colors.textSecondary,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.padding(top = Dimens.gutterSmall),
+                modifier = Modifier.padding(top = Dimens.space12),
             )
         }
     }
 }
 
+private val SkipPadding = 12.dp
+
+/** 48dp, the minimum touch target (design review §4). */
 @Composable
 private fun LanguageButton(onClick: () -> Unit, modifier: Modifier = Modifier) {
     Box(
         modifier = modifier
-            .size(44.dp)
+            .size(Dimens.minTouchTarget)
             .clip(CircleShape)
             .background(AppTheme.colors.accentSurface)
             .clickable(onClick = onClick),

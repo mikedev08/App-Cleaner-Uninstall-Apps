@@ -1,5 +1,9 @@
 package com.jedy.appcleaner.uninstaller.feature.uninstall
 
+import android.content.Context
+import android.icu.text.MeasureFormat
+import android.icu.util.Measure
+import android.icu.util.MeasureUnit
 import android.provider.Settings
 import androidx.annotation.StringRes
 import androidx.compose.animation.AnimatedContent
@@ -47,8 +51,19 @@ import com.jedy.appcleaner.uninstaller.data.uninstall.NotRemovedItem
 /** "2.4 GB", or "about 2.4 GB" when the number is APK-only (PRD Feature 2). */
 @Composable
 fun sizeText(bytes: Long, isEstimate: Boolean): String {
-    val formatted = formatBytes(LocalContext.current, bytes)
+    val context = LocalContext.current
+    val formatted = formatSize(context, bytes)
     return if (isEstimate) stringResource(R.string.uninstall_size_about, formatted) else formatted
+}
+
+/**
+ * [formatBytes], except that 901–999 MB reads "970 MB" rather than the platform's "0.97 GB"
+ * (see [ResultMath.subGigabyteMegabytes]). ICU keeps the unit and digits localized.
+ */
+fun formatSize(context: Context, bytes: Long): String {
+    val mb = ResultMath.subGigabyteMegabytes(bytes) ?: return formatBytes(context, bytes)
+    val locale = context.resources.configuration.locales[0]
+    return MeasureFormat.getInstance(locale, MeasureFormat.FormatWidth.SHORT).format(Measure(mb, MeasureUnit.MEGABYTE))
 }
 
 /** The full sentence: what removing this app will change. Shown under the chip. */

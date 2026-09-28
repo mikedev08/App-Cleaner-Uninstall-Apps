@@ -314,20 +314,21 @@ private fun QueueItemRow(row: QueueRow, modifier: Modifier = Modifier) {
 @Composable
 private fun StalledCard(onShowAgain: () -> Unit) {
     AppCard(
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp, vertical = 4.dp),
+        modifier = Modifier.fillMaxWidth().padding(horizontal = Dimens.gutter, vertical = Dimens.space4),
         color = AppTheme.colors.warningSurface,
         contentPadding = PaddingValues(start = 16.dp, end = 12.dp, top = 12.dp, bottom = 12.dp),
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Icon(
                 Icons.Rounded.VisibilityOff, contentDescription = null,
-                tint = AppTheme.colors.warning, modifier = Modifier.size(22.dp),
+                // Amber is a fill, never text or an icon on its own surface (design review §3.3).
+                tint = AppTheme.colors.onWarningSurface, modifier = Modifier.size(22.dp),
             )
             Spacer(Modifier.width(12.dp))
             Text(
                 text = stringResource(R.string.uninstall_stalled_title),
                 style = MaterialTheme.typography.titleSmall,
-                color = AppTheme.colors.textPrimary,
+                color = AppTheme.colors.onWarningSurface,
                 modifier = Modifier.weight(1f),
             )
             Spacer(Modifier.width(8.dp))

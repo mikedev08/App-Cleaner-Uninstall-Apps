@@ -28,16 +28,18 @@ import androidx.compose.ui.draw.drawBehind
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import com.jedy.appcleaner.uninstaller.R
 import com.jedy.appcleaner.uninstaller.core.ui.component.AppCard
 import com.jedy.appcleaner.uninstaller.core.ui.component.PrimaryButton
 import com.jedy.appcleaner.uninstaller.core.ui.component.ProBadge
-import com.jedy.appcleaner.uninstaller.core.ui.component.SecondaryButton
 import com.jedy.appcleaner.uninstaller.core.ui.theme.AppTheme
+import com.jedy.appcleaner.uninstaller.core.ui.theme.Dimens
 
 /**
  * The spring green deepened to a forest tone for the hero's base. The card stays this dark in
@@ -52,9 +54,14 @@ private val HeroMid = Color(0xFF166534)
  * Free users: "Unlock App Cleaner Pro" with three benefits and the one CTA on the screen. The
  * whole card routes to the paywall too, so a tap anywhere on the pitch works. Depth comes from
  * layered green glows painted behind the content, not from a shadow.
+ *
+ * It lives in the Subscription section, not at the top of Settings (design review §2.6), and it is
+ * the app's one strong premium spot: the full-gold PRO label, with no lock (it is the thing that
+ * unlocks). [trialAvailable] picks the CTA: "Try it free" only when Play will actually grant a
+ * trial to this account, otherwise "See Pro plans".
  */
 @Composable
-internal fun ProHeroCard(onUpgrade: () -> Unit, modifier: Modifier = Modifier) {
+internal fun ProHeroCard(trialAvailable: Boolean, onUpgrade: () -> Unit, modifier: Modifier = Modifier) {
     val accent = AppTheme.colors.accent
     val rtl = LocalLayoutDirection.current == LayoutDirection.Rtl
     Column(
@@ -74,37 +81,45 @@ internal fun ProHeroCard(onUpgrade: () -> Unit, modifier: Modifier = Modifier) {
                 drawCircle(Color.White.copy(alpha = 0.05f), radius = size.width * 0.2f, center = corner)
             }
             .clickable(onClick = onUpgrade)
-            .padding(24.dp),
+            .padding(Dimens.space24),
     ) {
         ProBadge(strong = true)
         Text(
             text = stringResource(R.string.settings_premium_upgrade_title),
-            style = MaterialTheme.typography.headlineMedium,
+            // Balanced lines: never "Unlock App Cleaner / Pro" on a 360dp phone.
+            style = MaterialTheme.typography.headlineSmall.copy(lineBreak = LineBreak.Heading),
             color = Color.White,
-            modifier = Modifier.padding(top = 14.dp),
+            modifier = Modifier.padding(top = Dimens.space12),
         )
         Column(
-            modifier = Modifier.padding(top = 14.dp),
+            modifier = Modifier.padding(top = Dimens.space16),
             verticalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             HeroBenefit(stringResource(R.string.settings_pro_benefit_unused))
             HeroBenefit(stringResource(R.string.settings_pro_benefit_storage))
             HeroBenefit(stringResource(R.string.settings_pro_benefit_reminders))
         }
-        Spacer(Modifier.height(22.dp))
+        Spacer(Modifier.height(Dimens.space24))
         PrimaryButton(
-            text = stringResource(R.string.settings_premium_upgrade_cta),
+            text = stringResource(
+                if (trialAvailable) R.string.settings_premium_upgrade_cta else R.string.settings_premium_see_plans,
+            ),
             onClick = onUpgrade,
             modifier = Modifier.fillMaxWidth(),
         )
     }
 }
 
+/** A benefit line. The check sits on the *first* line of text, even when a language wraps it. */
 @Composable
 private fun HeroBenefit(text: String) {
-    Row(verticalAlignment = Alignment.CenterVertically) {
+    // Balanced wrapping, so a translation that needs two lines never leaves one word on the second.
+    val style = MaterialTheme.typography.bodyLarge.copy(lineBreak = LineBreak.Heading)
+    val lineHeight = with(LocalDensity.current) { style.lineHeight.toDp() }
+    Row(verticalAlignment = Alignment.Top) {
         Box(
             Modifier
+                .padding(top = ((lineHeight - 22.dp) / 2).coerceAtLeast(0.dp))
                 .size(22.dp)
                 .clip(CircleShape)
                 .background(AppTheme.colors.accent),
@@ -113,16 +128,16 @@ private fun HeroBenefit(text: String) {
             Icon(Icons.Rounded.Check, contentDescription = null, tint = AppTheme.colors.onAccent, modifier = Modifier.size(15.dp))
         }
         Spacer(Modifier.width(12.dp))
-        Text(text = text, style = MaterialTheme.typography.bodyLarge, color = Color.White.copy(alpha = 0.92f))
+        Text(text = text, style = style, color = Color.White.copy(alpha = 0.92f))
     }
 }
 
 /**
- * Premium users: a calm confirmation, no sell. "Manage subscription" only appears for a real
- * store entitlement; the debug override has nothing in Play to manage.
+ * Premium users: a calm confirmation, no sell. "Manage subscription" is the row right below it in
+ * the Subscription group, so the card doesn't repeat it.
  */
 @Composable
-internal fun ProActiveCard(hasStoreSubscription: Boolean, onManage: () -> Unit, modifier: Modifier = Modifier) {
+internal fun ProActiveCard(hasStoreSubscription: Boolean, modifier: Modifier = Modifier) {
     val colors = AppTheme.colors
     AppCard(modifier = modifier.fillMaxWidth(), color = colors.accentSurface) {
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -152,13 +167,6 @@ internal fun ProActiveCard(hasStoreSubscription: Boolean, onManage: () -> Unit, 
                     modifier = Modifier.padding(top = 2.dp),
                 )
             }
-        }
-        if (hasStoreSubscription) {
-            SecondaryButton(
-                text = stringResource(R.string.settings_manage_subscription),
-                onClick = onManage,
-                modifier = Modifier.padding(top = 18.dp).fillMaxWidth(),
-            )
         }
     }
 }

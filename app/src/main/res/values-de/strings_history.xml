@@ -15,6 +15,7 @@
     <string name="history_clear_confirm">Löschen</string>
     <string name="history_store_unavailable">Play Store konnte nicht geöffnet werden</string>
     <string name="history_hero_freed">%1$s freigegeben</string>
+    <string name="history_hero_estimated">%1$s · geschätzt</string>
     <plurals name="history_hero_removed">
         <item quantity="one">%1$d App entfernt</item>
         <item quantity="other">%1$d Apps entfernt</item>

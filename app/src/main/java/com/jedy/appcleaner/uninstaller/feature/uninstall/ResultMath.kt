@@ -4,6 +4,7 @@ import com.jedy.appcleaner.uninstaller.core.model.AppSize
 import com.jedy.appcleaner.uninstaller.core.model.DeviceStorage
 import com.jedy.appcleaner.uninstaller.core.model.UnusedApp
 import kotlin.math.roundToInt
+import kotlin.math.roundToLong
 
 /**
  * The Result screen's gauge: how full the phone was before this batch and how full it is now.
@@ -38,6 +39,18 @@ object ResultMath {
     }
 
     fun percent(fraction: Float): Int = (fraction * 100).roundToInt().coerceIn(0, 100)
+
+    /**
+     * Android's short size formatter moves to the next unit above 900, so 970 MB prints as
+     * "0.97 GB" (design review §6). For sizes it would show as "0.9x GB", this returns the whole
+     * megabytes to print instead; null means the platform formatter's output is fine. A size that
+     * rounds to 1,000 MB stays "1.0 GB".
+     */
+    fun subGigabyteMegabytes(bytes: Long): Long? {
+        if (bytes <= 900_000_000L) return null
+        val mb = (bytes / 1_000_000.0).roundToLong()
+        return mb.takeIf { it < 1_000 }
+    }
 
     /**
      * The loss-framed teaser ("9 more apps you haven't opened are still using 1.3 GB"). Uses the

@@ -56,6 +56,7 @@ import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -114,7 +115,7 @@ fun UninstallResultScreen(
         ) {
             val summary = state.summary
             if (summary != null) {
-                Spacer(Modifier.height(Dimens.gutterLarge))
+                Spacer(Modifier.height(Dimens.space24))
                 if (summary.removedCount > 0) {
                     FreedHero(summary, state.storageDrop)
                 } else {
@@ -123,7 +124,7 @@ fun UninstallResultScreen(
                 Notes(summary)
                 val notRemoved = summary.notRemoved
                 if (notRemoved.isNotEmpty()) {
-                    Spacer(Modifier.height(Dimens.gutterLarge))
+                    Spacer(Modifier.height(Dimens.space24))
                     NotRemovedCard(
                         items = notRemoved,
                         retryEnabled = !state.isRetrying,
@@ -132,7 +133,7 @@ fun UninstallResultScreen(
                     )
                 }
                 if (state.teaser.count > 0) {
-                    Spacer(Modifier.height(Dimens.gutterSmall))
+                    Spacer(Modifier.height(if (notRemoved.isNotEmpty()) Dimens.cardGap else Dimens.space24))
                     UnusedTeaserCard(state.teaser, onOpenUnused)
                 }
                 Spacer(Modifier.height(Dimens.gutter))
@@ -221,7 +222,7 @@ private fun FreedHero(summary: BatchSummary, drop: StorageDrop?) {
     BigNumber(
         value = stringResource(R.string.uninstall_result_freed, sizeText(shownBytes, summary.freedIsEstimate)),
         caption = null,
-        color = colors.accentText,
+        color = colors.positive,
     )
     Spacer(Modifier.height(6.dp))
     val removed = summary.removedCount
@@ -387,24 +388,32 @@ private fun NotRemovedRow(
 }
 
 /**
- * Loss framing, from real numbers only: the apps the user still hasn't opened and the space they
- * still hold. Red because it is space being lost right now — never shown when there is nothing.
+ * The next step, from real numbers only: the apps the user still hasn't opened and the space they
+ * still hold. A neutral card with the size in green: space you *can* get back is good news, and
+ * red is reserved for destructive actions (design review §3.3). Never shown when there is nothing.
  */
 @Composable
 private fun UnusedTeaserCard(teaser: UnusedTeaser, onOpenUnused: () -> Unit) {
     val colors = AppTheme.colors
+    val size = sizeText(teaser.bytes, teaser.isEstimate)
+    val sentence = pluralStringResource(R.plurals.uninstall_result_teaser_loss, teaser.count, teaser.count, size)
+    val emphasis = MaterialTheme.typography.titleMedium.toSpanStyle().copy(color = colors.positive)
+    val text = remember(sentence, size, emphasis) {
+        buildAnnotatedString {
+            append(sentence)
+            val at = sentence.indexOf(size)
+            if (at >= 0) addStyle(emphasis, at, at + size.length)
+        }
+    }
     AppCard(modifier = Modifier.fillMaxWidth(), onClick = onOpenUnused) {
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            IconBadge(icon = Icons.Rounded.HourglassBottom, severity = Severity.DANGER, size = 44.dp)
-            Spacer(Modifier.width(14.dp))
+        Row(verticalAlignment = Alignment.Top) {
+            IconBadge(icon = Icons.Rounded.HourglassBottom, size = 44.dp)
+            Spacer(Modifier.width(Dimens.space12))
             Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(2.dp)) {
                 Text(
-                    text = pluralStringResource(
-                        R.plurals.uninstall_result_teaser_loss, teaser.count, teaser.count,
-                        sizeText(teaser.bytes, teaser.isEstimate),
-                    ),
+                    text = text,
                     style = MaterialTheme.typography.titleMedium,
-                    color = colors.danger,
+                    color = colors.textPrimary,
                 )
                 Text(
                     text = pluralStringResource(
@@ -415,15 +424,15 @@ private fun UnusedTeaserCard(teaser: UnusedTeaser, onOpenUnused: () -> Unit) {
                 )
             }
         }
-        Spacer(Modifier.height(12.dp))
+        Spacer(Modifier.height(Dimens.space12))
         Row(verticalAlignment = Alignment.CenterVertically) {
             Text(
                 text = stringResource(R.string.uninstall_result_teaser_action),
                 style = MaterialTheme.typography.labelLarge,
-                color = colors.textPrimary,
+                color = colors.accentText,
                 modifier = Modifier.weight(1f),
             )
-            Icon(Icons.AutoMirrored.Rounded.ArrowForward, contentDescription = null, tint = colors.textPrimary)
+            Icon(Icons.AutoMirrored.Rounded.ArrowForward, contentDescription = null, tint = colors.accentText)
         }
     }
 }

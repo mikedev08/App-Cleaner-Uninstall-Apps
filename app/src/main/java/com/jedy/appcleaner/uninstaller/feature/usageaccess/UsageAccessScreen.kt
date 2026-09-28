@@ -150,15 +150,15 @@ private fun UsageAccessContent(onContinue: () -> Unit, onNotNow: () -> Unit) {
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(horizontal = 8.dp),
             )
-            Spacer(Modifier.height(Dimens.gutterLarge))
+            Spacer(Modifier.height(Dimens.space24))
             AppCard(modifier = Modifier.fillMaxWidth()) {
                 TrustRow(Icons.Rounded.Visibility, stringResource(R.string.usage_what_label), stringResource(R.string.usage_what_body))
-                Spacer(Modifier.height(18.dp))
+                Spacer(Modifier.height(Dimens.space16))
                 TrustRow(Icons.Rounded.Insights, stringResource(R.string.usage_why_label), stringResource(R.string.usage_why_body))
-                Spacer(Modifier.height(18.dp))
+                Spacer(Modifier.height(Dimens.space16))
                 TrustRow(Icons.Rounded.VerifiedUser, stringResource(R.string.usage_where_label), stringResource(R.string.usage_where_body))
             }
-            Spacer(Modifier.height(Dimens.gutterLarge))
+            Spacer(Modifier.height(Dimens.space24))
             ToggleHint()
             Spacer(Modifier.height(Dimens.gutter))
         }

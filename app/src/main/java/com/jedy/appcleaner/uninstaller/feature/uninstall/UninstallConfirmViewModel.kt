@@ -38,8 +38,6 @@ data class ConfirmUiState(
     /** APK-only sizes (free, or no Usage Access): the summary says "about" (PRD Feature 2). */
     val isEstimate: Boolean = true,
     val isStarting: Boolean = false,
-    /** Whole-device total, so each row's size can be coloured by its share of the phone. 0 = unknown. */
-    val deviceTotalBytes: Long = 0,
 )
 
 /**
@@ -59,9 +57,6 @@ class UninstallConfirmViewModel @Inject constructor(
     private val packages = MutableStateFlow<List<String>>(emptyList())
     private val flagged = MutableStateFlow<Map<String, List<AppWarning>>>(emptyMap())
     private val starting = MutableStateFlow(false)
-
-    /** Read once: the sheet lives for seconds, and the total never changes. */
-    private val deviceTotal: Long by lazy { runCatching { storage.deviceStorage().totalBytes }.getOrDefault(0L) }
 
     private val _started = Channel<Long>(Channel.BUFFERED)
     /** Emits the new batch id once it is safely in Room. */
@@ -92,7 +87,6 @@ class UninstallConfirmViewModel @Inject constructor(
             totalBytes = rows.sumOf { it.bytes ?: 0L },
             isEstimate = estimate || rows.isEmpty(),
             isStarting = isStarting,
-            deviceTotalBytes = deviceTotal,
         )
     }.flowOn(Dispatchers.Default).stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), ConfirmUiState())
 

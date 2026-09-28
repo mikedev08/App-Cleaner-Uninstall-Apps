@@ -144,7 +144,7 @@ private fun ResumeBannerCard(
     onDiscard: () -> Unit,
 ) {
     AppCard(
-        modifier = Modifier.fillMaxWidth().padding(horizontal = Dimens.gutter, vertical = 8.dp),
+        modifier = Modifier.fillMaxWidth().padding(horizontal = Dimens.gutter, vertical = Dimens.space8),
         color = AppTheme.colors.warningSurface,
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -154,7 +154,7 @@ private fun ResumeBannerCard(
             ) {
                 Icon(
                     Icons.Rounded.RestartAlt, contentDescription = null,
-                    tint = AppTheme.colors.warning, modifier = Modifier.size(24.dp),
+                    tint = AppTheme.colors.onWarningSurface, modifier = Modifier.size(24.dp),
                 )
             }
             Spacer(Modifier.width(14.dp))

@@ -12,6 +12,7 @@ import com.jedy.appcleaner.uninstaller.R
 import com.jedy.appcleaner.uninstaller.core.analytics.Analytics
 import com.jedy.appcleaner.uninstaller.core.analytics.AnalyticsEvent
 import com.jedy.appcleaner.uninstaller.data.billing.BillingRepository
+import com.jedy.appcleaner.uninstaller.data.billing.OfferState
 import com.jedy.appcleaner.uninstaller.data.billing.Premium
 import com.jedy.appcleaner.uninstaller.data.billing.RestoreOutcome
 import com.jedy.appcleaner.uninstaller.data.prefs.AppPreferences
@@ -44,6 +45,11 @@ data class SettingsUiState(
     val debugForcePremium: Boolean = false,
     val billingConfigured: Boolean = false,
     val restoring: Boolean = false,
+    /**
+     * Play will grant this account a free trial (a loaded offer with a trial phase). Only then may
+     * the upsell say "free"; while the offer is loading or unavailable it says "See Pro plans".
+     */
+    val trialAvailable: Boolean = false,
 )
 
 sealed interface SettingsEvent {
@@ -103,7 +109,7 @@ class SettingsViewModel @Inject constructor(
         StatusSnapshot(isPremium, store, access, notifications, restoring)
     }
 
-    val uiState: StateFlow<SettingsUiState> = combine(prefs, status) { p, s ->
+    val uiState: StateFlow<SettingsUiState> = combine(prefs, status, billing.offer) { p, s, offer ->
         SettingsUiState(
             isPremium = s.isPremium,
             hasStoreSubscription = s.hasStoreSubscription,
@@ -116,6 +122,7 @@ class SettingsViewModel @Inject constructor(
             debugForcePremium = p.debugForcePremium,
             billingConfigured = billing.isConfigured,
             restoring = s.restoring,
+            trialAvailable = (offer as? OfferState.Loaded)?.offer?.trialEligible == true,
         )
     }.stateIn(
         scope = viewModelScope,
@@ -126,6 +133,7 @@ class SettingsViewModel @Inject constructor(
             usageAccessGranted = usageAccess.isGranted.value,
             notificationsEnabled = notificationsEnabled.value,
             billingConfigured = billing.isConfigured,
+            trialAvailable = (billing.offer.value as? OfferState.Loaded)?.offer?.trialEligible == true,
         ),
     )
 

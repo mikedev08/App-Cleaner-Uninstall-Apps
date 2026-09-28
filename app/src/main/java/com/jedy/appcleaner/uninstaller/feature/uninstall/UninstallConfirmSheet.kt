@@ -1,6 +1,7 @@
 package com.jedy.appcleaner.uninstaller.feature.uninstall
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -52,9 +53,6 @@ import com.jedy.appcleaner.uninstaller.core.ui.component.SecondaryButton
 import com.jedy.appcleaner.uninstaller.core.ui.component.SeverityChip
 import com.jedy.appcleaner.uninstaller.core.ui.theme.AppTheme
 import com.jedy.appcleaner.uninstaller.core.ui.theme.Dimens
-import com.jedy.appcleaner.uninstaller.core.ui.theme.Severity
-import com.jedy.appcleaner.uninstaller.core.ui.theme.SeverityRules
-import com.jedy.appcleaner.uninstaller.core.ui.theme.color
 import kotlinx.coroutines.launch
 
 /**
@@ -130,7 +128,7 @@ private fun ConfirmSheetContent(
             verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             items(state.apps, key = { it.packageName }) { app ->
-                ConfirmAppCard(app, state.deviceTotalBytes, Modifier.animateItem())
+                ConfirmAppCard(app, Modifier.animateItem())
             }
         }
         Row(
@@ -178,14 +176,15 @@ private fun ConfirmSheetContent(
 
 /**
  * "You'll free **about 455 MB**": the translated sentence keeps its own word order (the size can
- * sit anywhere, including in RTL), and only the size is set big and red.
+ * sit anywhere, including in RTL), and only the size is set big. Freed space is good news, so it
+ * is green (`positive`); red belongs to the Uninstall button alone (design review §3.3).
  */
 @Composable
 private fun FreeLine(size: String) {
     val template = stringResource(R.string.uninstall_confirm_free)
     val placeholder = "%1\$s"
     val at = template.indexOf(placeholder)
-    val big = MaterialTheme.typography.headlineLarge.toSpanStyle().copy(color = AppTheme.colors.removeRed)
+    val big = MaterialTheme.typography.headlineLarge.toSpanStyle().copy(color = AppTheme.colors.positive)
     val text = buildAnnotatedString {
         if (at < 0) {
             withStyle(big) { append(size) }
@@ -204,17 +203,18 @@ private fun FreeLine(size: String) {
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-private fun ConfirmAppCard(app: ConfirmApp, deviceTotalBytes: Long, modifier: Modifier = Modifier) {
+private fun ConfirmAppCard(app: ConfirmApp, modifier: Modifier = Modifier) {
     val colors = AppTheme.colors
     val bytes = app.bytes
-    val severity = if (bytes == null) Severity.OK else SeverityRules.appSize(bytes, deviceTotalBytes)
+    val shape = RoundedCornerShape(20.dp)
     Row(
         modifier
             .fillMaxWidth()
-            .padding(horizontal = 16.dp)
-            .clip(RoundedCornerShape(20.dp))
+            .padding(horizontal = Dimens.gutter)
+            .clip(shape)
             .background(colors.surface)
-            .padding(horizontal = 14.dp, vertical = 12.dp),
+            .border(Dimens.hairline, colors.border, shape)
+            .padding(horizontal = Dimens.space12, vertical = Dimens.space12),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         AppIcon(packageName = app.packageName, size = 40.dp)
@@ -254,7 +254,8 @@ private fun ConfirmAppCard(app: ConfirmApp, deviceTotalBytes: Long, modifier: Mo
         Text(
             text = if (bytes != null) sizeText(bytes, isEstimate = false) else stringResource(R.string.uninstall_size_unavailable),
             style = MaterialTheme.typography.titleSmall,
-            color = if (bytes == null) colors.textMuted else if (severity == Severity.OK) colors.textPrimary else severity.color,
+            // Sizes are neutral text (design review §3.3).
+            color = if (bytes == null) colors.textMuted else colors.textPrimary,
             maxLines = 1,
         )
     }

@@ -3,6 +3,7 @@
     <string name="settings_title">设置</string>
     <string name="settings_premium_upgrade_title">解锁 App Cleaner Pro</string>
     <string name="settings_premium_upgrade_cta">免费试用</string>
+    <string name="settings_premium_see_plans">查看 Pro 方案</string>
     <string name="settings_premium_active_title">Pro 已激活</string>
     <string name="settings_premium_active_body">所有功能均已解锁。谢谢！</string>
     <string name="settings_manage_subscription">管理订阅</string>
@@ -15,12 +16,13 @@
     <string name="settings_size_total_short">总计</string>
     <string name="settings_size_needs_access">需要使用情况访问权限</string>
     <string name="settings_usage_access">使用情况访问权限</string>
-    <string name="settings_usage_access_body">用于查找闲置应用并计算存储占用。数据只保存在你的手机上。</string>
+    <string name="settings_usage_access_body">用于查找闲置应用。数据不会离开你的手机。</string>
     <string name="settings_usage_access_granted">已允许</string>
+    <string name="settings_usage_access_denied">未允许</string>
     <string name="settings_usage_access_allow">允许</string>
     <string name="settings_section_reminders">清理提醒</string>
-    <string name="settings_reminders_toggle">提醒我清理闲置应用</string>
-    <string name="settings_reminders_body">每周检查一次，只在有可清理的内容时提醒。</string>
+    <string name="settings_reminders_toggle">每周提醒</string>
+    <string name="settings_reminders_body">仅在闲置应用堆积时提醒。</string>
     <string name="settings_reminders_threshold">多久未使用算作闲置</string>
     <plurals name="settings_threshold_days">
         <item quantity="other">%d 天</item>
@@ -31,9 +33,9 @@
     <string name="settings_section_subscription">订阅</string>
     <string name="settings_restore">恢复购买</string>
     <string name="settings_rate">为 App Cleaner 评分</string>
-    <string name="settings_pro_benefit_unused">找出几个月没打开过的应用</string>
+    <string name="settings_pro_benefit_unused">找出从不打开的应用</string>
     <string name="settings_pro_benefit_storage">查看每个应用的真实大小</string>
-    <string name="settings_pro_benefit_reminders">被遗忘的应用越积越多时提醒你</string>
+    <string name="settings_pro_benefit_reminders">定期提醒你清理</string>
     <string name="settings_section_preferences">偏好设置</string>
     <string name="settings_footer_privacy">隐私</string>
     <string name="settings_footer_terms">条款</string>

@@ -101,4 +101,15 @@ class ResultMathTest {
         ),
         lastUsedAt = null,
     )
+
+    @Test
+    fun `sizes the platform would print as 0 point 9x GB are printed in MB`() {
+        assertNull(ResultMath.subGigabyteMegabytes(470_000_000L))
+        assertNull(ResultMath.subGigabyteMegabytes(900_000_000L))
+        assertEquals(970L, ResultMath.subGigabyteMegabytes(970_400_000L))
+        assertEquals(999L, ResultMath.subGigabyteMegabytes(999_400_000L))
+        // Rounds to 1,000 MB: "1.0 GB" from the platform is right.
+        assertNull(ResultMath.subGigabyteMegabytes(999_600_000L))
+        assertNull(ResultMath.subGigabyteMegabytes(2 * gb))
+    }
 }

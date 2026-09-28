@@ -15,6 +15,7 @@
     <string name="history_clear_confirm">ניקוי</string>
     <string name="history_store_unavailable">לא ניתן לפתוח את חנות Play</string>
     <string name="history_hero_freed">%1$s פונו</string>
+    <string name="history_hero_estimated">%1$s · הערכה</string>
     <plurals name="history_hero_removed">
         <item quantity="one">אפליקציה אחת הוסרה</item>
         <item quantity="two">%1$d אפליקציות הוסרו</item>

@@ -3,6 +3,7 @@
     <string name="settings_title">הגדרות</string>
     <string name="settings_premium_upgrade_title">שדרגו ל-App Cleaner Pro</string>
     <string name="settings_premium_upgrade_cta">נסו בחינם</string>
+    <string name="settings_premium_see_plans">לתוכניות Pro</string>
     <string name="settings_premium_active_title">Pro פעיל</string>
     <string name="settings_premium_active_body">כל התכונות פתוחות. תודה!</string>
     <string name="settings_manage_subscription">ניהול המינוי</string>
@@ -15,12 +16,13 @@
     <string name="settings_size_total_short">סה״כ</string>
     <string name="settings_size_needs_access">נדרשת גישה לנתוני שימוש</string>
     <string name="settings_usage_access">גישה לנתוני שימוש</string>
-    <string name="settings_usage_access_body">מאתרת אפליקציות שלא בשימוש ומודדת אחסון. הכול נשאר בטלפון שלך.</string>
+    <string name="settings_usage_access_body">מאתרת אפליקציות שלא בשימוש. שום דבר לא יוצא מהטלפון.</string>
     <string name="settings_usage_access_granted">מותר</string>
+    <string name="settings_usage_access_denied">לא מותר</string>
     <string name="settings_usage_access_allow">אישור</string>
     <string name="settings_section_reminders">תזכורות ניקוי</string>
-    <string name="settings_reminders_toggle">תזכורת על אפליקציות שלא בשימוש</string>
-    <string name="settings_reminders_body">בדיקה שבועית, רק כשיש מה לנקות.</string>
+    <string name="settings_reminders_toggle">תזכורת שבועית</string>
+    <string name="settings_reminders_body">רק כשמצטברות אפליקציות שלא בשימוש.</string>
     <string name="settings_reminders_threshold">אפליקציה נחשבת לא בשימוש אחרי</string>
     <plurals name="settings_threshold_days">
         <item quantity="one">יום אחד</item>
@@ -33,9 +35,9 @@
     <string name="settings_section_subscription">מינוי</string>
     <string name="settings_restore">שחזור רכישות</string>
     <string name="settings_rate">דירוג App Cleaner</string>
-    <string name="settings_pro_benefit_unused">מצאו אפליקציות שלא פתחתם כבר חודשים</string>
+    <string name="settings_pro_benefit_unused">מצאו אפליקציות שאתם לא פותחים</string>
     <string name="settings_pro_benefit_storage">ראו את הגודל האמיתי של כל אפליקציה</string>
-    <string name="settings_pro_benefit_reminders">קבלו תזכורת כשאפליקציות נשכחות מצטברות</string>
+    <string name="settings_pro_benefit_reminders">קבלו תזכורות לניקוי</string>
     <string name="settings_section_preferences">העדפות</string>
     <string name="settings_footer_privacy">פרטיות</string>
     <string name="settings_footer_terms">תנאים</string>

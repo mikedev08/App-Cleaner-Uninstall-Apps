@@ -14,6 +14,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
@@ -34,9 +35,9 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.Close
 import androidx.compose.material.icons.rounded.Block
 import androidx.compose.material.icons.rounded.CheckCircle
-import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.CloudOff
 import androidx.compose.material.icons.rounded.HourglassBottom
 import androidx.compose.material.icons.rounded.NotificationsActive
@@ -46,7 +47,6 @@ import androidx.compose.material.icons.rounded.WorkspacePremium
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -73,7 +73,9 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.jedy.appcleaner.uninstaller.R
 import com.jedy.appcleaner.uninstaller.core.format.formatBytes
 import com.jedy.appcleaner.uninstaller.core.model.PaywallSource
+import com.jedy.appcleaner.uninstaller.core.ui.component.AppCard
 import com.jedy.appcleaner.uninstaller.core.ui.component.PrimaryButton
+import com.jedy.appcleaner.uninstaller.core.ui.component.TopBarAction
 import com.jedy.appcleaner.uninstaller.core.ui.theme.AppTheme
 import com.jedy.appcleaner.uninstaller.core.ui.theme.Dimens
 import com.jedy.appcleaner.uninstaller.data.billing.BillingLinks
@@ -155,20 +157,18 @@ fun PaywallScreen(
             }
         }
 
-        // Outside the animated content, so it exists on the first frame and never fades.
-        IconButton(
+        // Outside the animated content, so it exists on the first frame and never fades. A 48dp
+        // kit top-bar button, placed so its glyph sits on the 20dp gutter like every top bar's.
+        TopBarAction(
+            icon = Icons.Outlined.Close,
+            contentDescription = stringResource(R.string.action_close),
             onClick = if (state.isPremium) onClose else dismiss,
+            tint = AppTheme.colors.textSecondary,
             modifier = Modifier
                 .align(Alignment.TopStart)
                 .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Top + WindowInsetsSides.Horizontal))
-                .padding(4.dp),
-        ) {
-            Icon(
-                imageVector = Icons.Rounded.Close,
-                contentDescription = stringResource(R.string.action_close),
-                tint = AppTheme.colors.textSecondary,
-            )
-        }
+                .padding(start = Dimens.gutter - 12.dp, top = Dimens.space8),
+        )
 
         SnackbarHost(
             hostState = snackbarHostState,
@@ -199,10 +199,10 @@ private fun PaywallContent(
             modifier = Modifier
                 .weight(1f)
                 .verticalScroll(rememberScrollState())
-                .padding(horizontal = Dimens.gutterLarge),
+                .padding(horizontal = Dimens.gutter),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Spacer(Modifier.height(52.dp)) // room for the close button
+            Spacer(Modifier.height(56.dp)) // room for the close button
             Box(
                 modifier = Modifier
                     .size(64.dp)
@@ -213,7 +213,8 @@ private fun PaywallContent(
                 Icon(
                     imageVector = Icons.Rounded.WorkspacePremium,
                     contentDescription = null,
-                    tint = colors.premiumGold,
+                    // Quiet gold (design review §3.3): the green CTA stays the loudest thing here.
+                    tint = colors.premiumGoldText,
                     modifier = Modifier.size(34.dp),
                 )
             }
@@ -235,9 +236,9 @@ private fun PaywallContent(
                 modifier = Modifier.padding(top = 8.dp),
             )
 
-            Spacer(Modifier.height(Dimens.gutterLarge))
+            Spacer(Modifier.height(Dimens.space24))
             BenefitsCard()
-            Spacer(Modifier.height(Dimens.gutter))
+            Spacer(Modifier.height(Dimens.cardGap))
             PlanCard(plan = state.plan, onRetry = onRetry)
             Spacer(Modifier.height(Dimens.gutter))
         }
@@ -245,8 +246,8 @@ private fun PaywallContent(
         Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = Dimens.gutterLarge)
-                .padding(top = 8.dp),
+                .padding(horizontal = Dimens.gutter)
+                .padding(top = Dimens.space8),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             // The kit button has no busy state, so while a purchase is in flight it keeps its green,
@@ -337,13 +338,10 @@ private val benefits = listOf(
 @Composable
 private fun BenefitsCard() {
     val colors = AppTheme.colors
-    val shape = RoundedCornerShape(Dimens.cardRadius)
-    Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(shape)
-            .background(colors.surface)
-            .padding(horizontal = Dimens.gutter, vertical = 6.dp),
+    // The kit card, so it gets the same 1dp outline as every other card.
+    AppCard(
+        modifier = Modifier.fillMaxWidth(),
+        contentPadding = PaddingValues(horizontal = Dimens.gutter, vertical = 6.dp),
     ) {
         benefits.forEach { benefit ->
             Row(
@@ -388,8 +386,9 @@ private fun PlanCard(plan: PaywallPlan, onRetry: () -> Unit) {
             .heightIn(min = 84.dp)
             .clip(shape)
             .background(if (selectable) colors.accentSurface else colors.surface)
-            // Only the selected plan gets an edge: the green ring *is* the selection state.
-            .then(if (selectable) Modifier.border(BorderStroke(2.dp, colors.accent), shape) else Modifier)
+            // The selected plan's green ring *is* the selection state; a plain card gets the kit's
+            // 1dp outline like every other card.
+            .border(if (selectable) BorderStroke(2.dp, colors.accent) else BorderStroke(Dimens.hairline, colors.border), shape)
             .padding(Dimens.gutter),
         contentAlignment = Alignment.CenterStart,
     ) {
@@ -507,7 +506,7 @@ private fun PremiumConfirmation(onContinue: () -> Unit) {
         modifier = Modifier
             .fillMaxSize()
             .windowInsetsPadding(WindowInsets.safeDrawing)
-            .padding(horizontal = Dimens.gutterLarge),
+            .padding(horizontal = Dimens.gutter),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
@@ -521,7 +520,7 @@ private fun PremiumConfirmation(onContinue: () -> Unit) {
             Icon(
                 imageVector = Icons.Rounded.WorkspacePremium,
                 contentDescription = null,
-                tint = colors.premiumGold,
+                tint = colors.premiumGoldText,
                 modifier = Modifier.size(52.dp),
             )
         }
@@ -530,7 +529,7 @@ private fun PremiumConfirmation(onContinue: () -> Unit) {
             style = MaterialTheme.typography.headlineLarge,
             color = colors.textPrimary,
             textAlign = TextAlign.Center,
-            modifier = Modifier.padding(top = Dimens.gutterLarge),
+            modifier = Modifier.padding(top = Dimens.space24),
         )
         Text(
             text = stringResource(R.string.paywall_premium_body),
@@ -543,7 +542,7 @@ private fun PremiumConfirmation(onContinue: () -> Unit) {
             text = stringResource(R.string.action_continue),
             onClick = onContinue,
             modifier = Modifier
-                .padding(top = Dimens.gutterLarge)
+                .padding(top = Dimens.space32)
                 .fillMaxWidth(),
         )
     }

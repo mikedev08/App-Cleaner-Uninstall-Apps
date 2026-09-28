@@ -5,32 +5,23 @@ import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.shrinkVertically
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.windowInsetsBottomHeight
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.BugReport
 import androidx.compose.material.icons.rounded.Cloud
 import androidx.compose.material.icons.rounded.DarkMode
@@ -44,7 +35,6 @@ import androidx.compose.material.icons.rounded.SdStorage
 import androidx.compose.material.icons.rounded.StarRate
 import androidx.compose.material.icons.rounded.Timelapse
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -52,7 +42,6 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -63,12 +52,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.heading
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.LifecycleResumeEffect
@@ -78,8 +64,14 @@ import com.jedy.appcleaner.uninstaller.R
 import com.jedy.appcleaner.uninstaller.core.locale.AppLanguage
 import com.jedy.appcleaner.uninstaller.core.model.PaywallSource
 import com.jedy.appcleaner.uninstaller.core.model.UsageAccessTrigger
+import com.jedy.appcleaner.uninstaller.core.ui.component.AppTopBar
 import com.jedy.appcleaner.uninstaller.core.ui.component.LanguagePickerSheet
+import com.jedy.appcleaner.uninstaller.core.ui.component.LargeTitle
 import com.jedy.appcleaner.uninstaller.core.ui.component.ProBadge
+import com.jedy.appcleaner.uninstaller.core.ui.component.SegmentOption
+import com.jedy.appcleaner.uninstaller.core.ui.component.bottomContentPadding
+import com.jedy.appcleaner.uninstaller.core.ui.component.rememberIsLargeTitleCollapsed
+import com.jedy.appcleaner.uninstaller.core.ui.component.rememberIsScrolled
 import com.jedy.appcleaner.uninstaller.core.ui.theme.AppTheme
 import com.jedy.appcleaner.uninstaller.core.ui.theme.Dimens
 import com.jedy.appcleaner.uninstaller.data.billing.BillingLinks
@@ -93,9 +85,10 @@ import kotlinx.coroutines.launch
 /**
  * CONTRACT (frozen signature). PRD §4 Screen 13, redesigned for v2 (Sept 2026).
  *
- * Layout, top to bottom: a pinned back arrow (its small title fades in once the big one scrolls
- * away), the big "Settings" title, the Pro hero, then soft grouped cards. Choices with two or
- * three values (theme, size mode, reminder threshold) are inline pill controls instead of dialogs,
+ * Layout, top to bottom: the shared AppTopBar (its small title fades in once the big one scrolls
+ * away), the big "Settings" title, Preferences, Reminders, then Subscription led by the Pro card
+ * (settings first, the sell second), all on the 20dp gutter. Choices with two or
+ * three values (theme, size mode, reminder threshold) are inline segmented controls instead of dialogs,
  * because seeing every option at once is faster than opening a dialog to find them. The old
  * About section is gone: version and legal links are a one-line footer, since nobody visits
  * Settings to read them.
@@ -143,133 +136,140 @@ fun SettingsScreen(
     }
 
     val scrollState = rememberScrollState()
-    val bigTitleGonePx = with(LocalDensity.current) { 72.dp.toPx() }
-    val showBarTitle by remember { derivedStateOf { scrollState.value > bigTitleGonePx } }
+    val scrolled = rememberIsScrolled(scrollState)
+    val titleCollapsed = rememberIsLargeTitleCollapsed(scrollState)
 
     Scaffold(
         containerColor = AppTheme.colors.background,
         contentWindowInsets = WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal),
         snackbarHost = { SnackbarHost(snackbarHostState, Modifier.navigationBarsPadding()) },
-        topBar = { PinnedBar(showTitle = showBarTitle, onBack = onBack) },
+        topBar = {
+            AppTopBar(
+                title = stringResource(R.string.settings_title),
+                onBack = onBack,
+                scrolled = scrolled,
+                titleVisible = titleCollapsed,
+            )
+        },
     ) { padding ->
         Column(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
                 .verticalScroll(scrollState)
-                .padding(horizontal = Dimens.gutter),
+                .bottomContentPadding(),
         ) {
-            Text(
-                text = stringResource(R.string.settings_title),
-                style = MaterialTheme.typography.displaySmall,
-                color = AppTheme.colors.textPrimary,
-                modifier = Modifier
-                    .padding(start = 4.dp, top = 4.dp, bottom = Dimens.gutter)
-                    .semantics { heading() },
-            )
+            LargeTitle(stringResource(R.string.settings_title))
 
-            if (state.isPremium) {
-                ProActiveCard(
-                    hasStoreSubscription = state.hasStoreSubscription,
-                    onManage = { openUrl(viewModel.manageSubscriptionUrl(), null) },
+            Column(Modifier.padding(horizontal = Dimens.gutter)) {
+                PreferencesGroup(
+                    state = state,
+                    language = language,
+                    onOpenLanguage = { languageSheetVisible = true },
+                    onThemeSelected = viewModel::setThemeMode,
+                    onSizeSelected = { value ->
+                        if (value == SizeDisplay.TOTAL && !state.isPremium) onOpenPaywall(PaywallSource.SETTINGS)
+                        else viewModel.setSizeDisplay(value)
+                    },
+                    onUsageAccess = {
+                        if (state.usageAccessGranted) {
+                            if (!context.startActivitySafely(viewModel.usageAccessSettingsIntent())) showLinkError()
+                        } else {
+                            onOpenUsageAccess(UsageAccessTrigger.SETTINGS)
+                        }
+                    },
+                    onRate = {
+                        openUrl(
+                            BillingLinks.playListingMarket(context.packageName),
+                            BillingLinks.playListingWeb(context.packageName),
+                        )
+                    },
                 )
-            } else {
-                ProHeroCard(onUpgrade = { onOpenPaywall(PaywallSource.SETTINGS) })
-            }
 
-            PreferencesGroup(
-                state = state,
-                language = language,
-                onOpenLanguage = { languageSheetVisible = true },
-                onThemeSelected = viewModel::setThemeMode,
-                onSizeSelected = { value ->
-                    if (value == SizeDisplay.TOTAL && !state.isPremium) onOpenPaywall(PaywallSource.SETTINGS)
-                    else viewModel.setSizeDisplay(value)
-                },
-                onUsageAccess = {
-                    if (state.usageAccessGranted) {
-                        if (!context.startActivitySafely(viewModel.usageAccessSettingsIntent())) showLinkError()
-                    } else {
-                        onOpenUsageAccess(UsageAccessTrigger.SETTINGS)
-                    }
-                },
-                onRate = {
-                    openUrl(
-                        BillingLinks.playListingMarket(context.packageName),
-                        BillingLinks.playListingWeb(context.packageName),
-                    )
-                },
-            )
-
-            RemindersGroup(
-                state = state,
-                onToggle = { enabled ->
-                    if (state.isPremium) viewModel.setRemindersEnabled(enabled)
-                    else onOpenPaywall(PaywallSource.REMINDER_TOGGLE)
-                },
-                onThreshold = { days ->
-                    if (state.isPremium) viewModel.setUnusedThresholdDays(days)
-                    else onOpenPaywall(PaywallSource.REMINDER_TOGGLE)
-                },
-                onAllowNotifications = {
-                    if (!context.startActivitySafely(viewModel.notificationSettingsIntent())) showLinkError()
-                },
-                onAllowUsageAccess = { onOpenUsageAccess(UsageAccessTrigger.SETTINGS) },
-            )
-
-            SettingsGroup(title = stringResource(R.string.settings_section_subscription)) {
-                SettingsRow(
-                    icon = Icons.Rounded.ManageAccounts,
-                    title = stringResource(R.string.settings_manage_subscription),
-                    onClick = { openUrl(viewModel.manageSubscriptionUrl(), null) },
+                RemindersGroup(
+                    state = state,
+                    onToggle = { enabled ->
+                        if (state.isPremium) viewModel.setRemindersEnabled(enabled)
+                        else onOpenPaywall(PaywallSource.REMINDER_TOGGLE)
+                    },
+                    onThreshold = { days ->
+                        if (state.isPremium) viewModel.setUnusedThresholdDays(days)
+                        else if (days != state.thresholdDays) onOpenPaywall(PaywallSource.REMINDER_TOGGLE)
+                    },
+                    onAllowNotifications = {
+                        if (!context.startActivitySafely(viewModel.notificationSettingsIntent())) showLinkError()
+                    },
+                    onAllowUsageAccess = { onOpenUsageAccess(UsageAccessTrigger.SETTINGS) },
                 )
-                SettingsRow(
-                    icon = Icons.Rounded.Restore,
-                    title = stringResource(R.string.settings_restore),
-                    onClick = viewModel::restore,
-                    enabled = !state.restoring,
-                    trailing = if (state.restoring) {
-                        {
-                            CircularProgressIndicator(
-                                color = AppTheme.colors.accent,
-                                strokeWidth = 2.dp,
-                                modifier = Modifier.size(20.dp),
+
+                // Settings first, the sell second (design review §2.6): the Pro card leads the
+                // Subscription section instead of opening the screen.
+                SettingsGroup(
+                    title = stringResource(R.string.settings_section_subscription),
+                    lead = {
+                        if (state.isPremium) {
+                            ProActiveCard(hasStoreSubscription = state.hasStoreSubscription)
+                        } else {
+                            ProHeroCard(
+                                trialAvailable = state.trialAvailable,
+                                onUpgrade = { onOpenPaywall(PaywallSource.SETTINGS) },
                             )
                         }
-                    } else {
-                        null
                     },
-                    showChevron = !state.restoring,
-                )
-            }
-
-            if (BuildConfig.DEBUG) {
-                SettingsGroup(title = stringResource(R.string.settings_section_debug)) {
-                    SettingsSwitchRow(
-                        icon = Icons.Rounded.BugReport,
-                        title = stringResource(R.string.settings_debug_force_premium),
-                        subtitle = null,
-                        checked = state.debugForcePremium,
-                        onCheckedChange = viewModel::setDebugForcePremium,
+                ) {
+                    SettingsRow(
+                        icon = Icons.Rounded.ManageAccounts,
+                        title = stringResource(R.string.settings_manage_subscription),
+                        onClick = { openUrl(viewModel.manageSubscriptionUrl(), null) },
                     )
                     SettingsRow(
-                        icon = Icons.Rounded.Cloud,
-                        title = stringResource(R.string.settings_debug_revenuecat),
-                        value = stringResource(
-                            if (state.billingConfigured) R.string.settings_debug_configured
-                            else R.string.settings_debug_not_configured
-                        ),
-                        onClick = null,
+                        icon = Icons.Rounded.Restore,
+                        title = stringResource(R.string.settings_restore),
+                        onClick = viewModel::restore,
+                        enabled = !state.restoring,
+                        trailing = if (state.restoring) {
+                            {
+                                CircularProgressIndicator(
+                                    color = AppTheme.colors.accent,
+                                    strokeWidth = 2.dp,
+                                    modifier = Modifier.size(20.dp),
+                                )
+                            }
+                        } else {
+                            null
+                        },
+                        showChevron = !state.restoring,
                     )
                 }
-            }
 
-            SettingsFooter(
-                onPrivacy = { openUrl(BillingLinks.PRIVACY_URL, null) },
-                onTerms = { openUrl(BillingLinks.TERMS_URL, null) },
-            )
-            // Edge to edge: the list scrolls behind the gesture bar and ends just above it.
-            Spacer(Modifier.windowInsetsBottomHeight(WindowInsets.navigationBars))
+                // Debug builds only: BuildConfig.DEBUG is a compile-time false in release, so R8
+                // drops this whole group (and the force-premium switch) from the shipped app.
+                if (BuildConfig.DEBUG) {
+                    SettingsGroup(title = stringResource(R.string.settings_section_debug)) {
+                        SettingsSwitchRow(
+                            icon = Icons.Rounded.BugReport,
+                            title = stringResource(R.string.settings_debug_force_premium),
+                            subtitle = null,
+                            checked = state.debugForcePremium,
+                            onCheckedChange = viewModel::setDebugForcePremium,
+                        )
+                        SettingsRow(
+                            icon = Icons.Rounded.Cloud,
+                            title = stringResource(R.string.settings_debug_revenuecat),
+                            value = stringResource(
+                                if (state.billingConfigured) R.string.settings_debug_configured
+                                else R.string.settings_debug_not_configured
+                            ),
+                            onClick = null,
+                        )
+                    }
+                }
+
+                SettingsFooter(
+                    onPrivacy = { openUrl(BillingLinks.PRIVACY_URL, null) },
+                    onTerms = { openUrl(BillingLinks.TERMS_URL, null) },
+                )
+            }
         }
     }
 
@@ -285,44 +285,6 @@ fun SettingsScreen(
     }
 }
 
-/** Back arrow on a soft round button; the compact title appears only once the big one is gone. */
-@Composable
-private fun PinnedBar(showTitle: Boolean, onBack: () -> Unit) {
-    val colors = AppTheme.colors
-    Row(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(colors.background)
-            .statusBarsPadding()
-            .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal))
-            .padding(horizontal = Dimens.gutterSmall, vertical = 8.dp),
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        Box(
-            modifier = Modifier
-                .size(44.dp)
-                .clip(CircleShape)
-                .background(colors.surface)
-                .clickable(onClick = onBack),
-            contentAlignment = Alignment.Center,
-        ) {
-            Icon(
-                imageVector = Icons.AutoMirrored.Rounded.ArrowBack,
-                contentDescription = stringResource(R.string.action_back),
-                tint = colors.textPrimary,
-            )
-        }
-        AnimatedVisibility(visible = showTitle, enter = fadeIn(), exit = fadeOut()) {
-            Text(
-                text = stringResource(R.string.settings_title),
-                style = MaterialTheme.typography.titleLarge,
-                color = colors.textPrimary,
-                modifier = Modifier.padding(start = 14.dp),
-            )
-        }
-    }
-}
-
 @Composable
 private fun PreferencesGroup(
     state: SettingsUiState,
@@ -333,7 +295,8 @@ private fun PreferencesGroup(
     onUsageAccess: () -> Unit,
     onRate: () -> Unit,
 ) {
-    SettingsGroup(title = stringResource(R.string.settings_section_preferences)) {
+    // First group: the large title above already ends in 12dp, so 12 more (not a 32dp section gap).
+    SettingsGroup(title = stringResource(R.string.settings_section_preferences), topSpacing = Dimens.space12) {
         SettingsRow(
             icon = Icons.Rounded.Language,
             title = stringResource(R.string.settings_language),
@@ -343,7 +306,7 @@ private fun PreferencesGroup(
         SegmentedSettingRow(
             icon = Icons.Rounded.DarkMode,
             title = stringResource(R.string.settings_theme),
-            segments = ThemeMode.entries.map { Segment(stringResource(it.labelRes())) },
+            segments = ThemeMode.entries.map { SegmentOption(stringResource(it.labelRes())) },
             selectedIndex = ThemeMode.entries.indexOf(state.themeMode),
             onSelect = { onThemeSelected(ThemeMode.entries[it]) },
         )
@@ -356,7 +319,7 @@ private fun PreferencesGroup(
                 null
             },
             segments = SizeDisplay.entries.map {
-                Segment(stringResource(it.labelRes()), locked = it == SizeDisplay.TOTAL && !state.isPremium)
+                SegmentOption(stringResource(it.labelRes()), locked = it == SizeDisplay.TOTAL && !state.isPremium)
             },
             selectedIndex = SizeDisplay.entries.indexOf(state.sizeDisplay),
             onSelect = { onSizeSelected(SizeDisplay.entries[it]) },
@@ -366,8 +329,8 @@ private fun PreferencesGroup(
             title = stringResource(R.string.settings_usage_access),
             subtitle = stringResource(R.string.settings_usage_access_body),
             onClick = onUsageAccess,
-            trailing = { UsageAccessStatus(granted = state.usageAccessGranted) },
-            showChevron = false,
+            // Status under the title, not in a trailing column, so the description keeps the width.
+            status = { UsageAccessStatus(granted = state.usageAccessGranted) },
         )
         SettingsRow(
             icon = Icons.Rounded.StarRate,
@@ -393,15 +356,23 @@ private fun RemindersGroup(
             subtitle = stringResource(R.string.settings_reminders_body),
             checked = state.isPremium && state.remindersEnabled,
             onCheckedChange = onToggle,
-            titleBadge = if (locked) ({ ProBadge() }) else null,
+            // Under the title, never beside it: a pill on the title line made it wrap at 360dp.
+            status = if (locked) ({ ProBadge() }) else null,
         )
         val thresholds = AppPreferences.UNUSED_THRESHOLDS
         SegmentedSettingRow(
             icon = Icons.Rounded.Timelapse,
             title = stringResource(R.string.settings_reminders_threshold),
-            segments = thresholds.map { Segment(pluralStringResource(R.plurals.settings_threshold_days, it, it)) },
-            // Nothing looks selected for a free user: the setting is not theirs yet.
-            selectedIndex = if (locked) -1 else thresholds.indexOf(state.thresholdDays),
+            // The value the scan really uses is always shown selected, Pro or not (design review §9:
+            // an empty control next to "haven't opened in 60 days" looked broken). A free user
+            // sees the other values locked; the row's PRO badge above is the one Pro marker.
+            segments = thresholds.map {
+                SegmentOption(
+                    label = pluralStringResource(R.plurals.settings_threshold_days, it, it),
+                    locked = locked && it != state.thresholdDays,
+                )
+            },
+            selectedIndex = thresholds.indexOf(state.thresholdDays).coerceAtLeast(0),
             onSelect = { onThreshold(thresholds[it]) },
         )
         AnimatedVisibility(
@@ -431,14 +402,17 @@ private fun RemindersGroup(
     }
 }
 
-/** "App Cleaner 1.0 · Privacy · Terms": everything the old About section held, in one line. */
+/**
+ * "App Cleaner 1.0 · Privacy · Terms": everything the old About section held, in one line. The
+ * version gets the same side padding as the links, so every "·" has an equal gap on both sides.
+ */
 @Composable
 private fun SettingsFooter(onPrivacy: () -> Unit, onTerms: () -> Unit) {
     val colors = AppTheme.colors
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 36.dp, bottom = Dimens.gutter),
+            .padding(top = Dimens.sectionGap),
         horizontalArrangement = Arrangement.Center,
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -446,6 +420,7 @@ private fun SettingsFooter(onPrivacy: () -> Unit, onTerms: () -> Unit) {
             text = stringResource(R.string.settings_footer_version, BuildConfig.VERSION_NAME),
             style = MaterialTheme.typography.bodySmall,
             color = colors.textMuted,
+            modifier = Modifier.padding(horizontal = FooterItemPadding),
         )
         FooterDot()
         FooterLink(stringResource(R.string.settings_footer_privacy), onPrivacy)
@@ -468,10 +443,12 @@ private fun FooterLink(text: String, onClick: () -> Unit) {
         modifier = Modifier
             .clip(RoundedCornerShape(8.dp))
             .clickable(onClick = onClick)
-            // Keeps a ~40dp touch target around small text.
-            .padding(horizontal = 6.dp, vertical = 11.dp),
+            // A 48dp-tall touch target around small text.
+            .padding(horizontal = FooterItemPadding, vertical = 15.dp),
     )
 }
+
+private val FooterItemPadding = 6.dp
 
 private fun ThemeMode.labelRes(): Int = when (this) {
     ThemeMode.SYSTEM -> R.string.settings_theme_system
