@@ -3,7 +3,9 @@ package com.jedy.appcleaner.uninstaller.data.scan
 import com.jedy.appcleaner.uninstaller.core.model.AppSize
 import com.jedy.appcleaner.uninstaller.core.model.DeviceStorage
 import com.jedy.appcleaner.uninstaller.core.model.InstalledApp
+import com.jedy.appcleaner.uninstaller.core.model.LargeApps
 import com.jedy.appcleaner.uninstaller.core.model.UnusedApp
+import com.jedy.appcleaner.uninstaller.core.model.bestKnownBytes
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
@@ -32,27 +34,90 @@ class ScanMathTest {
     }
 
     @Test
-    fun `space hogs are exactly the apps SeverityRules calls DANGER`() {
-        val sizes = mapOf(chat.packageName to size(app = 200 * mb, data = 900 * mb, cache = 0))
-        val result = compute(sizes = sizes)
-        // game (1.5 GB apk) and chat (1.1 GB measured) are ≥ 1 GB; notes is not.
-        assertEquals(2, result.largeCount)
-        assertEquals(2_600 * mb, result.largeBytes)
+    fun `size source is the shared best-known size`() {
+        val sizes = mapOf(chat.packageName to size(app = 200 * mb, data = 50 * mb, cache = 0))
+        assertEquals(chat.bestKnownBytes(sizes), ScanMath.sizeOf(chat, sizes))
+        assertEquals(game.apkBytes, ScanMath.sizeOf(game, sizes))
     }
 
     @Test
-    fun `reclaimable is unused size plus the cache of kept apps, never double counted`() {
+    fun `large apps are exactly the ones LargeApps calls large, by best-known size`() {
+        // chat's APK (200 MB) is under the line; measured with data it is 260 MB, which is over.
+        val sizes = mapOf(chat.packageName to size(app = 200 * mb, data = 60 * mb, cache = 0))
+        val result = compute(sizes = sizes)
+        val expected = apps.filter { LargeApps.isLarge(it, sizes) }
+        assertEquals(listOf(game, chat), expected)
+        assertEquals(2, result.largeCount)
+        assertEquals(1_500 * mb + 260 * mb, result.largeBytes)
+        // Nothing is unused, so the Large row is the whole category.
+        assertEquals(2, result.largeOnlyCount)
+        assertEquals(result.largeBytes, result.largeOnlyBytes)
+    }
+
+    @Test
+    fun `the 250 MB line is inclusive and share of disk plays no part`() {
+        val edge = app("com.edge", apk = LargeApps.THRESHOLD_BYTES)
+        val under = app("com.under", apk = LargeApps.THRESHOLD_BYTES - 1)
+        val result = ScanMath.compute(
+            apps = listOf(edge, under), unused = emptyList(), sizes = emptyMap(),
+            // A tiny phone: the old share-of-disk rule would have called both "space hogs".
+            storage = DeviceStorage(totalBytes = 4 * gb, freeBytes = 1 * gb),
+            thresholdDays = 60, hasUsageAccess = false, now = 0,
+        )
+        assertEquals(1, result.largeCount)
+        assertEquals(LargeApps.THRESHOLD_BYTES, result.largeBytes)
+    }
+
+    @Test
+    fun `an app that is unused and large is counted once, under Unused`() {
+        val result = compute(unused = listOf(game))
+        assertEquals(1, result.largeCount)
+        assertEquals(0, result.largeOnlyCount)
+        assertEquals(0L, result.largeOnlyBytes)
+        assertEquals(1, result.largeAlsoUnusedCount)
+        assertEquals(1_500 * mb, result.reclaimableBytes)
+    }
+
+    @Test
+    fun `headline is the sum of the three rows with no double counting`() {
+        val bigChat = app("com.bigchat", apk = 400 * mb)
+        val all = listOf(game, bigChat, chat, notes)
         val sizes = mapOf(
             game.packageName to size(app = 1_500 * mb, data = 0, cache = 100 * mb),
-            chat.packageName to size(app = 200 * mb, data = 0, cache = 300 * mb),
+            bigChat.packageName to size(app = 400 * mb, data = 0, cache = 50 * mb),
+            chat.packageName to size(app = 200 * mb, data = 0, cache = 30 * mb),
+            notes.packageName to size(app = 20 * mb, data = 0, cache = 5 * mb),
         )
-        val result = compute(sizes = sizes, unused = listOf(game))
+        val result = ScanMath.compute(
+            apps = all,
+            unused = listOf(UnusedApp(game, lastUsedAt = null)),
+            sizes = sizes, storage = device, thresholdDays = 60, hasUsageAccess = true, now = 42,
+        )
+        // Unused row: game (1.6 GB, its own cache inside).
         assertEquals(1, result.unusedCount)
         assertEquals(1_600 * mb, result.unusedBytes)
-        assertEquals(400 * mb, result.cacheBytes)
-        assertEquals(2, result.cacheAppCount)
-        // game's own 100 MB cache is already inside its 1.6 GB.
-        assertEquals(1_600 * mb + 300 * mb, result.reclaimableBytes)
+        // Large row: bigChat only (game is already under Unused).
+        assertEquals(2, result.largeCount)
+        assertEquals(1, result.largeOnlyCount)
+        assertEquals(450 * mb, result.largeOnlyBytes)
+        // Cache row: only the apps in neither row above (chat + notes).
+        assertEquals(185 * mb, result.cacheBytes)
+        assertEquals(4, result.cacheAppCount)
+        assertEquals(35 * mb, result.keptCacheBytes)
+        assertEquals(2, result.keptCacheAppCount)
+        // Headline = the rows shown.
+        assertEquals(result.unusedBytes + result.largeOnlyBytes + result.keptCacheBytes, result.reclaimableBytes)
+        assertEquals(1_600 * mb + 450 * mb + 35 * mb, result.reclaimableBytes)
+        // "Review N apps" is the Unused + Large rows.
+        assertEquals(2, result.reviewAppCount)
+        assertEquals(2_050 * mb, result.reviewAppBytes)
+    }
+
+    @Test
+    fun `largeOnlyPackages matches the Large row`() {
+        val sizes = mapOf(chat.packageName to size(app = 200 * mb, data = 60 * mb, cache = 0))
+        assertEquals(listOf(chat.packageName), ScanMath.largeOnlyPackages(apps, sizes, unused = setOf(game.packageName)))
+        assertEquals(compute(sizes = sizes, unused = listOf(game)).largeOnlyCount, 1)
     }
 
     @Test

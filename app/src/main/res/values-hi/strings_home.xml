@@ -43,7 +43,7 @@
     </plurals>
     <string name="home_selection_clear">चयन साफ़ करें</string>
     <string name="home_uninstall">अनइंस्टॉल करें</string>
-    <string name="home_premium_ended">आपका प्रीमियम खत्म हो गया — इस्तेमाल न होने वाले ऐप ढूंढते रहने के लिए रिन्यू करें।</string>
+    <string name="home_premium_ended">आपका Pro प्लान खत्म हो गया है।</string>
     <string name="home_premium_renew">रिन्यू करें</string>
     <string name="home_details_version">वर्शन %1$s</string>
     <string name="home_details_from_play">Google Play से इंस्टॉल किया गया</string>
@@ -63,31 +63,19 @@
     <!-- Home dashboard (redesign 2026) -->
     <string name="home_gauge_used">इस्तेमाल</string>
     <string name="home_hero_used_of">%2$s में से %1$s</string>
-    <string name="home_headline_danger">आपका फ़ोन लगभग भर चुका है</string>
-    <string name="home_headline_warning">आपका स्टोरेज भर रहा है</string>
-    <string name="home_headline_ok">आपके पास काफ़ी जगह है</string>
+    <string name="home_headline_danger">लगभग भर गया</string>
+    <string name="home_headline_warning">भर रहा है</string>
+    <string name="home_headline_ok">काफ़ी जगह है</string>
     <string name="home_subline_left">सिर्फ़ %1$s बचा है</string>
     <string name="home_subline_free">%1$s खाली</string>
     <string name="home_scan_cta">मेरा फ़ोन स्कैन करें</string>
-    <string name="home_scan_cta_caption">इस्तेमाल न होने वाले ऐप, ज़्यादा जगह लेने वाले ऐप और कैश डेटा ढूंढता है।</string>
+    <string name="home_scan_cta_caption">इस्तेमाल न हुए और बड़े ऐप, और कैश ढूंढता है।</string>
     <string name="home_last_scan_title">पिछला स्कैन</string>
     <string name="home_last_scan_free_up_prefix">आप इतनी जगह खाली कर सकते हैं</string>
-    <string name="home_last_scan_hogs_prefix">आपके सबसे बड़े ऐप इतनी जगह ले रहे हैं</string>
     <string name="home_last_scan_tidy">साफ़ करने को कुछ बड़ा नहीं है</string>
     <string name="home_last_scan_again">फिर से स्कैन करें</string>
     <string name="home_time_just_now">अभी-अभी</string>
     <string name="home_stats_title">आपकी जगह कहां जा रही है</string>
-    <string name="home_tile_unused">इस्तेमाल न होने वाले ऐप</string>
-    <string name="home_tile_hogs">ज़्यादा जगह लेने वाले</string>
-    <string name="home_tile_cache">ऐप डेटा और कैश</string>
-    <string name="home_tile_freed">अब तक खाली किया</string>
-    <string name="home_tile_allow">एक्सेस दें</string>
-    <string name="home_tile_freed_none">अभी तक कुछ नहीं हटाया</string>
-    <string name="home_biggest_title">सबसे बड़े ऐप</string>
-    <string name="home_biggest_subtitle">आपकी जगह कौन ले रहा है</string>
-    <string name="home_biggest_share">आपके स्टोरेज का %1$s</string>
-    <string name="home_see_all">सभी ऐप देखें</string>
-    <string name="home_see_all_short">सभी देखें</string>
     <plurals name="home_time_minutes">
         <item quantity="one">%d मिनट पहले</item>
         <item quantity="other">%d मिनट पहले</item>
@@ -100,12 +88,17 @@
         <item quantity="one">%d दिन पहले</item>
         <item quantity="other">%d दिन पहले</item>
     </plurals>
-    <plurals name="home_tile_cache_caption">
-        <item quantity="one">%d ऐप में</item>
-        <item quantity="other">%d ऐप में</item>
+    <string name="home_hero_new_title">देखें कि आप क्या हटा सकते हैं</string>
+    <string name="home_review">देखें</string>
+    <string name="home_cat_cache">कैश</string>
+    <string name="home_cat_none">कोई नहीं</string>
+    <string name="home_cat_counted_above">ऊपर गिने गए</string>
+    <plurals name="home_cat_more_apps">
+        <item quantity="one">%d और ऐप</item>
+        <item quantity="other">%d और ऐप</item>
     </plurals>
-    <plurals name="home_tile_freed_caption">
-        <item quantity="one">%d ऐप हटाया</item>
-        <item quantity="other">%d ऐप हटाए</item>
+    <plurals name="home_cat_other_apps">
+        <item quantity="one">%d अन्य ऐप</item>
+        <item quantity="other">%d अन्य ऐप</item>
     </plurals>
 </resources>

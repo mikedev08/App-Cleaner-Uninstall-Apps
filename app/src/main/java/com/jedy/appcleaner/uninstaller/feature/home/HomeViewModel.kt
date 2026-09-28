@@ -6,15 +6,14 @@ import com.jedy.appcleaner.uninstaller.core.analytics.Analytics
 import com.jedy.appcleaner.uninstaller.core.analytics.AnalyticsEvent
 import com.jedy.appcleaner.uninstaller.core.model.AppSize
 import com.jedy.appcleaner.uninstaller.core.model.DeviceStorage
+import com.jedy.appcleaner.uninstaller.core.model.HomeTab
 import com.jedy.appcleaner.uninstaller.core.model.InstalledApp
 import com.jedy.appcleaner.uninstaller.core.selection.SelectionStore
 import com.jedy.appcleaner.uninstaller.core.ui.theme.Severity
 import com.jedy.appcleaner.uninstaller.core.ui.theme.SeverityRules
 import com.jedy.appcleaner.uninstaller.data.billing.Premium
-import com.jedy.appcleaner.uninstaller.data.history.HistoryRepository
 import com.jedy.appcleaner.uninstaller.data.inventory.AppInventory
 import com.jedy.appcleaner.uninstaller.data.prefs.AppPreferences
-import com.jedy.appcleaner.uninstaller.data.prefs.SizeDisplay
 import com.jedy.appcleaner.uninstaller.data.scan.CleanupScan
 import com.jedy.appcleaner.uninstaller.data.scan.ScanMath
 import com.jedy.appcleaner.uninstaller.data.scan.ScanResult
@@ -23,7 +22,6 @@ import com.jedy.appcleaner.uninstaller.data.usage.UsageAccess
 import com.jedy.appcleaner.uninstaller.data.usage.UsageInsights
 import com.jedy.appcleaner.uninstaller.di.DefaultDispatcher
 import com.jedy.appcleaner.uninstaller.di.IoDispatcher
-import com.jedy.appcleaner.uninstaller.feature.apps.AppsListLogic
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -32,22 +30,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOn
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-
-/** One "Biggest apps" row on the dashboard. */
-data class BiggestApp(
-    val app: InstalledApp,
-    val bytes: Long,
-    val severity: Severity,
-    val sizeFraction: Float,
-)
-
-/** Uninstall History totals for the "Freed so far" tile. */
-data class FreedSoFar(val count: Int, val bytes: Long)
 
 /** Everything the Home dashboard renders. Every figure is a real measurement (see [ScanMath]). */
 data class HomeUiState(
@@ -56,12 +42,13 @@ data class HomeUiState(
     /** The last completed scan (this session or persisted); null before the first one. */
     val lastScan: ScanResult? = null,
     /**
-     * The tile numbers: [lastScan] when there is one, else the same maths over live data, so a
-     * brand-new user still sees their real space hogs before scanning.
+     * The category numbers: [lastScan] when there is one (and it is not a quick scan the user has
+     * since outgrown by granting Usage Access), else the same maths over live data, so a brand-new
+     * user still sees their real large apps before scanning.
      */
     val summary: ScanResult? = null,
-    val biggest: List<BiggestApp> = emptyList(),
-    val freed: FreedSoFar = FreedSoFar(0, 0),
+    /** Unused · Large · Cache, from [summary] (placeholders while it loads). */
+    val categories: List<CategoryRow> = HomeCategories.rows(null, isPremium = false),
     val isPremium: Boolean = false,
     val hasUsageAccess: Boolean = false,
     val showPremiumEnded: Boolean = false,
@@ -69,11 +56,18 @@ data class HomeUiState(
 ) {
     val usedFraction: Float get() = storage?.let(ScanMath::usedFraction) ?: 0f
     val storageSeverity: Severity get() = if (storage == null || storage.totalBytes <= 0) Severity.OK else SeverityRules.storage(usedFraction)
+
+    /** The hero's "You can free up X": the numbers under it, once there has been a scan. */
+    val heroResult: ScanResult? get() = if (lastScan == null) null else summary ?: lastScan
+
+    /** Where the hero's "Review" goes. */
+    val reviewTab: HomeTab get() = heroResult?.let { HomeCategories.reviewTab(it, isPremium) } ?: HomeTab.ALL
 }
 
 /**
- * The Home dashboard (redesign): storage hero, the scan entry, four stat tiles and the biggest
- * apps. The list itself moved to Apps; this ViewModel only reads and summarises.
+ * The Home dashboard (design review §2.6): the storage gauge, one state-driven scan card and the
+ * Unused · Large · Cache rows. The list itself lives on Apps and lifetime totals on History; this
+ * ViewModel only reads and summarises.
  */
 @HiltViewModel
 class HomeViewModel @Inject constructor(
@@ -85,7 +79,6 @@ class HomeViewModel @Inject constructor(
     private val preferences: AppPreferences,
     private val scan: CleanupScan,
     private val selection: SelectionStore,
-    history: HistoryRepository,
     private val analytics: Analytics,
     private val session: HomeSession,
     private val premiumLapse: PremiumLapse,
@@ -105,9 +98,7 @@ class HomeViewModel @Inject constructor(
         val lastUsed: Map<String, Long>,
         val threshold: Int,
     )
-    private data class Entitlement(val isPremium: Boolean, val hasAccess: Boolean, val sizeDisplay: SizeDisplay, val premiumEnded: Boolean)
-
-    private val freed = history.entries.map { rows -> FreedSoFar(rows.size, rows.sumOf { it.bytes }) }
+    private data class Entitlement(val isPremium: Boolean, val hasAccess: Boolean, val premiumEnded: Boolean)
 
     val uiState: StateFlow<HomeUiState> = combine(
         combine(
@@ -118,12 +109,11 @@ class HomeViewModel @Inject constructor(
             preferences.unusedThresholdDays,
             ::Live,
         ),
-        combine(premium.isPremium, usageAccess.isGranted, preferences.sizeDisplay, premiumLapse.showBanner, ::Entitlement),
+        combine(premium.isPremium, usageAccess.isGranted, premiumLapse.showBanner, ::Entitlement),
         deviceStorage,
         scan.result,
-        freed,
-    ) { live, entitlement, device, lastScan, freedSoFar ->
-        build(live, entitlement, device, lastScan, freedSoFar)
+    ) { live, entitlement, device, lastScan ->
+        build(live, entitlement, device, lastScan)
     }.flowOn(default).stateIn(viewModelScope, SharingStarted.WhileSubscribed(5_000), HomeUiState())
 
     init {
@@ -137,10 +127,10 @@ class HomeViewModel @Inject constructor(
         entitlement: Entitlement,
         device: DeviceStorage?,
         lastScan: ScanResult?,
-        freedSoFar: FreedSoFar,
     ): HomeUiState {
-        val total = device?.totalBytes ?: 0L
-        val summary = lastScan ?: device?.takeIf { live.apps.isNotEmpty() }?.let {
+        // A quick scan cannot know what is unused; once access is granted, live numbers are better.
+        val scanned = lastScan?.takeIf { it.hasUsageAccess || !entitlement.hasAccess }
+        val summary = scanned ?: device?.takeIf { live.apps.isNotEmpty() }?.let {
             ScanMath.compute(
                 apps = live.apps,
                 // lastUsed feeds unusedApps(); an empty map means it has not loaded yet.
@@ -152,21 +142,11 @@ class HomeViewModel @Inject constructor(
                 now = System.currentTimeMillis(),
             )
         }
-        // Same sizes as the Apps list, so a row reads the same on both screens.
-        val useTotal = entitlement.isPremium && entitlement.sizeDisplay == SizeDisplay.TOTAL
-        val top = live.apps
-            .map { it to AppsListLogic.displayBytes(it, live.sizes, useTotal) }
-            .sortedByDescending { it.second }
-            .take(BIGGEST_COUNT)
-        val largest = top.firstOrNull()?.second ?: 0L
         return HomeUiState(
             storage = device,
             lastScan = lastScan,
             summary = summary,
-            biggest = top.map { (app, bytes) ->
-                BiggestApp(app, bytes, SeverityRules.appSize(bytes, total), AppsListLogic.sizeFraction(bytes, largest))
-            },
-            freed = freedSoFar,
+            categories = HomeCategories.rows(summary, entitlement.isPremium),
             isPremium = entitlement.isPremium,
             hasUsageAccess = entitlement.hasAccess,
             showPremiumEnded = entitlement.premiumEnded,
@@ -208,9 +188,5 @@ class HomeViewModel @Inject constructor(
                 ),
             )
         }
-    }
-
-    private companion object {
-        const val BIGGEST_COUNT = 5
     }
 }

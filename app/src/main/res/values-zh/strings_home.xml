@@ -40,7 +40,7 @@
     </plurals>
     <string name="home_selection_clear">清除所选内容</string>
     <string name="home_uninstall">卸载</string>
-    <string name="home_premium_ended">你的高级版已到期——续订即可继续查找未使用的应用。</string>
+    <string name="home_premium_ended">你的 Pro 已到期。</string>
     <string name="home_premium_renew">续订</string>
     <string name="home_details_version">版本 %1$s</string>
     <string name="home_details_from_play">从 Google Play 安装</string>
@@ -60,31 +60,19 @@
     <!-- Home dashboard (redesign 2026) -->
     <string name="home_gauge_used">已用</string>
     <string name="home_hero_used_of">已用 %1$s，共 %2$s</string>
-    <string name="home_headline_danger">手机存储快满了</string>
-    <string name="home_headline_warning">存储空间正在变满</string>
-    <string name="home_headline_ok">存储空间很充裕</string>
+    <string name="home_headline_danger">几乎满了</string>
+    <string name="home_headline_warning">快要满了</string>
+    <string name="home_headline_ok">空间充裕</string>
     <string name="home_subline_left">仅剩 %1$s</string>
     <string name="home_subline_free">可用 %1$s</string>
     <string name="home_scan_cta">扫描我的手机</string>
-    <string name="home_scan_cta_caption">找出不用的应用、占空间大户和缓存数据。</string>
+    <string name="home_scan_cta_caption">查找未使用的应用、大型应用和缓存。</string>
     <string name="home_last_scan_title">上次扫描</string>
     <string name="home_last_scan_free_up_prefix">可释放</string>
-    <string name="home_last_scan_hogs_prefix">最大的几个应用占用了</string>
     <string name="home_last_scan_tidy">没有需要清理的大项</string>
     <string name="home_last_scan_again">重新扫描</string>
     <string name="home_time_just_now">刚刚</string>
     <string name="home_stats_title">空间都去哪了</string>
-    <string name="home_tile_unused">不常用应用</string>
-    <string name="home_tile_hogs">占空间大户</string>
-    <string name="home_tile_cache">应用数据和缓存</string>
-    <string name="home_tile_freed">已释放</string>
-    <string name="home_tile_allow">允许访问</string>
-    <string name="home_tile_freed_none">尚未卸载任何应用</string>
-    <string name="home_biggest_title">最大的应用</string>
-    <string name="home_biggest_subtitle">谁在占用你的空间</string>
-    <string name="home_biggest_share">占存储空间 %1$s</string>
-    <string name="home_see_all">查看全部应用</string>
-    <string name="home_see_all_short">全部</string>
     <plurals name="home_time_minutes">
         <item quantity="other">%d 分钟前</item>
     </plurals>
@@ -94,10 +82,15 @@
     <plurals name="home_time_days">
         <item quantity="other">%d 天前</item>
     </plurals>
-    <plurals name="home_tile_cache_caption">
-        <item quantity="other">来自 %d 个应用</item>
+    <string name="home_hero_new_title">看看可以清理什么</string>
+    <string name="home_review">查看</string>
+    <string name="home_cat_cache">缓存</string>
+    <string name="home_cat_none">无</string>
+    <string name="home_cat_counted_above">已计入上方</string>
+    <plurals name="home_cat_more_apps">
+        <item quantity="other">另外 %d 个应用</item>
     </plurals>
-    <plurals name="home_tile_freed_caption">
-        <item quantity="other">已卸载 %d 个应用</item>
+    <plurals name="home_cat_other_apps">
+        <item quantity="other">其他 %d 个应用</item>
     </plurals>
 </resources>

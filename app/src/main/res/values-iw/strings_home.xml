@@ -46,7 +46,7 @@
     </plurals>
     <string name="home_selection_clear">ניקוי הבחירה</string>
     <string name="home_uninstall">הסרה</string>
-    <string name="home_premium_ended">תוקף הפרימיום שלך הסתיים — אפשר לחדש כדי להמשיך למצוא אפליקציות שלא בשימוש.</string>
+    <string name="home_premium_ended">מנוי ה-Pro שלך הסתיים.</string>
     <string name="home_premium_renew">חידוש</string>
     <string name="home_details_version">גרסה %1$s</string>
     <string name="home_details_from_play">הותקנה מ-Google Play</string>
@@ -66,31 +66,19 @@
     <!-- Home dashboard (redesign 2026) -->
     <string name="home_gauge_used">בשימוש</string>
     <string name="home_hero_used_of">%1$s מתוך %2$s</string>
-    <string name="home_headline_danger">הטלפון שלך כמעט מלא</string>
-    <string name="home_headline_warning">האחסון שלך מתמלא</string>
-    <string name="home_headline_ok">יש לך מקום פנוי</string>
+    <string name="home_headline_danger">כמעט מלא</string>
+    <string name="home_headline_warning">מתמלא</string>
+    <string name="home_headline_ok">יש הרבה מקום</string>
     <string name="home_subline_left">נשארו רק %1$s</string>
     <string name="home_subline_free">%1$s פנויים</string>
     <string name="home_scan_cta">סריקת הטלפון</string>
-    <string name="home_scan_cta_caption">מוצא אפליקציות שלא בשימוש, אפליקציות שתופסות הרבה מקום ונתונים במטמון.</string>
+    <string name="home_scan_cta_caption">מוצא אפליקציות שלא בשימוש, גדולות ומטמון.</string>
     <string name="home_last_scan_title">סריקה אחרונה</string>
     <string name="home_last_scan_free_up_prefix">אפשר לפנות</string>
-    <string name="home_last_scan_hogs_prefix">האפליקציות הגדולות שלך תופסות</string>
     <string name="home_last_scan_tidy">אין משהו גדול לנקות</string>
     <string name="home_last_scan_again">סריקה חוזרת</string>
     <string name="home_time_just_now">ממש עכשיו</string>
     <string name="home_stats_title">לאן הולך המקום שלך</string>
-    <string name="home_tile_unused">אפליקציות שלא בשימוש</string>
-    <string name="home_tile_hogs">זוללי מקום</string>
-    <string name="home_tile_cache">נתוני אפליקציות ומטמון</string>
-    <string name="home_tile_freed">פונה עד כה</string>
-    <string name="home_tile_allow">מתן גישה</string>
-    <string name="home_tile_freed_none">עוד לא הוסר דבר</string>
-    <string name="home_biggest_title">האפליקציות הגדולות</string>
-    <string name="home_biggest_subtitle">מה תופס לך מקום</string>
-    <string name="home_biggest_share">%1$s מהאחסון שלך</string>
-    <string name="home_see_all">לכל האפליקציות</string>
-    <string name="home_see_all_short">הכול</string>
     <plurals name="home_time_minutes">
         <item quantity="one">לפני דקה</item>
         <item quantity="two">לפני %d דקות</item>
@@ -106,14 +94,19 @@
         <item quantity="two">לפני יומיים</item>
         <item quantity="other">לפני %d ימים</item>
     </plurals>
-    <plurals name="home_tile_cache_caption">
-        <item quantity="one">באפליקציה אחת</item>
-        <item quantity="two">ב-%d אפליקציות</item>
-        <item quantity="other">ב-%d אפליקציות</item>
+    <string name="home_hero_new_title">מה אפשר להסיר</string>
+    <string name="home_review">סקירה</string>
+    <string name="home_cat_cache">מטמון</string>
+    <string name="home_cat_none">אין</string>
+    <string name="home_cat_counted_above">נספרו למעלה</string>
+    <plurals name="home_cat_more_apps">
+        <item quantity="one">עוד אפליקציה אחת</item>
+        <item quantity="two">עוד %d אפליקציות</item>
+        <item quantity="other">עוד %d אפליקציות</item>
     </plurals>
-    <plurals name="home_tile_freed_caption">
-        <item quantity="one">הוסרה אפליקציה אחת</item>
-        <item quantity="two">הוסרו %d אפליקציות</item>
-        <item quantity="other">הוסרו %d אפליקציות</item>
+    <plurals name="home_cat_other_apps">
+        <item quantity="one">אפליקציה אחרת אחת</item>
+        <item quantity="two">%d אפליקציות אחרות</item>
+        <item quantity="other">%d אפליקציות אחרות</item>
     </plurals>
 </resources>

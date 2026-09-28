@@ -8,6 +8,7 @@ import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.safeDrawing
@@ -25,16 +27,15 @@ import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Close
+import androidx.compose.material.icons.outlined.Close
+import androidx.compose.material.icons.outlined.HourglassEmpty
+import androidx.compose.material.icons.outlined.Inventory2
+import androidx.compose.material.icons.outlined.Layers
+import androidx.compose.material.icons.outlined.Lock
 import androidx.compose.material.icons.rounded.ErrorOutline
-import androidx.compose.material.icons.rounded.HourglassBottom
-import androidx.compose.material.icons.rounded.Layers
-import androidx.compose.material.icons.rounded.LocalFireDepartment
-import androidx.compose.material.icons.rounded.Lock
 import androidx.compose.material.icons.rounded.Radar
 import androidx.compose.material.icons.rounded.Refresh
 import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -43,6 +44,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -55,13 +57,15 @@ import com.jedy.appcleaner.uninstaller.core.model.HomeTab
 import com.jedy.appcleaner.uninstaller.core.model.PaywallSource
 import com.jedy.appcleaner.uninstaller.core.model.UsageAccessTrigger
 import com.jedy.appcleaner.uninstaller.core.ui.component.AppCard
+import com.jedy.appcleaner.uninstaller.core.ui.component.AppTopBar
 import com.jedy.appcleaner.uninstaller.core.ui.component.IconBadge
 import com.jedy.appcleaner.uninstaller.core.ui.component.PrimaryButton
-import com.jedy.appcleaner.uninstaller.core.ui.component.SecondaryButton
+import com.jedy.appcleaner.uninstaller.core.ui.component.TopBarAction
+import com.jedy.appcleaner.uninstaller.core.ui.component.bottomContentPadding
 import com.jedy.appcleaner.uninstaller.core.ui.theme.AppTheme
 import com.jedy.appcleaner.uninstaller.core.ui.theme.Dimens
-import com.jedy.appcleaner.uninstaller.core.ui.theme.Severity
 import com.jedy.appcleaner.uninstaller.data.scan.ScanResult
+import com.jedy.appcleaner.uninstaller.feature.home.TextAction
 
 /**
  * CONTRACT (frozen signature). The "Scan my phone" flow (redesign): an optional Usage Access
@@ -86,42 +90,36 @@ fun ScanScreen(
     }
     val allowAccess = { onOpenUsageAccess(UsageAccessTrigger.SCAN) }
 
-    Column(
-        Modifier
-            .fillMaxSize()
-            .background(AppTheme.colors.background)
-            .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Top + WindowInsetsSides.Horizontal)),
-    ) {
-        Row(Modifier.fillMaxWidth().height(56.dp).padding(horizontal = 4.dp), verticalAlignment = Alignment.CenterVertically) {
-            Spacer(Modifier.weight(1f))
-            IconButton(onClick = onClose) {
-                Icon(Icons.Rounded.Close, contentDescription = stringResource(R.string.scan_close), tint = AppTheme.colors.textPrimary)
-            }
-        }
+    Column(Modifier.fillMaxSize().background(AppTheme.colors.background)) {
+        AppTopBar(
+            title = null,
+            actions = { TopBarAction(Icons.Outlined.Close, stringResource(R.string.scan_close), onClose) },
+        )
         AnimatedContent(
             targetState = state.phase,
             contentKey = { it::class },
             transitionSpec = { (fadeIn() + slideInVertically { it / 12 }) togetherWith fadeOut() },
             label = "scanPhase",
-            modifier = Modifier.weight(1f),
+            modifier = Modifier
+                .weight(1f)
+                .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Horizontal)),
         ) { phase ->
             when (phase) {
                 ScanPhase.Intro -> PhaseLayout(
                     actions = {
-                        PrimaryButton(stringResource(R.string.scan_intro_allow), onClick = allowAccess, icon = Icons.Rounded.Lock, modifier = Modifier.fillMaxWidth())
-                        SecondaryButton(stringResource(R.string.scan_intro_quick), onClick = viewModel::onQuickScan, modifier = Modifier.fillMaxWidth())
+                        PrimaryButton(stringResource(R.string.scan_intro_allow), onClick = allowAccess, icon = Icons.Outlined.Lock, modifier = Modifier.fillMaxWidth())
+                        TextAction(stringResource(R.string.scan_intro_quick), onClick = viewModel::onQuickScan, modifier = Modifier.fillMaxWidth())
                     },
                 ) { IntroContent() }
-                is ScanPhase.Scanning -> PhaseLayout(actions = null) { ScanProgressContent(phase) }
+                is ScanPhase.Scanning -> PhaseLayout(actions = null, centered = true) { ScanProgressContent(phase) }
                 is ScanPhase.Result -> PhaseLayout(
                     actions = { ResultActions(phase.result, state.isPremium, viewModel, onOpenApps, onOpenPaywall, allowAccess) },
                 ) {
                     ScanResultContent(
                         result = phase.result,
                         isPremium = state.isPremium,
-                        onOpenUnused = { if (state.isPremium) onOpenApps(HomeTab.UNUSED) else onOpenPaywall(PaywallSource.SCAN_RESULT) },
-                        onOpenHogs = { onOpenApps(HomeTab.ALL) },
-                        onOpenCache = { if (state.isPremium) onOpenApps(HomeTab.LARGE) else onOpenPaywall(PaywallSource.SCAN_RESULT) },
+                        // Locked rows open their filter too: its own teaser explains Pro there.
+                        onOpen = { onOpenApps(it.tab) },
                         onAllowAccess = allowAccess,
                     )
                 }
@@ -133,33 +131,47 @@ fun ScanScreen(
     }
 }
 
-/** Scrollable content with the actions pinned above the navigation bar. */
+/**
+ * Scrollable content with the actions pinned above the navigation bar. [centered] content (the
+ * scanning ring) sits in the middle of the free height instead of hugging the top.
+ */
 @Composable
-private fun PhaseLayout(actions: (@Composable () -> Unit)?, content: @Composable () -> Unit) {
+private fun PhaseLayout(actions: (@Composable () -> Unit)?, centered: Boolean = false, content: @Composable () -> Unit) {
     Column(Modifier.fillMaxSize()) {
-        Box(
+        // Without pinned actions the content itself must end above the navigation bar (+16dp).
+        BoxWithConstraints(
             Modifier
                 .weight(1f)
                 .fillMaxWidth()
-                .verticalScroll(rememberScrollState())
-                .padding(horizontal = Dimens.gutter, vertical = 8.dp),
-        ) { content() }
+                .then(if (actions == null) Modifier.bottomContentPadding() else Modifier),
+        ) {
+            val viewport = maxHeight
+            Box(
+                Modifier
+                    .fillMaxWidth()
+                    .verticalScroll(rememberScrollState())
+                    .heightIn(min = if (centered) viewport else 0.dp)
+                    .padding(horizontal = Dimens.gutter, vertical = Dimens.space8),
+                contentAlignment = if (centered) Alignment.Center else Alignment.TopCenter,
+            ) { content() }
+        }
         if (actions != null) {
             Column(
                 Modifier
                     .fillMaxWidth()
                     .windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom))
-                    .padding(horizontal = Dimens.gutter, vertical = 12.dp),
-                verticalArrangement = Arrangement.spacedBy(10.dp),
+                    .padding(start = Dimens.gutter, end = Dimens.gutter, top = Dimens.space12, bottom = Dimens.space16),
+                verticalArrangement = Arrangement.spacedBy(Dimens.stackedButtonGap),
             ) { actions() }
         }
     }
 }
 
 /**
- * Result CTAs. With a real amount to free: "Free up 3.4 GB" — premium pre-selects the unused
- * apps and opens them, free users see the paywall. Without Usage Access the honest next step is
- * the full scan, so that becomes the primary action.
+ * Result CTAs (design review §2.6): the label says what the tap frees and how many apps it
+ * touches ([ScanCtas]). Free users get only what the free app can do (removing large apps from
+ * the All list), and anything Pro-only carries the lock and leads to the paywall. The secondary
+ * "Review all apps" is a text action, [Dimens.stackedButtonGap] below.
  */
 @Composable
 private fun ResultActions(
@@ -171,27 +183,43 @@ private fun ResultActions(
     onAllowAccess: () -> Unit,
 ) {
     val context = LocalContext.current
-    when {
-        !result.hasUsageAccess -> PrimaryButton(
+    when (val cta = ScanCtas.primary(result, isPremium)) {
+        ScanCta.AllowAccess -> PrimaryButton(
             stringResource(R.string.scan_cta_allow_full),
             onClick = onAllowAccess,
             icon = Icons.Rounded.Radar,
             modifier = Modifier.fillMaxWidth(),
         )
-        result.reclaimableBytes > 0 -> PrimaryButton(
-            stringResource(R.string.scan_cta_free_up, formatBytes(context, result.reclaimableBytes)),
+        is ScanCta.ReviewApps -> PrimaryButton(
+            pluralStringResource(R.plurals.scan_cta_review_apps, cta.count, cta.count, formatBytes(context, cta.bytes)),
             onClick = {
-                if (isPremium) {
-                    viewModel.preselectUnused(result)
-                    onOpenApps(HomeTab.UNUSED)
-                } else {
-                    onOpenPaywall(PaywallSource.SCAN_RESULT)
-                }
+                viewModel.preselectReview(result)
+                onOpenApps(cta.tab)
             },
             modifier = Modifier.fillMaxWidth(),
         )
+        is ScanCta.ReviewCache -> PrimaryButton(
+            stringResource(R.string.scan_cta_review_cache, formatBytes(context, cta.bytes)),
+            onClick = { onOpenApps(HomeTab.CACHE) },
+            modifier = Modifier.fillMaxWidth(),
+        )
+        is ScanCta.RemoveLarge -> PrimaryButton(
+            pluralStringResource(R.plurals.scan_cta_remove_large, cta.count, cta.count, formatBytes(context, cta.bytes)),
+            onClick = {
+                viewModel.preselectLarge(result)
+                onOpenApps(HomeTab.ALL)
+            },
+            modifier = Modifier.fillMaxWidth(),
+        )
+        ScanCta.Unlock -> PrimaryButton(
+            stringResource(R.string.scan_cta_unlock),
+            onClick = { onOpenPaywall(PaywallSource.SCAN_RESULT) },
+            icon = Icons.Outlined.Lock,
+            modifier = Modifier.fillMaxWidth(),
+        )
+        ScanCta.None -> Unit
     }
-    SecondaryButton(stringResource(R.string.scan_cta_review), onClick = { onOpenApps(HomeTab.ALL) }, modifier = Modifier.fillMaxWidth())
+    TextAction(stringResource(R.string.scan_cta_review), onClick = { onOpenApps(HomeTab.ALL) }, modifier = Modifier.fillMaxWidth())
 }
 
 @Composable
@@ -217,25 +245,25 @@ private fun IntroContent() {
         Spacer(Modifier.height(28.dp))
         AppCard(modifier = Modifier.fillMaxWidth()) {
             Column(verticalArrangement = Arrangement.spacedBy(16.dp)) {
-                IntroPoint(Icons.Rounded.HourglassBottom, stringResource(R.string.scan_intro_point_unused), Severity.DANGER)
-                IntroPoint(Icons.Rounded.LocalFireDepartment, stringResource(R.string.scan_intro_point_hogs), Severity.WARNING)
-                IntroPoint(Icons.Rounded.Layers, stringResource(R.string.scan_intro_point_cache), Severity.OK)
+                IntroPoint(Icons.Outlined.HourglassEmpty, stringResource(R.string.scan_intro_point_unused))
+                IntroPoint(Icons.Outlined.Inventory2, stringResource(R.string.scan_intro_point_hogs))
+                IntroPoint(Icons.Outlined.Layers, stringResource(R.string.scan_intro_point_cache))
             }
         }
         Spacer(Modifier.height(16.dp))
         Text(
             stringResource(R.string.scan_intro_quick_hint),
             style = MaterialTheme.typography.bodySmall,
-            color = colors.textMuted,
+            color = colors.textSecondary,
             textAlign = TextAlign.Center,
         )
     }
 }
 
 @Composable
-private fun IntroPoint(icon: ImageVector, text: String, severity: Severity) {
+private fun IntroPoint(icon: ImageVector, text: String) {
     Row(verticalAlignment = Alignment.CenterVertically) {
-        IconBadge(icon = icon, severity = severity)
+        IconBadge(icon = icon)
         Spacer(Modifier.width(14.dp))
         Text(text, style = MaterialTheme.typography.titleSmall, color = AppTheme.colors.textPrimary)
     }

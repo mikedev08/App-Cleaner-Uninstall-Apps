@@ -5,7 +5,7 @@
     <string name="scan_intro_access_title">For a full scan, allow Usage Access</string>
     <string name="scan_intro_access_body">It stays on your phone. App Cleaner only uses it to see which apps you haven’t opened lately and how much data and cache they hold.</string>
     <string name="scan_intro_point_unused">Apps you haven’t opened in months</string>
-    <string name="scan_intro_point_hogs">The apps taking the most space</string>
+    <string name="scan_intro_point_hogs">Large apps, 250 MB or more</string>
     <string name="scan_intro_point_cache">App data and cache</string>
     <string name="scan_intro_allow">Allow Usage Access</string>
     <string name="scan_intro_quick">Quick scan</string>
@@ -17,24 +17,25 @@
     <string name="scan_step_skipped">Needs Usage Access</string>
     <string name="scan_result_label">Scan complete</string>
     <string name="scan_result_could_free">could be freed</string>
-    <string name="scan_result_hogs_take">taken by your biggest apps</string>
-    <string name="scan_result_before_after">%1$s full → %2$s after cleanup</string>
     <string name="scan_result_tidy_title">Your phone looks tidy</string>
     <string name="scan_result_tidy_body">Nothing big is taking your space right now.</string>
-    <string name="scan_bucket_unused">Unused apps</string>
-    <string name="scan_bucket_hogs">Space hogs</string>
-    <string name="scan_bucket_cache">App data &amp; cache</string>
-    <string name="scan_bucket_meta">%1$s · %2$s</string>
-    <string name="scan_bucket_needs_access">Allow Usage Access to find these</string>
-    <string name="scan_cta_free_up">Free up %1$s</string>
     <string name="scan_cta_review">Review all apps</string>
     <string name="scan_cta_allow_full">Allow access for a full scan</string>
     <string name="scan_estimates_note">Some sizes count app files only; data and cache need Usage Access.</string>
     <string name="scan_error_title">The scan couldn’t finish</string>
     <string name="scan_error_body">Nothing on your phone was changed.</string>
     <string name="scan_error_retry">Try again</string>
-    <plurals name="scan_result_loss">
-        <item quantity="one">%1$d app you haven’t opened in %2$d days is using %3$s you could have back.</item>
-        <item quantity="other">These %1$d apps you haven’t opened in %2$d days are using %3$s you could have back.</item>
+    <!-- Design review 2026-09: Home categories and the Scan result CTAs -->
+    <string name="scan_legend_now">Now: %1$s full</string>
+    <string name="scan_legend_after">After cleanup: %1$s</string>
+    <string name="scan_cta_review_cache">Review cache · %1$s</string>
+    <string name="scan_cta_unlock">Review with Pro</string>
+    <plurals name="scan_cta_review_apps">
+        <item quantity="one">Review %1$d app · %2$s</item>
+        <item quantity="other">Review %1$d apps · %2$s</item>
+    </plurals>
+    <plurals name="scan_cta_remove_large">
+        <item quantity="one">Remove %1$d large app · %2$s</item>
+        <item quantity="other">Remove %1$d large apps · %2$s</item>
     </plurals>
 </resources>

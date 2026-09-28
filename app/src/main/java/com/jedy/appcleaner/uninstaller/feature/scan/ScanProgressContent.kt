@@ -55,12 +55,13 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.jedy.appcleaner.uninstaller.R
 import com.jedy.appcleaner.uninstaller.core.ui.theme.AppTheme
+import com.jedy.appcleaner.uninstaller.core.ui.theme.Dimens
 import com.jedy.appcleaner.uninstaller.feature.home.rememberPercentFormat
 
 /**
  * The scanning phase: a large ring whose green arc fills as real steps complete, a soft sweep
  * rotating over it so the screen visibly works, the percentage in the middle, and the step list
- * turning pending → spinning → green check.
+ * turning pending → spinning → green check. The caller centres it vertically in the screen.
  */
 @Composable
 internal fun ScanProgressContent(phase: ScanPhase.Scanning, modifier: Modifier = Modifier) {
@@ -72,10 +73,10 @@ internal fun ScanProgressContent(phase: ScanPhase.Scanning, modifier: Modifier =
             color = colors.textPrimary,
             textAlign = TextAlign.Center,
         )
-        Spacer(Modifier.height(32.dp))
+        Spacer(Modifier.height(Dimens.space32))
         ScanRing(fraction = phase.fraction)
-        Spacer(Modifier.height(40.dp))
-        Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(10.dp)) {
+        Spacer(Modifier.height(Dimens.space32))
+        Column(Modifier.fillMaxWidth(), verticalArrangement = Arrangement.spacedBy(Dimens.space8)) {
             ScanStage.entries.forEach { stage ->
                 StepRow(label = stringResource(stage.labelRes()), status = phase.steps[stage] ?: StepStatus.PENDING)
             }
@@ -117,8 +118,15 @@ private fun ScanRing(fraction: Float, size: Dp = 240.dp, stroke: Dp = 18.dp) {
             val inset = px / 2
             val arc = Size(this.size.width - px, this.size.height - px)
             drawArc(
-                // Sweep gradients start at 3 o'clock, like drawArc: fade in over the arc's 108°.
-                brush = Brush.sweepGradient(0f to Color.Transparent, 0.3f to accent.copy(alpha = 0.6f)),
+                // Sweep gradients start at 3 o'clock, like drawArc: fade in over the arc's 108° (0.3
+                // of the turn). The gradient must be transparent again past the head: it wraps at
+                // 0°/360°, where the arc starts, and an opaque 1.0 stop drew a hairline seam there.
+                brush = Brush.sweepGradient(
+                    0f to Color.Transparent,
+                    0.3f to accent.copy(alpha = 0.6f),
+                    0.3f to Color.Transparent,
+                    1f to Color.Transparent,
+                ),
                 startAngle = 0f, sweepAngle = 108f, useCenter = false, topLeft = Offset(inset, inset), size = arc,
                 style = Stroke(px, cap = StrokeCap.Butt),
             )
@@ -132,7 +140,6 @@ private fun ScanRing(fraction: Float, size: Dp = 240.dp, stroke: Dp = 18.dp) {
 @Composable
 private fun StepRow(label: String, status: StepStatus) {
     val colors = AppTheme.colors
-    val active = status != StepStatus.PENDING
     val container by animateColorAsState(if (status == StepStatus.RUNNING) colors.surface else colors.background, label = "stepBg")
     Row(
         Modifier
@@ -174,7 +181,8 @@ private fun StepRow(label: String, status: StepStatus) {
             Text(
                 label,
                 style = MaterialTheme.typography.titleMedium,
-                color = if (active) colors.textPrimary else colors.textMuted,
+                // Every waiting step reads the same; only the icon shows progress.
+                color = if (status == StepStatus.PENDING) colors.textSecondary else colors.textPrimary,
             )
             if (status == StepStatus.SKIPPED) {
                 Text(stringResource(R.string.scan_step_skipped), style = MaterialTheme.typography.bodySmall, color = colors.textSecondary)

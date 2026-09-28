@@ -4,7 +4,7 @@
     <string name="scan_intro_access_title">पूरे स्कैन के लिए, उपयोग एक्सेस की अनुमति दें</string>
     <string name="scan_intro_access_body">यह आपके फ़ोन पर ही रहता है। App Cleaner इसका इस्तेमाल सिर्फ़ यह देखने के लिए करता है कि आपने हाल में कौन-से ऐप नहीं खोले और उनमें कितना डेटा और कैश है।</string>
     <string name="scan_intro_point_unused">महीनों से न खोले गए ऐप</string>
-    <string name="scan_intro_point_hogs">सबसे ज़्यादा जगह लेने वाले ऐप</string>
+    <string name="scan_intro_point_hogs">250 MB या उससे बड़े ऐप</string>
     <string name="scan_intro_point_cache">ऐप डेटा और कैश</string>
     <string name="scan_intro_allow">उपयोग एक्सेस दें</string>
     <string name="scan_intro_quick">क्विक स्कैन</string>
@@ -16,24 +16,24 @@
     <string name="scan_step_skipped">उपयोग एक्सेस चाहिए</string>
     <string name="scan_result_label">स्कैन पूरा हुआ</string>
     <string name="scan_result_could_free">खाली की जा सकती है</string>
-    <string name="scan_result_hogs_take">आपके सबसे बड़े ऐप ले रहे हैं</string>
-    <string name="scan_result_before_after">%1$s भरा → सफ़ाई के बाद %2$s</string>
     <string name="scan_result_tidy_title">आपका फ़ोन साफ़-सुथरा है</string>
     <string name="scan_result_tidy_body">अभी कोई बड़ी चीज़ आपकी जगह नहीं ले रही है।</string>
-    <string name="scan_bucket_unused">इस्तेमाल न होने वाले ऐप</string>
-    <string name="scan_bucket_hogs">ज़्यादा जगह लेने वाले</string>
-    <string name="scan_bucket_cache">ऐप डेटा और कैश</string>
-    <string name="scan_bucket_meta">%1$s · %2$s</string>
-    <string name="scan_bucket_needs_access">इन्हें ढूंढने के लिए उपयोग एक्सेस दें</string>
-    <string name="scan_cta_free_up">%1$s खाली करें</string>
     <string name="scan_cta_review">सभी ऐप देखें</string>
     <string name="scan_cta_allow_full">पूरे स्कैन के लिए एक्सेस दें</string>
     <string name="scan_estimates_note">कुछ साइज़ में सिर्फ़ ऐप फ़ाइलें गिनी गई हैं; डेटा और कैश के लिए उपयोग एक्सेस चाहिए।</string>
     <string name="scan_error_title">स्कैन पूरा नहीं हो सका</string>
     <string name="scan_error_body">आपके फ़ोन में कुछ भी नहीं बदला गया।</string>
     <string name="scan_error_retry">फिर से कोशिश करें</string>
-    <plurals name="scan_result_loss">
-        <item quantity="one">%2$d दिनों से न खोला गया %1$d ऐप %3$s जगह ले रहा है, जो आप वापस पा सकते हैं।</item>
-        <item quantity="other">%2$d दिनों से न खोले गए ये %1$d ऐप %3$s जगह ले रहे हैं, जो आप वापस पा सकते हैं।</item>
+    <string name="scan_legend_now">अभी: %1$s भरा</string>
+    <string name="scan_legend_after">सफ़ाई के बाद: %1$s</string>
+    <string name="scan_cta_review_cache">कैश देखें · %1$s</string>
+    <string name="scan_cta_unlock">Pro के साथ देखें</string>
+    <plurals name="scan_cta_review_apps">
+        <item quantity="one">%1$d ऐप देखें · %2$s</item>
+        <item quantity="other">%1$d ऐप देखें · %2$s</item>
+    </plurals>
+    <plurals name="scan_cta_remove_large">
+        <item quantity="one">%1$d बड़ा ऐप हटाएं · %2$s</item>
+        <item quantity="other">%1$d बड़े ऐप हटाएं · %2$s</item>
     </plurals>
 </resources>

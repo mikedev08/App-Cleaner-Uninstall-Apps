@@ -46,7 +46,7 @@
     </plurals>
     <string name="home_selection_clear">Borrar selección</string>
     <string name="home_uninstall">Desinstalar</string>
-    <string name="home_premium_ended">Tu premium ha terminado: renuévalo para seguir encontrando apps sin usar.</string>
+    <string name="home_premium_ended">Tu plan Pro ha terminado.</string>
     <string name="home_premium_renew">Renovar</string>
     <string name="home_details_version">Versión %1$s</string>
     <string name="home_details_from_play">Instalada desde Google Play</string>
@@ -66,31 +66,19 @@
     <!-- Home dashboard (redesign 2026) -->
     <string name="home_gauge_used">usado</string>
     <string name="home_hero_used_of">%1$s de %2$s</string>
-    <string name="home_headline_danger">Tu teléfono está casi lleno</string>
-    <string name="home_headline_warning">Tu almacenamiento se está llenando</string>
-    <string name="home_headline_ok">Tienes espacio de sobra</string>
+    <string name="home_headline_danger">Casi lleno</string>
+    <string name="home_headline_warning">Se está llenando</string>
+    <string name="home_headline_ok">Espacio de sobra</string>
     <string name="home_subline_left">Solo quedan %1$s</string>
     <string name="home_subline_free">%1$s libres</string>
     <string name="home_scan_cta">Analizar mi teléfono</string>
-    <string name="home_scan_cta_caption">Encuentra apps sin usar, apps que ocupan mucho y datos en caché.</string>
+    <string name="home_scan_cta_caption">Encuentra apps sin usar y grandes, y caché.</string>
     <string name="home_last_scan_title">Último análisis</string>
     <string name="home_last_scan_free_up_prefix">Puedes liberar</string>
-    <string name="home_last_scan_hogs_prefix">Tus apps más grandes ocupan</string>
     <string name="home_last_scan_tidy">Nada grande que limpiar</string>
     <string name="home_last_scan_again">Volver a analizar</string>
     <string name="home_time_just_now">Ahora mismo</string>
     <string name="home_stats_title">En qué se va tu espacio</string>
-    <string name="home_tile_unused">Apps sin usar</string>
-    <string name="home_tile_hogs">Apps que más ocupan</string>
-    <string name="home_tile_cache">Datos y caché</string>
-    <string name="home_tile_freed">Liberado hasta ahora</string>
-    <string name="home_tile_allow">Permitir acceso</string>
-    <string name="home_tile_freed_none">Aún no has quitado nada</string>
-    <string name="home_biggest_title">Apps más grandes</string>
-    <string name="home_biggest_subtitle">Lo que ocupa tu espacio</string>
-    <string name="home_biggest_share">%1$s de tu almacenamiento</string>
-    <string name="home_see_all">Ver todas las apps</string>
-    <string name="home_see_all_short">Ver todo</string>
     <plurals name="home_time_minutes">
         <item quantity="one">hace %d minuto</item>
         <item quantity="many">hace %d minutos</item>
@@ -106,14 +94,19 @@
         <item quantity="many">hace %d días</item>
         <item quantity="other">hace %d días</item>
     </plurals>
-    <plurals name="home_tile_cache_caption">
-        <item quantity="one">en %d app</item>
-        <item quantity="many">en %d apps</item>
-        <item quantity="other">en %d apps</item>
+    <string name="home_hero_new_title">Mira qué puedes quitar</string>
+    <string name="home_review">Revisar</string>
+    <string name="home_cat_cache">Caché</string>
+    <string name="home_cat_none">Ninguna</string>
+    <string name="home_cat_counted_above">Ya contadas arriba</string>
+    <plurals name="home_cat_more_apps">
+        <item quantity="one">%d app más</item>
+        <item quantity="many">%d apps más</item>
+        <item quantity="other">%d apps más</item>
     </plurals>
-    <plurals name="home_tile_freed_caption">
-        <item quantity="one">%d app quitada</item>
-        <item quantity="many">%d apps quitadas</item>
-        <item quantity="other">%d apps quitadas</item>
+    <plurals name="home_cat_other_apps">
+        <item quantity="one">%d otra app</item>
+        <item quantity="many">%d otras apps</item>
+        <item quantity="other">%d otras apps</item>
     </plurals>
 </resources>

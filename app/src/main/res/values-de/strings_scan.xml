@@ -4,7 +4,7 @@
     <string name="scan_intro_access_title">Für einen vollständigen Scan erlaube den Nutzungszugriff</string>
     <string name="scan_intro_access_body">Alles bleibt auf deinem Handy. App Cleaner sieht damit nur, welche Apps du länger nicht geöffnet hast und wie viele Daten und Cache sie belegen.</string>
     <string name="scan_intro_point_unused">Apps, die du seit Monaten nicht geöffnet hast</string>
-    <string name="scan_intro_point_hogs">Die Apps, die am meisten Platz belegen</string>
+    <string name="scan_intro_point_hogs">Große Apps ab 250 MB</string>
     <string name="scan_intro_point_cache">App-Daten und Cache</string>
     <string name="scan_intro_allow">Nutzungszugriff erlauben</string>
     <string name="scan_intro_quick">Schnellscan</string>
@@ -16,24 +16,24 @@
     <string name="scan_step_skipped">Benötigt Nutzungszugriff</string>
     <string name="scan_result_label">Scan abgeschlossen</string>
     <string name="scan_result_could_free">könnten frei werden</string>
-    <string name="scan_result_hogs_take">belegen deine größten Apps</string>
-    <string name="scan_result_before_after">%1$s voll → %2$s nach dem Aufräumen</string>
     <string name="scan_result_tidy_title">Dein Handy ist aufgeräumt</string>
     <string name="scan_result_tidy_body">Gerade belegt nichts Großes deinen Speicher.</string>
-    <string name="scan_bucket_unused">Ungenutzte Apps</string>
-    <string name="scan_bucket_hogs">Speicherfresser</string>
-    <string name="scan_bucket_cache">App-Daten &amp; Cache</string>
-    <string name="scan_bucket_meta">%1$s · %2$s</string>
-    <string name="scan_bucket_needs_access">Erlaube den Nutzungszugriff, um sie zu finden</string>
-    <string name="scan_cta_free_up">%1$s freigeben</string>
     <string name="scan_cta_review">Alle Apps durchsehen</string>
     <string name="scan_cta_allow_full">Zugriff für vollständigen Scan erlauben</string>
     <string name="scan_estimates_note">Einige Größen zählen nur die App-Dateien; Daten und Cache benötigen Nutzungszugriff.</string>
     <string name="scan_error_title">Der Scan konnte nicht abgeschlossen werden</string>
     <string name="scan_error_body">Auf deinem Handy wurde nichts verändert.</string>
     <string name="scan_error_retry">Erneut versuchen</string>
-    <plurals name="scan_result_loss">
-        <item quantity="one">%1$d App, die du seit %2$d Tagen nicht geöffnet hast, belegt %3$s, die du zurückhaben könntest.</item>
-        <item quantity="other">Diese %1$d Apps, die du seit %2$d Tagen nicht geöffnet hast, belegen %3$s, die du zurückhaben könntest.</item>
+    <string name="scan_legend_now">Jetzt: %1$s voll</string>
+    <string name="scan_legend_after">Nach dem Aufräumen: %1$s</string>
+    <string name="scan_cta_review_cache">Cache ansehen · %1$s</string>
+    <string name="scan_cta_unlock">Mit Pro ansehen</string>
+    <plurals name="scan_cta_review_apps">
+        <item quantity="one">%1$d App ansehen · %2$s</item>
+        <item quantity="other">%1$d Apps ansehen · %2$s</item>
+    </plurals>
+    <plurals name="scan_cta_remove_large">
+        <item quantity="one">%1$d große App entfernen · %2$s</item>
+        <item quantity="other">%1$d große Apps entfernen · %2$s</item>
     </plurals>
 </resources>

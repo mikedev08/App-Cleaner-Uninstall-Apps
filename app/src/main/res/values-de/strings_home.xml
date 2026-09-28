@@ -43,7 +43,7 @@
     </plurals>
     <string name="home_selection_clear">Auswahl löschen</string>
     <string name="home_uninstall">Deinstallieren</string>
-    <string name="home_premium_ended">Dein Premium ist abgelaufen – verlängere es, um weiter ungenutzte Apps zu finden.</string>
+    <string name="home_premium_ended">Dein Pro-Abo ist abgelaufen.</string>
     <string name="home_premium_renew">Verlängern</string>
     <string name="home_details_version">Version %1$s</string>
     <string name="home_details_from_play">Aus Google Play installiert</string>
@@ -63,31 +63,19 @@
     <!-- Home dashboard (redesign 2026) -->
     <string name="home_gauge_used">belegt</string>
     <string name="home_hero_used_of">%1$s von %2$s</string>
-    <string name="home_headline_danger">Dein Handy ist fast voll</string>
-    <string name="home_headline_warning">Dein Speicher wird knapp</string>
-    <string name="home_headline_ok">Du hast genug Platz</string>
+    <string name="home_headline_danger">Fast voll</string>
+    <string name="home_headline_warning">Wird langsam voll</string>
+    <string name="home_headline_ok">Genug Platz</string>
     <string name="home_subline_left">Nur noch %1$s frei</string>
     <string name="home_subline_free">%1$s frei</string>
     <string name="home_scan_cta">Handy scannen</string>
-    <string name="home_scan_cta_caption">Findet ungenutzte Apps, Speicherfresser und Cache-Daten.</string>
+    <string name="home_scan_cta_caption">Findet ungenutzte und große Apps sowie Cache.</string>
     <string name="home_last_scan_title">Letzter Scan</string>
     <string name="home_last_scan_free_up_prefix">Du kannst freigeben</string>
-    <string name="home_last_scan_hogs_prefix">Deine größten Apps belegen</string>
     <string name="home_last_scan_tidy">Nichts Großes aufzuräumen</string>
     <string name="home_last_scan_again">Erneut scannen</string>
     <string name="home_time_just_now">Gerade eben</string>
     <string name="home_stats_title">Wohin dein Speicher geht</string>
-    <string name="home_tile_unused">Ungenutzte Apps</string>
-    <string name="home_tile_hogs">Speicherfresser</string>
-    <string name="home_tile_cache">App-Daten &amp; Cache</string>
-    <string name="home_tile_freed">Bisher freigegeben</string>
-    <string name="home_tile_allow">Zugriff erlauben</string>
-    <string name="home_tile_freed_none">Noch nichts entfernt</string>
-    <string name="home_biggest_title">Größte Apps</string>
-    <string name="home_biggest_subtitle">Was deinen Speicher belegt</string>
-    <string name="home_biggest_share">%1$s deines Speichers</string>
-    <string name="home_see_all">Alle Apps ansehen</string>
-    <string name="home_see_all_short">Alle</string>
     <plurals name="home_time_minutes">
         <item quantity="one">vor %d Minute</item>
         <item quantity="other">vor %d Minuten</item>
@@ -100,12 +88,17 @@
         <item quantity="one">vor %d Tag</item>
         <item quantity="other">vor %d Tagen</item>
     </plurals>
-    <plurals name="home_tile_cache_caption">
-        <item quantity="one">in %d App</item>
-        <item quantity="other">in %d Apps</item>
+    <string name="home_hero_new_title">Sieh, was du entfernen kannst</string>
+    <string name="home_review">Ansehen</string>
+    <string name="home_cat_cache">Cache</string>
+    <string name="home_cat_none">Keine</string>
+    <string name="home_cat_counted_above">Oben gezählt</string>
+    <plurals name="home_cat_more_apps">
+        <item quantity="one">%d weitere App</item>
+        <item quantity="other">%d weitere Apps</item>
     </plurals>
-    <plurals name="home_tile_freed_caption">
-        <item quantity="one">%d App entfernt</item>
-        <item quantity="other">%d Apps entfernt</item>
+    <plurals name="home_cat_other_apps">
+        <item quantity="one">%d andere App</item>
+        <item quantity="other">%d andere Apps</item>
     </plurals>
 </resources>

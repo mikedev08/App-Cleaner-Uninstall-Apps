@@ -60,7 +60,7 @@
     <string name="home_uninstall">Uninstall</string>
 
     <!-- PRD §6 item 18 -->
-    <string name="home_premium_ended">Your premium ended — renew to keep finding unused apps.</string>
+    <string name="home_premium_ended">Your Pro plan has ended.</string>
     <string name="home_premium_renew">Renew</string>
 
     <!-- App Details sheet (Screen 7) -->
@@ -82,31 +82,19 @@
     <!-- Home dashboard (redesign 2026) -->
     <string name="home_gauge_used">used</string>
     <string name="home_hero_used_of">%1$s of %2$s</string>
-    <string name="home_headline_danger">Your phone is almost full</string>
-    <string name="home_headline_warning">Your storage is filling up</string>
-    <string name="home_headline_ok">You have room to spare</string>
+    <string name="home_headline_danger">Almost full</string>
+    <string name="home_headline_warning">Getting full</string>
+    <string name="home_headline_ok">Plenty of room</string>
     <string name="home_subline_left">Only %1$s left</string>
     <string name="home_subline_free">%1$s free</string>
     <string name="home_scan_cta">Scan my phone</string>
-    <string name="home_scan_cta_caption">Finds unused apps, space hogs and cached data.</string>
+    <string name="home_scan_cta_caption">Finds unused and large apps, and cache.</string>
     <string name="home_last_scan_title">Last scan</string>
     <string name="home_last_scan_free_up_prefix">You can free up</string>
-    <string name="home_last_scan_hogs_prefix">Your biggest apps take</string>
     <string name="home_last_scan_tidy">Nothing big to clean up</string>
     <string name="home_last_scan_again">Scan again</string>
     <string name="home_time_just_now">Just now</string>
     <string name="home_stats_title">Where your space goes</string>
-    <string name="home_tile_unused">Unused apps</string>
-    <string name="home_tile_hogs">Space hogs</string>
-    <string name="home_tile_cache">App data &amp; cache</string>
-    <string name="home_tile_freed">Freed so far</string>
-    <string name="home_tile_allow">Allow access</string>
-    <string name="home_tile_freed_none">Nothing removed yet</string>
-    <string name="home_biggest_title">Biggest apps</string>
-    <string name="home_biggest_subtitle">What’s taking your space</string>
-    <string name="home_biggest_share">%1$s of your storage</string>
-    <string name="home_see_all">See all apps</string>
-    <string name="home_see_all_short">See all</string>
     <plurals name="home_time_minutes">
         <item quantity="one">%d minute ago</item>
         <item quantity="other">%d minutes ago</item>
@@ -119,12 +107,18 @@
         <item quantity="one">%d day ago</item>
         <item quantity="other">%d days ago</item>
     </plurals>
-    <plurals name="home_tile_cache_caption">
-        <item quantity="one">in %d app</item>
-        <item quantity="other">in %d apps</item>
+    <!-- Design review 2026-09: Home categories and the Scan result CTAs -->
+    <string name="home_hero_new_title">See what you can remove</string>
+    <string name="home_review">Review</string>
+    <string name="home_cat_cache">Cache</string>
+    <string name="home_cat_none">None</string>
+    <string name="home_cat_counted_above">Counted above</string>
+    <plurals name="home_cat_more_apps">
+        <item quantity="one">%d more app</item>
+        <item quantity="other">%d more apps</item>
     </plurals>
-    <plurals name="home_tile_freed_caption">
-        <item quantity="one">%d app removed</item>
-        <item quantity="other">%d apps removed</item>
+    <plurals name="home_cat_other_apps">
+        <item quantity="one">%d other app</item>
+        <item quantity="other">%d other apps</item>
     </plurals>
 </resources>

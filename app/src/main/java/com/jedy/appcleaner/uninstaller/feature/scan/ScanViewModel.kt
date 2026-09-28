@@ -2,12 +2,15 @@ package com.jedy.appcleaner.uninstaller.feature.scan
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.jedy.appcleaner.uninstaller.core.model.HomeTab
 import com.jedy.appcleaner.uninstaller.core.selection.SelectionStore
 import com.jedy.appcleaner.uninstaller.data.billing.Premium
 import com.jedy.appcleaner.uninstaller.data.inventory.AppInventory
 import com.jedy.appcleaner.uninstaller.data.scan.CleanupScan
+import com.jedy.appcleaner.uninstaller.data.scan.ScanMath
 import com.jedy.appcleaner.uninstaller.data.scan.ScanResult
 import com.jedy.appcleaner.uninstaller.data.scan.ScanStep
+import com.jedy.appcleaner.uninstaller.data.storage.StorageBreakdown
 import com.jedy.appcleaner.uninstaller.data.usage.UsageAccess
 import com.jedy.appcleaner.uninstaller.data.usage.UsageInsights
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -48,6 +51,49 @@ sealed interface ScanPhase {
     data object Failed : ScanPhase
 }
 
+/** The Scan result's primary button: what it does is what its label says. */
+sealed interface ScanCta {
+    /** Quick scan: the honest next step is the full scan. */
+    data object AllowAccess : ScanCta
+
+    /** Premium: "Review 34 apps · 3.2 GB" pre-selects the Unused and Large apps. */
+    data class ReviewApps(val count: Int, val bytes: Long, val tab: HomeTab) : ScanCta
+
+    /** Premium, only cache to free: "Review cache · 520 MB". */
+    data class ReviewCache(val bytes: Long) : ScanCta
+
+    /** Free: "Remove 3 large apps · 1.0 GB", pre-selected on the free All list. */
+    data class RemoveLarge(val count: Int, val bytes: Long) : ScanCta
+
+    /** Free, and everything to free is Pro-only: "Review with Pro" with the lock → paywall. */
+    data object Unlock : ScanCta
+
+    /** Nothing to free: only "Review all apps". */
+    data object None : ScanCta
+}
+
+object ScanCtas {
+    /**
+     * Design review §2A: a free-looking button never quotes a Pro-only number. Premium reviews
+     * everything the rows count as apps (Unused + Large); free users are offered the Large apps,
+     * which they can remove from the free All list; the rest is behind a visible lock.
+     */
+    fun primary(result: ScanResult, isPremium: Boolean): ScanCta = when {
+        !result.hasUsageAccess -> ScanCta.AllowAccess
+        isPremium && result.reviewAppCount > 0 -> ScanCta.ReviewApps(
+            count = result.reviewAppCount,
+            bytes = result.reviewAppBytes,
+            // Only the All list shows Unused and Large apps together.
+            tab = if (result.largeOnlyCount > 0) HomeTab.ALL else HomeTab.UNUSED,
+        )
+        isPremium && result.keptCacheBytes > 0 -> ScanCta.ReviewCache(result.keptCacheBytes)
+        isPremium -> ScanCta.None
+        result.largeOnlyCount > 0 -> ScanCta.RemoveLarge(result.largeOnlyCount, result.largeOnlyBytes)
+        result.unusedCount > 0 || result.keptCacheBytes > 0 -> ScanCta.Unlock
+        else -> ScanCta.None
+    }
+}
+
 data class ScanUiState(
     val phase: ScanPhase = ScanPhase.Intro,
     val isPremium: Boolean = false,
@@ -66,6 +112,7 @@ class ScanViewModel @Inject constructor(
     private val usageInsights: UsageInsights,
     private val inventory: AppInventory,
     private val selection: SelectionStore,
+    private val storage: StorageBreakdown,
     premium: Premium,
 ) : ViewModel() {
 
@@ -136,13 +183,26 @@ class ScanViewModel @Inject constructor(
     }
 
     /**
-     * Premium "Free up X": pre-select exactly the apps the scan counted as unused, so the Unused
-     * tab opens with the uninstall one tap away. Computed from the same rule and threshold.
+     * Premium "Review N apps": select exactly the apps the rows counted (Unused, then the Large
+     * apps that are not unused), computed with the same rules and threshold, so the selection
+     * bar repeats the button's N.
      */
-    fun preselectUnused(result: ScanResult) {
-        val unused = usageInsights.unusedApps(inventory.apps.value, result.thresholdDays)
-        selection.select(unused.map { it.app.packageName })
+    fun preselectReview(result: ScanResult) {
+        val apps = inventory.apps.value
+        val unused = unusedPackages(result)
+        selection.clear()
+        selection.select(unused + ScanMath.largeOnlyPackages(apps, storage.sizes.value, unused))
     }
+
+    /** Free "Remove N large apps": the Large row's apps, on the free All list. */
+    fun preselectLarge(result: ScanResult) {
+        selection.clear()
+        selection.select(ScanMath.largeOnlyPackages(inventory.apps.value, storage.sizes.value, unusedPackages(result)))
+    }
+
+    private fun unusedPackages(result: ScanResult): Set<String> =
+        if (!result.hasUsageAccess) emptySet()
+        else usageInsights.unusedApps(inventory.apps.value, result.thresholdDays).mapTo(HashSet()) { it.app.packageName }
 
     private fun pendingSteps(): Map<ScanStage, StepStatus> = ScanStage.entries.associateWith { StepStatus.PENDING }
 

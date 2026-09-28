@@ -4,7 +4,7 @@
     <string name="scan_intro_access_title">لفحص كامل، اسمح بالوصول إلى بيانات الاستخدام</string>
     <string name="scan_intro_access_body">تبقى البيانات على هاتفك. يستخدمها App Cleaner فقط لمعرفة التطبيقات التي لم تفتحها مؤخرًا وحجم بياناتها وذاكرتها المؤقتة.</string>
     <string name="scan_intro_point_unused">تطبيقات لم تفتحها منذ أشهر</string>
-    <string name="scan_intro_point_hogs">التطبيقات التي تشغل أكبر مساحة</string>
+    <string name="scan_intro_point_hogs">التطبيقات الكبيرة (250 ميغابايت أو أكثر)</string>
     <string name="scan_intro_point_cache">بيانات التطبيقات وذاكرة التخزين المؤقت</string>
     <string name="scan_intro_allow">السماح بالوصول إلى بيانات الاستخدام</string>
     <string name="scan_intro_quick">فحص سريع</string>
@@ -16,28 +16,32 @@
     <string name="scan_step_skipped">يتطلب الوصول إلى بيانات الاستخدام</string>
     <string name="scan_result_label">اكتمل الفحص</string>
     <string name="scan_result_could_free">يمكن تحريرها</string>
-    <string name="scan_result_hogs_take">تشغلها أكبر تطبيقاتك</string>
-    <string name="scan_result_before_after">ممتلئ بنسبة %1$s ← %2$s بعد التنظيف</string>
     <string name="scan_result_tidy_title">هاتفك مرتب</string>
     <string name="scan_result_tidy_body">لا يوجد شيء كبير يشغل مساحتك الآن.</string>
-    <string name="scan_bucket_unused">تطبيقات غير مستخدمة</string>
-    <string name="scan_bucket_hogs">الأكثر استهلاكًا للمساحة</string>
-    <string name="scan_bucket_cache">بيانات التطبيقات وذاكرة التخزين المؤقت</string>
-    <string name="scan_bucket_meta">%1$s · %2$s</string>
-    <string name="scan_bucket_needs_access">اسمح بالوصول إلى بيانات الاستخدام للعثور عليها</string>
-    <string name="scan_cta_free_up">حرّر %1$s</string>
     <string name="scan_cta_review">مراجعة كل التطبيقات</string>
     <string name="scan_cta_allow_full">اسمح بالوصول لإجراء فحص كامل</string>
     <string name="scan_estimates_note">بعض الأحجام تحتسب ملفات التطبيق فقط؛ تتطلب البيانات وذاكرة التخزين المؤقت الوصول إلى بيانات الاستخدام.</string>
     <string name="scan_error_title">تعذّر إكمال الفحص</string>
     <string name="scan_error_body">لم يتغيّر أي شيء على هاتفك.</string>
     <string name="scan_error_retry">إعادة المحاولة</string>
-    <plurals name="scan_result_loss">
-        <item quantity="zero">%1$d تطبيق لم تفتحها منذ %2$d يومًا تشغل %3$s يمكنك استعادتها.</item>
-        <item quantity="one">تطبيق واحد لم تفتحه منذ %2$d يومًا يشغل %3$s يمكنك استعادتها.</item>
-        <item quantity="two">تطبيقان لم تفتحهما منذ %2$d يومًا يشغلان %3$s يمكنك استعادتها.</item>
-        <item quantity="few">%1$d تطبيقات لم تفتحها منذ %2$d يومًا تشغل %3$s يمكنك استعادتها.</item>
-        <item quantity="many">%1$d تطبيقًا لم تفتحها منذ %2$d يومًا تشغل %3$s يمكنك استعادتها.</item>
-        <item quantity="other">%1$d تطبيق لم تفتحها منذ %2$d يومًا تشغل %3$s يمكنك استعادتها.</item>
+    <string name="scan_legend_now">الآن: %1$s ممتلئ</string>
+    <string name="scan_legend_after">بعد التنظيف: %1$s</string>
+    <string name="scan_cta_review_cache">مراجعة الذاكرة المؤقتة · %1$s</string>
+    <string name="scan_cta_unlock">المراجعة مع Pro</string>
+    <plurals name="scan_cta_review_apps">
+        <item quantity="zero">مراجعة %1$d تطبيق · %2$s</item>
+        <item quantity="one">مراجعة %1$d تطبيق · %2$s</item>
+        <item quantity="two">مراجعة %1$d تطبيق · %2$s</item>
+        <item quantity="few">مراجعة %1$d تطبيقات · %2$s</item>
+        <item quantity="many">مراجعة %1$d تطبيقًا · %2$s</item>
+        <item quantity="other">مراجعة %1$d تطبيق · %2$s</item>
+    </plurals>
+    <plurals name="scan_cta_remove_large">
+        <item quantity="zero">إزالة %1$d تطبيق كبير · %2$s</item>
+        <item quantity="one">إزالة %1$d تطبيق كبير · %2$s</item>
+        <item quantity="two">إزالة %1$d تطبيق كبير · %2$s</item>
+        <item quantity="few">إزالة %1$d تطبيقات كبيرة · %2$s</item>
+        <item quantity="many">إزالة %1$d تطبيقًا كبيرًا · %2$s</item>
+        <item quantity="other">إزالة %1$d تطبيق كبير · %2$s</item>
     </plurals>
 </resources>

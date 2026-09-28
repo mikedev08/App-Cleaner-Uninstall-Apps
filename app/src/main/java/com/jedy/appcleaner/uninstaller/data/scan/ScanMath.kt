@@ -3,20 +3,23 @@ package com.jedy.appcleaner.uninstaller.data.scan
 import com.jedy.appcleaner.uninstaller.core.model.AppSize
 import com.jedy.appcleaner.uninstaller.core.model.DeviceStorage
 import com.jedy.appcleaner.uninstaller.core.model.InstalledApp
+import com.jedy.appcleaner.uninstaller.core.model.LargeApps
 import com.jedy.appcleaner.uninstaller.core.model.UnusedApp
-import com.jedy.appcleaner.uninstaller.core.ui.theme.Severity
-import com.jedy.appcleaner.uninstaller.core.ui.theme.SeverityRules
+import com.jedy.appcleaner.uninstaller.core.model.bestKnownBytes
 
 /**
  * The arithmetic behind a [ScanResult], kept pure so it is unit-tested without Android. Every
  * number the Scan result, the Home dashboard and the paywall quote comes out of here, which is
  * what keeps the "you can free up X" promise honest (Play's Deceptive Behavior policy).
+ *
+ * One size source and one Large rule for every screen: an app's size is its best-known size
+ * ([sizeOf]) and it is Large when [LargeApps.isLarge] says so — the same call the Apps "Large"
+ * filter makes. The three rows are disjoint (see [ScanResult]), so the headline is their sum.
  */
 object ScanMath {
 
     /** The measured app + data + cache total when StorageStatsManager has it, else the APK bytes. */
-    fun sizeOf(app: InstalledApp, sizes: Map<String, AppSize>): Long =
-        sizes[app.packageName]?.totalBytes ?: app.apkBytes
+    fun sizeOf(app: InstalledApp, sizes: Map<String, AppSize>): Long = app.bestKnownBytes(sizes)
 
     fun compute(
         apps: List<InstalledApp>,
@@ -31,13 +34,16 @@ object ScanMath {
         // Unused apps must still be installed: the list and the inventory can be a refresh apart.
         val unusedPackages = unused.mapTo(HashSet()) { it.app.packageName }.filterTo(HashSet()) { it in bytesByPackage }
         val unusedBytes = unusedPackages.sumOf { bytesByPackage.getValue(it) }
-        val large = bytesByPackage.values.filter { SeverityRules.appSize(it, storage.totalBytes) == Severity.DANGER }
+        val largePackages = bytesByPackage.filterValues(LargeApps::isLarge).keys
+        // An app that is both unused and large is counted once, under Unused.
+        val largeOnly = largePackages.filter { it !in unusedPackages }
+        val largeOnlyBytes = largeOnly.sumOf { bytesByPackage.getValue(it) }
         // Only installed apps: the size cache can briefly outlive an uninstall.
         val cacheByPackage = apps.mapNotNull { app -> sizes[app.packageName]?.let { app.packageName to it.cacheBytes } }
-        val cacheBytes = cacheByPackage.sumOf { it.second }
-        // An unused app's size already includes its cache. Counting that cache twice would inflate
-        // the headline, so only the cache of the apps the user keeps is added on top.
-        val keptCache = cacheByPackage.filter { it.first !in unusedPackages }.sumOf { it.second }
+        // An unused or large app's size already includes its cache. Counting that cache twice would
+        // inflate the headline, so the Cache row only adds the cache of the apps the user keeps.
+        val keptCache = cacheByPackage.filter { (pkg, _) -> pkg !in unusedPackages && pkg !in largePackages }
+        val keptCacheBytes = keptCache.sumOf { it.second }
         return ScanResult(
             scannedAt = now,
             storage = storage,
@@ -46,15 +52,23 @@ object ScanMath {
             unusedCount = unusedPackages.size,
             unusedBytes = unusedBytes,
             thresholdDays = thresholdDays,
-            largeCount = large.size,
-            largeBytes = large.sum(),
-            cacheBytes = cacheBytes,
+            largeCount = largePackages.size,
+            largeBytes = largePackages.sumOf { bytesByPackage.getValue(it) },
+            largeOnlyCount = largeOnly.size,
+            largeOnlyBytes = largeOnlyBytes,
+            cacheBytes = cacheByPackage.sumOf { it.second },
             cacheAppCount = cacheByPackage.count { it.second > 0 },
-            reclaimableBytes = unusedBytes + keptCache,
+            keptCacheBytes = keptCacheBytes,
+            keptCacheAppCount = keptCache.count { it.second > 0 },
+            reclaimableBytes = unusedBytes + largeOnlyBytes + keptCacheBytes,
             hasUsageAccess = hasUsageAccess,
             sizesAreEstimates = apps.any { it.packageName !in sizes },
         )
     }
+
+    /** The apps the Large row counts (Large and not in [unused]): what "Remove N large apps" selects. */
+    fun largeOnlyPackages(apps: List<InstalledApp>, sizes: Map<String, AppSize>, unused: Set<String>): List<String> =
+        apps.filter { it.packageName !in unused && LargeApps.isLarge(it, sizes) }.map { it.packageName }
 
     /** Share of the phone in use right now, 0..1 (0 when the volume could not be read). */
     fun usedFraction(storage: DeviceStorage): Float =

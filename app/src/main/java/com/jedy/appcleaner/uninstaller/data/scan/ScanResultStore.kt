@@ -18,7 +18,7 @@ import javax.inject.Singleton
 private val Context.scanDataStore: DataStore<Preferences> by preferencesDataStore(name = "appcleaner_last_scan")
 
 /**
- * The last scan, persisted so Home can show "Last scan · You can free up 3.4 GB" on a cold start
+ * The last scan, persisted so Home can show "You can free up 3.4 GB" on a cold start
  * instead of a blank dashboard. Its own tiny DataStore: [AppPreferences] is frozen, and a scan is
  * a cache (losing it only means Home falls back to live numbers), not user settings.
  */
@@ -38,8 +38,12 @@ class ScanResultStore @Inject constructor(
         val thresholdDays = intPreferencesKey("threshold_days")
         val largeCount = intPreferencesKey("large_count")
         val largeBytes = longPreferencesKey("large_bytes")
+        val largeOnlyCount = intPreferencesKey("large_only_count")
+        val largeOnlyBytes = longPreferencesKey("large_only_bytes")
         val cacheBytes = longPreferencesKey("cache_bytes")
         val cacheAppCount = intPreferencesKey("cache_app_count")
+        val keptCacheBytes = longPreferencesKey("kept_cache_bytes")
+        val keptCacheAppCount = intPreferencesKey("kept_cache_app_count")
         val reclaimableBytes = longPreferencesKey("reclaimable_bytes")
         val hasUsageAccess = booleanPreferencesKey("has_usage_access")
         val sizesAreEstimates = booleanPreferencesKey("sizes_are_estimates")
@@ -60,8 +64,12 @@ class ScanResultStore @Inject constructor(
             thresholdDays = p[Keys.thresholdDays] ?: 0,
             largeCount = p[Keys.largeCount] ?: 0,
             largeBytes = p[Keys.largeBytes] ?: 0,
+            largeOnlyCount = p[Keys.largeOnlyCount] ?: 0,
+            largeOnlyBytes = p[Keys.largeOnlyBytes] ?: 0,
             cacheBytes = p[Keys.cacheBytes] ?: 0,
             cacheAppCount = p[Keys.cacheAppCount] ?: 0,
+            keptCacheBytes = p[Keys.keptCacheBytes] ?: 0,
+            keptCacheAppCount = p[Keys.keptCacheAppCount] ?: 0,
             reclaimableBytes = p[Keys.reclaimableBytes] ?: 0,
             hasUsageAccess = p[Keys.hasUsageAccess] ?: false,
             sizesAreEstimates = p[Keys.sizesAreEstimates] ?: true,
@@ -85,8 +93,12 @@ class ScanResultStore @Inject constructor(
                 p[Keys.thresholdDays] = result.thresholdDays
                 p[Keys.largeCount] = result.largeCount
                 p[Keys.largeBytes] = result.largeBytes
+                p[Keys.largeOnlyCount] = result.largeOnlyCount
+                p[Keys.largeOnlyBytes] = result.largeOnlyBytes
                 p[Keys.cacheBytes] = result.cacheBytes
                 p[Keys.cacheAppCount] = result.cacheAppCount
+                p[Keys.keptCacheBytes] = result.keptCacheBytes
+                p[Keys.keptCacheAppCount] = result.keptCacheAppCount
                 p[Keys.reclaimableBytes] = result.reclaimableBytes
                 p[Keys.hasUsageAccess] = result.hasUsageAccess
                 p[Keys.sizesAreEstimates] = result.sizesAreEstimates
@@ -96,6 +108,7 @@ class ScanResultStore @Inject constructor(
     }
 
     private companion object {
-        const val VERSION = 1
+        /** 2: one Large rule (LargeApps) and disjoint rows. A v1 scan used other maths, so it is dropped. */
+        const val VERSION = 2
     }
 }
