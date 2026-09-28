@@ -176,24 +176,20 @@ internal fun LockedTeaser(
             Text(text = caption, style = MaterialTheme.typography.bodyMedium, color = AppTheme.colors.textSecondary)
         }
         Spacer(Modifier.height(Dimens.gutterSmall))
-        RedactedPreview(
-            packages = previewPackages,
-            rows = previewPackages.size.coerceIn(MIN_PREVIEW_ROWS, MAX_PREVIEW_ROWS),
-            description = stringResource(R.string.insights_locked_rows_description),
-        )
-        Spacer(Modifier.height(Dimens.gutter))
-        Text(
-            text = body,
-            style = MaterialTheme.typography.bodyMedium,
-            color = AppTheme.colors.textSecondary,
-            textAlign = TextAlign.Center,
-            modifier = Modifier.fillMaxWidth(),
-        )
+        Text(text = body, style = MaterialTheme.typography.bodyMedium, color = AppTheme.colors.textSecondary)
         Spacer(Modifier.height(Dimens.gutterSmall))
+        // The CTA sits above the preview so it is on screen on every phone height; below the
+        // rows it fell under the fold, hiding the one action this state exists for.
         TealButton(
             text = stringResource(R.string.insights_unlock_trial),
             onClick = onUnlock,
             modifier = Modifier.fillMaxWidth(),
+        )
+        Spacer(Modifier.height(Dimens.gutter))
+        RedactedPreview(
+            packages = previewPackages,
+            rows = previewPackages.size.coerceIn(MIN_PREVIEW_ROWS, MAX_PREVIEW_ROWS),
+            description = stringResource(R.string.insights_locked_rows_description),
         )
     }
 }
