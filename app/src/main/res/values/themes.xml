@@ -6,7 +6,7 @@
         <item name="android:navigationBarColor">@android:color/transparent</item>
     </style>
 
-    <!-- androidx SplashScreen (PRD §4, Screen 1): teal icon on the theme background. -->
+    <!-- androidx SplashScreen (PRD §4, Screen 1): green icon on the theme background. -->
     <style name="Theme.AppCleaner.Starting" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">@color/window_background</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_launcher_foreground</item>
