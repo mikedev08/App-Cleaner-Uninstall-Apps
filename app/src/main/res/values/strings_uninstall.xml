@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Batch uninstall: Confirm Sheet, resume banner, Progress and Result (PRD §4 Screens 8–10). -->
+    <string name="uninstall_confirm_title">Uninstall these apps?</string>
+    <string name="uninstall_confirm_expectation">Android will ask you to confirm each app.</string>
+    <string name="uninstall_confirm_data_note">Their data is deleted too. You can reinstall them later from History.</string>
+    <string name="uninstall_size_about">about %1$s</string>
+    <string name="uninstall_size_unavailable">Size unavailable</string>
+    <string name="uninstall_warning_device_admin">Device admin — deactivate first</string>
+    <string name="uninstall_warning_keyboard">Your current keyboard — you\'ll need to pick another</string>
+    <string name="uninstall_warning_launcher">Your current home screen app — you\'ll need to pick another</string>
+    <string name="uninstall_warning_sms">Your current SMS app — you\'ll need to pick another</string>
+    <string name="uninstall_warning_dialer">Your current phone app — you\'ll need to pick another</string>
+    <string name="uninstall_warning_always_running">Runs in the background — removing it may change how your phone works</string>
+    <string name="uninstall_resume_body">App Cleaner closed before your last batch finished.</string>
+    <string name="uninstall_resume_discard">Discard</string>
+    <string name="uninstall_progress_title">Removing apps</string>
+    <string name="uninstall_progress_count">Removing %1$d of %2$d</string>
+    <string name="uninstall_state_waiting">Waiting</string>
+    <string name="uninstall_state_confirming">Waiting for your confirmation</string>
+    <string name="uninstall_state_removed">Removed</string>
+    <string name="uninstall_state_skipped">Skipped</string>
+    <string name="uninstall_state_failed">Not removed</string>
+    <string name="uninstall_state_already_removed">Already removed</string>
+    <string name="uninstall_stop">Stop</string>
+    <string name="uninstall_stopping">Stopping after this app…</string>
+    <string name="uninstall_stop_title">Stop removing apps?</string>
+    <string name="uninstall_stop_body">Apps already removed stay removed. The rest stay installed.</string>
+    <string name="uninstall_stop_keep_going">Keep going</string>
+    <string name="uninstall_stalled_title">Don\'t see Android\'s dialog?</string>
+    <string name="uninstall_stalled_action">Show it again</string>
+    <string name="uninstall_result_freed">%1$s freed</string>
+    <string name="uninstall_result_none_title">No apps were removed</string>
+    <string name="uninstall_result_none_body">Everything you selected is still installed.</string>
+    <string name="uninstall_result_stopped_note">You stopped early. The remaining apps are still installed.</string>
+    <string name="uninstall_reason_cancelled">You cancelled</string>
+    <string name="uninstall_reason_not_attempted">Not attempted — you stopped</string>
+    <string name="uninstall_reason_blocked">Your device doesn\'t allow removing this app</string>
+    <string name="uninstall_reason_device_admin">Turn off its admin access first</string>
+    <string name="uninstall_reason_not_removed">Android didn\'t remove this app</string>
+    <string name="uninstall_reason_other">Android couldn\'t remove this app (code %1$d)</string>
+    <string name="uninstall_retry_all">Try all again</string>
+    <string name="uninstall_result_teaser_action">Review unused apps</string>
+    <string name="uninstall_cd_show_details">Show details</string>
+    <string name="uninstall_cd_hide_details">Hide details</string>
+    <plurals name="uninstall_confirm_summary">
+        <item quantity="one">%1$d app · %2$s</item>
+        <item quantity="other">%1$d apps · %2$s</item>
+    </plurals>
+    <plurals name="uninstall_confirm_button">
+        <item quantity="one">Uninstall %1$d app</item>
+        <item quantity="other">Uninstall %1$d apps</item>
+    </plurals>
+    <plurals name="uninstall_resume_title">
+        <item quantity="one">Finish removing %1$d app?</item>
+        <item quantity="other">Finish removing %1$d apps?</item>
+    </plurals>
+    <plurals name="uninstall_result_removed">
+        <item quantity="one">%1$d app removed</item>
+        <item quantity="other">%1$d apps removed</item>
+    </plurals>
+    <plurals name="uninstall_result_not_removed">
+        <item quantity="one">%1$d not removed</item>
+        <item quantity="other">%1$d not removed</item>
+    </plurals>
+    <plurals name="uninstall_result_already_removed">
+        <item quantity="one">%1$d app was already removed</item>
+        <item quantity="other">%1$d apps were already removed</item>
+    </plurals>
+    <plurals name="uninstall_result_teaser">
+        <item quantity="one">You still have %1$d app you haven\'t opened in %2$d days</item>
+        <item quantity="other">You still have %1$d apps you haven\'t opened in %2$d days</item>
+    </plurals>
+</resources>

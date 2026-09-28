@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="history_title">卸载历史</string>
+    <string name="history_clear">清除历史记录</string>
+    <string name="history_more_options">更多选项</string>
+    <string name="history_today">今天</string>
+    <string name="history_yesterday">昨天</string>
+    <string name="history_reinstall">重新安装</string>
+    <string name="history_not_from_play">非 Play 来源</string>
+    <string name="history_reinstalled">已重新安装</string>
+    <string name="history_empty_title">还没有移除过应用</string>
+    <string name="history_empty_body">你移除的应用会显示在这里，方便你随时找回。</string>
+    <string name="history_clear_title">清除历史记录？</string>
+    <string name="history_clear_body">只会清除列表，已移除的应用不会恢复。</string>
+    <string name="history_clear_confirm">清除</string>
+    <string name="history_store_unavailable">无法打开 Play 商店</string>
+    <plurals name="history_summary">
+        <item quantity="other">已移除 %1$d 个应用 · 释放 %2$s</item>
+    </plurals>
+</resources>

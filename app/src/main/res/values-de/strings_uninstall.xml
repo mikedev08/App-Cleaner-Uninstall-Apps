@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="uninstall_confirm_title">Diese Apps deinstallieren?</string>
+    <string name="uninstall_confirm_expectation">Android fragt bei jeder App nach einer Bestätigung.</string>
+    <string name="uninstall_confirm_data_note">Ihre Daten werden ebenfalls gelöscht. Du kannst sie später über den Verlauf neu installieren.</string>
+    <string name="uninstall_size_about">ca. %1$s</string>
+    <string name="uninstall_size_unavailable">Größe nicht verfügbar</string>
+    <string name="uninstall_warning_device_admin">Geräteadministrator – zuerst deaktivieren</string>
+    <string name="uninstall_warning_keyboard">Deine aktuelle Tastatur – du musst eine andere wählen</string>
+    <string name="uninstall_warning_launcher">Dein aktueller Startbildschirm – du musst einen anderen wählen</string>
+    <string name="uninstall_warning_sms">Deine aktuelle SMS-App – du musst eine andere wählen</string>
+    <string name="uninstall_warning_dialer">Deine aktuelle Telefon-App – du musst eine andere wählen</string>
+    <string name="uninstall_warning_always_running">Läuft im Hintergrund – das Entfernen kann ändern, wie dein Handy funktioniert</string>
+    <string name="uninstall_resume_body">App Cleaner wurde geschlossen, bevor dein letzter Durchgang fertig war.</string>
+    <string name="uninstall_resume_discard">Verwerfen</string>
+    <string name="uninstall_progress_title">Apps werden entfernt</string>
+    <string name="uninstall_progress_count">Entferne %1$d von %2$d</string>
+    <string name="uninstall_state_waiting">Wartet</string>
+    <string name="uninstall_state_confirming">Wartet auf deine Bestätigung</string>
+    <string name="uninstall_state_removed">Entfernt</string>
+    <string name="uninstall_state_skipped">Übersprungen</string>
+    <string name="uninstall_state_failed">Nicht entfernt</string>
+    <string name="uninstall_state_already_removed">Bereits entfernt</string>
+    <string name="uninstall_stop">Stopp</string>
+    <string name="uninstall_stopping">Stoppt nach dieser App…</string>
+    <string name="uninstall_stop_title">Entfernen stoppen?</string>
+    <string name="uninstall_stop_body">Bereits entfernte Apps bleiben entfernt. Der Rest bleibt installiert.</string>
+    <string name="uninstall_stop_keep_going">Weitermachen</string>
+    <string name="uninstall_stalled_title">Du siehst den Android-Dialog nicht?</string>
+    <string name="uninstall_stalled_action">Erneut anzeigen</string>
+    <string name="uninstall_result_freed">%1$s freigegeben</string>
+    <string name="uninstall_result_none_title">Keine Apps entfernt</string>
+    <string name="uninstall_result_none_body">Alles, was du ausgewählt hast, ist noch installiert.</string>
+    <string name="uninstall_result_stopped_note">Du hast vorzeitig gestoppt. Die übrigen Apps sind noch installiert.</string>
+    <string name="uninstall_reason_cancelled">Von dir abgebrochen</string>
+    <string name="uninstall_reason_not_attempted">Nicht versucht – du hast gestoppt</string>
+    <string name="uninstall_reason_blocked">Dein Gerät erlaubt das Entfernen dieser App nicht</string>
+    <string name="uninstall_reason_device_admin">Deaktiviere zuerst den Administratorzugriff</string>
+    <string name="uninstall_reason_not_removed">Android hat diese App nicht entfernt</string>
+    <string name="uninstall_reason_other">Android konnte diese App nicht entfernen (Code %1$d)</string>
+    <string name="uninstall_retry_all">Alle erneut versuchen</string>
+    <string name="uninstall_result_teaser_action">Ungenutzte Apps ansehen</string>
+    <string name="uninstall_cd_show_details">Details anzeigen</string>
+    <string name="uninstall_cd_hide_details">Details ausblenden</string>
+    <plurals name="uninstall_confirm_summary">
+        <item quantity="one">%1$d App · %2$s</item>
+        <item quantity="other">%1$d Apps · %2$s</item>
+    </plurals>
+    <plurals name="uninstall_confirm_button">
+        <item quantity="one">%1$d App deinstallieren</item>
+        <item quantity="other">%1$d Apps deinstallieren</item>
+    </plurals>
+    <plurals name="uninstall_resume_title">
+        <item quantity="one">Entfernen von %1$d App abschließen?</item>
+        <item quantity="other">Entfernen von %1$d Apps abschließen?</item>
+    </plurals>
+    <plurals name="uninstall_result_removed">
+        <item quantity="one">%1$d App entfernt</item>
+        <item quantity="other">%1$d Apps entfernt</item>
+    </plurals>
+    <plurals name="uninstall_result_not_removed">
+        <item quantity="one">%1$d nicht entfernt</item>
+        <item quantity="other">%1$d nicht entfernt</item>
+    </plurals>
+    <plurals name="uninstall_result_already_removed">
+        <item quantity="one">%1$d App war bereits entfernt</item>
+        <item quantity="other">%1$d Apps waren bereits entfernt</item>
+    </plurals>
+    <plurals name="uninstall_result_teaser">
+        <item quantity="one">Du hast noch %1$d App, die du seit %2$d Tagen nicht geöffnet hast</item>
+        <item quantity="other">Du hast noch %1$d Apps, die du seit %2$d Tagen nicht geöffnet hast</item>
+    </plurals>
+</resources>

@@ -4,6 +4,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
@@ -79,6 +80,43 @@ interface UninstallDao {
 
     @Query("SELECT * FROM uninstall_item WHERE batchId = :batchId ORDER BY position")
     fun observeItems(batchId: Long): Flow<List<UninstallItemEntity>>
+
+    /** The batch and its ordered items land together or not at all, so a kill can't leave a half queue. */
+    @Transaction
+    suspend fun insertBatchWithItems(batch: UninstallBatchEntity, items: List<UninstallItemEntity>): Long {
+        val batchId = insertBatch(batch)
+        insertItems(items.map { it.copy(batchId = batchId) })
+        return batchId
+    }
+
+    @Insert
+    suspend fun insertHistoryEntry(entry: UninstallHistoryEntity): Long
+
+    /**
+     * The verified-success path (PRD Feature 4): the item turns REMOVED and its History row appears
+     * in one transaction, so a kill in between can neither lose the row nor write it twice.
+     */
+    @Transaction
+    suspend fun markRemoved(item: UninstallItemEntity, entry: UninstallHistoryEntity) {
+        updateItem(item)
+        insertHistoryEntry(entry)
+    }
+
+    /** Snapshots a live queue may still need; the icon sweep keeps these. */
+    @Query(
+        "SELECT iconPath FROM uninstall_item WHERE iconPath IS NOT NULL AND batchId IN " +
+            "(SELECT batchId FROM uninstall_batch WHERE finishedAt IS NULL AND discarded = 0)"
+    )
+    suspend fun getUnfinishedIconPaths(): List<String>
+
+    @Query(
+        "DELETE FROM uninstall_item WHERE batchId IN (SELECT batchId FROM uninstall_batch " +
+            "WHERE (finishedAt IS NOT NULL OR discarded = 1) AND createdAt < :before)"
+    )
+    suspend fun deleteItemsOfClosedBatchesBefore(before: Long)
+
+    @Query("DELETE FROM uninstall_batch WHERE (finishedAt IS NOT NULL OR discarded = 1) AND createdAt < :before")
+    suspend fun deleteClosedBatchesBefore(before: Long)
 }
 
 /** Owner: History. */
@@ -92,6 +130,10 @@ interface HistoryDao {
 
     @Query("DELETE FROM uninstall_history")
     suspend fun clear()
+
+    /** Snapshots History still shows; the icon sweep keeps these. */
+    @Query("SELECT iconPath FROM uninstall_history WHERE iconPath IS NOT NULL")
+    suspend fun getIconPaths(): List<String>
 
     /** PRD Feature 4: capped at 1,000 rows, oldest pruned. */
     @Query("DELETE FROM uninstall_history WHERE id NOT IN (SELECT id FROM uninstall_history ORDER BY removedAt DESC LIMIT :keep)")

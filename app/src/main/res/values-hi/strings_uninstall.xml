@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="uninstall_confirm_title">इन ऐप्स को अनइंस्टॉल करें?</string>
+    <string name="uninstall_confirm_expectation">Android हर ऐप के लिए आपसे पुष्टि मांगेगा।</string>
+    <string name="uninstall_confirm_data_note">इनका डेटा भी मिट जाएगा। आप इन्हें बाद में इतिहास से फिर इंस्टॉल कर सकते हैं।</string>
+    <string name="uninstall_size_about">लगभग %1$s</string>
+    <string name="uninstall_size_unavailable">आकार उपलब्ध नहीं</string>
+    <string name="uninstall_warning_device_admin">डिवाइस एडमिन — पहले निष्क्रिय करें</string>
+    <string name="uninstall_warning_keyboard">आपका मौजूदा कीबोर्ड — आपको दूसरा चुनना होगा</string>
+    <string name="uninstall_warning_launcher">आपका मौजूदा होम स्क्रीन ऐप — आपको दूसरा चुनना होगा</string>
+    <string name="uninstall_warning_sms">आपका मौजूदा SMS ऐप — आपको दूसरा चुनना होगा</string>
+    <string name="uninstall_warning_dialer">आपका मौजूदा फ़ोन ऐप — आपको दूसरा चुनना होगा</string>
+    <string name="uninstall_warning_always_running">बैकग्राउंड में चलता है — इसे हटाने से आपके फ़ोन के काम करने का तरीका बदल सकता है</string>
+    <string name="uninstall_resume_body">आपका पिछला बैच पूरा होने से पहले App Cleaner बंद हो गया।</string>
+    <string name="uninstall_resume_discard">छोड़ें</string>
+    <string name="uninstall_progress_title">ऐप्स हटाए जा रहे हैं</string>
+    <string name="uninstall_progress_count">%2$d में से %1$d हटाया जा रहा है</string>
+    <string name="uninstall_state_waiting">प्रतीक्षा में</string>
+    <string name="uninstall_state_confirming">आपकी पुष्टि की प्रतीक्षा</string>
+    <string name="uninstall_state_removed">हटाया गया</string>
+    <string name="uninstall_state_skipped">छोड़ा गया</string>
+    <string name="uninstall_state_failed">नहीं हटाया गया</string>
+    <string name="uninstall_state_already_removed">पहले ही हटाया जा चुका</string>
+    <string name="uninstall_stop">रोकें</string>
+    <string name="uninstall_stopping">इस ऐप के बाद रुकेगा…</string>
+    <string name="uninstall_stop_title">ऐप्स हटाना रोकें?</string>
+    <string name="uninstall_stop_body">हटाए गए ऐप्स हटे ही रहेंगे। बाकी इंस्टॉल रहेंगे।</string>
+    <string name="uninstall_stop_keep_going">जारी रखें</string>
+    <string name="uninstall_stalled_title">Android का डायलॉग नहीं दिख रहा?</string>
+    <string name="uninstall_stalled_action">फिर से दिखाएं</string>
+    <string name="uninstall_result_freed">%1$s खाली हुआ</string>
+    <string name="uninstall_result_none_title">कोई ऐप नहीं हटाया गया</string>
+    <string name="uninstall_result_none_body">आपने जो चुना था, वह सब अभी भी इंस्टॉल है।</string>
+    <string name="uninstall_result_stopped_note">आपने पहले ही रोक दिया। बाकी ऐप्स अभी भी इंस्टॉल हैं।</string>
+    <string name="uninstall_reason_cancelled">आपने रद्द किया</string>
+    <string name="uninstall_reason_not_attempted">कोशिश नहीं की गई — आपने रोक दिया</string>
+    <string name="uninstall_reason_blocked">आपका डिवाइस इस ऐप को हटाने की अनुमति नहीं देता</string>
+    <string name="uninstall_reason_device_admin">पहले इसकी एडमिन पहुंच बंद करें</string>
+    <string name="uninstall_reason_not_removed">Android ने यह ऐप नहीं हटाया</string>
+    <string name="uninstall_reason_other">Android यह ऐप नहीं हटा सका (कोड %1$d)</string>
+    <string name="uninstall_retry_all">सभी फिर से आज़माएं</string>
+    <string name="uninstall_result_teaser_action">अप्रयुक्त ऐप्स देखें</string>
+    <string name="uninstall_cd_show_details">विवरण दिखाएं</string>
+    <string name="uninstall_cd_hide_details">विवरण छिपाएं</string>
+    <plurals name="uninstall_confirm_summary">
+        <item quantity="one">%1$d ऐप · %2$s</item>
+        <item quantity="other">%1$d ऐप्स · %2$s</item>
+    </plurals>
+    <plurals name="uninstall_confirm_button">
+        <item quantity="one">%1$d ऐप अनइंस्टॉल करें</item>
+        <item quantity="other">%1$d ऐप्स अनइंस्टॉल करें</item>
+    </plurals>
+    <plurals name="uninstall_resume_title">
+        <item quantity="one">%1$d ऐप हटाना पूरा करें?</item>
+        <item quantity="other">%1$d ऐप्स हटाना पूरा करें?</item>
+    </plurals>
+    <plurals name="uninstall_result_removed">
+        <item quantity="one">%1$d ऐप हटाया गया</item>
+        <item quantity="other">%1$d ऐप्स हटाए गए</item>
+    </plurals>
+    <plurals name="uninstall_result_not_removed">
+        <item quantity="one">%1$d नहीं हटाया गया</item>
+        <item quantity="other">%1$d नहीं हटाए गए</item>
+    </plurals>
+    <plurals name="uninstall_result_already_removed">
+        <item quantity="one">%1$d ऐप पहले ही हटाया जा चुका था</item>
+        <item quantity="other">%1$d ऐप्स पहले ही हटाए जा चुके थे</item>
+    </plurals>
+    <plurals name="uninstall_result_teaser">
+        <item quantity="one">आपके पास अभी भी %1$d ऐप है जिसे आपने %2$d दिनों से नहीं खोला</item>
+        <item quantity="other">आपके पास अभी भी %1$d ऐप्स हैं जिन्हें आपने %2$d दिनों से नहीं खोला</item>
+    </plurals>
+</resources>

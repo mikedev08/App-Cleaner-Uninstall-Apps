@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="uninstall_confirm_title">هل تريد إلغاء تثبيت هذه التطبيقات؟</string>
+    <string name="uninstall_confirm_expectation">سيطلب منك Android تأكيد كل تطبيق.</string>
+    <string name="uninstall_confirm_data_note">ستُحذف بياناتها أيضًا. يمكنك إعادة تثبيتها لاحقًا من السجل.</string>
+    <string name="uninstall_size_about">حوالي %1$s</string>
+    <string name="uninstall_size_unavailable">الحجم غير متاح</string>
+    <string name="uninstall_warning_device_admin">مشرف الجهاز — ألغِ تفعيله أولاً</string>
+    <string name="uninstall_warning_keyboard">لوحة المفاتيح الحالية — ستحتاج إلى اختيار أخرى</string>
+    <string name="uninstall_warning_launcher">تطبيق الشاشة الرئيسية الحالي — ستحتاج إلى اختيار آخر</string>
+    <string name="uninstall_warning_sms">تطبيق الرسائل الحالي — ستحتاج إلى اختيار آخر</string>
+    <string name="uninstall_warning_dialer">تطبيق الهاتف الحالي — ستحتاج إلى اختيار آخر</string>
+    <string name="uninstall_warning_always_running">يعمل في الخلفية — قد تؤدي إزالته إلى تغيير طريقة عمل هاتفك</string>
+    <string name="uninstall_resume_body">أُغلق App Cleaner قبل انتهاء دفعتك الأخيرة.</string>
+    <string name="uninstall_resume_discard">تجاهل</string>
+    <string name="uninstall_progress_title">جارٍ إزالة التطبيقات</string>
+    <string name="uninstall_progress_count">جارٍ إزالة %1$d من %2$d</string>
+    <string name="uninstall_state_waiting">في الانتظار</string>
+    <string name="uninstall_state_confirming">في انتظار تأكيدك</string>
+    <string name="uninstall_state_removed">تمت الإزالة</string>
+    <string name="uninstall_state_skipped">تم التخطي</string>
+    <string name="uninstall_state_failed">لم تتم الإزالة</string>
+    <string name="uninstall_state_already_removed">أُزيل مسبقًا</string>
+    <string name="uninstall_stop">إيقاف</string>
+    <string name="uninstall_stopping">سيتوقف بعد هذا التطبيق…</string>
+    <string name="uninstall_stop_title">هل تريد إيقاف إزالة التطبيقات؟</string>
+    <string name="uninstall_stop_body">التطبيقات التي أُزيلت تبقى مُزالة، والباقي يبقى مثبتًا.</string>
+    <string name="uninstall_stop_keep_going">متابعة الإزالة</string>
+    <string name="uninstall_stalled_title">ألا ترى مربع حوار Android؟</string>
+    <string name="uninstall_stalled_action">عرضه مرة أخرى</string>
+    <string name="uninstall_result_freed">تم تحرير %1$s</string>
+    <string name="uninstall_result_none_title">لم تتم إزالة أي تطبيق</string>
+    <string name="uninstall_result_none_body">كل ما اخترته لا يزال مثبتًا.</string>
+    <string name="uninstall_result_stopped_note">لقد توقفت مبكرًا. التطبيقات المتبقية لا تزال مثبتة.</string>
+    <string name="uninstall_reason_cancelled">لقد ألغيت</string>
+    <string name="uninstall_reason_not_attempted">لم تتم المحاولة — لقد توقفت</string>
+    <string name="uninstall_reason_blocked">لا يسمح جهازك بإزالة هذا التطبيق</string>
+    <string name="uninstall_reason_device_admin">أوقف صلاحية المشرف الخاصة به أولاً</string>
+    <string name="uninstall_reason_not_removed">لم يُزل Android هذا التطبيق</string>
+    <string name="uninstall_reason_other">تعذّر على Android إزالة هذا التطبيق (الرمز %1$d)</string>
+    <string name="uninstall_retry_all">إعادة محاولة الكل</string>
+    <string name="uninstall_result_teaser_action">مراجعة التطبيقات غير المستخدمة</string>
+    <string name="uninstall_cd_show_details">عرض التفاصيل</string>
+    <string name="uninstall_cd_hide_details">إخفاء التفاصيل</string>
+    <plurals name="uninstall_confirm_summary">
+        <item quantity="zero">%1$d تطبيق · %2$s</item>
+        <item quantity="one">%1$d تطبيق · %2$s</item>
+        <item quantity="two">%1$d تطبيق · %2$s</item>
+        <item quantity="few">%1$d تطبيقات · %2$s</item>
+        <item quantity="many">%1$d تطبيقًا · %2$s</item>
+        <item quantity="other">%1$d تطبيق · %2$s</item>
+    </plurals>
+    <plurals name="uninstall_confirm_button">
+        <item quantity="zero">إلغاء تثبيت %1$d تطبيق</item>
+        <item quantity="one">إلغاء تثبيت %1$d تطبيق</item>
+        <item quantity="two">إلغاء تثبيت %1$d تطبيق</item>
+        <item quantity="few">إلغاء تثبيت %1$d تطبيقات</item>
+        <item quantity="many">إلغاء تثبيت %1$d تطبيقًا</item>
+        <item quantity="other">إلغاء تثبيت %1$d تطبيق</item>
+    </plurals>
+    <plurals name="uninstall_resume_title">
+        <item quantity="zero">هل تريد إكمال إزالة %1$d تطبيق؟</item>
+        <item quantity="one">هل تريد إكمال إزالة %1$d تطبيق؟</item>
+        <item quantity="two">هل تريد إكمال إزالة %1$d تطبيق؟</item>
+        <item quantity="few">هل تريد إكمال إزالة %1$d تطبيقات؟</item>
+        <item quantity="many">هل تريد إكمال إزالة %1$d تطبيقًا؟</item>
+        <item quantity="other">هل تريد إكمال إزالة %1$d تطبيق؟</item>
+    </plurals>
+    <plurals name="uninstall_result_removed">
+        <item quantity="zero">تمت إزالة %1$d تطبيق</item>
+        <item quantity="one">تمت إزالة %1$d تطبيق</item>
+        <item quantity="two">تمت إزالة %1$d تطبيق</item>
+        <item quantity="few">تمت إزالة %1$d تطبيقات</item>
+        <item quantity="many">تمت إزالة %1$d تطبيقًا</item>
+        <item quantity="other">تمت إزالة %1$d تطبيق</item>
+    </plurals>
+    <plurals name="uninstall_result_not_removed">
+        <item quantity="zero">لم تتم إزالة %1$d</item>
+        <item quantity="one">لم تتم إزالة %1$d</item>
+        <item quantity="two">لم تتم إزالة %1$d</item>
+        <item quantity="few">لم تتم إزالة %1$d</item>
+        <item quantity="many">لم تتم إزالة %1$d</item>
+        <item quantity="other">لم تتم إزالة %1$d</item>
+    </plurals>
+    <plurals name="uninstall_result_already_removed">
+        <item quantity="zero">أُزيل %1$d تطبيق مسبقًا</item>
+        <item quantity="one">أُزيل %1$d تطبيق مسبقًا</item>
+        <item quantity="two">أُزيل %1$d تطبيق مسبقًا</item>
+        <item quantity="few">أُزيل %1$d تطبيقات مسبقًا</item>
+        <item quantity="many">أُزيل %1$d تطبيقًا مسبقًا</item>
+        <item quantity="other">أُزيل %1$d تطبيق مسبقًا</item>
+    </plurals>
+    <plurals name="uninstall_result_teaser">
+        <item quantity="zero">لا يزال لديك %1$d تطبيق لم تفتحه منذ %2$d يومًا</item>
+        <item quantity="one">لا يزال لديك %1$d تطبيق لم تفتحه منذ %2$d يومًا</item>
+        <item quantity="two">لا يزال لديك %1$d تطبيق لم تفتحه منذ %2$d يومًا</item>
+        <item quantity="few">لا يزال لديك %1$d تطبيقات لم تفتحه منذ %2$d يومًا</item>
+        <item quantity="many">لا يزال لديك %1$d تطبيقًا لم تفتحه منذ %2$d يومًا</item>
+        <item quantity="other">لا يزال لديك %1$d تطبيق لم تفتحه منذ %2$d يومًا</item>
+    </plurals>
+</resources>

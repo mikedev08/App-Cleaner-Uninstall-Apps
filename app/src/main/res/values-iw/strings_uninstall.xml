@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="uninstall_confirm_title">להסיר את האפליקציות האלה?</string>
+    <string name="uninstall_confirm_expectation">Android יבקש ממך לאשר כל אפליקציה.</string>
+    <string name="uninstall_confirm_data_note">גם הנתונים שלהן יימחקו. אפשר להתקין אותן מחדש מאוחר יותר מההיסטוריה.</string>
+    <string name="uninstall_size_about">בערך %1$s</string>
+    <string name="uninstall_size_unavailable">הגודל לא זמין</string>
+    <string name="uninstall_warning_device_admin">מנהל מכשיר — יש להשבית קודם</string>
+    <string name="uninstall_warning_keyboard">המקלדת הנוכחית שלך — יהיה צורך לבחור אחרת</string>
+    <string name="uninstall_warning_launcher">אפליקציית מסך הבית הנוכחית — יהיה צורך לבחור אחרת</string>
+    <string name="uninstall_warning_sms">אפליקציית ה-SMS הנוכחית — יהיה צורך לבחור אחרת</string>
+    <string name="uninstall_warning_dialer">אפליקציית הטלפון הנוכחית — יהיה צורך לבחור אחרת</string>
+    <string name="uninstall_warning_always_running">פועלת ברקע — הסרה שלה עלולה לשנות את אופן פעולת הטלפון</string>
+    <string name="uninstall_resume_body">App Cleaner נסגרה לפני שהקבוצה האחרונה הסתיימה.</string>
+    <string name="uninstall_resume_discard">ביטול</string>
+    <string name="uninstall_progress_title">מסיר אפליקציות</string>
+    <string name="uninstall_progress_count">מסיר %1$d מתוך %2$d</string>
+    <string name="uninstall_state_waiting">ממתינה</string>
+    <string name="uninstall_state_confirming">ממתינה לאישור שלך</string>
+    <string name="uninstall_state_removed">הוסרה</string>
+    <string name="uninstall_state_skipped">דולגה</string>
+    <string name="uninstall_state_failed">לא הוסרה</string>
+    <string name="uninstall_state_already_removed">כבר הוסרה</string>
+    <string name="uninstall_stop">עצירה</string>
+    <string name="uninstall_stopping">ייעצר אחרי האפליקציה הזו…</string>
+    <string name="uninstall_stop_title">להפסיק להסיר אפליקציות?</string>
+    <string name="uninstall_stop_body">אפליקציות שהוסרו יישארו מוסרות. השאר יישארו מותקנות.</string>
+    <string name="uninstall_stop_keep_going">להמשיך</string>
+    <string name="uninstall_stalled_title">לא רואים את חלון Android?</string>
+    <string name="uninstall_stalled_action">להציג שוב</string>
+    <string name="uninstall_result_freed">%1$s פונו</string>
+    <string name="uninstall_result_none_title">לא הוסרו אפליקציות</string>
+    <string name="uninstall_result_none_body">כל מה שבחרת עדיין מותקן.</string>
+    <string name="uninstall_result_stopped_note">עצרת מוקדם. שאר האפליקציות עדיין מותקנות.</string>
+    <string name="uninstall_reason_cancelled">ביטלת</string>
+    <string name="uninstall_reason_not_attempted">לא נוסתה — עצרת</string>
+    <string name="uninstall_reason_blocked">המכשיר שלך לא מאפשר להסיר את האפליקציה הזו</string>
+    <string name="uninstall_reason_device_admin">יש לכבות קודם את הרשאת הניהול שלה</string>
+    <string name="uninstall_reason_not_removed">Android לא הסיר את האפליקציה הזו</string>
+    <string name="uninstall_reason_other">Android לא הצליח להסיר את האפליקציה הזו (קוד %1$d)</string>
+    <string name="uninstall_retry_all">לנסות שוב את כולן</string>
+    <string name="uninstall_result_teaser_action">לבדוק אפליקציות שלא בשימוש</string>
+    <string name="uninstall_cd_show_details">הצגת פרטים</string>
+    <string name="uninstall_cd_hide_details">הסתרת פרטים</string>
+    <plurals name="uninstall_confirm_summary">
+        <item quantity="one">אפליקציה אחת · %2$s</item>
+        <item quantity="two">%1$d אפליקציות · %2$s</item>
+        <item quantity="other">%1$d אפליקציות · %2$s</item>
+    </plurals>
+    <plurals name="uninstall_confirm_button">
+        <item quantity="one">הסרת אפליקציה אחת</item>
+        <item quantity="two">הסרת %1$d אפליקציות</item>
+        <item quantity="other">הסרת %1$d אפליקציות</item>
+    </plurals>
+    <plurals name="uninstall_resume_title">
+        <item quantity="one">לסיים להסיר אפליקציה אחת?</item>
+        <item quantity="two">לסיים להסיר %1$d אפליקציות?</item>
+        <item quantity="other">לסיים להסיר %1$d אפליקציות?</item>
+    </plurals>
+    <plurals name="uninstall_result_removed">
+        <item quantity="one">אפליקציה אחת הוסרה</item>
+        <item quantity="two">%1$d אפליקציות הוסרו</item>
+        <item quantity="other">%1$d אפליקציות הוסרו</item>
+    </plurals>
+    <plurals name="uninstall_result_not_removed">
+        <item quantity="one">אחת לא הוסרה</item>
+        <item quantity="two">%1$d לא הוסרו</item>
+        <item quantity="other">%1$d לא הוסרו</item>
+    </plurals>
+    <plurals name="uninstall_result_already_removed">
+        <item quantity="one">אפליקציה אחת כבר הוסרה קודם</item>
+        <item quantity="two">%1$d אפליקציות כבר הוסרו קודם</item>
+        <item quantity="other">%1$d אפליקציות כבר הוסרו קודם</item>
+    </plurals>
+    <plurals name="uninstall_result_teaser">
+        <item quantity="one">עדיין יש לך אפליקציה אחת שלא פתחת %2$d ימים</item>
+        <item quantity="two">עדיין יש לך %1$d אפליקציות שלא פתחת %2$d ימים</item>
+        <item quantity="other">עדיין יש לך %1$d אפליקציות שלא פתחת %2$d ימים</item>
+    </plurals>
+</resources>

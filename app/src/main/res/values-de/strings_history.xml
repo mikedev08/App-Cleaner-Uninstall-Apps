@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="history_title">Deinstallationsverlauf</string>
+    <string name="history_clear">Verlauf löschen</string>
+    <string name="history_more_options">Weitere Optionen</string>
+    <string name="history_today">Heute</string>
+    <string name="history_yesterday">Gestern</string>
+    <string name="history_reinstall">Neu installieren</string>
+    <string name="history_not_from_play">Nicht aus Play</string>
+    <string name="history_reinstalled">Neu installiert</string>
+    <string name="history_empty_title">Noch keine Apps entfernt</string>
+    <string name="history_empty_body">Apps, die du entfernst, erscheinen hier – so kannst du sie jederzeit zurückholen.</string>
+    <string name="history_clear_title">Verlauf löschen?</string>
+    <string name="history_clear_body">Nur die Liste wird gelöscht. Entfernte Apps bleiben entfernt.</string>
+    <string name="history_clear_confirm">Löschen</string>
+    <string name="history_store_unavailable">Play Store konnte nicht geöffnet werden</string>
+    <plurals name="history_summary">
+        <item quantity="one">%1$d App entfernt · %2$s freigegeben</item>
+        <item quantity="other">%1$d Apps entfernt · %2$s freigegeben</item>
+    </plurals>
+</resources>

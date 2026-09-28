@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="history_title">Historial de desinstalación</string>
+    <string name="history_clear">Borrar historial</string>
+    <string name="history_more_options">Más opciones</string>
+    <string name="history_today">Hoy</string>
+    <string name="history_yesterday">Ayer</string>
+    <string name="history_reinstall">Reinstalar</string>
+    <string name="history_not_from_play">No es de Play</string>
+    <string name="history_reinstalled">Reinstalada</string>
+    <string name="history_empty_title">Aún no has quitado apps</string>
+    <string name="history_empty_body">Las apps que quites aparecerán aquí, para que siempre puedas recuperarlas.</string>
+    <string name="history_clear_title">¿Borrar historial?</string>
+    <string name="history_clear_body">Solo se borra la lista. Las apps que quitaste siguen quitadas.</string>
+    <string name="history_clear_confirm">Borrar</string>
+    <string name="history_store_unavailable">No se pudo abrir Play Store</string>
+    <plurals name="history_summary">
+        <item quantity="one">%1$d app quitada · %2$s liberados</item>
+        <item quantity="many">%1$d apps quitadas · %2$s liberados</item>
+        <item quantity="other">%1$d apps quitadas · %2$s liberados</item>
+    </plurals>
+</resources>
