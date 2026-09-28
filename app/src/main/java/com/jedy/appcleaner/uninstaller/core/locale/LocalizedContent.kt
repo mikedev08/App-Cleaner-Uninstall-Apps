@@ -8,10 +8,18 @@ import android.content.res.Resources
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalResources
 import java.util.Locale
+
+/**
+ * The in-app language's locale, for formatting dates and numbers. Use this rather than
+ * `LocalConfiguration`: bottom sheets and dialogs run in their own window, which replaces
+ * `LocalConfiguration` with the device's, so a sheet would format "28 ספט׳ 2026" for an English UI.
+ */
+val LocalAppLocale = staticCompositionLocalOf<Locale> { Locale.getDefault() }
 
 /**
  * Re-resolves string resources for [language] without restarting the activity.
@@ -54,6 +62,7 @@ fun LocalizedContent(
         LocalContext provides localizedContext,
         LocalResources provides localizedContext.resources,
         LocalConfiguration provides localizedConfiguration,
+        LocalAppLocale provides language.toLocale(),
         content = content,
     )
 }

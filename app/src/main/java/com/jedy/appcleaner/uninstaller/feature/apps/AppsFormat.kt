@@ -3,14 +3,14 @@ package com.jedy.appcleaner.uninstaller.feature.apps
 import android.text.format.DateFormat
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.platform.LocalConfiguration
+import com.jedy.appcleaner.uninstaller.core.locale.LocalAppLocale
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
 /**
- * Date formatting in the *in-app* language: `LocalConfiguration` is the localized one that
- * LocalizedContent provides, so "Installed Mar 2024" follows the language picker rather than the
+ * Date formatting in the *in-app* language via [LocalAppLocale] (which, unlike
+ * `LocalConfiguration`, survives into bottom sheets), so "Installed Mar 2024" follows the language picker rather than the
  * device locale, digits included.
  */
 @Composable
@@ -22,7 +22,7 @@ internal fun rememberDayMonthYearFormat(): (Long) -> String = rememberPattern("d
 
 @Composable
 private fun rememberPattern(skeleton: String): (Long) -> String {
-    val locale: Locale = LocalConfiguration.current.locales.get(0) ?: Locale.ROOT
+    val locale: Locale = LocalAppLocale.current
     return remember(locale, skeleton) {
         val format = SimpleDateFormat(DateFormat.getBestDateTimePattern(locale, skeleton), locale)
         val formatter: (Long) -> String = { millis -> format.format(Date(millis)) }

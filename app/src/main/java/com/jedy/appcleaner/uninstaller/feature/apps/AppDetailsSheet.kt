@@ -251,7 +251,8 @@ private fun FactsSection(details: AppDetailsUi) {
         if (details.isPremium && details.hasUsageAccess) {
             val lastOpened = when {
                 details.lastUsedAt != null -> date(details.lastUsedAt)
-                details.usageWindowStart > 0 -> stringResource(R.string.home_details_not_opened_since, monthYear(details.usageWindowStart))
+                // Installed after usage history begins: "not since at least <before install>" is nonsense.
+                details.usageWindowStart > 0 && app.firstInstallTime <= details.usageWindowStart -> stringResource(R.string.home_details_not_opened_since, monthYear(details.usageWindowStart))
                 else -> stringResource(R.string.home_details_no_usage)
             }
             FactRow(stringResource(R.string.home_details_last_opened), lastOpened)

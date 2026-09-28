@@ -51,7 +51,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalConfiguration
+import com.jedy.appcleaner.uninstaller.core.locale.LocalAppLocale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
@@ -262,7 +262,7 @@ private fun HeroStatCard(state: HistoryUiState, modifier: Modifier = Modifier) {
 
 @Composable
 private fun DayHeader(section: HistorySection, modifier: Modifier = Modifier) {
-    val locale = LocalConfiguration.current.locales[0]
+    val locale = LocalAppLocale.current
     val text = when (section.kind) {
         HistoryDay.Kind.TODAY -> stringResource(R.string.history_today)
         HistoryDay.Kind.YESTERDAY -> stringResource(R.string.history_yesterday)

@@ -179,10 +179,13 @@ private fun MetaLine(meta: String, chips: (@Composable () -> Unit)?) {
         val chip = measurables.getOrNull(1)?.measure(loose)
         val gap = if (chip != null && meta.isNotEmpty()) 8.dp.roundToPx() else 0
         val left = constraints.maxWidth - (chip?.width ?: 0) - gap
-        val text = if (meta.isNotEmpty() && (chip == null || left >= 32.dp.roundToPx())) {
-            measurables[0].measure(Constraints(maxWidth = left.coerceAtLeast(0)))
-        } else {
-            null
+        // Next to a chip the subtitle shows only if it fits whole; "Install…" reads worse than nothing.
+        val text = when {
+            meta.isEmpty() -> null
+            chip == null -> measurables[0].measure(Constraints(maxWidth = left.coerceAtLeast(0)))
+            measurables[0].maxIntrinsicWidth(constraints.maxHeight) <= left ->
+                measurables[0].measure(Constraints(maxWidth = left.coerceAtLeast(0)))
+            else -> null
         }
         val height = maxOf(constraints.minHeight, text?.height ?: 0, chip?.height ?: 0)
         layout(constraints.maxWidth, height) {

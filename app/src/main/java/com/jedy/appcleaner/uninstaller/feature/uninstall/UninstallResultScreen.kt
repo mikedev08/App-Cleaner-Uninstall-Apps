@@ -57,6 +57,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.buildAnnotatedString
+import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
@@ -236,7 +237,8 @@ private fun FreedHero(summary: BatchSummary, drop: StorageDrop?) {
         } else {
             removedText
         },
-        style = MaterialTheme.typography.titleMedium,
+        // Balanced breaks: at 360dp the default greedy wrap leaves "full" alone on line two.
+        style = MaterialTheme.typography.titleMedium.copy(lineBreak = LineBreak.Heading),
         color = colors.textSecondary,
         textAlign = TextAlign.Center,
     )
