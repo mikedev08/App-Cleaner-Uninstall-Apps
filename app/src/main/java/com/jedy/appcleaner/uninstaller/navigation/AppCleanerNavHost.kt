@@ -136,6 +136,11 @@ fun AppCleanerNavHost(
                     viewModel.requestHomeTab(HomeTab.UNUSED)
                     navController.popBackStack(Routes.HOME, inclusive = false)
                 },
+                onRetry = { newBatchId ->
+                    navController.navigate(Routes.uninstallProgress(newBatchId)) {
+                        popUpTo(Routes.UNINSTALL_RESULT) { inclusive = true }
+                    }
+                },
             )
         }
     }
