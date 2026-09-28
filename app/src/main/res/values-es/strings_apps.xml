@@ -6,7 +6,6 @@
     <string name="apps_tab_all">Todas</string>
     <string name="apps_section_rest">Todo lo demás</string>
     <string name="apps_details_whats_using">Qué ocupa espacio</string>
-    <string name="apps_details_unlock_teaser">Ver qué ocupa espacio</string>
     <string name="apps_details_total_caption">Tamaño total</string>
     <string name="apps_details_apk_caption">Tamaño de la app</string>
     <string name="apps_details_app_info">Info de la app</string>

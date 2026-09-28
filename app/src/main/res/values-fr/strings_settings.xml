@@ -12,9 +12,6 @@
     <string name="settings_theme_system">Système</string>
     <string name="settings_theme_light">Clair</string>
     <string name="settings_theme_dark">Sombre</string>
-    <string name="settings_size_display">Taille des applis affichée</string>
-    <string name="settings_size_total_short">Totale</string>
-    <string name="settings_size_needs_access">Nécessite l\'accès aux données d\'utilisation</string>
     <string name="settings_usage_access">Accès aux données d’utilisation</string>
     <string name="settings_usage_access_body">Permet à App Cleaner de voir les applis que vous n’ouvrez plus. Rien ne quitte votre téléphone.</string>
     <string name="settings_usage_access_granted">Autorisé</string>
@@ -36,7 +33,6 @@
     <string name="settings_restore">Restaurer les achats</string>
     <string name="settings_rate">Noter App Cleaner</string>
     <string name="settings_pro_benefit_unused">Trouvez les applis oubliées</string>
-    <string name="settings_pro_benefit_storage">Sans pub</string>
     <string name="settings_pro_benefit_reminders">Recevez un rappel de ménage chaque semaine</string>
     <string name="settings_section_preferences">Préférences</string>
     <string name="settings_footer_privacy">Confidentialité</string>

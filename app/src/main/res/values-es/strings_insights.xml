@@ -66,8 +66,6 @@
     <string name="insights_private_note">Nada sale de tu teléfono</string>
     <string name="insights_unused_teaser_loss">Ocupan %1$s que podrías recuperar.</string>
     <string name="insights_unused_teaser_body">Mira qué apps son y quítalas todas a la vez.</string>
-    <string name="insights_large_teaser_loss">Es el %1$s del espacio de tu teléfono.</string>
-    <string name="insights_large_teaser_body">Mira cuánto espacio ocupa cada app.</string>
     <string name="insights_see_which_apps">Ver qué apps</string>
     <string name="insights_last_opened_date">Abierta por última vez en %1$s</string>
     <string name="insights_idle_for">Sin abrir desde hace %1$s</string>
@@ -84,7 +82,6 @@
         <item quantity="many">Archivos temporales en %d apps</item>
         <item quantity="other">Archivos temporales en %d apps</item>
     </plurals>
-    <string name="insights_cache_teaser_body">Mira qué apps los tienen y bórralos en Info de la app.</string>
     <string name="insights_cache_row_meta">App completa: %1$s</string>
     <string name="insights_cache_none_title">No hay archivos temporales que borrar</string>
 </resources>

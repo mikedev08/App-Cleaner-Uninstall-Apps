@@ -87,8 +87,6 @@
     <string name="insights_private_note">لا شيء يغادر هاتفك</string>
     <string name="insights_unused_teaser_loss">تأخذ %1$s يمكنك استرجاعها.</string>
     <string name="insights_unused_teaser_body">اعرف ما هذه التطبيقات وأزلها كلها مرة واحدة.</string>
-    <string name="insights_large_teaser_loss">هذا %1$s من مساحة هاتفك.</string>
-    <string name="insights_large_teaser_body">اعرف كم يأخذ كل تطبيق من المساحة.</string>
     <string name="insights_see_which_apps">اعرض التطبيقات</string>
     <string name="insights_last_opened_date">فُتح آخر مرة في %1$s</string>
     <string name="insights_idle_for">لم يُفتح منذ %1$s</string>
@@ -108,7 +106,6 @@
         <item quantity="many">ملفات مؤقتة في %d تطبيقًا</item>
         <item quantity="other">ملفات مؤقتة في %d تطبيق</item>
     </plurals>
-    <string name="insights_cache_teaser_body">اعرف التطبيقات التي فيها هذه الملفات، ثم امسحها من «معلومات التطبيق».</string>
     <string name="insights_cache_row_meta">التطبيق كله: %1$s</string>
     <string name="insights_cache_none_title">لا توجد ملفات مؤقتة لمسحها</string>
 </resources>

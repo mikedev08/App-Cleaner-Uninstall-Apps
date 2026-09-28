@@ -95,15 +95,4 @@
     <string name="home_hero_new_title">Voyez ce que vous pouvez supprimer</string>
     <string name="home_review">Voir</string>
     <string name="home_cat_none">Aucune</string>
-    <string name="home_cat_counted_above">Déjà comptées</string>
-    <plurals name="home_cat_more_apps">
-        <item quantity="one">%d appli de plus</item>
-        <item quantity="many">%d applis de plus</item>
-        <item quantity="other">%d applis de plus</item>
-    </plurals>
-    <plurals name="home_cat_other_apps">
-        <item quantity="one">%d autre appli</item>
-        <item quantity="many">%d autres applis</item>
-        <item quantity="other">%d autres applis</item>
-    </plurals>
 </resources>

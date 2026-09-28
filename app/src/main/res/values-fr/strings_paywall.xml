@@ -15,8 +15,6 @@
     <string name="paywall_finding_subtitle">Passez à Pro pour voir la liste complète et les supprimer en quelques gestes.</string>
     <string name="paywall_benefit_unused_title">Trouvez les applis oubliées</string>
     <string name="paywall_benefit_unused_body">Voyez les applis que vous n’avez pas ouvertes depuis un moment.</string>
-    <string name="paywall_benefit_storage_title">Choisissez 30, 60 ou 90 jours</string>
-    <string name="paywall_benefit_storage_body">Décidez quand une appli compte comme oubliée.</string>
     <string name="paywall_benefit_reminders_title">Un rappel chaque semaine</string>
     <string name="paywall_benefit_reminders_body">Un petit rappel quand les applis oubliées s’accumulent.</string>
     <string name="paywall_benefit_no_ads_title">Sans pub</string>

@@ -12,9 +12,6 @@
     <string name="settings_theme_system">跟随系统</string>
     <string name="settings_theme_light">浅色</string>
     <string name="settings_theme_dark">深色</string>
-    <string name="settings_size_display">应用大小显示方式</string>
-    <string name="settings_size_total_short">总计</string>
-    <string name="settings_size_needs_access">需要使用情况访问权限</string>
     <string name="settings_usage_access">使用情况访问权限</string>
     <string name="settings_usage_access_body">让 App Cleaner 看到哪些应用你没打开过。信息不会离开你的手机。</string>
     <string name="settings_usage_access_granted">已允许</string>
@@ -34,7 +31,6 @@
     <string name="settings_restore">恢复购买</string>
     <string name="settings_rate">为 App Cleaner 评分</string>
     <string name="settings_pro_benefit_unused">找出不常用的应用</string>
-    <string name="settings_pro_benefit_storage">没有广告</string>
     <string name="settings_pro_benefit_reminders">每周提醒你清理</string>
     <string name="settings_section_preferences">偏好设置</string>
     <string name="settings_footer_privacy">隐私</string>

@@ -34,8 +34,4 @@
         <item quantity="one">Review %1$d app · %2$s</item>
         <item quantity="other">Review %1$d apps · %2$s</item>
     </plurals>
-    <plurals name="scan_cta_remove_large">
-        <item quantity="one">Remove %1$d big app · %2$s</item>
-        <item quantity="other">Remove %1$d big apps · %2$s</item>
-    </plurals>
 </resources>

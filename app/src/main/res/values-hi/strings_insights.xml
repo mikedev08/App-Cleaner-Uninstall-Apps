@@ -59,8 +59,6 @@
     <string name="insights_private_note">कुछ भी आपके फ़ोन से बाहर नहीं जाता</string>
     <string name="insights_unused_teaser_loss">ये %1$s जगह ले रहे हैं, जो आप वापस पा सकते हैं।</string>
     <string name="insights_unused_teaser_body">देखें ये कौन-से ऐप हैं और सबको एक साथ हटाएं।</string>
-    <string name="insights_large_teaser_loss">यह आपके फ़ोन की %1$s जगह है।</string>
-    <string name="insights_large_teaser_body">देखें हर ऐप कितनी जगह लेता है।</string>
     <string name="insights_see_which_apps">देखें कौन से ऐप</string>
     <string name="insights_last_opened_date">आख़िरी बार %1$s में खोला गया</string>
     <string name="insights_idle_for">%1$s से नहीं खोला गया</string>
@@ -76,7 +74,6 @@
         <item quantity="one">%d ऐप में टेम्प फ़ाइलें</item>
         <item quantity="other">%d ऐप में टेम्प फ़ाइलें</item>
     </plurals>
-    <string name="insights_cache_teaser_body">देखें ये किन ऐप में हैं, फिर “ऐप की जानकारी” में इन्हें साफ़ करें।</string>
     <string name="insights_cache_row_meta">पूरा ऐप: %1$s</string>
     <string name="insights_cache_none_title">साफ़ करने के लिए कोई टेम्प फ़ाइल नहीं</string>
 </resources>

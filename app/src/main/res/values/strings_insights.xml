@@ -72,8 +72,6 @@
     <string name="insights_unused_teaser_loss">They take up %1$s you could get back.</string>
     <string name="insights_unused_teaser_body">See which apps they are and remove them all at once.</string>
     <!-- %1$s is a localized percentage of total storage, e.g. "15%". -->
-    <string name="insights_large_teaser_loss">That\'s %1$s of your phone\'s space.</string>
-    <string name="insights_large_teaser_body">See how much space each app takes.</string>
     <string name="insights_see_which_apps">See which apps</string>
     <!-- %1$s is a month and year, e.g. "Mar 2025". -->
     <string name="insights_last_opened_date">Last opened %1$s</string>
@@ -92,7 +90,6 @@
         <item quantity="one">Temp files in %d app</item>
         <item quantity="other">Temp files in %d apps</item>
     </plurals>
-    <string name="insights_cache_teaser_body">See which apps have them, then clear them in App info.</string>
     <string name="insights_cache_row_meta">Whole app: %1$s</string>
     <string name="insights_cache_none_title">No temp files to clear</string>
 </resources>

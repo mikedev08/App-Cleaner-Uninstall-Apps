@@ -109,13 +109,4 @@
     <string name="home_hero_new_title">See what you can remove</string>
     <string name="home_review">Review</string>
     <string name="home_cat_none">None</string>
-    <string name="home_cat_counted_above">Already counted</string>
-    <plurals name="home_cat_more_apps">
-        <item quantity="one">%d more app</item>
-        <item quantity="other">%d more apps</item>
-    </plurals>
-    <plurals name="home_cat_other_apps">
-        <item quantity="one">%d other app</item>
-        <item quantity="other">%d other apps</item>
-    </plurals>
 </resources>

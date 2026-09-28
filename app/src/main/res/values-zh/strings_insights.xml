@@ -52,8 +52,6 @@
     <string name="insights_private_note">信息不会离开你的手机</string>
     <string name="insights_unused_teaser_loss">它们占了 %1$s，这些空间你可以拿回来。</string>
     <string name="insights_unused_teaser_body">看看是哪些应用，一次全部移除。</string>
-    <string name="insights_large_teaser_loss">占了你手机 %1$s 的空间。</string>
-    <string name="insights_large_teaser_body">看看每个应用占了多少空间。</string>
     <string name="insights_see_which_apps">查看是哪些应用</string>
     <string name="insights_last_opened_date">上次打开：%1$s</string>
     <string name="insights_idle_for">%1$s没打开</string>
@@ -68,7 +66,6 @@
     <plurals name="insights_cache_caption">
         <item quantity="other">%d 个应用有临时文件</item>
     </plurals>
-    <string name="insights_cache_teaser_body">看看是哪些应用，再到“应用信息”里清除。</string>
     <string name="insights_cache_row_meta">整个应用：%1$s</string>
     <string name="insights_cache_none_title">没有要清除的临时文件</string>
 </resources>

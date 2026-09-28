@@ -13,8 +13,6 @@
     <string name="paywall_finding_subtitle">Hol dir Pro, um die ganze Liste zu sehen und die Apps mit ein paar Fingertipps zu entfernen.</string>
     <string name="paywall_benefit_unused_title">Finde Apps, die du nicht nutzt</string>
     <string name="paywall_benefit_unused_body">Sieh die Apps, die du länger nicht geöffnet hast.</string>
-    <string name="paywall_benefit_storage_title">Wähle 30, 60 oder 90 Tage</string>
-    <string name="paywall_benefit_storage_body">Leg fest, ab wann eine App als ungenutzt gilt.</string>
     <string name="paywall_benefit_reminders_title">Wöchentliche Erinnerungen</string>
     <string name="paywall_benefit_reminders_body">Ein freundlicher Hinweis, wenn sich ungenutzte Apps ansammeln.</string>
     <string name="paywall_benefit_no_ads_title">Keine Werbung</string>

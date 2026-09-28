@@ -12,9 +12,6 @@
     <string name="settings_theme_system">सिस्टम</string>
     <string name="settings_theme_light">लाइट</string>
     <string name="settings_theme_dark">डार्क</string>
-    <string name="settings_size_display">ऐप का साइज़ ऐसे दिखाएँ</string>
-    <string name="settings_size_total_short">कुल</string>
-    <string name="settings_size_needs_access">उपयोग ऐक्सेस ज़रूरी है</string>
     <string name="settings_usage_access">इस्तेमाल का ऐक्सेस</string>
     <string name="settings_usage_access_body">इससे App Cleaner देख पाता है कि आपने कौन-से ऐप नहीं खोले। कुछ भी आपके फ़ोन से बाहर नहीं जाता।</string>
     <string name="settings_usage_access_granted">अनुमति है</string>
@@ -35,7 +32,6 @@
     <string name="settings_restore">खरीदारी वापस लाएँ</string>
     <string name="settings_rate">App Cleaner को रेट करें</string>
     <string name="settings_pro_benefit_unused">इस्तेमाल न होने वाले ऐप ढूंढें</string>
-    <string name="settings_pro_benefit_storage">कोई विज्ञापन नहीं</string>
     <string name="settings_pro_benefit_reminders">हर हफ़्ते सफ़ाई के रिमाइंडर पाएं</string>
     <string name="settings_section_preferences">प्राथमिकताएँ</string>
     <string name="settings_footer_privacy">गोपनीयता</string>

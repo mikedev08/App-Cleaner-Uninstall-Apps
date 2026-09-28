@@ -113,21 +113,4 @@
     <string name="home_hero_new_title">اعرف ما يمكنك إزالته</string>
     <string name="home_review">مراجعة</string>
     <string name="home_cat_none">لا شيء</string>
-    <string name="home_cat_counted_above">محسوبة بالفعل</string>
-    <plurals name="home_cat_more_apps">
-        <item quantity="zero">%d تطبيق إضافي</item>
-        <item quantity="one">%d تطبيق إضافي</item>
-        <item quantity="two">%d تطبيق إضافي</item>
-        <item quantity="few">%d تطبيقات إضافية</item>
-        <item quantity="many">%d تطبيقًا إضافيًا</item>
-        <item quantity="other">%d تطبيق إضافي</item>
-    </plurals>
-    <plurals name="home_cat_other_apps">
-        <item quantity="zero">%d تطبيق آخر</item>
-        <item quantity="one">%d تطبيق آخر</item>
-        <item quantity="two">%d تطبيق آخر</item>
-        <item quantity="few">%d تطبيقات أخرى</item>
-        <item quantity="many">%d تطبيقًا آخر</item>
-        <item quantity="other">%d تطبيق آخر</item>
-    </plurals>
 </resources>

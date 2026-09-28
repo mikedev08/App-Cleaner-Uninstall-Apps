@@ -15,8 +15,6 @@
     <string name="paywall_finding_subtitle">עם Pro רואים את כל הרשימה ומסירים אותן בכמה הקשות.</string>
     <string name="paywall_benefit_unused_title">למצוא אפליקציות שלא בשימוש</string>
     <string name="paywall_benefit_unused_body">לראות אילו אפליקציות לא פתחת כבר הרבה זמן.</string>
-    <string name="paywall_benefit_storage_title">לבחור 30, 60 או 90 יום</string>
-    <string name="paywall_benefit_storage_body">לקבוע מתי אפליקציה נחשבת לא בשימוש.</string>
     <string name="paywall_benefit_reminders_title">תזכורות שבועיות</string>
     <string name="paywall_benefit_reminders_body">תזכורת קטנה כשמצטברות אפליקציות שלא בשימוש.</string>
     <string name="paywall_benefit_no_ads_title">בלי פרסומות</string>

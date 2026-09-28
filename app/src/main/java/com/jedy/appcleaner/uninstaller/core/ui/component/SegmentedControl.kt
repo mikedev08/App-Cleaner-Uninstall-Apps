@@ -29,11 +29,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.semantics.Role
+import androidx.compose.foundation.text.TextAutoSize
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.jedy.appcleaner.uninstaller.core.ui.theme.AppTheme
 import com.jedy.appcleaner.uninstaller.core.ui.theme.Dimens
 
@@ -99,7 +101,7 @@ fun SegmentedControl(
                         .fillMaxHeight()
                         .clip(CircleShape)
                         .selectable(selected = isSelected, role = Role.Tab, onClick = { onSelect(index) })
-                        .padding(horizontal = Dimens.space8),
+                        .padding(horizontal = Dimens.space4),
                     horizontalArrangement = Arrangement.Center,
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
@@ -108,6 +110,11 @@ fun SegmentedControl(
                         style = MaterialTheme.typography.labelMedium,
                         color = content,
                         maxLines = 1,
+                        // Four segments at 360dp leave ~70dp: "Temp files", "Temporaires" shrink to fit.
+                        autoSize = TextAutoSize.StepBased(
+                            minFontSize = 10.sp,
+                            maxFontSize = MaterialTheme.typography.labelMedium.fontSize,
+                        ),
                         overflow = TextOverflow.Ellipsis,
                         textAlign = TextAlign.Center,
                         modifier = Modifier.weight(1f, fill = false),

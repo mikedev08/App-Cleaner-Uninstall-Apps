@@ -14,8 +14,6 @@
 
     <string name="paywall_benefit_unused_title">Find apps you don\'t use</string>
     <string name="paywall_benefit_unused_body">See the apps you haven\'t opened in a while.</string>
-    <string name="paywall_benefit_storage_title">Choose 30, 60 or 90 days</string>
-    <string name="paywall_benefit_storage_body">Pick when an app counts as unused.</string>
     <string name="paywall_benefit_reminders_title">Weekly reminders</string>
     <string name="paywall_benefit_reminders_body">A friendly nudge when unused apps pile up.</string>
     <string name="paywall_benefit_no_ads_title">No ads</string>

@@ -66,8 +66,6 @@
     <string name="insights_private_note">שום דבר לא יוצא מהטלפון</string>
     <string name="insights_unused_teaser_loss">הן תופסות %1$s שאפשר לפנות.</string>
     <string name="insights_unused_teaser_body">לראות אילו אפליקציות אלה ולהסיר את כולן בבת אחת.</string>
-    <string name="insights_large_teaser_loss">זה %1$s מהמקום בטלפון שלך.</string>
-    <string name="insights_large_teaser_body">לראות כמה מקום כל אפליקציה תופסת.</string>
     <string name="insights_see_which_apps">הצגת האפליקציות</string>
     <string name="insights_last_opened_date">נפתחה לאחרונה ב־%1$s</string>
     <string name="insights_idle_for">לא נפתחה כבר %1$s</string>
@@ -84,7 +82,6 @@
         <item quantity="two">קבצים זמניים בשתי אפליקציות</item>
         <item quantity="other">קבצים זמניים ב־%d אפליקציות</item>
     </plurals>
-    <string name="insights_cache_teaser_body">לראות לאילו אפליקציות יש כאלה, ואז לנקות אותם ב״פרטי האפליקציה״.</string>
     <string name="insights_cache_row_meta">כל האפליקציה: %1$s</string>
     <string name="insights_cache_none_title">אין קבצים זמניים לניקוי</string>
 </resources>

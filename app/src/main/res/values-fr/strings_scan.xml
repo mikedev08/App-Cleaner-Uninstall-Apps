@@ -33,9 +33,4 @@
         <item quantity="many">Voir %1$d applis · %2$s</item>
         <item quantity="other">Voir %1$d applis · %2$s</item>
     </plurals>
-    <plurals name="scan_cta_remove_large">
-        <item quantity="one">Retirer %1$d grosse appli · %2$s</item>
-        <item quantity="many">Retirer %1$d grosses applis · %2$s</item>
-        <item quantity="other">Retirer %1$d grosses applis · %2$s</item>
-    </plurals>
 </resources>

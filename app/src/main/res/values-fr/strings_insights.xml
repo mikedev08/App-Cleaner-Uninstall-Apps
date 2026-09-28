@@ -66,8 +66,6 @@
     <string name="insights_private_note">Rien ne quitte votre téléphone</string>
     <string name="insights_unused_teaser_loss">Elles prennent %1$s que vous pourriez récupérer.</string>
     <string name="insights_unused_teaser_body">Voyez de quelles applis il s’agit et supprimez-les toutes d’un coup.</string>
-    <string name="insights_large_teaser_loss">Soit %1$s de la place de votre téléphone.</string>
-    <string name="insights_large_teaser_body">Voyez combien de place prend chaque appli.</string>
     <string name="insights_see_which_apps">Voir quelles applis</string>
     <string name="insights_last_opened_date">Dernière ouverture : %1$s</string>
     <string name="insights_idle_for">Pas ouverte depuis %1$s</string>
@@ -84,7 +82,6 @@
         <item quantity="many">Fichiers temporaires dans %d applis</item>
         <item quantity="other">Fichiers temporaires dans %d applis</item>
     </plurals>
-    <string name="insights_cache_teaser_body">Voyez quelles applis en ont, puis effacez-les dans Infos sur l’appli.</string>
     <string name="insights_cache_row_meta">Appli entière : %1$s</string>
     <string name="insights_cache_none_title">Aucun fichier temporaire à effacer</string>
 </resources>

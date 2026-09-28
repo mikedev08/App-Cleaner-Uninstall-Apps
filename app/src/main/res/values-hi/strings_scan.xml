@@ -32,8 +32,4 @@
         <item quantity="one">%1$d ऐप देखें · %2$s</item>
         <item quantity="other">%1$d ऐप देखें · %2$s</item>
     </plurals>
-    <plurals name="scan_cta_remove_large">
-        <item quantity="one">%1$d बड़ा ऐप हटाएं · %2$s</item>
-        <item quantity="other">%1$d बड़े ऐप हटाएं · %2$s</item>
-    </plurals>
 </resources>

@@ -6,7 +6,6 @@
     <string name="apps_tab_all">الكل</string>
     <string name="apps_section_rest">كل ما تبقى</string>
     <string name="apps_details_whats_using">ما الذي يستهلك المساحة</string>
-    <string name="apps_details_unlock_teaser">اعرف ما الذي يستهلك المساحة</string>
     <string name="apps_details_total_caption">الحجم الإجمالي</string>
     <string name="apps_details_apk_caption">حجم التطبيق</string>
     <string name="apps_details_app_info">معلومات التطبيق</string>

@@ -32,8 +32,4 @@
         <item quantity="one">%1$d App ansehen · %2$s</item>
         <item quantity="other">%1$d Apps ansehen · %2$s</item>
     </plurals>
-    <plurals name="scan_cta_remove_large">
-        <item quantity="one">%1$d große App entfernen · %2$s</item>
-        <item quantity="other">%1$d große Apps entfernen · %2$s</item>
-    </plurals>
 </resources>

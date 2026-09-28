@@ -33,9 +33,4 @@
         <item quantity="two">סקירת %1$d אפליקציות · %2$s</item>
         <item quantity="other">סקירת %1$d אפליקציות · %2$s</item>
     </plurals>
-    <plurals name="scan_cta_remove_large">
-        <item quantity="one">הסרת אפליקציה גדולה אחת · %2$s</item>
-        <item quantity="two">הסרת %1$d אפליקציות גדולות · %2$s</item>
-        <item quantity="other">הסרת %1$d אפליקציות גדולות · %2$s</item>
-    </plurals>
 </resources>

@@ -89,13 +89,4 @@
     <string name="home_hero_new_title">देखें कि आप क्या हटा सकते हैं</string>
     <string name="home_review">देखें</string>
     <string name="home_cat_none">कोई नहीं</string>
-    <string name="home_cat_counted_above">पहले ही गिने गए</string>
-    <plurals name="home_cat_more_apps">
-        <item quantity="one">%d और ऐप</item>
-        <item quantity="other">%d और ऐप</item>
-    </plurals>
-    <plurals name="home_cat_other_apps">
-        <item quantity="one">%d दूसरा ऐप</item>
-        <item quantity="other">%d दूसरे ऐप</item>
-    </plurals>
 </resources>

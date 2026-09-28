@@ -21,8 +21,6 @@
     <string name="paywall_finding_subtitle">احصل على Pro لرؤية القائمة كاملة وإزالتها ببضع نقرات.</string>
     <string name="paywall_benefit_unused_title">اعثر على التطبيقات التي لا تستخدمها</string>
     <string name="paywall_benefit_unused_body">اعرف التطبيقات التي لم تفتحها منذ مدة.</string>
-    <string name="paywall_benefit_storage_title">اختر 30 أو 60 أو 90 يومًا</string>
-    <string name="paywall_benefit_storage_body">حدّد متى يُعتبر التطبيق غير مستخدم.</string>
     <string name="paywall_benefit_reminders_title">تذكيرات أسبوعية</string>
     <string name="paywall_benefit_reminders_body">تنبيه لطيف عندما تتراكم التطبيقات التي لا تستخدمها.</string>
     <string name="paywall_benefit_no_ads_title">بلا إعلانات</string>

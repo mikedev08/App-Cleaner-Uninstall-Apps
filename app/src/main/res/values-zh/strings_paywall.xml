@@ -11,8 +11,6 @@
     <string name="paywall_finding_subtitle">开通 Pro 版，看到完整列表，点几下就能移除。</string>
     <string name="paywall_benefit_unused_title">找出不常用的应用</string>
     <string name="paywall_benefit_unused_body">看看哪些应用你有一阵子没打开了。</string>
-    <string name="paywall_benefit_storage_title">可选 30、60 或 90 天</string>
-    <string name="paywall_benefit_storage_body">自己决定多久没打开算不常用。</string>
     <string name="paywall_benefit_reminders_title">每周提醒</string>
     <string name="paywall_benefit_reminders_body">不常用的应用越来越多时，贴心提醒你一下。</string>
     <string name="paywall_benefit_no_ads_title">无广告</string>

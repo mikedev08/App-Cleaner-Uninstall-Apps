@@ -36,12 +36,4 @@
         <item quantity="many">مراجعة %1$d تطبيقًا · %2$s</item>
         <item quantity="other">مراجعة %1$d تطبيق · %2$s</item>
     </plurals>
-    <plurals name="scan_cta_remove_large">
-        <item quantity="zero">إزالة %1$d تطبيق كبير · %2$s</item>
-        <item quantity="one">إزالة تطبيق كبير · %2$s</item>
-        <item quantity="two">إزالة تطبيقين كبيرين · %2$s</item>
-        <item quantity="few">إزالة %1$d تطبيقات كبيرة · %2$s</item>
-        <item quantity="many">إزالة %1$d تطبيقًا كبيرًا · %2$s</item>
-        <item quantity="other">إزالة %1$d تطبيق كبير · %2$s</item>
-    </plurals>
 </resources>

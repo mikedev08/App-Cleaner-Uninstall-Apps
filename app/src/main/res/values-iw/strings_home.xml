@@ -95,15 +95,4 @@
     <string name="home_hero_new_title">מה אפשר להסיר</string>
     <string name="home_review">סקירה</string>
     <string name="home_cat_none">אין</string>
-    <string name="home_cat_counted_above">כבר נספרו</string>
-    <plurals name="home_cat_more_apps">
-        <item quantity="one">עוד אפליקציה אחת</item>
-        <item quantity="two">עוד %d אפליקציות</item>
-        <item quantity="other">עוד %d אפליקציות</item>
-    </plurals>
-    <plurals name="home_cat_other_apps">
-        <item quantity="one">אפליקציה אחרת אחת</item>
-        <item quantity="two">%d אפליקציות אחרות</item>
-        <item quantity="other">%d אפליקציות אחרות</item>
-    </plurals>
 </resources>

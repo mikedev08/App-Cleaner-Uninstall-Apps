@@ -12,9 +12,6 @@
     <string name="settings_theme_system">מערכת</string>
     <string name="settings_theme_light">בהיר</string>
     <string name="settings_theme_dark">כהה</string>
-    <string name="settings_size_display">הצגת גודל האפליקציה לפי</string>
-    <string name="settings_size_total_short">סה״כ</string>
-    <string name="settings_size_needs_access">נדרשת גישה לנתוני שימוש</string>
     <string name="settings_usage_access">גישה לנתוני שימוש</string>
     <string name="settings_usage_access_body">כך App Cleaner רואה אילו אפליקציות לא פתחת. שום דבר לא יוצא מהטלפון.</string>
     <string name="settings_usage_access_granted">מותר</string>
@@ -36,7 +33,6 @@
     <string name="settings_restore">שחזור רכישות</string>
     <string name="settings_rate">דירוג App Cleaner</string>
     <string name="settings_pro_benefit_unused">למצוא אפליקציות שלא בשימוש</string>
-    <string name="settings_pro_benefit_storage">בלי פרסומות</string>
     <string name="settings_pro_benefit_reminders">תזכורת שבועית לניקוי</string>
     <string name="settings_section_preferences">העדפות</string>
     <string name="settings_footer_privacy">פרטיות</string>

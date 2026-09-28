@@ -31,7 +31,4 @@
     <plurals name="scan_cta_review_apps">
         <item quantity="other">查看 %1$d 个应用 · %2$s</item>
     </plurals>
-    <plurals name="scan_cta_remove_large">
-        <item quantity="other">移除 %1$d 个大应用 · %2$s</item>
-    </plurals>
 </resources>

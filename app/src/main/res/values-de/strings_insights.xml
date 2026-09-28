@@ -59,8 +59,6 @@
     <string name="insights_private_note">Nichts verlässt dein Handy</string>
     <string name="insights_unused_teaser_loss">Sie belegen %1$s, die du zurückbekommen kannst.</string>
     <string name="insights_unused_teaser_body">Sieh, welche Apps das sind, und entferne alle auf einmal.</string>
-    <string name="insights_large_teaser_loss">Das sind %1$s vom Platz auf deinem Handy.</string>
-    <string name="insights_large_teaser_body">Sieh, wie viel Platz jede App braucht.</string>
     <string name="insights_see_which_apps">Zeig mir die Apps</string>
     <string name="insights_last_opened_date">Zuletzt geöffnet: %1$s</string>
     <string name="insights_idle_for">%1$s nicht geöffnet</string>
@@ -76,7 +74,6 @@
         <item quantity="one">Temporäre Dateien in %d App</item>
         <item quantity="other">Temporäre Dateien in %d Apps</item>
     </plurals>
-    <string name="insights_cache_teaser_body">Sieh, welche Apps sie haben, und lösche sie dann in der App-Info.</string>
     <string name="insights_cache_row_meta">Ganze App: %1$s</string>
     <string name="insights_cache_none_title">Keine temporären Dateien</string>
 </resources>

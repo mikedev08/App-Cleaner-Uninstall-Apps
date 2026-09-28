@@ -12,9 +12,6 @@
     <string name="settings_theme_system">Sistema</string>
     <string name="settings_theme_light">Claro</string>
     <string name="settings_theme_dark">Oscuro</string>
-    <string name="settings_size_display">Mostrar el tamaño como</string>
-    <string name="settings_size_total_short">Total</string>
-    <string name="settings_size_needs_access">Requiere acceso a datos de uso</string>
     <string name="settings_usage_access">Acceso a datos de uso</string>
     <string name="settings_usage_access_body">Permite que App Cleaner vea qué apps no has abierto. Nada sale de tu teléfono.</string>
     <string name="settings_usage_access_granted">Permitido</string>
@@ -36,7 +33,6 @@
     <string name="settings_restore">Restaurar compras</string>
     <string name="settings_rate">Valorar App Cleaner</string>
     <string name="settings_pro_benefit_unused">Encuentra apps que no usas</string>
-    <string name="settings_pro_benefit_storage">Sin anuncios</string>
     <string name="settings_pro_benefit_reminders">Recibe avisos semanales para limpiar</string>
     <string name="settings_section_preferences">Preferencias</string>
     <string name="settings_footer_privacy">Privacidad</string>
