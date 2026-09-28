@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_close">Fermer</string>
+    <string name="action_cancel">Annuler</string>
+    <string name="action_retry">Réessayer</string>
+    <string name="action_done">Terminé</string>
+    <string name="action_continue">Continuer</string>
+    <string name="action_not_now">Pas maintenant</string>
+    <string name="action_back">Retour</string>
+    <string name="action_open_settings">Ouvrir les paramètres</string>
+    <string name="label_premium">Premium</string>
+</resources>

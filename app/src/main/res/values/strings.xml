@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Shared strings. Each feature keeps its own strings_<feature>.xml beside this file. -->
+    <string name="app_name" translatable="false">App Cleaner</string>
+    <string name="action_close">Close</string>
+    <string name="action_cancel">Cancel</string>
+    <string name="action_retry">Try again</string>
+    <string name="action_done">Done</string>
+    <string name="action_continue">Continue</string>
+    <string name="action_not_now">Not now</string>
+    <string name="action_back">Back</string>
+    <string name="action_open_settings">Open settings</string>
+    <string name="label_premium">Premium</string>
+</resources>

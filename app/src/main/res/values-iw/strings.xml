@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="action_close">סגירה</string>
+    <string name="action_cancel">ביטול</string>
+    <string name="action_retry">לנסות שוב</string>
+    <string name="action_done">סיום</string>
+    <string name="action_continue">המשך</string>
+    <string name="action_not_now">לא עכשיו</string>
+    <string name="action_back">חזרה</string>
+    <string name="action_open_settings">פתיחת ההגדרות</string>
+    <string name="label_premium">פרימיום</string>
+</resources>
