@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_title">Paramètres</string>
+    <string name="settings_premium_upgrade_title">Passer à Premium</string>
+    <string name="settings_premium_upgrade_body">Détecteur d\'applis inutilisées, stockage de chaque appli, rappels de nettoyage et sans publicité.</string>
+    <string name="settings_premium_upgrade_cta">Voir Premium</string>
+    <string name="settings_premium_active_title">Premium actif</string>
+    <string name="settings_premium_active_body">Toutes les fonctions sont débloquées. Merci !</string>
+    <string name="settings_manage_subscription">Gérer l\'abonnement</string>
+    <string name="settings_section_general">Général</string>
+    <string name="settings_language">Langue</string>
+    <string name="settings_theme">Thème</string>
+    <string name="settings_theme_system">Par défaut du système</string>
+    <string name="settings_theme_light">Clair</string>
+    <string name="settings_theme_dark">Sombre</string>
+    <string name="settings_size_display">Taille des applis affichée</string>
+    <string name="settings_size_apk">Taille de l\'APK</string>
+    <string name="settings_size_total">Totale (appli + données + cache)</string>
+    <string name="settings_size_total_short">Totale</string>
+    <string name="settings_size_needs_access">Nécessite l\'accès aux données d\'utilisation</string>
+    <string name="settings_usage_access">Accès aux données d\'utilisation</string>
+    <string name="settings_usage_access_body">Détecte les applis inutilisées et mesure le stockage. Reste sur votre téléphone.</string>
+    <string name="settings_usage_access_granted">Autorisé</string>
+    <string name="settings_usage_access_allow">Autoriser</string>
+    <string name="settings_section_reminders">Rappels de nettoyage</string>
+    <string name="settings_reminders_toggle">Me rappeler les applis inutilisées</string>
+    <string name="settings_reminders_body">Une vérification par semaine, seulement s\'il y a quelque chose à nettoyer.</string>
+    <string name="settings_reminders_threshold">Considérer une appli comme inutilisée après</string>
+    <plurals name="settings_threshold_days">
+        <item quantity="one">%d jour</item>
+        <item quantity="many">%d jours</item>
+        <item quantity="other">%d jours</item>
+    </plurals>
+    <string name="settings_notifications_off">Les notifications d\'App Cleaner sont désactivées.</string>
+    <string name="settings_notifications_allow">Autoriser les notifications</string>
+    <string name="settings_reminders_needs_access">Les rappels ont besoin de l\'accès aux données d\'utilisation pour trouver les applis inutilisées.</string>
+    <string name="settings_section_subscription">Abonnement</string>
+    <string name="settings_restore">Restaurer les achats</string>
+    <string name="settings_section_about">À propos</string>
+    <string name="settings_privacy">Politique de confidentialité</string>
+    <string name="settings_terms">Conditions d\'utilisation</string>
+    <string name="settings_rate">Noter App Cleaner</string>
+    <string name="settings_version">Version</string>
+</resources>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="paywall_headline">اعثر على التطبيقات التي نسيتها</string>
+    <string name="paywall_subtitle">اعرف التطبيقات التي توقفت عن استخدامها وما الذي يشغل المساحة فعلًا.</string>
+    <plurals name="paywall_finding_unused">
+        <item quantity="zero">%1$d تطبيق غير مستخدم منذ %2$d+ يومًا · %3$s</item>
+        <item quantity="one">تطبيق واحد غير مستخدم منذ %2$d+ يومًا · %3$s</item>
+        <item quantity="two">تطبيقان غير مستخدمين منذ %2$d+ يومًا · %3$s</item>
+        <item quantity="few">%1$d تطبيقات غير مستخدمة منذ %2$d+ يومًا · %3$s</item>
+        <item quantity="many">%1$d تطبيقًا غير مستخدم منذ %2$d+ يومًا · %3$s</item>
+        <item quantity="other">%1$d تطبيق غير مستخدم منذ %2$d+ يومًا · %3$s</item>
+    </plurals>
+    <plurals name="paywall_finding_large">
+        <item quantity="zero">أكبر %1$d تطبيق لديك تستخدم %2$s</item>
+        <item quantity="one">أكبر تطبيق لديك يستخدم %2$s</item>
+        <item quantity="two">أكبر تطبيقين لديك يستخدمان %2$s</item>
+        <item quantity="few">أكبر %1$d تطبيقات لديك تستخدم %2$s</item>
+        <item quantity="many">أكبر %1$d تطبيقًا لديك تستخدم %2$s</item>
+        <item quantity="other">أكبر %1$d تطبيق لديك تستخدم %2$s</item>
+    </plurals>
+    <string name="paywall_finding_subtitle">افتح القائمة الكاملة وأزِلها ببضع نقرات.</string>
+    <string name="paywall_benefit_unused_title">العثور على التطبيقات غير المستخدمة</string>
+    <string name="paywall_benefit_unused_body">اعرف التطبيقات التي لم تفتحها منذ أشهر.</string>
+    <string name="paywall_benefit_storage_title">مساحة كل تطبيق</string>
+    <string name="paywall_benefit_storage_body">حجم التطبيق والبيانات وذاكرة التخزين المؤقت لكل تطبيق.</string>
+    <string name="paywall_benefit_reminders_title">تذكيرات التنظيف</string>
+    <string name="paywall_benefit_reminders_body">تنبيه أسبوعي عندما تتراكم التطبيقات المنسية.</string>
+    <string name="paywall_benefit_no_ads_title">بلا إعلانات</string>
+    <string name="paywall_benefit_no_ads_body">تطبيق هادئ خالٍ من الإعلانات.</string>
+    <plurals name="paywall_plan_trial">
+        <item quantity="zero">%1$d يوم مجانًا، ثم %2$s/أسبوع</item>
+        <item quantity="one">يوم واحد مجانًا، ثم %2$s/أسبوع</item>
+        <item quantity="two">يومان مجانًا، ثم %2$s/أسبوع</item>
+        <item quantity="few">%1$d أيام مجانًا، ثم %2$s/أسبوع</item>
+        <item quantity="many">%1$d يومًا مجانًا، ثم %2$s/أسبوع</item>
+        <item quantity="other">%1$d يوم مجانًا، ثم %2$s/أسبوع</item>
+    </plurals>
+    <string name="paywall_plan_weekly">%1$s/أسبوع</string>
+    <string name="paywall_plan_caption_trial">خطة أسبوعية · بلا رسوم خلال الفترة التجريبية</string>
+    <string name="paywall_plan_caption_weekly">خطة أسبوعية · يمكنك الإلغاء في أي وقت</string>
+    <string name="paywall_plan_loading">جارٍ تحميل السعر…</string>
+    <string name="paywall_offline">اتصل بالإنترنت لبدء الفترة التجريبية المجانية</string>
+    <string name="paywall_not_available">الاشتراكات غير متاحة بعد</string>
+    <string name="paywall_not_available_body">في هذه الأثناء، تبقى جميع الميزات المجانية متاحة.</string>
+    <string name="paywall_cta_trial">ابدأ الفترة التجريبية المجانية</string>
+    <string name="paywall_cta_subscribe">اشترك</string>
+    <string name="paywall_terms_trial">يتجدد تلقائيًا كل أسبوع بعد الفترة التجريبية. يمكنك الإلغاء في أي وقت من Google Play.</string>
+    <string name="paywall_terms_plain">يتجدد تلقائيًا كل أسبوع. يمكنك الإلغاء في أي وقت من Google Play.</string>
+    <string name="paywall_restore">استعادة المشتريات</string>
+    <string name="paywall_terms">الشروط</string>
+    <string name="paywall_privacy">الخصوصية</string>
+    <string name="paywall_premium_title">أنت مشترك في بريميوم</string>
+    <string name="paywall_premium_body">جميع الميزات مفعّلة. شكرًا لدعمك App Cleaner.</string>
+</resources>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="onboarding_skip">דילוג</string>
+    <string name="onboarding_next">הבא</string>
+    <string name="onboarding_get_started">מתחילים</string>
+    <string name="onboarding_page_indicator">עמוד %1$d מתוך %2$d</string>
+    <string name="onboarding_1_title">הסרה של הרבה אפליקציות בבת אחת</string>
+    <string name="onboarding_1_body">בוחרים, מאשרים וזהו — בלי לחפש בהגדרות.</string>
+    <string name="onboarding_2_title">מה אוכל לך את האחסון?</string>
+    <string name="onboarding_2_body">הגודל של כל אפליקציה, מהגדולה לקטנה.</string>
+    <string name="onboarding_3_title">מוצאים את האפליקציות ששכחת</string>
+    <string name="onboarding_3_body">נראה לך מה לא פתחת כבר חודשים.</string>
+</resources>

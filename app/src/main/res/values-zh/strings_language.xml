@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="language_title">选择语言</string>
+    <string name="language_subtitle">你可以随时在设置中更改。</string>
+    <string name="language_change">更改语言</string>
+</resources>

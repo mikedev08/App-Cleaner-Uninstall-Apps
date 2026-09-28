@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="language_title">בחירת שפה</string>
+    <string name="language_subtitle">אפשר לשנות אותה בכל עת בהגדרות.</string>
+    <string name="language_change">שינוי שפה</string>
+</resources>

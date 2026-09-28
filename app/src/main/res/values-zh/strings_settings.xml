@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_title">设置</string>
+    <string name="settings_premium_upgrade_title">升级到高级版</string>
+    <string name="settings_premium_upgrade_body">闲置应用查找、每个应用的存储占用、清理提醒，并且无广告。</string>
+    <string name="settings_premium_upgrade_cta">查看高级版</string>
+    <string name="settings_premium_active_title">高级版已开通</string>
+    <string name="settings_premium_active_body">所有功能均已解锁。谢谢！</string>
+    <string name="settings_manage_subscription">管理订阅</string>
+    <string name="settings_section_general">常规</string>
+    <string name="settings_language">语言</string>
+    <string name="settings_theme">主题</string>
+    <string name="settings_theme_system">跟随系统</string>
+    <string name="settings_theme_light">浅色</string>
+    <string name="settings_theme_dark">深色</string>
+    <string name="settings_size_display">应用大小显示方式</string>
+    <string name="settings_size_apk">APK 大小</string>
+    <string name="settings_size_total">总计（应用 + 数据 + 缓存）</string>
+    <string name="settings_size_total_short">总计</string>
+    <string name="settings_size_needs_access">需要使用情况访问权限</string>
+    <string name="settings_usage_access">使用情况访问权限</string>
+    <string name="settings_usage_access_body">用于查找闲置应用并计算存储占用。数据只保存在你的手机上。</string>
+    <string name="settings_usage_access_granted">已允许</string>
+    <string name="settings_usage_access_allow">允许</string>
+    <string name="settings_section_reminders">清理提醒</string>
+    <string name="settings_reminders_toggle">提醒我清理闲置应用</string>
+    <string name="settings_reminders_body">每周检查一次，只在有可清理的内容时提醒。</string>
+    <string name="settings_reminders_threshold">多久未使用算作闲置</string>
+    <plurals name="settings_threshold_days">
+        <item quantity="other">%d 天</item>
+    </plurals>
+    <string name="settings_notifications_off">App Cleaner 的通知已关闭。</string>
+    <string name="settings_notifications_allow">允许通知</string>
+    <string name="settings_reminders_needs_access">提醒功能需要使用情况访问权限才能找到闲置应用。</string>
+    <string name="settings_section_subscription">订阅</string>
+    <string name="settings_restore">恢复购买</string>
+    <string name="settings_section_about">关于</string>
+    <string name="settings_privacy">隐私政策</string>
+    <string name="settings_terms">使用条款</string>
+    <string name="settings_rate">为 App Cleaner 评分</string>
+    <string name="settings_version">版本</string>
+</resources>

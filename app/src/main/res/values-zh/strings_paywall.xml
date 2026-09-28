@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="paywall_headline">找出被你遗忘的应用</string>
+    <string name="paywall_subtitle">看看哪些应用你已不再使用，以及真正占用空间的是什么。</string>
+    <plurals name="paywall_finding_unused">
+        <item quantity="other">%1$d 个应用已 %2$d 天以上未使用 · %3$s</item>
+    </plurals>
+    <plurals name="paywall_finding_large">
+        <item quantity="other">你最大的 %1$d 个应用占用了 %2$s</item>
+    </plurals>
+    <string name="paywall_finding_subtitle">解锁完整列表，轻点几下即可卸载。</string>
+    <string name="paywall_benefit_unused_title">闲置应用查找</string>
+    <string name="paywall_benefit_unused_body">查看哪些应用你已几个月没打开过。</string>
+    <string name="paywall_benefit_storage_title">每个应用的存储占用</string>
+    <string name="paywall_benefit_storage_body">每个应用的程序、数据和缓存大小。</string>
+    <string name="paywall_benefit_reminders_title">清理提醒</string>
+    <string name="paywall_benefit_reminders_body">被遗忘的应用越积越多时，每周提醒你一次。</string>
+    <string name="paywall_benefit_no_ads_title">无广告</string>
+    <string name="paywall_benefit_no_ads_body">清爽、无广告的体验。</string>
+    <plurals name="paywall_plan_trial">
+        <item quantity="other">免费试用 %1$d 天，之后每周 %2$s</item>
+    </plurals>
+    <string name="paywall_plan_weekly">每周 %1$s</string>
+    <string name="paywall_plan_caption_trial">周订阅 · 试用期内不收费</string>
+    <string name="paywall_plan_caption_weekly">周订阅 · 可随时取消</string>
+    <string name="paywall_plan_loading">正在加载价格…</string>
+    <string name="paywall_offline">连接到互联网以开始免费试用</string>
+    <string name="paywall_not_available">订阅暂不可用</string>
+    <string name="paywall_not_available_body">在此期间，所有免费功能照常可用。</string>
+    <string name="paywall_cta_trial">开始免费试用</string>
+    <string name="paywall_cta_subscribe">订阅</string>
+    <string name="paywall_terms_trial">试用结束后每周自动续订。可随时在 Google Play 中取消。</string>
+    <string name="paywall_terms_plain">每周自动续订。可随时在 Google Play 中取消。</string>
+    <string name="paywall_restore">恢复购买</string>
+    <string name="paywall_terms">条款</string>
+    <string name="paywall_privacy">隐私</string>
+    <string name="paywall_premium_title">你已开通高级版</string>
+    <string name="paywall_premium_body">所有功能均已解锁。感谢你对 App Cleaner 的支持。</string>
+</resources>

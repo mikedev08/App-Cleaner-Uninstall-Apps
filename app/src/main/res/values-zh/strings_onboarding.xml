@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="onboarding_skip">跳过</string>
+    <string name="onboarding_next">下一步</string>
+    <string name="onboarding_get_started">开始使用</string>
+    <string name="onboarding_page_indicator">第 %1$d 页，共 %2$d 页</string>
+    <string name="onboarding_1_title">一次卸载多个应用</string>
+    <string name="onboarding_1_body">选好、确认，搞定——无需在设置里翻找。</string>
+    <string name="onboarding_2_title">看看是什么占满了存储空间</string>
+    <string name="onboarding_2_body">每个应用的大小，从大到小排列。</string>
+    <string name="onboarding_3_title">找出被你遗忘的应用</string>
+    <string name="onboarding_3_body">我们会告诉你哪些应用已经几个月没打开过了。</string>
+</resources>

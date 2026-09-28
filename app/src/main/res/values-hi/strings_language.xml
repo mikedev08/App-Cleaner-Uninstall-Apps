@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="language_title">अपनी भाषा चुनें</string>
+    <string name="language_subtitle">आप इसे कभी भी सेटिंग्स में बदल सकते हैं।</string>
+    <string name="language_change">भाषा बदलें</string>
+</resources>

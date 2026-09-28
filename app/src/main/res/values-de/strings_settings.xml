@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_title">Einstellungen</string>
+    <string name="settings_premium_upgrade_title">Premium holen</string>
+    <string name="settings_premium_upgrade_body">Finder für ungenutzte Apps, Speicher jeder App, Aufräum-Erinnerungen und keine Werbung.</string>
+    <string name="settings_premium_upgrade_cta">Premium ansehen</string>
+    <string name="settings_premium_active_title">Premium aktiv</string>
+    <string name="settings_premium_active_body">Alle Funktionen sind freigeschaltet. Danke!</string>
+    <string name="settings_manage_subscription">Abo verwalten</string>
+    <string name="settings_section_general">Allgemein</string>
+    <string name="settings_language">Sprache</string>
+    <string name="settings_theme">Design</string>
+    <string name="settings_theme_system">Systemstandard</string>
+    <string name="settings_theme_light">Hell</string>
+    <string name="settings_theme_dark">Dunkel</string>
+    <string name="settings_size_display">App-Größe anzeigen als</string>
+    <string name="settings_size_apk">APK-Größe</string>
+    <string name="settings_size_total">Gesamt (App + Daten + Cache)</string>
+    <string name="settings_size_total_short">Gesamt</string>
+    <string name="settings_size_needs_access">Erfordert Zugriff auf Nutzungsdaten</string>
+    <string name="settings_usage_access">Zugriff auf Nutzungsdaten</string>
+    <string name="settings_usage_access_body">Findet ungenutzte Apps und misst den Speicher. Bleibt auf deinem Smartphone.</string>
+    <string name="settings_usage_access_granted">Erlaubt</string>
+    <string name="settings_usage_access_allow">Erlauben</string>
+    <string name="settings_section_reminders">Aufräum-Erinnerungen</string>
+    <string name="settings_reminders_toggle">An ungenutzte Apps erinnern</string>
+    <string name="settings_reminders_body">Eine wöchentliche Prüfung, nur wenn es etwas aufzuräumen gibt.</string>
+    <string name="settings_reminders_threshold">Als ungenutzt gilt eine App nach</string>
+    <plurals name="settings_threshold_days">
+        <item quantity="one">%d Tag</item>
+        <item quantity="other">%d Tagen</item>
+    </plurals>
+    <string name="settings_notifications_off">Benachrichtigungen für App Cleaner sind deaktiviert.</string>
+    <string name="settings_notifications_allow">Benachrichtigungen erlauben</string>
+    <string name="settings_reminders_needs_access">Erinnerungen brauchen Zugriff auf Nutzungsdaten, um ungenutzte Apps zu finden.</string>
+    <string name="settings_section_subscription">Abo</string>
+    <string name="settings_restore">Käufe wiederherstellen</string>
+    <string name="settings_section_about">Über</string>
+    <string name="settings_privacy">Datenschutzerklärung</string>
+    <string name="settings_terms">Nutzungsbedingungen</string>
+    <string name="settings_rate">App Cleaner bewerten</string>
+    <string name="settings_version">Version</string>
+</resources>

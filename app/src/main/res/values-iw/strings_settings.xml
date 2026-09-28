@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_title">הגדרות</string>
+    <string name="settings_premium_upgrade_title">שדרוג לפרימיום</string>
+    <string name="settings_premium_upgrade_body">איתור אפליקציות שלא בשימוש, אחסון לכל אפליקציה, תזכורות ניקוי ובלי פרסומות.</string>
+    <string name="settings_premium_upgrade_cta">לפרטים על פרימיום</string>
+    <string name="settings_premium_active_title">פרימיום פעיל</string>
+    <string name="settings_premium_active_body">כל התכונות פתוחות. תודה!</string>
+    <string name="settings_manage_subscription">ניהול המינוי</string>
+    <string name="settings_section_general">כללי</string>
+    <string name="settings_language">שפה</string>
+    <string name="settings_theme">עיצוב</string>
+    <string name="settings_theme_system">ברירת המחדל של המערכת</string>
+    <string name="settings_theme_light">בהיר</string>
+    <string name="settings_theme_dark">כהה</string>
+    <string name="settings_size_display">הצגת גודל האפליקציה לפי</string>
+    <string name="settings_size_apk">גודל APK</string>
+    <string name="settings_size_total">סה״כ (אפליקציה + נתונים + מטמון)</string>
+    <string name="settings_size_total_short">סה״כ</string>
+    <string name="settings_size_needs_access">נדרשת גישה לנתוני שימוש</string>
+    <string name="settings_usage_access">גישה לנתוני שימוש</string>
+    <string name="settings_usage_access_body">מאתרת אפליקציות שלא בשימוש ומודדת אחסון. הכול נשאר בטלפון שלך.</string>
+    <string name="settings_usage_access_granted">מותר</string>
+    <string name="settings_usage_access_allow">אישור</string>
+    <string name="settings_section_reminders">תזכורות ניקוי</string>
+    <string name="settings_reminders_toggle">תזכורת על אפליקציות שלא בשימוש</string>
+    <string name="settings_reminders_body">בדיקה שבועית, רק כשיש מה לנקות.</string>
+    <string name="settings_reminders_threshold">אפליקציה נחשבת לא בשימוש אחרי</string>
+    <plurals name="settings_threshold_days">
+        <item quantity="one">יום אחד</item>
+        <item quantity="two">יומיים</item>
+        <item quantity="other">%d ימים</item>
+    </plurals>
+    <string name="settings_notifications_off">ההתראות של App Cleaner כבויות.</string>
+    <string name="settings_notifications_allow">הפעלת התראות</string>
+    <string name="settings_reminders_needs_access">כדי לאתר אפליקציות שלא בשימוש, התזכורות צריכות גישה לנתוני שימוש.</string>
+    <string name="settings_section_subscription">מינוי</string>
+    <string name="settings_restore">שחזור רכישות</string>
+    <string name="settings_section_about">מידע</string>
+    <string name="settings_privacy">מדיניות הפרטיות</string>
+    <string name="settings_terms">תנאי השימוש</string>
+    <string name="settings_rate">דירוג App Cleaner</string>
+    <string name="settings_version">גרסה</string>
+</resources>

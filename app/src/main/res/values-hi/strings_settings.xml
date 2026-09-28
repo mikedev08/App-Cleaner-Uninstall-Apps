@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_title">सेटिंग्स</string>
+    <string name="settings_premium_upgrade_title">प्रीमियम पर अपग्रेड करें</string>
+    <string name="settings_premium_upgrade_body">इस्तेमाल न होने वाले ऐप खोजें, हर ऐप की स्टोरेज, सफ़ाई रिमाइंडर और कोई विज्ञापन नहीं।</string>
+    <string name="settings_premium_upgrade_cta">प्रीमियम देखें</string>
+    <string name="settings_premium_active_title">प्रीमियम चालू है</string>
+    <string name="settings_premium_active_body">सभी सुविधाएँ अनलॉक हैं। धन्यवाद!</string>
+    <string name="settings_manage_subscription">सदस्यता मैनेज करें</string>
+    <string name="settings_section_general">सामान्य</string>
+    <string name="settings_language">भाषा</string>
+    <string name="settings_theme">थीम</string>
+    <string name="settings_theme_system">सिस्टम डिफ़ॉल्ट</string>
+    <string name="settings_theme_light">लाइट</string>
+    <string name="settings_theme_dark">डार्क</string>
+    <string name="settings_size_display">ऐप का साइज़ ऐसे दिखाएँ</string>
+    <string name="settings_size_apk">APK साइज़</string>
+    <string name="settings_size_total">कुल (ऐप + डेटा + कैश)</string>
+    <string name="settings_size_total_short">कुल</string>
+    <string name="settings_size_needs_access">उपयोग ऐक्सेस ज़रूरी है</string>
+    <string name="settings_usage_access">उपयोग ऐक्सेस</string>
+    <string name="settings_usage_access_body">इस्तेमाल न होने वाले ऐप खोजता है और स्टोरेज मापता है। सब कुछ आपके फ़ोन पर ही रहता है।</string>
+    <string name="settings_usage_access_granted">अनुमति है</string>
+    <string name="settings_usage_access_allow">अनुमति दें</string>
+    <string name="settings_section_reminders">सफ़ाई रिमाइंडर</string>
+    <string name="settings_reminders_toggle">इस्तेमाल न होने वाले ऐप की याद दिलाएँ</string>
+    <string name="settings_reminders_body">हर हफ़्ते एक जाँच, सिर्फ़ तब जब साफ़ करने को कुछ हो।</string>
+    <string name="settings_reminders_threshold">ऐप को इतने समय बाद इस्तेमाल न होने वाला मानें</string>
+    <plurals name="settings_threshold_days">
+        <item quantity="one">%d दिन</item>
+        <item quantity="other">%d दिन</item>
+    </plurals>
+    <string name="settings_notifications_off">App Cleaner के लिए सूचनाएँ बंद हैं।</string>
+    <string name="settings_notifications_allow">सूचनाएँ चालू करें</string>
+    <string name="settings_reminders_needs_access">इस्तेमाल न होने वाले ऐप खोजने के लिए रिमाइंडर को उपयोग ऐक्सेस चाहिए।</string>
+    <string name="settings_section_subscription">सदस्यता</string>
+    <string name="settings_restore">खरीदारी वापस लाएँ</string>
+    <string name="settings_section_about">जानकारी</string>
+    <string name="settings_privacy">निजता नीति</string>
+    <string name="settings_terms">इस्तेमाल की शर्तें</string>
+    <string name="settings_rate">App Cleaner को रेट करें</string>
+    <string name="settings_version">वर्शन</string>
+</resources>

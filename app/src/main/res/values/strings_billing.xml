@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="billing_restore_success">Premium restored. Welcome back!</string>
+    <string name="billing_restore_nothing">No previous purchase found for this Google account.</string>
+    <string name="billing_restore_failed">Couldn\'t restore purchases. Please try again.</string>
+    <string name="billing_purchase_failed">The purchase didn\'t go through. Please try again.</string>
+    <string name="billing_purchase_pending">Your payment is pending. Premium unlocks as soon as Google Play confirms it.</string>
+    <string name="billing_network_error">Couldn\'t reach Google Play. Check your connection and try again.</string>
+    <string name="billing_not_available">Subscriptions aren\'t available yet.</string>
+    <string name="billing_link_unavailable">No app on this phone can open this link.</string>
+</resources>

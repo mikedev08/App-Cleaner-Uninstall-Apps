@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="paywall_headline">Finde die Apps, die du vergessen hast</string>
+    <string name="paywall_subtitle">Sieh, welche Apps du nicht mehr nutzt und was wirklich Platz belegt.</string>
+    <plurals name="paywall_finding_unused">
+        <item quantity="one">%1$d App seit %2$d+ Tagen ungenutzt · %3$s</item>
+        <item quantity="other">%1$d Apps seit %2$d+ Tagen ungenutzt · %3$s</item>
+    </plurals>
+    <plurals name="paywall_finding_large">
+        <item quantity="one">Deine größte App belegt %2$s</item>
+        <item quantity="other">Deine %1$d größten Apps belegen %2$s</item>
+    </plurals>
+    <string name="paywall_finding_subtitle">Schalte die ganze Liste frei und entferne sie mit wenigen Tipps.</string>
+    <string name="paywall_benefit_unused_title">Finder für ungenutzte Apps</string>
+    <string name="paywall_benefit_unused_body">Sieh, welche Apps du seit Monaten nicht geöffnet hast.</string>
+    <string name="paywall_benefit_storage_title">Speicher jeder einzelnen App</string>
+    <string name="paywall_benefit_storage_body">App-, Daten- und Cache-Größe für jede App.</string>
+    <string name="paywall_benefit_reminders_title">Aufräum-Erinnerungen</string>
+    <string name="paywall_benefit_reminders_body">Ein wöchentlicher Hinweis, wenn sich vergessene Apps ansammeln.</string>
+    <string name="paywall_benefit_no_ads_title">Keine Werbung</string>
+    <string name="paywall_benefit_no_ads_body">Eine ruhige App ohne Werbung.</string>
+    <plurals name="paywall_plan_trial">
+        <item quantity="one">%1$d Tag gratis, danach %2$s/Woche</item>
+        <item quantity="other">%1$d Tage gratis, danach %2$s/Woche</item>
+    </plurals>
+    <string name="paywall_plan_weekly">%1$s/Woche</string>
+    <string name="paywall_plan_caption_trial">Wochenabo · Keine Kosten während des Tests</string>
+    <string name="paywall_plan_caption_weekly">Wochenabo · Jederzeit kündbar</string>
+    <string name="paywall_plan_loading">Preis wird geladen…</string>
+    <string name="paywall_offline">Verbinde dich mit dem Internet, um deinen kostenlosen Test zu starten</string>
+    <string name="paywall_not_available">Abos sind noch nicht verfügbar</string>
+    <string name="paywall_not_available_body">Bis dahin funktioniert alles Kostenlose wie gewohnt.</string>
+    <string name="paywall_cta_trial">Kostenlos testen</string>
+    <string name="paywall_cta_subscribe">Abonnieren</string>
+    <string name="paywall_terms_trial">Verlängert sich nach dem Test wöchentlich. Jederzeit in Google Play kündbar.</string>
+    <string name="paywall_terms_plain">Verlängert sich wöchentlich. Jederzeit in Google Play kündbar.</string>
+    <string name="paywall_restore">Käufe wiederherstellen</string>
+    <string name="paywall_terms">AGB</string>
+    <string name="paywall_privacy">Datenschutz</string>
+    <string name="paywall_premium_title">Du hast Premium</string>
+    <string name="paywall_premium_body">Alle Funktionen sind freigeschaltet. Danke, dass du App Cleaner unterstützt.</string>
+</resources>

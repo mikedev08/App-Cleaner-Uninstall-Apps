@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="onboarding_skip">Omitir</string>
+    <string name="onboarding_next">Siguiente</string>
+    <string name="onboarding_get_started">Empezar</string>
+    <string name="onboarding_page_indicator">Página %1$d de %2$d</string>
+    <string name="onboarding_1_title">Elimina muchas apps a la vez</string>
+    <string name="onboarding_1_body">Elígelas, confirma y listo, sin rebuscar en Ajustes.</string>
+    <string name="onboarding_2_title">Descubre qué se come tu almacenamiento</string>
+    <string name="onboarding_2_body">El tamaño de cada app, de mayor a menor.</string>
+    <string name="onboarding_3_title">Encuentra las apps que olvidaste</string>
+    <string name="onboarding_3_body">Te mostramos lo que no abres desde hace meses.</string>
+</resources>

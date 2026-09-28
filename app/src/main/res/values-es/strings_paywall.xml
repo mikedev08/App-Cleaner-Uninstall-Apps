@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="paywall_headline">Encuentra las apps que olvidaste</string>
+    <string name="paywall_subtitle">Descubre qué apps ya no usas y qué ocupa espacio de verdad.</string>
+    <plurals name="paywall_finding_unused">
+        <item quantity="one">%1$d app sin usar desde hace %2$d+ días · %3$s</item>
+        <item quantity="many">%1$d apps sin usar desde hace %2$d+ días · %3$s</item>
+        <item quantity="other">%1$d apps sin usar desde hace %2$d+ días · %3$s</item>
+    </plurals>
+    <plurals name="paywall_finding_large">
+        <item quantity="one">Tu app más grande ocupa %2$s</item>
+        <item quantity="many">Tus %1$d apps más grandes ocupan %2$s</item>
+        <item quantity="other">Tus %1$d apps más grandes ocupan %2$s</item>
+    </plurals>
+    <string name="paywall_finding_subtitle">Desbloquea la lista completa y elimínalas en pocos toques.</string>
+    <string name="paywall_benefit_unused_title">Buscador de apps sin usar</string>
+    <string name="paywall_benefit_unused_body">Mira qué apps no abres desde hace meses.</string>
+    <string name="paywall_benefit_storage_title">Almacenamiento de cada app</string>
+    <string name="paywall_benefit_storage_body">Tamaño de la app, los datos y la caché de cada una.</string>
+    <string name="paywall_benefit_reminders_title">Recordatorios de limpieza</string>
+    <string name="paywall_benefit_reminders_body">Un aviso semanal cuando se acumulan apps olvidadas.</string>
+    <string name="paywall_benefit_no_ads_title">Sin anuncios</string>
+    <string name="paywall_benefit_no_ads_body">Una app tranquila, sin anuncios.</string>
+    <plurals name="paywall_plan_trial">
+        <item quantity="one">%1$d día gratis, luego %2$s/semana</item>
+        <item quantity="many">%1$d días gratis, luego %2$s/semana</item>
+        <item quantity="other">%1$d días gratis, luego %2$s/semana</item>
+    </plurals>
+    <string name="paywall_plan_weekly">%1$s/semana</string>
+    <string name="paywall_plan_caption_trial">Plan semanal · Sin cargo durante la prueba</string>
+    <string name="paywall_plan_caption_weekly">Plan semanal · Cancela cuando quieras</string>
+    <string name="paywall_plan_loading">Cargando precio…</string>
+    <string name="paywall_offline">Conéctate a internet para empezar tu prueba gratuita</string>
+    <string name="paywall_not_available">Las suscripciones aún no están disponibles</string>
+    <string name="paywall_not_available_body">Mientras tanto, todo lo gratuito sigue funcionando.</string>
+    <string name="paywall_cta_trial">Empezar prueba gratuita</string>
+    <string name="paywall_cta_subscribe">Suscribirse</string>
+    <string name="paywall_terms_trial">Se renueva cada semana tras la prueba. Cancela cuando quieras en Google Play.</string>
+    <string name="paywall_terms_plain">Se renueva cada semana. Cancela cuando quieras en Google Play.</string>
+    <string name="paywall_restore">Restaurar compras</string>
+    <string name="paywall_terms">Términos</string>
+    <string name="paywall_privacy">Privacidad</string>
+    <string name="paywall_premium_title">Ya tienes Premium</string>
+    <string name="paywall_premium_body">Todas las funciones están desbloqueadas. Gracias por apoyar App Cleaner.</string>
+</resources>

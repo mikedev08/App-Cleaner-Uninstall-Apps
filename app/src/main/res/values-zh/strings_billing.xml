@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="billing_restore_success">已恢复高级版。欢迎回来！</string>
+    <string name="billing_restore_nothing">此 Google 帐号下没有找到以前的购买记录。</string>
+    <string name="billing_restore_failed">无法恢复购买，请重试。</string>
+    <string name="billing_purchase_failed">购买未完成，请重试。</string>
+    <string name="billing_purchase_pending">你的付款正在处理中。Google Play 确认后即会解锁高级版。</string>
+    <string name="billing_network_error">无法连接到 Google Play。请检查网络连接后重试。</string>
+    <string name="billing_not_available">订阅暂不可用。</string>
+    <string name="billing_link_unavailable">此手机上没有可以打开此链接的应用。</string>
+</resources>

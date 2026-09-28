@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="onboarding_skip">छोड़ें</string>
+    <string name="onboarding_next">आगे</string>
+    <string name="onboarding_get_started">शुरू करें</string>
+    <string name="onboarding_page_indicator">%2$d में से पेज %1$d</string>
+    <string name="onboarding_1_title">एक साथ कई ऐप हटाएँ</string>
+    <string name="onboarding_1_body">चुनें, पुष्टि करें, हो गया — सेटिंग्स में ढूँढने की ज़रूरत नहीं।</string>
+    <string name="onboarding_2_title">देखें कि आपकी स्टोरेज कौन खा रहा है</string>
+    <string name="onboarding_2_body">हर ऐप का साइज़, सबसे बड़े पहले।</string>
+    <string name="onboarding_3_title">भूले हुए ऐप खोजें</string>
+    <string name="onboarding_3_body">हम आपको दिखाएँगे कि आपने महीनों से क्या नहीं खोला है।</string>
+</resources>

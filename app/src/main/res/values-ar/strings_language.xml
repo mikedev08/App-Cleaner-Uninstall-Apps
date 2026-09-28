@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="language_title">اختر لغتك</string>
+    <string name="language_subtitle">يمكنك تغييرها في أي وقت من الإعدادات.</string>
+    <string name="language_change">تغيير اللغة</string>
+</resources>

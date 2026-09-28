@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="paywall_headline">Find the apps you forgot about</string>
+    <string name="paywall_subtitle">See which apps you\'ve stopped using and what really takes up space.</string>
+    <plurals name="paywall_finding_unused">
+        <item quantity="one">%1$d app unused for %2$d+ days · %3$s</item>
+        <item quantity="other">%1$d apps unused for %2$d+ days · %3$s</item>
+    </plurals>
+    <plurals name="paywall_finding_large">
+        <item quantity="one">Your largest app uses %2$s</item>
+        <item quantity="other">Your %1$d largest apps use %2$s</item>
+    </plurals>
+    <string name="paywall_finding_subtitle">Unlock the full list and remove them in a few taps.</string>
+
+    <string name="paywall_benefit_unused_title">Unused apps finder</string>
+    <string name="paywall_benefit_unused_body">See which apps you haven\'t opened in months.</string>
+    <string name="paywall_benefit_storage_title">Storage used by every app</string>
+    <string name="paywall_benefit_storage_body">App, data and cache size for each one.</string>
+    <string name="paywall_benefit_reminders_title">Cleanup reminders</string>
+    <string name="paywall_benefit_reminders_body">A weekly heads-up when forgotten apps pile up.</string>
+    <string name="paywall_benefit_no_ads_title">No ads</string>
+    <string name="paywall_benefit_no_ads_body">A calm, ad-free app.</string>
+
+    <plurals name="paywall_plan_trial">
+        <item quantity="one">%1$d day free, then %2$s/week</item>
+        <item quantity="other">%1$d days free, then %2$s/week</item>
+    </plurals>
+    <string name="paywall_plan_weekly">%1$s/week</string>
+    <string name="paywall_plan_caption_trial">Weekly plan · No charge during the trial</string>
+    <string name="paywall_plan_caption_weekly">Weekly plan · Cancel anytime</string>
+    <string name="paywall_plan_loading">Loading price…</string>
+    <string name="paywall_offline">Connect to the internet to start your free trial</string>
+    <string name="paywall_not_available">Subscriptions aren\'t available yet</string>
+    <string name="paywall_not_available_body">Everything free keeps working in the meantime.</string>
+
+    <string name="paywall_cta_trial">Start free trial</string>
+    <string name="paywall_cta_subscribe">Subscribe</string>
+    <string name="paywall_cta_debug" translatable="false">Unlock (debug)</string>
+    <string name="paywall_terms_trial">Auto-renews weekly after the trial. Cancel anytime in Google Play.</string>
+    <string name="paywall_terms_plain">Auto-renews weekly. Cancel anytime in Google Play.</string>
+    <string name="paywall_debug_note" translatable="false">Debug build: RevenueCat isn\'t configured, so this unlocks premium on this device only.</string>
+
+    <string name="paywall_restore">Restore purchases</string>
+    <string name="paywall_terms">Terms</string>
+    <string name="paywall_privacy">Privacy</string>
+
+    <string name="paywall_premium_title">You\'re on Premium</string>
+    <string name="paywall_premium_body">Every feature is unlocked. Thanks for supporting App Cleaner.</string>
+</resources>

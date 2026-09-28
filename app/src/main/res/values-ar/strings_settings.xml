@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="settings_title">الإعدادات</string>
+    <string name="settings_premium_upgrade_title">الترقية إلى بريميوم</string>
+    <string name="settings_premium_upgrade_body">العثور على التطبيقات غير المستخدمة، ومساحة كل تطبيق، وتذكيرات التنظيف، وبلا إعلانات.</string>
+    <string name="settings_premium_upgrade_cta">عرض بريميوم</string>
+    <string name="settings_premium_active_title">بريميوم مفعّل</string>
+    <string name="settings_premium_active_body">جميع الميزات مفعّلة. شكرًا لك!</string>
+    <string name="settings_manage_subscription">إدارة الاشتراك</string>
+    <string name="settings_section_general">عام</string>
+    <string name="settings_language">اللغة</string>
+    <string name="settings_theme">المظهر</string>
+    <string name="settings_theme_system">حسب النظام</string>
+    <string name="settings_theme_light">فاتح</string>
+    <string name="settings_theme_dark">داكن</string>
+    <string name="settings_size_display">عرض حجم التطبيق</string>
+    <string name="settings_size_apk">حجم APK</string>
+    <string name="settings_size_total">الإجمالي (التطبيق + البيانات + ذاكرة التخزين المؤقت)</string>
+    <string name="settings_size_total_short">الإجمالي</string>
+    <string name="settings_size_needs_access">يتطلب الوصول إلى بيانات الاستخدام</string>
+    <string name="settings_usage_access">الوصول إلى بيانات الاستخدام</string>
+    <string name="settings_usage_access_body">يعثر على التطبيقات غير المستخدمة ويقيس المساحة. تبقى البيانات على هاتفك.</string>
+    <string name="settings_usage_access_granted">مسموح</string>
+    <string name="settings_usage_access_allow">السماح</string>
+    <string name="settings_section_reminders">تذكيرات التنظيف</string>
+    <string name="settings_reminders_toggle">ذكّرني بالتطبيقات غير المستخدمة</string>
+    <string name="settings_reminders_body">فحص أسبوعي، فقط عندما يكون هناك ما يستحق التنظيف.</string>
+    <string name="settings_reminders_threshold">اعتبار التطبيق غير مستخدم بعد</string>
+    <plurals name="settings_threshold_days">
+        <item quantity="zero">%d يوم</item>
+        <item quantity="one">يوم واحد</item>
+        <item quantity="two">يومان</item>
+        <item quantity="few">%d أيام</item>
+        <item quantity="many">%d يومًا</item>
+        <item quantity="other">%d يوم</item>
+    </plurals>
+    <string name="settings_notifications_off">الإشعارات متوقفة لتطبيق App Cleaner.</string>
+    <string name="settings_notifications_allow">السماح بالإشعارات</string>
+    <string name="settings_reminders_needs_access">تحتاج التذكيرات إلى الوصول إلى بيانات الاستخدام للعثور على التطبيقات غير المستخدمة.</string>
+    <string name="settings_section_subscription">الاشتراك</string>
+    <string name="settings_restore">استعادة المشتريات</string>
+    <string name="settings_section_about">حول التطبيق</string>
+    <string name="settings_privacy">سياسة الخصوصية</string>
+    <string name="settings_terms">شروط الاستخدام</string>
+    <string name="settings_rate">قيّم App Cleaner</string>
+    <string name="settings_version">الإصدار</string>
+</resources>
