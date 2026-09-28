@@ -116,12 +116,12 @@ fun LanguageOptionRow(
 ) {
     val colors = AppTheme.colors
     val container by animateColorAsState(
-        if (isSelected) colors.tealSurface else colors.background,
+        if (isSelected) colors.accentSurface else colors.background,
         tween(180),
         label = "languageRow",
     )
     val border by animateColorAsState(
-        if (isSelected) colors.teal else colors.border,
+        if (isSelected) colors.accent else colors.border,
         tween(180),
         label = "languageBorder",
     )
@@ -143,7 +143,7 @@ fun LanguageOptionRow(
                 Text(
                     text = language.nativeName,
                     style = MaterialTheme.typography.titleMedium,
-                    color = if (isSelected) colors.teal else colors.textPrimary,
+                    color = if (isSelected) colors.accent else colors.textPrimary,
                 )
                 Text(
                     text = language.englishName,
@@ -159,10 +159,10 @@ fun LanguageOptionRow(
                 Icon(
                     imageVector = Icons.Rounded.Check,
                     contentDescription = null,
-                    tint = colors.onTeal,
+                    tint = colors.onAccent,
                     modifier = Modifier
                         .clip(RoundedCornerShape(Dimens.chipRadius))
-                        .background(colors.teal)
+                        .background(colors.accent)
                         .padding(3.dp)
                         .size(18.dp),
                 )

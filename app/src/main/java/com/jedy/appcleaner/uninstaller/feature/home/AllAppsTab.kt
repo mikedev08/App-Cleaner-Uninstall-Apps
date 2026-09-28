@@ -85,7 +85,7 @@ internal fun AllAppsTab(
                 isRefreshing = state.isRefreshing,
                 modifier = Modifier.align(Alignment.TopCenter),
                 containerColor = colors.surface,
-                color = colors.teal,
+                color = colors.accent,
             )
         },
     ) {
@@ -197,7 +197,7 @@ private fun ListHeader(
             Text(
                 text = stringResource(if (allSelected) R.string.home_deselect_all else R.string.home_select_all),
                 style = MaterialTheme.typography.labelLarge,
-                color = colors.teal,
+                color = colors.accent,
             )
         }
     }

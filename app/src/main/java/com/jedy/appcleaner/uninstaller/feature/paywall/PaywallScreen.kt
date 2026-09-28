@@ -255,15 +255,15 @@ private fun PaywallContent(
                     .height(56.dp),
                 shape = RoundedCornerShape(Dimens.controlRadius),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = colors.teal,
-                    contentColor = colors.onTeal,
+                    containerColor = colors.accent,
+                    contentColor = colors.onAccent,
                     disabledContainerColor = colors.surfaceMuted,
                     disabledContentColor = colors.textSecondary,
                 ),
             ) {
                 if (state.purchasing) {
                     CircularProgressIndicator(
-                        color = colors.onTeal,
+                        color = colors.onAccent,
                         strokeWidth = 2.5.dp,
                         modifier = Modifier.size(22.dp),
                     )
@@ -363,10 +363,10 @@ private fun BenefitsCard() {
                     modifier = Modifier
                         .size(40.dp)
                         .clip(RoundedCornerShape(12.dp))
-                        .background(colors.tealSurface),
+                        .background(colors.accentSurface),
                     contentAlignment = Alignment.Center,
                 ) {
-                    Icon(benefit.icon, contentDescription = null, tint = colors.teal, modifier = Modifier.size(22.dp))
+                    Icon(benefit.icon, contentDescription = null, tint = colors.accent, modifier = Modifier.size(22.dp))
                 }
                 Spacer(Modifier.width(Dimens.gutterSmall))
                 Column(Modifier.weight(1f)) {
@@ -396,9 +396,9 @@ private fun PlanCard(plan: PaywallPlan, onRetry: () -> Unit) {
             .fillMaxWidth()
             .heightIn(min = 84.dp)
             .clip(shape)
-            .background(if (selectable) colors.tealSurface else colors.surface)
+            .background(if (selectable) colors.accentSurface else colors.surface)
             .border(
-                BorderStroke(if (selectable) 2.dp else Dimens.hairline, if (selectable) colors.teal else colors.border),
+                BorderStroke(if (selectable) 2.dp else Dimens.hairline, if (selectable) colors.accent else colors.border),
                 shape,
             )
             .padding(Dimens.gutter),
@@ -414,7 +414,7 @@ private fun PlanCard(plan: PaywallPlan, onRetry: () -> Unit) {
                 caption = stringResource(R.string.paywall_plan_caption_weekly),
             )
             PaywallPlan.Loading -> Row(verticalAlignment = Alignment.CenterVertically) {
-                CircularProgressIndicator(color = colors.teal, strokeWidth = 2.dp, modifier = Modifier.size(20.dp))
+                CircularProgressIndicator(color = colors.accent, strokeWidth = 2.dp, modifier = Modifier.size(20.dp))
                 Spacer(Modifier.width(Dimens.gutterSmall))
                 Text(
                     text = stringResource(R.string.paywall_plan_loading),
@@ -457,7 +457,7 @@ private fun PlanRow(title: String, caption: String) {
             )
         }
         Spacer(Modifier.width(Dimens.gutterSmall))
-        Icon(Icons.Rounded.CheckCircle, contentDescription = null, tint = colors.teal, modifier = Modifier.size(26.dp))
+        Icon(Icons.Rounded.CheckCircle, contentDescription = null, tint = colors.accent, modifier = Modifier.size(26.dp))
     }
 }
 
@@ -482,8 +482,8 @@ private fun PlanMessage(icon: ImageVector, title: String, body: String?, onRetry
         OutlinedButton(
             onClick = onRetry,
             shape = RoundedCornerShape(Dimens.controlRadius),
-            border = BorderStroke(Dimens.hairline, colors.teal),
-            colors = ButtonDefaults.outlinedButtonColors(contentColor = colors.teal),
+            border = BorderStroke(Dimens.hairline, colors.accent),
+            colors = ButtonDefaults.outlinedButtonColors(contentColor = colors.accent),
         ) {
             Text(stringResource(R.string.action_retry), style = MaterialTheme.typography.labelLarge)
         }
@@ -553,7 +553,7 @@ private fun PremiumConfirmation(onContinue: () -> Unit) {
                 .fillMaxWidth()
                 .height(Dimens.buttonHeight),
             shape = RoundedCornerShape(Dimens.controlRadius),
-            colors = ButtonDefaults.buttonColors(containerColor = colors.teal, contentColor = colors.onTeal),
+            colors = ButtonDefaults.buttonColors(containerColor = colors.accent, contentColor = colors.onAccent),
         ) {
             Text(stringResource(R.string.action_continue), style = MaterialTheme.typography.titleMedium)
         }

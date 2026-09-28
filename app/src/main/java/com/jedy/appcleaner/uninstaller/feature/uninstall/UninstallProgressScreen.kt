@@ -165,7 +165,7 @@ private fun ProgressContent(
             LinearProgressIndicator(
                 progress = { progress },
                 modifier = Modifier.fillMaxWidth().height(8.dp).clip(RoundedCornerShape(4.dp)),
-                color = AppTheme.colors.teal,
+                color = AppTheme.colors.accent,
                 trackColor = AppTheme.colors.surfaceMuted,
                 gapSize = 0.dp,
                 drawStopIndicator = {},
@@ -228,9 +228,9 @@ private fun StateIcon(state: ItemState) {
         ItemState.WAITING ->
             Icon(Icons.Rounded.Schedule, contentDescription = null, tint = AppTheme.colors.textSecondary.copy(alpha = 0.5f), modifier = modifier)
         ItemState.IN_PROGRESS ->
-            CircularProgressIndicator(color = AppTheme.colors.teal, strokeWidth = 2.dp, modifier = modifier.padding(2.dp))
+            CircularProgressIndicator(color = AppTheme.colors.accent, strokeWidth = 2.dp, modifier = modifier.padding(2.dp))
         ItemState.REMOVED ->
-            Icon(Icons.Rounded.CheckCircle, contentDescription = null, tint = AppTheme.colors.teal, modifier = modifier)
+            Icon(Icons.Rounded.CheckCircle, contentDescription = null, tint = AppTheme.colors.accent, modifier = modifier)
         ItemState.SKIPPED ->
             Icon(Icons.Rounded.DoNotDisturbOn, contentDescription = null, tint = AppTheme.colors.textSecondary, modifier = modifier)
         ItemState.FAILED ->
@@ -260,7 +260,7 @@ private fun StalledCard(onShowAgain: () -> Unit) {
                 modifier = Modifier.weight(1f),
             )
             TextButton(onClick = onShowAgain) {
-                Text(stringResource(R.string.uninstall_stalled_action), color = AppTheme.colors.teal)
+                Text(stringResource(R.string.uninstall_stalled_action), color = AppTheme.colors.accent)
             }
         }
     }
@@ -280,7 +280,7 @@ private fun StopDialog(onConfirm: () -> Unit, onDismiss: () -> Unit) {
         },
         dismissButton = {
             TextButton(onClick = onDismiss) {
-                Text(stringResource(R.string.uninstall_stop_keep_going), color = AppTheme.colors.teal)
+                Text(stringResource(R.string.uninstall_stop_keep_going), color = AppTheme.colors.accent)
             }
         },
     )

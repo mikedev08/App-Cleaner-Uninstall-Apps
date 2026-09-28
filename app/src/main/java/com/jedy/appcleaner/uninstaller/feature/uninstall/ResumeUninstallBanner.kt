@@ -133,7 +133,7 @@ private fun ResumeBannerCard(
     Surface(
         modifier = Modifier.fillMaxWidth().padding(horizontal = Dimens.gutter, vertical = 8.dp),
         shape = MaterialTheme.shapes.medium,
-        color = AppTheme.colors.tealSurface,
+        color = AppTheme.colors.accentSurface,
         border = BorderStroke(Dimens.hairline, AppTheme.colors.border),
     ) {
         Column(Modifier.padding(Dimens.gutter), verticalArrangement = Arrangement.spacedBy(4.dp)) {
@@ -158,8 +158,8 @@ private fun ResumeBannerCard(
                 Button(
                     onClick = onContinue,
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = AppTheme.colors.teal,
-                        contentColor = AppTheme.colors.onTeal,
+                        containerColor = AppTheme.colors.accent,
+                        contentColor = AppTheme.colors.onAccent,
                     ),
                 ) {
                     Text(stringResource(R.string.action_continue))

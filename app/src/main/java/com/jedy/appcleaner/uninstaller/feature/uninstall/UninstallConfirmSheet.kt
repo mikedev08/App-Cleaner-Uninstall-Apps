@@ -113,7 +113,7 @@ private fun ConfirmSheetContent(
             verticalArrangement = Arrangement.spacedBy(6.dp),
         ) {
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                Icon(Icons.Rounded.Info, contentDescription = null, tint = AppTheme.colors.teal, modifier = Modifier.size(18.dp))
+                Icon(Icons.Rounded.Info, contentDescription = null, tint = AppTheme.colors.accent, modifier = Modifier.size(18.dp))
                 Text(
                     text = stringResource(R.string.uninstall_confirm_expectation),
                     style = MaterialTheme.typography.bodyMedium,

@@ -35,10 +35,10 @@ fun EmptyState(
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
         Box(
-            Modifier.size(72.dp).clip(CircleShape).background(AppTheme.colors.tealSurface),
+            Modifier.size(72.dp).clip(CircleShape).background(AppTheme.colors.accentSurface),
             contentAlignment = Alignment.Center,
         ) {
-            Icon(icon, contentDescription = null, tint = AppTheme.colors.teal, modifier = Modifier.size(34.dp))
+            Icon(icon, contentDescription = null, tint = AppTheme.colors.accent, modifier = Modifier.size(34.dp))
         }
         Text(
             text = title,

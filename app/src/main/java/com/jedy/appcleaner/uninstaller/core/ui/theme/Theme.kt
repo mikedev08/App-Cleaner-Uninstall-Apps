@@ -20,8 +20,8 @@ import com.jedy.appcleaner.uninstaller.data.prefs.ThemeMode
 
 private fun schemeFor(c: AppColors) = if (c.isDark) {
     darkColorScheme(
-        primary = c.teal, onPrimary = c.onTeal,
-        primaryContainer = c.tealSurface, onPrimaryContainer = c.teal,
+        primary = c.accent, onPrimary = c.onAccent,
+        primaryContainer = c.accentSurface, onPrimaryContainer = c.accentText,
         secondary = c.textPrimary, onSecondary = c.background,
         tertiary = c.premiumGold, onTertiary = c.background,
         background = c.background, onBackground = c.textPrimary,
@@ -35,8 +35,8 @@ private fun schemeFor(c: AppColors) = if (c.isDark) {
     )
 } else {
     lightColorScheme(
-        primary = c.teal, onPrimary = c.onTeal,
-        primaryContainer = c.tealSurface, onPrimaryContainer = c.teal,
+        primary = c.accent, onPrimary = c.onAccent,
+        primaryContainer = c.accentSurface, onPrimaryContainer = c.accentText,
         secondary = c.textPrimary, onSecondary = c.background,
         tertiary = c.premiumGold, onTertiary = c.textPrimary,
         background = c.background, onBackground = c.textPrimary,
@@ -54,8 +54,8 @@ private val AppShapes = Shapes(
     extraSmall = RoundedCornerShape(8.dp),
     small = RoundedCornerShape(Dimens.controlRadius),
     medium = RoundedCornerShape(Dimens.cardRadius),
-    large = RoundedCornerShape(20.dp),
-    extraLarge = RoundedCornerShape(28.dp),
+    large = RoundedCornerShape(28.dp),
+    extraLarge = RoundedCornerShape(32.dp),
 )
 
 /**
@@ -98,7 +98,7 @@ fun AppCleanerTheme(
     }
 }
 
-/** `AppTheme.colors.teal`, `AppTheme.colors.removeRed`, ... */
+/** `AppTheme.colors.accent`, `AppTheme.colors.removeRed`, ... */
 object AppTheme {
     val colors: AppColors
         @Composable @ReadOnlyComposable get() = LocalAppColors.current

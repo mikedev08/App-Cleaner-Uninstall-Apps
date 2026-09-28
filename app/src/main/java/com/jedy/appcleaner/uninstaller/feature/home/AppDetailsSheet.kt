@@ -222,7 +222,7 @@ private fun FactsSection(
                 LinkRow(
                     text = stringResource(R.string.home_details_allow_access),
                     leading = {
-                        Icon(Icons.Rounded.Timeline, contentDescription = null, tint = AppTheme.colors.teal, modifier = Modifier.size(18.dp))
+                        Icon(Icons.Rounded.Timeline, contentDescription = null, tint = AppTheme.colors.accent, modifier = Modifier.size(18.dp))
                     },
                     onClick = onRequestUsageAccess,
                 )
@@ -295,10 +295,10 @@ private fun LinkRow(text: String, leading: @Composable () -> Unit, onClick: () -
         Text(
             text = text,
             style = MaterialTheme.typography.labelLarge,
-            color = colors.teal,
+            color = colors.accent,
             modifier = Modifier.weight(1f),
         )
-        Icon(Icons.AutoMirrored.Rounded.KeyboardArrowRight, contentDescription = null, tint = colors.teal, modifier = Modifier.size(18.dp))
+        Icon(Icons.AutoMirrored.Rounded.KeyboardArrowRight, contentDescription = null, tint = colors.accent, modifier = Modifier.size(18.dp))
     }
 }
 
@@ -313,7 +313,7 @@ private fun ActionRow(icon: ImageVector, text: String, onClick: () -> Unit) {
             .padding(horizontal = Dimens.gutter),
         verticalAlignment = Alignment.CenterVertically,
     ) {
-        Icon(icon, contentDescription = null, tint = colors.teal, modifier = Modifier.size(22.dp))
+        Icon(icon, contentDescription = null, tint = colors.accent, modifier = Modifier.size(22.dp))
         Spacer(Modifier.width(Dimens.gutter))
         Text(text = text, style = MaterialTheme.typography.bodyLarge, color = colors.textPrimary)
     }

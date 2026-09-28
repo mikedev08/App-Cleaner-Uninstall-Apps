@@ -51,6 +51,8 @@ fun HomeScreen(
     onOpenPaywall: (PaywallSource) -> Unit,
     onOpenUsageAccess: (UsageAccessTrigger) -> Unit,
     onBatchStarted: (batchId: Long) -> Unit,
+    onOpenScan: () -> Unit = {},
+    onOpenApps: (com.jedy.appcleaner.uninstaller.core.model.HomeTab) -> Unit = {},
 ) {
     val viewModel: HomeViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsStateWithLifecycle()

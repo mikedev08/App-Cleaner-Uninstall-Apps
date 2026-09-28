@@ -147,7 +147,7 @@ private fun InlineSearchField(onQueryChanged: (String) -> Unit) {
         state = textState,
         modifier = Modifier.fillMaxWidth().focusRequester(focusRequester),
         textStyle = MaterialTheme.typography.bodyLarge.copy(color = colors.textPrimary),
-        cursorBrush = SolidColor(colors.teal),
+        cursorBrush = SolidColor(colors.accent),
         lineLimits = TextFieldLineLimits.SingleLine,
         keyboardOptions = KeyboardOptions(
             capitalization = KeyboardCapitalization.None,
@@ -218,7 +218,7 @@ private fun SortMenuButton(
                     },
                     leadingIcon = {
                         if (order == current) {
-                            Icon(Icons.Rounded.Check, contentDescription = null, tint = colors.teal)
+                            Icon(Icons.Rounded.Check, contentDescription = null, tint = colors.accent)
                         } else {
                             Spacer(Modifier.size(24.dp))
                         }

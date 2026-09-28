@@ -74,6 +74,8 @@ enum class SortOrder {
 /** Where a paywall / premium surface was opened from (PRD §9 trigger_source). */
 enum class PaywallSource(val value: String) {
     ONBOARDING("onboarding"),
+    HOME("home"),
+    SCAN_RESULT("scan_result"),
     UNUSED_TAB("unused_tab"),
     LARGE_TAB("large_tab"),
     DETAILS_SHEET("details_sheet"),
@@ -91,6 +93,7 @@ enum class UsageAccessTrigger(val value: String) {
     UNUSED_TAB("unused_tab"),
     LARGE_TAB("large_tab"),
     STORAGE_CARD("storage_card"),
+    SCAN("scan"),
     SETTINGS("settings");
 
     companion object {

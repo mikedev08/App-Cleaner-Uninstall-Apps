@@ -225,10 +225,10 @@ private fun HistoryItem(row: HistoryRow, onReinstall: (HistoryRow) -> Unit) {
                 row.isReinstalled -> ReinstalledTag()
                 row.isFromPlay -> OutlinedButton(
                     onClick = { onReinstall(row) },
-                    border = BorderStroke(Dimens.hairline, AppTheme.colors.teal),
+                    border = BorderStroke(Dimens.hairline, AppTheme.colors.accent),
                     contentPadding = PaddingValues(horizontal = 12.dp),
                 ) {
-                    Text(stringResource(R.string.history_reinstall), color = AppTheme.colors.teal)
+                    Text(stringResource(R.string.history_reinstall), color = AppTheme.colors.accent)
                 }
                 else -> TextButton(onClick = {}, enabled = false) {
                     Text(stringResource(R.string.history_not_from_play))
@@ -243,10 +243,10 @@ private fun ReinstalledTag() {
     Text(
         text = stringResource(R.string.history_reinstalled),
         style = MaterialTheme.typography.labelMedium,
-        color = AppTheme.colors.teal,
+        color = AppTheme.colors.accent,
         modifier = Modifier
             .padding(start = 8.dp)
-            .background(AppTheme.colors.tealSurface, RoundedCornerShape(Dimens.chipRadius))
+            .background(AppTheme.colors.accentSurface, RoundedCornerShape(Dimens.chipRadius))
             .padding(horizontal = 10.dp, vertical = 4.dp),
     )
 }

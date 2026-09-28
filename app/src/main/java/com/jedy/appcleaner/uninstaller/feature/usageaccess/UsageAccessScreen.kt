@@ -158,8 +158,8 @@ private fun UsageAccessContent(onContinue: () -> Unit, onNotNow: () -> Unit) {
                     .heightIn(min = Dimens.buttonHeight),
                 shape = RoundedCornerShape(Dimens.controlRadius),
                 colors = ButtonDefaults.buttonColors(
-                    containerColor = AppTheme.colors.teal,
-                    contentColor = AppTheme.colors.onTeal,
+                    containerColor = AppTheme.colors.accent,
+                    contentColor = AppTheme.colors.onAccent,
                 ),
             ) {
                 Text(stringResource(R.string.usage_continue), style = MaterialTheme.typography.labelLarge)
@@ -192,10 +192,10 @@ private fun DisclosureLine(icon: ImageVector, label: String, body: String) {
             modifier = Modifier
                 .size(40.dp)
                 .clip(CircleShape)
-                .background(AppTheme.colors.tealSurface),
+                .background(AppTheme.colors.accentSurface),
             contentAlignment = Alignment.Center,
         ) {
-            Icon(icon, contentDescription = null, tint = AppTheme.colors.teal, modifier = Modifier.size(20.dp))
+            Icon(icon, contentDescription = null, tint = AppTheme.colors.accent, modifier = Modifier.size(20.dp))
         }
         Spacer(Modifier.width(Dimens.gutterSmall))
         Column(Modifier.weight(1f)) {

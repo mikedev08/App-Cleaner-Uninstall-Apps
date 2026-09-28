@@ -92,7 +92,7 @@ private fun SelectionBarContent(
         summary
     }
 
-    Column(Modifier.fillMaxWidth().background(colors.tealSurface)) {
+    Column(Modifier.fillMaxWidth().background(colors.accentSurface)) {
         HorizontalDivider(thickness = Dimens.hairline, color = colors.border)
         Row(
             modifier = Modifier

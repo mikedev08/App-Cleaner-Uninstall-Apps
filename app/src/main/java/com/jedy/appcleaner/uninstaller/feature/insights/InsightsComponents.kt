@@ -84,14 +84,14 @@ internal fun ThresholdChips(selected: Int, onSelected: (Int) -> Unit, modifier: 
                 colors = FilterChipDefaults.filterChipColors(
                     containerColor = AppTheme.colors.background,
                     labelColor = AppTheme.colors.textSecondary,
-                    selectedContainerColor = AppTheme.colors.tealSurface,
-                    selectedLabelColor = AppTheme.colors.teal,
+                    selectedContainerColor = AppTheme.colors.accentSurface,
+                    selectedLabelColor = AppTheme.colors.accent,
                 ),
                 border = FilterChipDefaults.filterChipBorder(
                     enabled = true,
                     selected = isSelected,
                     borderColor = AppTheme.colors.border,
-                    selectedBorderColor = AppTheme.colors.teal,
+                    selectedBorderColor = AppTheme.colors.accent,
                 ),
             )
         }
@@ -133,8 +133,8 @@ internal fun TealButton(text: String, onClick: () -> Unit, modifier: Modifier = 
         modifier = modifier.heightIn(min = Dimens.buttonHeight),
         shape = RoundedCornerShape(Dimens.controlRadius),
         colors = ButtonDefaults.buttonColors(
-            containerColor = AppTheme.colors.teal,
-            contentColor = AppTheme.colors.onTeal,
+            containerColor = AppTheme.colors.accent,
+            contentColor = AppTheme.colors.onAccent,
         ),
     ) {
         Text(text = text, style = MaterialTheme.typography.labelLarge, textAlign = TextAlign.Center)
@@ -327,14 +327,14 @@ internal fun SelectAllHeader(
                 Text(
                     text = pluralStringResource(R.plurals.insights_select_all, visiblePackages.size, visiblePackages.size),
                     style = MaterialTheme.typography.labelMedium,
-                    color = AppTheme.colors.teal,
+                    color = AppTheme.colors.accent,
                 )
                 TriStateCheckbox(
                     state = state,
                     onClick = null,
                     colors = CheckboxDefaults.colors(
-                        checkedColor = AppTheme.colors.teal,
-                        checkmarkColor = AppTheme.colors.onTeal,
+                        checkedColor = AppTheme.colors.accent,
+                        checkmarkColor = AppTheme.colors.onAccent,
                         uncheckedColor = AppTheme.colors.textSecondary,
                     ),
                 )
@@ -348,8 +348,8 @@ private data class SegmentColors(val app: Color, val data: Color, val cache: Col
 
 @Composable
 private fun segmentColors() = SegmentColors(
-    app = AppTheme.colors.teal,
-    data = AppTheme.colors.teal.copy(alpha = 0.45f),
+    app = AppTheme.colors.accent,
+    data = AppTheme.colors.accent.copy(alpha = 0.45f),
     cache = AppTheme.colors.storageOther,
 )
 
@@ -423,7 +423,7 @@ internal fun InsightsLoading(text: String, modifier: Modifier = Modifier) {
         verticalArrangement = Arrangement.spacedBy(Dimens.gutterSmall),
     ) {
         CircularProgressIndicator(
-            color = AppTheme.colors.teal,
+            color = AppTheme.colors.accent,
             trackColor = AppTheme.colors.surfaceMuted,
             strokeWidth = 3.dp,
             modifier = Modifier.size(32.dp),

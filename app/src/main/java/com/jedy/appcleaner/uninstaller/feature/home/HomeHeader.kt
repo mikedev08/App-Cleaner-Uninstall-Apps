@@ -91,7 +91,7 @@ internal fun StorageCard(
                 Text(
                     text = stringResource(R.string.home_storage_breakdown),
                     style = MaterialTheme.typography.labelMedium,
-                    color = colors.teal,
+                    color = colors.accent,
                 )
                 // Crown only where the link actually leads to a premium surface.
                 if (hasUsageAccess && !isPremium) {
@@ -101,7 +101,7 @@ internal fun StorageCard(
                 Icon(
                     Icons.AutoMirrored.Rounded.KeyboardArrowRight,
                     contentDescription = null,
-                    tint = colors.teal,
+                    tint = colors.accent,
                     modifier = Modifier.size(18.dp),
                 )
             }
@@ -198,14 +198,14 @@ internal fun HomeTabRow(
     PrimaryTabRow(
         selectedTabIndex = selected.ordinal,
         containerColor = colors.background,
-        contentColor = colors.teal,
+        contentColor = colors.accent,
         divider = { HorizontalDivider(thickness = Dimens.hairline, color = colors.border) },
     ) {
         HomeTab.entries.forEach { tab ->
             Tab(
                 selected = tab == selected,
                 onClick = { onSelected(tab) },
-                selectedContentColor = colors.teal,
+                selectedContentColor = colors.accent,
                 unselectedContentColor = colors.textSecondary,
                 text = {
                     Row(
@@ -258,7 +258,7 @@ internal fun PremiumEndedBanner(
             modifier = Modifier.weight(1f).padding(vertical = 8.dp),
         )
         TextButton(onClick = onRenew) {
-            Text(stringResource(R.string.home_premium_renew), color = colors.teal, style = MaterialTheme.typography.labelLarge)
+            Text(stringResource(R.string.home_premium_renew), color = colors.accent, style = MaterialTheme.typography.labelLarge)
         }
         IconButton(onClick = onDismiss) {
             Icon(Icons.Rounded.Close, contentDescription = stringResource(R.string.home_action_dismiss), tint = colors.textSecondary)

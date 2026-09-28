@@ -57,7 +57,7 @@ fun AppGridIllustration(modifier: Modifier = Modifier) {
                 phone.left + inset + drawCol * (tile + gap),
                 gridTop + row * (tile + gap),
             )
-            drawAppTile(topLeft, tile, tileTint(colors, index), colors.onTeal)
+            drawAppTile(topLeft, tile, tileTint(colors, index), colors.onAccent)
             if (index in ticked) drawTick(topLeft, tile, colors)
         }
     }
@@ -111,12 +111,12 @@ fun StorageBarIllustration(active: Boolean, modifier: Modifier = Modifier) {
         val fraction = 0.94f + (0.4f - 0.94f) * p
         val fillWidth = barWidth * fraction
         val fillLeft = if (layoutDirection == LayoutDirection.Rtl) card.left + pad + barWidth - fillWidth else card.left + pad
-        drawRoundRect(lerp(colors.removeRed, colors.teal, p), Offset(fillLeft, barTop), Size(fillWidth, barHeight), barRadius)
+        drawRoundRect(lerp(colors.removeRed, colors.accent, p), Offset(fillLeft, barTop), Size(fillWidth, barHeight), barRadius)
 
         // Legend placeholders.
         listOf(0.0f, 0.42f).forEachIndexed { i, x ->
             val dotCenter = Offset(card.left + pad + barWidth * x + barHeight * 0.3f, card.top + cardHeight * 0.8f)
-            drawCircle(if (i == 0) lerp(colors.removeRed, colors.teal, p) else colors.storageFree, barHeight * 0.3f, dotCenter)
+            drawCircle(if (i == 0) lerp(colors.removeRed, colors.accent, p) else colors.storageFree, barHeight * 0.3f, dotCenter)
             drawLine(
                 color = colors.textSecondary.copy(alpha = 0.3f),
                 start = Offset(dotCenter.x + barHeight * 0.7f, dotCenter.y),
@@ -132,7 +132,7 @@ fun StorageBarIllustration(active: Boolean, modifier: Modifier = Modifier) {
             val stagger = ((p - i * 0.12f) / 0.76f).coerceIn(0f, 1f)
             val baseTop = card.top - tile * 1.25f
             val topLeft = Offset(size.width * x - tile / 2f, baseTop - stagger * tile * 1.1f)
-            drawAppTile(topLeft, tile, tileTint(colors, i + 1).copy(alpha = 1f - stagger * 0.85f), colors.onTeal)
+            drawAppTile(topLeft, tile, tileTint(colors, i + 1).copy(alpha = 1f - stagger * 0.85f), colors.onAccent)
         }
     }
 }
@@ -160,8 +160,8 @@ fun ForgottenAppsIllustration(modifier: Modifier = Modifier) {
                 )
             )
         }
-        drawPath(header, colors.teal)
-        drawRoundRect(colors.teal, cal.topLeft, cal.size, radius, style = Stroke(stroke))
+        drawPath(header, colors.accent)
+        drawRoundRect(colors.accent, cal.topLeft, cal.size, radius, style = Stroke(stroke))
         // Binder rings.
         listOf(0.28f, 0.72f).forEach { x ->
             drawLine(
@@ -221,10 +221,10 @@ private fun DrawScope.phoneRect(canvas: Size): Rect {
 private fun DrawScope.drawPhone(phone: Rect, colors: AppColors) {
     val radius = CornerRadius(phone.width * 0.14f)
     drawRoundRect(colors.surface, phone.topLeft, phone.size, radius)
-    drawRoundRect(colors.teal, phone.topLeft, phone.size, radius, style = Stroke(phone.width * 0.035f))
+    drawRoundRect(colors.accent, phone.topLeft, phone.size, radius, style = Stroke(phone.width * 0.035f))
     // Speaker slot.
     drawLine(
-        color = colors.teal.copy(alpha = 0.6f),
+        color = colors.accent.copy(alpha = 0.6f),
         start = Offset(phone.center.x - phone.width * 0.1f, phone.top + phone.height * 0.055f),
         end = Offset(phone.center.x + phone.width * 0.1f, phone.top + phone.height * 0.055f),
         strokeWidth = phone.width * 0.03f,
@@ -241,7 +241,7 @@ private fun DrawScope.drawAppTile(topLeft: Offset, tile: Float, color: Color, gl
 private fun DrawScope.drawTick(topLeft: Offset, tile: Float, colors: AppColors) {
     // Selection ring around the tile, then the check badge on its top-end corner.
     drawRoundRect(
-        color = colors.teal,
+        color = colors.accent,
         topLeft = topLeft - Offset(tile * 0.08f, tile * 0.08f),
         size = Size(tile * 1.16f, tile * 1.16f),
         cornerRadius = CornerRadius(tile * 0.32f),
@@ -251,19 +251,19 @@ private fun DrawScope.drawTick(topLeft: Offset, tile: Float, colors: AppColors) 
     val center = Offset(badgeX, topLeft.y + tile * 0.04f)
     val r = tile * 0.24f
     drawCircle(colors.background, r * 1.18f, center)
-    drawCircle(colors.teal, r, center)
+    drawCircle(colors.accent, r, center)
     val check = Path().apply {
         moveTo(center.x - r * 0.45f, center.y + r * 0.02f)
         lineTo(center.x - r * 0.1f, center.y + r * 0.36f)
         lineTo(center.x + r * 0.48f, center.y - r * 0.3f)
     }
-    drawPath(check, colors.onTeal, style = Stroke(r * 0.26f, cap = StrokeCap.Round, join = StrokeJoin.Round))
+    drawPath(check, colors.onAccent, style = Stroke(r * 0.26f, cap = StrokeCap.Round, join = StrokeJoin.Round))
 }
 
 /** A few teal intensities plus the neutral, so the grid looks like many different apps. */
 private fun tileTint(colors: AppColors, index: Int): Color = when (index % 4) {
-    0 -> colors.teal
-    1 -> colors.teal.copy(alpha = 0.55f)
+    0 -> colors.accent
+    1 -> colors.accent.copy(alpha = 0.55f)
     2 -> colors.storageOther
-    else -> colors.teal.copy(alpha = 0.3f)
+    else -> colors.accent.copy(alpha = 0.3f)
 }

@@ -23,7 +23,9 @@ import com.jedy.appcleaner.uninstaller.core.model.HomeTab
 import com.jedy.appcleaner.uninstaller.core.model.PaywallSource
 import com.jedy.appcleaner.uninstaller.core.model.UsageAccessTrigger
 import com.jedy.appcleaner.uninstaller.core.ui.theme.AppTheme
+import com.jedy.appcleaner.uninstaller.feature.apps.AppsScreen
 import com.jedy.appcleaner.uninstaller.feature.history.HistoryScreen
+import com.jedy.appcleaner.uninstaller.feature.scan.ScanScreen
 import com.jedy.appcleaner.uninstaller.feature.home.HomeScreen
 import com.jedy.appcleaner.uninstaller.feature.onboarding.OnboardingScreen
 import com.jedy.appcleaner.uninstaller.feature.paywall.PaywallScreen
@@ -68,6 +70,32 @@ fun AppCleanerNavHost(
             HomeScreen(
                 onOpenSettings = { navController.navigate(Routes.SETTINGS) },
                 onOpenHistory = { navController.navigate(Routes.HISTORY) },
+                onOpenPaywall = openPaywall,
+                onOpenUsageAccess = openUsageAccess,
+                onBatchStarted = { navController.navigate(Routes.uninstallProgress(it)) },
+                onOpenScan = { navController.navigate(Routes.SCAN) },
+                onOpenApps = { navController.navigate(Routes.apps(it)) },
+            )
+        }
+        composable(Routes.SCAN) {
+            ScanScreen(
+                onClose = { navController.popBackStack() },
+                onOpenApps = { tab ->
+                    navController.navigate(Routes.apps(tab)) { popUpTo(Routes.SCAN) { inclusive = true } }
+                },
+                onOpenPaywall = openPaywall,
+                onOpenUsageAccess = openUsageAccess,
+            )
+        }
+        composable(
+            route = Routes.APPS,
+            arguments = listOf(navArgument(Routes.ARG_TAB) { type = NavType.StringType }),
+        ) { entry ->
+            val tab = entry.arguments?.getString(Routes.ARG_TAB)
+                ?.let { runCatching { HomeTab.valueOf(it) }.getOrNull() } ?: HomeTab.ALL
+            AppsScreen(
+                initialTab = tab,
+                onBack = { navController.popBackStack() },
                 onOpenPaywall = openPaywall,
                 onOpenUsageAccess = openUsageAccess,
                 onBatchStarted = { navController.navigate(Routes.uninstallProgress(it)) },
@@ -133,8 +161,9 @@ fun AppCleanerNavHost(
                 batchId = entry.arguments?.getLong(Routes.ARG_BATCH) ?: 0L,
                 onDone = { navController.popBackStack(Routes.HOME, inclusive = false) },
                 onOpenUnused = {
-                    viewModel.requestHomeTab(HomeTab.UNUSED)
-                    navController.popBackStack(Routes.HOME, inclusive = false)
+                    navController.navigate(Routes.apps(HomeTab.UNUSED)) {
+                        popUpTo(Routes.HOME) { inclusive = false }
+                    }
                 },
                 onRetry = { newBatchId ->
                     navController.navigate(Routes.uninstallProgress(newBatchId)) {

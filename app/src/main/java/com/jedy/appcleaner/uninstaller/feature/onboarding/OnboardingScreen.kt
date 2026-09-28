@@ -150,13 +150,13 @@ private fun LanguageStep(
             modifier = Modifier
                 .size(56.dp)
                 .clip(CircleShape)
-                .background(AppTheme.colors.tealSurface),
+                .background(AppTheme.colors.accentSurface),
             contentAlignment = Alignment.Center,
         ) {
             Icon(
                 imageVector = Icons.Rounded.Language,
                 contentDescription = null,
-                tint = AppTheme.colors.teal,
+                tint = AppTheme.colors.accent,
                 modifier = Modifier.size(28.dp),
             )
         }
@@ -353,8 +353,8 @@ private fun SlidesStep(
                             .height(48.dp),
                         shape = RoundedCornerShape(Dimens.controlRadius),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = AppTheme.colors.teal,
-                            contentColor = AppTheme.colors.onTeal,
+                            containerColor = AppTheme.colors.accent,
+                            contentColor = AppTheme.colors.onAccent,
                         ),
                         contentPadding = PaddingValues(horizontal = 28.dp),
                     ) {
@@ -378,8 +378,8 @@ private fun PrimaryButton(text: String, onClick: () -> Unit, modifier: Modifier 
             .height(Dimens.buttonHeight + 2.dp),
         shape = RoundedCornerShape(Dimens.controlRadius),
         colors = ButtonDefaults.buttonColors(
-            containerColor = AppTheme.colors.teal,
-            contentColor = AppTheme.colors.onTeal,
+            containerColor = AppTheme.colors.accent,
+            contentColor = AppTheme.colors.onAccent,
         ),
     ) {
         Text(text = text, style = MaterialTheme.typography.titleMedium)
@@ -391,7 +391,7 @@ private fun LanguageButton(onClick: () -> Unit, modifier: Modifier = Modifier) {
     Surface(
         onClick = onClick,
         shape = CircleShape,
-        color = AppTheme.colors.tealSurface,
+        color = AppTheme.colors.accentSurface,
         modifier = modifier
             .padding(4.dp)
             .size(40.dp),
@@ -400,7 +400,7 @@ private fun LanguageButton(onClick: () -> Unit, modifier: Modifier = Modifier) {
             Icon(
                 imageVector = Icons.Rounded.Language,
                 contentDescription = stringResource(R.string.language_change),
-                tint = AppTheme.colors.teal,
+                tint = AppTheme.colors.accent,
                 modifier = Modifier.size(22.dp),
             )
         }
@@ -418,7 +418,7 @@ private fun PageIndicator(pageCount: Int, currentPage: Int, modifier: Modifier =
             val isActive = index == currentPage
             val width by animateDpAsState(if (isActive) 22.dp else 8.dp, tween(240), label = "pageDot")
             val color by animateColorAsState(
-                if (isActive) AppTheme.colors.teal else AppTheme.colors.border,
+                if (isActive) AppTheme.colors.accent else AppTheme.colors.border,
                 tween(240),
                 label = "pageDotColor",
             )

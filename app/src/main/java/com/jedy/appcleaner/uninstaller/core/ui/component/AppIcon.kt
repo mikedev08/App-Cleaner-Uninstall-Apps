@@ -76,7 +76,7 @@ fun AppIcon(
             Box(
                 Modifier
                     .size(size)
-                    .clip(RoundedCornerShape(size / 4))
+                    .clip(RoundedCornerShape(size / 3.4f))
                     .background(AppTheme.colors.surfaceMuted)
             )
         }

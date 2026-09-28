@@ -131,7 +131,7 @@ fun UninstallResultScreen(
                 .fillMaxWidth()
                 .padding(horizontal = Dimens.gutter, vertical = Dimens.gutterSmall)
                 .height(Dimens.buttonHeight),
-            colors = ButtonDefaults.buttonColors(containerColor = AppTheme.colors.teal, contentColor = AppTheme.colors.onTeal),
+            colors = ButtonDefaults.buttonColors(containerColor = AppTheme.colors.accent, contentColor = AppTheme.colors.onAccent),
         ) {
             Text(stringResource(R.string.action_done))
         }
@@ -157,13 +157,13 @@ private fun FreedHeader(summary: BatchSummary) {
 
     Box(
         Modifier.size(72.dp).clip(CircleShape)
-            .background(if (removed > 0) AppTheme.colors.tealSurface else AppTheme.colors.surfaceMuted),
+            .background(if (removed > 0) AppTheme.colors.accentSurface else AppTheme.colors.surfaceMuted),
         contentAlignment = Alignment.Center,
     ) {
         Icon(
             imageVector = if (removed > 0) Icons.Rounded.CheckCircle else Icons.Rounded.Info,
             contentDescription = null,
-            tint = if (removed > 0) AppTheme.colors.teal else AppTheme.colors.textSecondary,
+            tint = if (removed > 0) AppTheme.colors.accent else AppTheme.colors.textSecondary,
             modifier = Modifier.size(38.dp),
         )
     }
@@ -278,7 +278,7 @@ private fun NotRemovedSection(
                             enabled = retryEnabled,
                             modifier = Modifier.align(Alignment.End).padding(horizontal = 8.dp),
                         ) {
-                            Text(stringResource(R.string.uninstall_retry_all), color = AppTheme.colors.teal)
+                            Text(stringResource(R.string.uninstall_retry_all), color = AppTheme.colors.accent)
                         }
                     }
                 }
@@ -303,13 +303,13 @@ private fun NotRemovedRow(
             Column(horizontalAlignment = Alignment.End) {
                 if (entry.reason == FailureReason.DEVICE_ADMIN) {
                     TextButton(onClick = onOpenSecuritySettings) {
-                        Text(stringResource(R.string.action_open_settings), color = AppTheme.colors.teal)
+                        Text(stringResource(R.string.action_open_settings), color = AppTheme.colors.accent)
                     }
                 }
                 // Never for BLOCKED: retrying cannot succeed (PRD §6 item 2).
                 if (entry.canRetry) {
                     TextButton(onClick = onRetry, enabled = retryEnabled) {
-                        Text(stringResource(R.string.action_retry), color = AppTheme.colors.teal)
+                        Text(stringResource(R.string.action_retry), color = AppTheme.colors.accent)
                     }
                 }
             }
@@ -322,7 +322,7 @@ private fun UnusedTeaserCard(teaser: UnusedTeaser, onOpenUnused: () -> Unit) {
     Surface(
         modifier = Modifier.fillMaxWidth(),
         shape = MaterialTheme.shapes.medium,
-        color = AppTheme.colors.tealSurface,
+        color = AppTheme.colors.accentSurface,
         onClick = onOpenUnused,
     ) {
         Row(
@@ -330,7 +330,7 @@ private fun UnusedTeaserCard(teaser: UnusedTeaser, onOpenUnused: () -> Unit) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(Dimens.gutterSmall),
         ) {
-            Icon(Icons.Rounded.Schedule, contentDescription = null, tint = AppTheme.colors.teal)
+            Icon(Icons.Rounded.Schedule, contentDescription = null, tint = AppTheme.colors.accent)
             Column(Modifier.weight(1f)) {
                 Text(
                     text = pluralStringResource(
@@ -340,7 +340,7 @@ private fun UnusedTeaserCard(teaser: UnusedTeaser, onOpenUnused: () -> Unit) {
                     color = AppTheme.colors.textPrimary,
                 )
                 TextButton(onClick = onOpenUnused, modifier = Modifier.padding(top = 2.dp)) {
-                    Text(stringResource(R.string.uninstall_result_teaser_action), color = AppTheme.colors.teal)
+                    Text(stringResource(R.string.uninstall_result_teaser_action), color = AppTheme.colors.accent)
                 }
             }
         }

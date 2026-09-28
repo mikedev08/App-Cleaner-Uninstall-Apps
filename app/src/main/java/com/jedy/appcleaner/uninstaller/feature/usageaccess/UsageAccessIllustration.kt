@@ -56,8 +56,8 @@ import kotlinx.coroutines.delay
  */
 @Composable
 internal fun UsageAccessIllustration(modifier: Modifier = Modifier) {
-    val teal = AppTheme.colors.teal
-    val backdrop = AppTheme.colors.tealSurface
+    val teal = AppTheme.colors.accent
+    val backdrop = AppTheme.colors.accentSurface
     val screen = AppTheme.colors.background
     val faded = AppTheme.colors.textSecondary.copy(alpha = 0.22f)
     val description = stringResource(R.string.usage_illustration_description)
@@ -186,8 +186,8 @@ internal fun ToggleHint(modifier: Modifier = Modifier) {
                         checked = switchedOn,
                         onCheckedChange = null,
                         colors = SwitchDefaults.colors(
-                            checkedThumbColor = AppTheme.colors.onTeal,
-                            checkedTrackColor = AppTheme.colors.teal,
+                            checkedThumbColor = AppTheme.colors.onAccent,
+                            checkedTrackColor = AppTheme.colors.accent,
                             uncheckedThumbColor = AppTheme.colors.textSecondary,
                             uncheckedTrackColor = AppTheme.colors.surfaceMuted,
                             uncheckedBorderColor = AppTheme.colors.textSecondary,
@@ -196,7 +196,7 @@ internal fun ToggleHint(modifier: Modifier = Modifier) {
                     Icon(
                         imageVector = Icons.Rounded.TouchApp,
                         contentDescription = null,
-                        tint = AppTheme.colors.teal,
+                        tint = AppTheme.colors.accent,
                         modifier = Modifier
                             .align(Alignment.BottomEnd)
                             .offset(x = 10.dp, y = 18.dp)

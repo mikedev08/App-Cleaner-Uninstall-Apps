@@ -298,7 +298,7 @@ fun SettingsScreen(
                     trailing = if (state.restoring) {
                         {
                             CircularProgressIndicator(
-                                color = AppTheme.colors.teal,
+                                color = AppTheme.colors.accent,
                                 strokeWidth = 2.dp,
                                 modifier = Modifier.size(20.dp),
                             )
@@ -508,7 +508,7 @@ private fun PremiumCard(state: SettingsUiState, onUpgrade: () -> Unit, onManage:
                     .fillMaxWidth()
                     .height(48.dp),
                 shape = RoundedCornerShape(Dimens.controlRadius),
-                colors = ButtonDefaults.buttonColors(containerColor = colors.teal, contentColor = colors.onTeal),
+                colors = ButtonDefaults.buttonColors(containerColor = colors.accent, contentColor = colors.onAccent),
             ) {
                 Text(stringResource(R.string.settings_premium_upgrade_cta), style = MaterialTheme.typography.labelLarge)
             }
@@ -520,8 +520,8 @@ private fun PremiumCard(state: SettingsUiState, onUpgrade: () -> Unit, onManage:
                     .fillMaxWidth()
                     .height(48.dp),
                 shape = RoundedCornerShape(Dimens.controlRadius),
-                border = BorderStroke(Dimens.hairline, colors.teal),
-                colors = ButtonDefaults.outlinedButtonColors(contentColor = colors.teal),
+                border = BorderStroke(Dimens.hairline, colors.accent),
+                colors = ButtonDefaults.outlinedButtonColors(contentColor = colors.accent),
             ) {
                 Text(stringResource(R.string.settings_manage_subscription), style = MaterialTheme.typography.labelLarge)
             }
@@ -577,10 +577,10 @@ private fun RowIcon(icon: ImageVector) {
         modifier = Modifier
             .size(36.dp)
             .clip(RoundedCornerShape(10.dp))
-            .background(AppTheme.colors.tealSurface),
+            .background(AppTheme.colors.accentSurface),
         contentAlignment = Alignment.Center,
     ) {
-        Icon(icon, contentDescription = null, tint = AppTheme.colors.teal, modifier = Modifier.size(20.dp))
+        Icon(icon, contentDescription = null, tint = AppTheme.colors.accent, modifier = Modifier.size(20.dp))
     }
 }
 
@@ -677,8 +677,8 @@ private fun SettingsSwitchRow(
             checked = checked,
             onCheckedChange = onCheckedChange,
             colors = SwitchDefaults.colors(
-                checkedThumbColor = colors.onTeal,
-                checkedTrackColor = colors.teal,
+                checkedThumbColor = colors.onAccent,
+                checkedTrackColor = colors.accent,
                 uncheckedThumbColor = colors.textSecondary,
                 uncheckedTrackColor = colors.surfaceMuted,
                 uncheckedBorderColor = colors.border,
@@ -714,14 +714,14 @@ private fun ThresholdRow(selectedDays: Int, locked: Boolean, onSelect: (Int) -> 
                     colors = FilterChipDefaults.filterChipColors(
                         containerColor = colors.background,
                         labelColor = if (locked) colors.textSecondary else colors.textPrimary,
-                        selectedContainerColor = colors.tealSurface,
-                        selectedLabelColor = colors.teal,
+                        selectedContainerColor = colors.accentSurface,
+                        selectedLabelColor = colors.accent,
                     ),
                     border = FilterChipDefaults.filterChipBorder(
                         enabled = true,
                         selected = !locked && days == selectedDays,
                         borderColor = colors.border,
-                        selectedBorderColor = colors.teal,
+                        selectedBorderColor = colors.accent,
                     ),
                 )
             }
@@ -734,22 +734,22 @@ private fun UsageAccessStatus(granted: Boolean) {
     val colors = AppTheme.colors
     if (granted) {
         Row(verticalAlignment = Alignment.CenterVertically) {
-            Icon(Icons.Rounded.CheckCircle, contentDescription = null, tint = colors.teal, modifier = Modifier.size(18.dp))
+            Icon(Icons.Rounded.CheckCircle, contentDescription = null, tint = colors.accent, modifier = Modifier.size(18.dp))
             Spacer(Modifier.width(4.dp))
             Text(
                 text = stringResource(R.string.settings_usage_access_granted),
                 style = MaterialTheme.typography.labelMedium,
-                color = colors.teal,
+                color = colors.accent,
             )
         }
     } else {
         Text(
             text = stringResource(R.string.settings_usage_access_allow),
             style = MaterialTheme.typography.labelLarge,
-            color = colors.onTeal,
+            color = colors.onAccent,
             modifier = Modifier
                 .clip(RoundedCornerShape(Dimens.chipRadius))
-                .background(colors.teal)
+                .background(colors.accent)
                 .padding(horizontal = 14.dp, vertical = 6.dp),
         )
     }
@@ -777,7 +777,7 @@ private fun NoticeRow(icon: ImageVector, text: String, action: String, onAction:
         )
         TextButton(
             onClick = onAction,
-            colors = ButtonDefaults.textButtonColors(contentColor = colors.teal),
+            colors = ButtonDefaults.textButtonColors(contentColor = colors.accent),
         ) {
             Text(action, style = MaterialTheme.typography.labelLarge)
         }
@@ -819,7 +819,7 @@ private fun ChoiceDialog(
                             selected = option.selected,
                             onClick = null,
                             colors = RadioButtonDefaults.colors(
-                                selectedColor = colors.teal,
+                                selectedColor = colors.accent,
                                 unselectedColor = colors.textSecondary,
                             ),
                         )
@@ -836,7 +836,7 @@ private fun ChoiceDialog(
             }
         },
         confirmButton = {
-            TextButton(onClick = onDismiss, colors = ButtonDefaults.textButtonColors(contentColor = colors.teal)) {
+            TextButton(onClick = onDismiss, colors = ButtonDefaults.textButtonColors(contentColor = colors.accent)) {
                 Text(stringResource(R.string.action_close))
             }
         },

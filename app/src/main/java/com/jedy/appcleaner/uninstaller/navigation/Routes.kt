@@ -8,6 +8,11 @@ object Routes {
     const val HOME = "home"
     const val SETTINGS = "settings"
     const val HISTORY = "history"
+    const val SCAN = "scan"
+
+    const val ARG_TAB = "tab"
+    const val APPS = "apps/{$ARG_TAB}"
+    fun apps(tab: com.jedy.appcleaner.uninstaller.core.model.HomeTab) = "apps/${tab.name}"
 
     const val ARG_SOURCE = "source"
     const val PAYWALL = "paywall/{$ARG_SOURCE}"
