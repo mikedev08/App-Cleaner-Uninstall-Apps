@@ -32,11 +32,18 @@ interface AppSizeDao {
     @Query("SELECT * FROM app_size")
     fun observeAll(): Flow<List<AppSizeEntity>>
 
+    @Query("SELECT * FROM app_size")
+    suspend fun getAll(): List<AppSizeEntity>
+
     @Query("SELECT * FROM app_size WHERE packageName = :packageName")
     suspend fun get(packageName: String): AppSizeEntity?
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsertAll(sizes: List<AppSizeEntity>)
+
+    /** Callers chunk [packages] (SQLite caps bound variables at 999 on older Android). */
+    @Query("DELETE FROM app_size WHERE packageName IN (:packages)")
+    suspend fun deleteAll(packages: List<String>)
 
     @Query("DELETE FROM app_size")
     suspend fun clear()

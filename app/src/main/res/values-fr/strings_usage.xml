@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="usage_title">Autoriser l’accès aux données d’utilisation</string>
+    <string name="usage_what_label">Ce que nous lisons</string>
+    <string name="usage_what_body">Quand chaque appli a été ouverte pour la dernière fois, et l’espace qu’elle occupe.</string>
+    <string name="usage_why_label">Pourquoi</string>
+    <string name="usage_why_body">Pour trouver les applis inutilisées et les grosses applis.</string>
+    <string name="usage_where_label">Où vont ces données</string>
+    <string name="usage_where_body">Elles restent sur votre téléphone — elles ne sont jamais envoyées.</string>
+    <string name="usage_hint_caption">Sur l’écran suivant, activez ceci :</string>
+    <string name="usage_hint_toggle">Autoriser l’accès aux données d’utilisation</string>
+    <string name="usage_continue">Continuer vers les paramètres</string>
+    <string name="usage_fallback_toast">Trouvez App Cleaner dans la liste et activez-le</string>
+    <string name="usage_settings_unavailable">Votre téléphone n’a pas ouvert la page d’accès aux données d’utilisation. Ouvrez les paramètres et recherchez « Accès aux données d’utilisation ».</string>
+    <string name="usage_illustration_description">Un téléphone affichant des applis, celles que vous n’avez pas ouvertes étant estompées</string>
+    <string name="usage_hint_description">Animation : l’interrupteur d’App Cleaner est activé dans les paramètres</string>
+</resources>

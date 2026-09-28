@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="insights_days">
+        <item quantity="one">יום אחד</item>
+        <item quantity="two">יומיים</item>
+        <item quantity="other">%d ימים</item>
+    </plurals>
+    <plurals name="insights_apps_count">
+        <item quantity="one">אפליקציה אחת</item>
+        <item quantity="two">שתי אפליקציות</item>
+        <item quantity="other">%d אפליקציות</item>
+    </plurals>
+
+    <string name="insights_unused_access_title">גלו באילו אפליקציות הפסקתם להשתמש</string>
+    <string name="insights_unused_access_body">אשרו גישה לנתוני שימוש, ו־App Cleaner ימצא את האפליקציות שלא פתחתם כבר שבועות או חודשים. הכול נשאר בטלפון שלכם.</string>
+    <string name="insights_large_access_title">גלו אילו אפליקציות באמת ממלאות את האחסון</string>
+    <string name="insights_large_access_body">אשרו גישה לנתוני שימוש כדי למדוד את הגודל המלא של כל אפליקציה — אפליקציה, נתונים ומטמון. הכול נשאר בטלפון שלכם.</string>
+    <string name="insights_allow_access">אישור גישה</string>
+
+    <plurals name="insights_unused_teaser_caption">
+        <item quantity="one">לא נפתחו ביום האחרון</item>
+        <item quantity="two">לא נפתחו ביומיים האחרונים</item>
+        <item quantity="other">לא נפתחו ב־%d הימים האחרונים</item>
+    </plurals>
+    <string name="insights_unused_teaser_body">התחילו תקופת ניסיון בחינם כדי לראות אילו אפליקציות אלה ולהסיר את כולן בבת אחת.</string>
+    <plurals name="insights_large_teaser_headline">
+        <item quantity="one">האפליקציה הגדולה ביותר שלכם תופסת %2$s</item>
+        <item quantity="two">שתי האפליקציות הגדולות ביותר שלכם תופסות %2$s</item>
+        <item quantity="other">%1$d האפליקציות הגדולות ביותר שלכם תופסות %2$s</item>
+    </plurals>
+    <string name="insights_large_teaser_body">התחילו תקופת ניסיון בחינם כדי לראות את הגודל של כל אפליקציה, מחולק לאפליקציה, נתונים ומטמון.</string>
+    <string name="insights_unlock_trial">פתיחה עם תקופת ניסיון בחינם</string>
+    <string name="insights_locked_rows_description">רשימת האפליקציות מוסתרת עד שתפתחו את פרימיום</string>
+
+    <string name="insights_last_opened">נפתחה לאחרונה %1$s</string>
+    <string name="insights_not_opened_since">לא נפתחה לפחות מאז %1$s</string>
+    <plurals name="insights_select_all">
+        <item quantity="one">בחירת אפליקציה אחת</item>
+        <item quantity="two">בחירת שתי האפליקציות</item>
+        <item quantity="other">בחירת כל ה־%d</item>
+    </plurals>
+    <plurals name="insights_unused_empty">
+        <item quantity="one">מצוין — השתמשתם בכל האפליקציות ביום האחרון.</item>
+        <item quantity="two">מצוין — השתמשתם בכל האפליקציות ביומיים האחרונים.</item>
+        <item quantity="other">מצוין — השתמשתם בכל האפליקציות ב־%d הימים האחרונים.</item>
+    </plurals>
+    <string name="insights_no_match">אין אפליקציות שתואמות לחיפוש “%1$s”</string>
+    <string name="insights_loading_unused">מחפשים אפליקציות שאתם לא משתמשים בהן…</string>
+    <string name="insights_loading_large">מודדים את האפליקציות שלכם…</string>
+
+    <string name="insights_legend_app">אפליקציה</string>
+    <string name="insights_legend_data">נתונים</string>
+    <string name="insights_legend_cache">מטמון</string>
+    <string name="insights_size_breakdown">אפליקציה %1$s · נתונים %2$s · מטמון %3$s</string>
+    <string name="insights_size_unavailable">הגודל לא זמין</string>
+    <string name="insights_size_measuring">מודדים…</string>
+    <string name="insights_large_empty_title">אין עדיין גדלים להצגה</string>
+    <string name="insights_large_empty_body">App Cleaner לא הצליח למדוד את האפליקציות שלכם כרגע. נסו שוב בעוד רגע.</string>
+
+    <string name="insights_reminder_channel_name">תזכורות ניקוי</string>
+    <string name="insights_reminder_channel_description">התראה כשמצטברות אפליקציות שאתם לא משתמשים בהן, ותזכורת מדי פעם לעשות ניקוי.</string>
+    <plurals name="insights_reminder_title">
+        <item quantity="one">אפליקציה אחת לא בשימוש כבר %2$d ימים ומעלה · %3$s</item>
+        <item quantity="two">שתי אפליקציות לא בשימוש כבר %2$d ימים ומעלה · %3$s</item>
+        <item quantity="other">%1$d אפליקציות לא בשימוש כבר %2$d ימים ומעלה · %3$s</item>
+    </plurals>
+    <string name="insights_reminder_text">לעבור עליהן?</string>
+    <string name="insights_nudge_title">הגיע הזמן לניקוי?</string>
+    <plurals name="insights_nudge_text">
+        <item quantity="one">יש לכם אפליקציה אחת מותקנת</item>
+        <item quantity="two">יש לכם שתי אפליקציות מותקנות</item>
+        <item quantity="other">יש לכם %d אפליקציות מותקנות</item>
+    </plurals>
+</resources>

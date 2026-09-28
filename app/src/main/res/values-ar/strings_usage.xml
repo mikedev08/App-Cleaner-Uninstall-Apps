@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="usage_title">السماح بالوصول إلى بيانات الاستخدام</string>
+    <string name="usage_what_label">ما الذي نقرؤه</string>
+    <string name="usage_what_body">متى فُتح كل تطبيق آخر مرة، ومقدار المساحة التي يشغلها.</string>
+    <string name="usage_why_label">لماذا</string>
+    <string name="usage_why_body">للعثور على التطبيقات غير المستخدمة والتطبيقات الكبيرة.</string>
+    <string name="usage_where_label">أين تذهب البيانات</string>
+    <string name="usage_where_body">تبقى على هاتفك — ولا تُرفع أبدًا.</string>
+    <string name="usage_hint_caption">في الشاشة التالية، فعّل هذا الخيار:</string>
+    <string name="usage_hint_toggle">السماح بالوصول إلى بيانات الاستخدام</string>
+    <string name="usage_continue">المتابعة إلى الإعدادات</string>
+    <string name="usage_fallback_toast">ابحث عن App Cleaner في القائمة وفعّله</string>
+    <string name="usage_settings_unavailable">لم يفتح هاتفك صفحة الوصول إلى بيانات الاستخدام. افتح الإعدادات وابحث عن «الوصول إلى بيانات الاستخدام».</string>
+    <string name="usage_illustration_description">هاتف يعرض التطبيقات، وتظهر باهتةً التطبيقات التي لم تفتحها</string>
+    <string name="usage_hint_description">رسم متحرك: تفعيل مفتاح App Cleaner في الإعدادات</string>
+</resources>

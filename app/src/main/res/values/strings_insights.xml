@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Insights: Unused tab (PRD §4 Screen 5), Large tab (Screen 6), cleanup reminders (Feature 4). -->
+
+    <plurals name="insights_days">
+        <item quantity="one">%d day</item>
+        <item quantity="other">%d days</item>
+    </plurals>
+    <plurals name="insights_apps_count">
+        <item quantity="one">%d app</item>
+        <item quantity="other">%d apps</item>
+    </plurals>
+    <!-- "14 apps · 3.4 GB" -->
+    <string name="insights_count_and_size" translatable="false">%1$s · %2$s</string>
+
+    <!-- State (a): no Usage Access -->
+    <string name="insights_unused_access_title">See which apps you’ve stopped using</string>
+    <string name="insights_unused_access_body">Allow Usage Access and App Cleaner will find the apps you haven’t opened in weeks or months. It all stays on your phone.</string>
+    <string name="insights_large_access_title">See which apps really fill your storage</string>
+    <string name="insights_large_access_body">Allow Usage Access to measure each app’s full size — app, data and cache. It all stays on your phone.</string>
+    <string name="insights_allow_access">Allow access</string>
+
+    <!-- State (b): access granted, free user (blurred teaser) -->
+    <plurals name="insights_unused_teaser_caption">
+        <item quantity="one">Not opened in the last %d day</item>
+        <item quantity="other">Not opened in the last %d days</item>
+    </plurals>
+    <string name="insights_unused_teaser_body">Start your free trial to see which apps they are and remove them in one go.</string>
+    <plurals name="insights_large_teaser_headline">
+        <item quantity="one">Your largest app uses %2$s</item>
+        <item quantity="other">Your %1$d largest apps use %2$s</item>
+    </plurals>
+    <string name="insights_large_teaser_body">Start your free trial to see every app’s size, split into app, data and cache.</string>
+    <string name="insights_unlock_trial">Unlock with free trial</string>
+    <string name="insights_locked_rows_description">App list hidden until you unlock Premium</string>
+
+    <!-- State (c): premium -->
+    <!-- %1$s is a localized relative time, e.g. "4 months ago". -->
+    <string name="insights_last_opened">Last opened %1$s</string>
+    <!-- %1$s is a month and year, e.g. "Mar 2025". -->
+    <string name="insights_not_opened_since">Not opened since at least %1$s</string>
+    <plurals name="insights_select_all">
+        <item quantity="one">Select %d app</item>
+        <item quantity="other">Select all %d</item>
+    </plurals>
+    <plurals name="insights_unused_empty">
+        <item quantity="one">Nice — every app has been used in the last day.</item>
+        <item quantity="other">Nice — every app has been used in the last %d days.</item>
+    </plurals>
+    <string name="insights_no_match">No apps match ‘%1$s’</string>
+    <string name="insights_loading_unused">Looking for apps you don’t use…</string>
+    <string name="insights_loading_large">Measuring your apps…</string>
+
+    <string name="insights_legend_app">App</string>
+    <string name="insights_legend_data">Data</string>
+    <string name="insights_legend_cache">Cache</string>
+    <string name="insights_size_breakdown">App %1$s · Data %2$s · Cache %3$s</string>
+    <string name="insights_size_unavailable">Size unavailable</string>
+    <string name="insights_size_measuring">Measuring…</string>
+    <string name="insights_large_empty_title">No sizes to show yet</string>
+    <string name="insights_large_empty_body">App Cleaner couldn’t measure your apps right now. Try again in a moment.</string>
+
+    <!-- Cleanup reminders (notifications) -->
+    <string name="insights_reminder_channel_name">Cleanup reminders</string>
+    <string name="insights_reminder_channel_description">A heads-up when apps you don’t use pile up, and an occasional nudge to clean up.</string>
+    <!-- "9 apps unused for 60+ days · 2.1 GB". %1$d apps, %2$d days, %3$s size. -->
+    <plurals name="insights_reminder_title">
+        <item quantity="one">%1$d app unused for %2$d+ days · %3$s</item>
+        <item quantity="other">%1$d apps unused for %2$d+ days · %3$s</item>
+    </plurals>
+    <string name="insights_reminder_text">Review them?</string>
+    <string name="insights_nudge_title">Time for a cleanup?</string>
+    <plurals name="insights_nudge_text">
+        <item quantity="one">You have %d app installed</item>
+        <item quantity="other">You have %d apps installed</item>
+    </plurals>
+</resources>

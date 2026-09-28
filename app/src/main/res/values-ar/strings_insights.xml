@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="insights_days">
+        <item quantity="zero">%d يوم</item>
+        <item quantity="one">يوم واحد</item>
+        <item quantity="two">يومان</item>
+        <item quantity="few">%d أيام</item>
+        <item quantity="many">%d يومًا</item>
+        <item quantity="other">%d يوم</item>
+    </plurals>
+    <plurals name="insights_apps_count">
+        <item quantity="zero">%d تطبيق</item>
+        <item quantity="one">تطبيق واحد</item>
+        <item quantity="two">تطبيقان</item>
+        <item quantity="few">%d تطبيقات</item>
+        <item quantity="many">%d تطبيقًا</item>
+        <item quantity="other">%d تطبيق</item>
+    </plurals>
+
+    <string name="insights_unused_access_title">اكتشف التطبيقات التي لم تعد تستخدمها</string>
+    <string name="insights_unused_access_body">اسمح بالوصول إلى بيانات الاستخدام وسيعثر App Cleaner على التطبيقات التي لم تفتحها منذ أسابيع أو أشهر. تبقى كل البيانات على هاتفك.</string>
+    <string name="insights_large_access_title">اكتشف التطبيقات التي تملأ مساحة التخزين فعلًا</string>
+    <string name="insights_large_access_body">اسمح بالوصول إلى بيانات الاستخدام لقياس الحجم الكامل لكل تطبيق — التطبيق والبيانات وذاكرة التخزين المؤقت. تبقى كل البيانات على هاتفك.</string>
+    <string name="insights_allow_access">السماح بالوصول</string>
+
+    <plurals name="insights_unused_teaser_caption">
+        <item quantity="zero">لم تُفتح خلال آخر %d يوم</item>
+        <item quantity="one">لم تُفتح خلال اليوم الأخير</item>
+        <item quantity="two">لم تُفتح خلال اليومين الأخيرين</item>
+        <item quantity="few">لم تُفتح خلال آخر %d أيام</item>
+        <item quantity="many">لم تُفتح خلال آخر %d يومًا</item>
+        <item quantity="other">لم تُفتح خلال آخر %d يوم</item>
+    </plurals>
+    <string name="insights_unused_teaser_body">ابدأ فترتك التجريبية المجانية لتعرف ما هذه التطبيقات وتزيلها دفعة واحدة.</string>
+    <plurals name="insights_large_teaser_headline">
+        <item quantity="zero">أكبر %1$d تطبيق لديك تشغل %2$s</item>
+        <item quantity="one">أكبر تطبيق لديك يشغل %2$s</item>
+        <item quantity="two">أكبر تطبيقين لديك يشغلان %2$s</item>
+        <item quantity="few">أكبر %1$d تطبيقات لديك تشغل %2$s</item>
+        <item quantity="many">أكبر %1$d تطبيقًا لديك تشغل %2$s</item>
+        <item quantity="other">أكبر %1$d تطبيق لديك تشغل %2$s</item>
+    </plurals>
+    <string name="insights_large_teaser_body">ابدأ فترتك التجريبية المجانية لترى حجم كل تطبيق، مقسّمًا إلى التطبيق والبيانات وذاكرة التخزين المؤقت.</string>
+    <string name="insights_unlock_trial">افتح القفل بفترة تجريبية مجانية</string>
+    <string name="insights_locked_rows_description">قائمة التطبيقات مخفية حتى تفعّل بريميوم</string>
+
+    <string name="insights_last_opened">فُتح آخر مرة %1$s</string>
+    <string name="insights_not_opened_since">لم يُفتح منذ %1$s على الأقل</string>
+    <plurals name="insights_select_all">
+        <item quantity="zero">تحديد الكل (%d)</item>
+        <item quantity="one">تحديد تطبيق واحد</item>
+        <item quantity="two">تحديد التطبيقين</item>
+        <item quantity="few">تحديد الكل (%d)</item>
+        <item quantity="many">تحديد الكل (%d)</item>
+        <item quantity="other">تحديد الكل (%d)</item>
+    </plurals>
+    <plurals name="insights_unused_empty">
+        <item quantity="zero">رائع — كل تطبيقاتك استُخدمت خلال آخر %d يوم.</item>
+        <item quantity="one">رائع — كل تطبيقاتك استُخدمت خلال اليوم الأخير.</item>
+        <item quantity="two">رائع — كل تطبيقاتك استُخدمت خلال اليومين الأخيرين.</item>
+        <item quantity="few">رائع — كل تطبيقاتك استُخدمت خلال آخر %d أيام.</item>
+        <item quantity="many">رائع — كل تطبيقاتك استُخدمت خلال آخر %d يومًا.</item>
+        <item quantity="other">رائع — كل تطبيقاتك استُخدمت خلال آخر %d يوم.</item>
+    </plurals>
+    <string name="insights_no_match">لا توجد تطبيقات تطابق «%1$s»</string>
+    <string name="insights_loading_unused">جارٍ البحث عن التطبيقات التي لا تستخدمها…</string>
+    <string name="insights_loading_large">جارٍ قياس تطبيقاتك…</string>
+
+    <string name="insights_legend_app">التطبيق</string>
+    <string name="insights_legend_data">البيانات</string>
+    <string name="insights_legend_cache">ذاكرة مؤقتة</string>
+    <string name="insights_size_breakdown">التطبيق %1$s · البيانات %2$s · ذاكرة مؤقتة %3$s</string>
+    <string name="insights_size_unavailable">الحجم غير متاح</string>
+    <string name="insights_size_measuring">جارٍ القياس…</string>
+    <string name="insights_large_empty_title">لا توجد أحجام لعرضها بعد</string>
+    <string name="insights_large_empty_body">تعذّر على App Cleaner قياس تطبيقاتك حاليًا. حاول مرة أخرى بعد قليل.</string>
+
+    <string name="insights_reminder_channel_name">تذكيرات التنظيف</string>
+    <string name="insights_reminder_channel_description">تنبيه عندما تتراكم التطبيقات التي لا تستخدمها، وتذكير من حين لآخر بالتنظيف.</string>
+    <plurals name="insights_reminder_title">
+        <item quantity="zero">%1$d تطبيق غير مستخدم منذ %2$d يومًا أو أكثر · %3$s</item>
+        <item quantity="one">تطبيق واحد غير مستخدم منذ %2$d يومًا أو أكثر · %3$s</item>
+        <item quantity="two">تطبيقان غير مستخدمين منذ %2$d يومًا أو أكثر · %3$s</item>
+        <item quantity="few">%1$d تطبيقات غير مستخدمة منذ %2$d يومًا أو أكثر · %3$s</item>
+        <item quantity="many">%1$d تطبيقًا غير مستخدم منذ %2$d يومًا أو أكثر · %3$s</item>
+        <item quantity="other">%1$d تطبيق غير مستخدم منذ %2$d يومًا أو أكثر · %3$s</item>
+    </plurals>
+    <string name="insights_reminder_text">هل تريد مراجعتها؟</string>
+    <string name="insights_nudge_title">حان وقت التنظيف؟</string>
+    <plurals name="insights_nudge_text">
+        <item quantity="zero">لديك %d تطبيق مثبّت</item>
+        <item quantity="one">لديك تطبيق واحد مثبّت</item>
+        <item quantity="two">لديك تطبيقان مثبّتان</item>
+        <item quantity="few">لديك %d تطبيقات مثبّتة</item>
+        <item quantity="many">لديك %d تطبيقًا مثبّتًا</item>
+        <item quantity="other">لديك %d تطبيق مثبّت</item>
+    </plurals>
+</resources>

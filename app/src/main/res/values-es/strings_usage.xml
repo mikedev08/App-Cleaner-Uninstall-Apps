@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="usage_title">Permitir acceso a datos de uso</string>
+    <string name="usage_what_label">Qué leemos</string>
+    <string name="usage_what_body">Cuándo se abrió cada app por última vez y cuánto espacio ocupa.</string>
+    <string name="usage_why_label">Para qué</string>
+    <string name="usage_why_body">Para encontrar apps que no usas y apps que ocupan mucho.</string>
+    <string name="usage_where_label">Adónde van</string>
+    <string name="usage_where_body">Se quedan en tu teléfono y nunca se suben a ningún sitio.</string>
+    <string name="usage_hint_caption">En la siguiente pantalla, activa esto:</string>
+    <string name="usage_hint_toggle">Permitir acceso al uso</string>
+    <string name="usage_continue">Ir a Ajustes</string>
+    <string name="usage_fallback_toast">Busca App Cleaner en la lista y actívalo</string>
+    <string name="usage_settings_unavailable">Tu teléfono no ha abierto la página de acceso a datos de uso. Abre Ajustes y busca «acceso a datos de uso».</string>
+    <string name="usage_illustration_description">Un teléfono con apps, en el que las que no has abierto aparecen atenuadas</string>
+    <string name="usage_hint_description">Animación: se activa el interruptor de App Cleaner en Ajustes</string>
+</resources>

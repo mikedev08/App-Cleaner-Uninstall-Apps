@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="usage_title">इस्तेमाल के ऐक्सेस की अनुमति दें</string>
+    <string name="usage_what_label">हम क्या पढ़ते हैं</string>
+    <string name="usage_what_body">हर ऐप आखिरी बार कब खोला गया था, और वह कितनी जगह लेता है।</string>
+    <string name="usage_why_label">क्यों</string>
+    <string name="usage_why_body">इस्तेमाल न होने वाले ऐप और बड़े ऐप ढूंढने के लिए।</string>
+    <string name="usage_where_label">यह कहां जाता है</string>
+    <string name="usage_where_body">यह आपके फ़ोन पर ही रहता है — कभी अपलोड नहीं होता।</string>
+    <string name="usage_hint_caption">अगली स्क्रीन पर, इसे चालू करें:</string>
+    <string name="usage_hint_toggle">इस्तेमाल का ऐक्सेस दें</string>
+    <string name="usage_continue">सेटिंग्स पर जाएं</string>
+    <string name="usage_fallback_toast">सूची में App Cleaner ढूंढें और उसे चालू करें</string>
+    <string name="usage_settings_unavailable">आपके फ़ोन ने इस्तेमाल के ऐक्सेस वाला पेज नहीं खोला। सेटिंग्स खोलें और “इस्तेमाल का ऐक्सेस” खोजें।</string>
+    <string name="usage_illustration_description">ऐप दिखाता हुआ एक फ़ोन, जिसमें आपके न खोले गए ऐप धुंधले दिख रहे हैं</string>
+    <string name="usage_hint_description">ऐनिमेशन: सेटिंग्स में App Cleaner का स्विच चालू किया जा रहा है</string>
+</resources>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="insights_days">
+        <item quantity="one">%d Tag</item>
+        <item quantity="other">%d Tage</item>
+    </plurals>
+    <plurals name="insights_apps_count">
+        <item quantity="one">%d App</item>
+        <item quantity="other">%d Apps</item>
+    </plurals>
+
+    <string name="insights_unused_access_title">Finde heraus, welche Apps du nicht mehr nutzt</string>
+    <string name="insights_unused_access_body">Erlaube den Zugriff auf Nutzungsdaten und App Cleaner findet die Apps, die du seit Wochen oder Monaten nicht geöffnet hast. Alles bleibt auf deinem Handy.</string>
+    <string name="insights_large_access_title">Finde heraus, welche Apps deinen Speicher wirklich füllen</string>
+    <string name="insights_large_access_body">Erlaube den Zugriff auf Nutzungsdaten, um die volle Größe jeder App zu messen — App, Daten und Cache. Alles bleibt auf deinem Handy.</string>
+    <string name="insights_allow_access">Zugriff erlauben</string>
+
+    <plurals name="insights_unused_teaser_caption">
+        <item quantity="one">Seit %d Tag nicht geöffnet</item>
+        <item quantity="other">Seit %d Tagen nicht geöffnet</item>
+    </plurals>
+    <string name="insights_unused_teaser_body">Starte deine kostenlose Testphase, um zu sehen, welche Apps das sind, und sie alle auf einmal zu entfernen.</string>
+    <plurals name="insights_large_teaser_headline">
+        <item quantity="one">Deine größte App belegt %2$s</item>
+        <item quantity="other">Deine %1$d größten Apps belegen %2$s</item>
+    </plurals>
+    <string name="insights_large_teaser_body">Starte deine kostenlose Testphase, um die Größe jeder App zu sehen — aufgeteilt in App, Daten und Cache.</string>
+    <string name="insights_unlock_trial">Mit kostenloser Testphase freischalten</string>
+    <string name="insights_locked_rows_description">App-Liste ausgeblendet, bis du Premium freischaltest</string>
+
+    <string name="insights_last_opened">Zuletzt geöffnet %1$s</string>
+    <string name="insights_not_opened_since">Seit mindestens %1$s nicht geöffnet</string>
+    <plurals name="insights_select_all">
+        <item quantity="one">%d App auswählen</item>
+        <item quantity="other">Alle %d auswählen</item>
+    </plurals>
+    <plurals name="insights_unused_empty">
+        <item quantity="one">Super — du hast alle Apps am letzten Tag genutzt.</item>
+        <item quantity="other">Super — du hast alle Apps in den letzten %d Tagen genutzt.</item>
+    </plurals>
+    <string name="insights_no_match">Keine Apps passen zu „%1$s“</string>
+    <string name="insights_loading_unused">Suche nach Apps, die du nicht nutzt…</string>
+    <string name="insights_loading_large">Deine Apps werden gemessen…</string>
+
+    <string name="insights_legend_app">App</string>
+    <string name="insights_legend_data">Daten</string>
+    <string name="insights_legend_cache">Cache</string>
+    <string name="insights_size_breakdown">App %1$s · Daten %2$s · Cache %3$s</string>
+    <string name="insights_size_unavailable">Größe nicht verfügbar</string>
+    <string name="insights_size_measuring">Wird gemessen…</string>
+    <string name="insights_large_empty_title">Noch keine Größen verfügbar</string>
+    <string name="insights_large_empty_body">App Cleaner konnte deine Apps gerade nicht messen. Versuch es gleich noch einmal.</string>
+
+    <string name="insights_reminder_channel_name">Aufräum-Erinnerungen</string>
+    <string name="insights_reminder_channel_description">Ein Hinweis, wenn sich ungenutzte Apps ansammeln, und ab und zu ein Anstoß zum Aufräumen.</string>
+    <plurals name="insights_reminder_title">
+        <item quantity="one">%1$d App seit %2$d+ Tagen ungenutzt · %3$s</item>
+        <item quantity="other">%1$d Apps seit %2$d+ Tagen ungenutzt · %3$s</item>
+    </plurals>
+    <string name="insights_reminder_text">Jetzt ansehen?</string>
+    <string name="insights_nudge_title">Zeit zum Aufräumen?</string>
+    <plurals name="insights_nudge_text">
+        <item quantity="one">Du hast %d App installiert</item>
+        <item quantity="other">Du hast %d Apps installiert</item>
+    </plurals>
+</resources>

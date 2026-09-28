@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <plurals name="insights_days">
+        <item quantity="other">%d 天</item>
+    </plurals>
+    <plurals name="insights_apps_count">
+        <item quantity="other">%d 个应用</item>
+    </plurals>
+
+    <string name="insights_unused_access_title">看看哪些应用你已经不再使用</string>
+    <string name="insights_unused_access_body">开启“使用情况访问权限”，App Cleaner 就能找出你几周或几个月没打开过的应用。所有数据都只保存在你的手机上。</string>
+    <string name="insights_large_access_title">看看哪些应用真正占满了你的存储空间</string>
+    <string name="insights_large_access_body">开启“使用情况访问权限”，即可测量每个应用的完整大小——应用、数据和缓存。所有数据都只保存在你的手机上。</string>
+    <string name="insights_allow_access">允许访问</string>
+
+    <plurals name="insights_unused_teaser_caption">
+        <item quantity="other">最近 %d 天内未打开</item>
+    </plurals>
+    <string name="insights_unused_teaser_body">开始免费试用，查看是哪些应用，并一次性全部移除。</string>
+    <plurals name="insights_large_teaser_headline">
+        <item quantity="other">你最大的 %1$d 个应用占用了 %2$s</item>
+    </plurals>
+    <string name="insights_large_teaser_body">开始免费试用，查看每个应用的大小，并细分为应用、数据和缓存。</string>
+    <string name="insights_unlock_trial">免费试用解锁</string>
+    <string name="insights_locked_rows_description">解锁高级版后才会显示应用列表</string>
+
+    <string name="insights_last_opened">上次打开：%1$s</string>
+    <string name="insights_not_opened_since">至少自 %1$s 起未打开</string>
+    <plurals name="insights_select_all">
+        <item quantity="other">全选 %d 个</item>
+    </plurals>
+    <plurals name="insights_unused_empty">
+        <item quantity="other">很好——最近 %d 天内每个应用都用过。</item>
+    </plurals>
+    <string name="insights_no_match">没有与“%1$s”匹配的应用</string>
+    <string name="insights_loading_unused">正在查找你不用的应用…</string>
+    <string name="insights_loading_large">正在测量你的应用…</string>
+
+    <string name="insights_legend_app">应用</string>
+    <string name="insights_legend_data">数据</string>
+    <string name="insights_legend_cache">缓存</string>
+    <string name="insights_size_breakdown">应用 %1$s · 数据 %2$s · 缓存 %3$s</string>
+    <string name="insights_size_unavailable">无法获取大小</string>
+    <string name="insights_size_measuring">正在测量…</string>
+    <string name="insights_large_empty_title">暂无可显示的大小</string>
+    <string name="insights_large_empty_body">App Cleaner 暂时无法测量你的应用。请稍后再试。</string>
+
+    <string name="insights_reminder_channel_name">清理提醒</string>
+    <string name="insights_reminder_channel_description">当你不用的应用越积越多时提醒你，并不时提示你清理一下。</string>
+    <plurals name="insights_reminder_title">
+        <item quantity="other">%1$d 个应用已超过 %2$d 天未使用 · %3$s</item>
+    </plurals>
+    <string name="insights_reminder_text">要看看吗？</string>
+    <string name="insights_nudge_title">该清理一下了？</string>
+    <plurals name="insights_nudge_text">
+        <item quantity="other">你安装了 %d 个应用</item>
+    </plurals>
+</resources>
