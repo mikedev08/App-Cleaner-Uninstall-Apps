@@ -15,8 +15,6 @@
     <string name="home_sort_last_updated">آخر تحديث</string>
     <string name="home_sort_last_used">آخر استخدام (الأقدم أولاً)</string>
     <string name="home_storage_unavailable">تفاصيل التخزين غير متاحة على هذا الجهاز.</string>
-    <string name="home_tab_unused">غير مستخدَمة</string>
-    <string name="home_tab_large">كبيرة</string>
     <plurals name="home_list_count">
         <item quantity="zero">%d تطبيق</item>
         <item quantity="one">%d تطبيق</item>
@@ -114,7 +112,6 @@
     </plurals>
     <string name="home_hero_new_title">اعرف ما يمكنك إزالته</string>
     <string name="home_review">مراجعة</string>
-    <string name="home_cat_cache">الذاكرة المؤقتة</string>
     <string name="home_cat_none">لا شيء</string>
     <string name="home_cat_counted_above">محسوبة أعلاه</string>
     <plurals name="home_cat_more_apps">

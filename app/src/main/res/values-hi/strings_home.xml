@@ -15,8 +15,6 @@
     <string name="home_sort_last_updated">पिछला अपडेट</string>
     <string name="home_sort_last_used">पिछला इस्तेमाल (सबसे पुराना पहले)</string>
     <string name="home_storage_unavailable">इस डिवाइस पर स्टोरेज की जानकारी उपलब्ध नहीं है।</string>
-    <string name="home_tab_unused">इस्तेमाल न हुए</string>
-    <string name="home_tab_large">बड़े</string>
     <plurals name="home_list_count">
         <item quantity="one">%d ऐप</item>
         <item quantity="other">%d ऐप</item>
@@ -90,7 +88,6 @@
     </plurals>
     <string name="home_hero_new_title">देखें कि आप क्या हटा सकते हैं</string>
     <string name="home_review">देखें</string>
-    <string name="home_cat_cache">कैश</string>
     <string name="home_cat_none">कोई नहीं</string>
     <string name="home_cat_counted_above">ऊपर गिने गए</string>
     <plurals name="home_cat_more_apps">

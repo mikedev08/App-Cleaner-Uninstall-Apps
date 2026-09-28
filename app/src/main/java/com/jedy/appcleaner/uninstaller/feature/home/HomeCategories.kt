@@ -264,9 +264,9 @@ private val Category.icon: ImageVector
 
 private val Category.titleRes: Int
     get() = when (this) {
-        Category.UNUSED -> R.string.home_tab_unused
-        Category.LARGE -> R.string.home_tab_large
-        Category.CACHE -> R.string.home_cat_cache
+        Category.UNUSED -> R.string.apps_tab_unused
+        Category.LARGE -> R.string.apps_tab_large
+        Category.CACHE -> R.string.apps_tab_cache
     }
 
 /**

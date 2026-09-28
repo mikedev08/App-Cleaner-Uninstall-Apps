@@ -15,8 +15,6 @@
     <string name="home_sort_last_updated">Dernière mise à jour</string>
     <string name="home_sort_last_used">Dernière utilisation (les moins récentes d\'abord)</string>
     <string name="home_storage_unavailable">Les détails du stockage ne sont pas disponibles sur cet appareil.</string>
-    <string name="home_tab_unused">Inutilisées</string>
-    <string name="home_tab_large">Volumineuses</string>
     <plurals name="home_list_count">
         <item quantity="one">%d appli</item>
         <item quantity="many">%d applis</item>
@@ -96,7 +94,6 @@
     </plurals>
     <string name="home_hero_new_title">Voyez ce que vous pouvez supprimer</string>
     <string name="home_review">Voir</string>
-    <string name="home_cat_cache">Cache</string>
     <string name="home_cat_none">Aucune</string>
     <string name="home_cat_counted_above">Déjà comptées</string>
     <plurals name="home_cat_more_apps">

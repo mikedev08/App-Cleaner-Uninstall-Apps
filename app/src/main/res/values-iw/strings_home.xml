@@ -15,8 +15,6 @@
     <string name="home_sort_last_updated">עדכון אחרון</string>
     <string name="home_sort_last_used">שימוש אחרון (הישן ביותר קודם)</string>
     <string name="home_storage_unavailable">פרטי האחסון לא זמינים במכשיר הזה.</string>
-    <string name="home_tab_unused">לא בשימוש</string>
-    <string name="home_tab_large">גדולות</string>
     <plurals name="home_list_count">
         <item quantity="one">אפליקציה אחת</item>
         <item quantity="two">%d אפליקציות</item>
@@ -96,7 +94,6 @@
     </plurals>
     <string name="home_hero_new_title">מה אפשר להסיר</string>
     <string name="home_review">סקירה</string>
-    <string name="home_cat_cache">מטמון</string>
     <string name="home_cat_none">אין</string>
     <string name="home_cat_counted_above">נספרו למעלה</string>
     <plurals name="home_cat_more_apps">

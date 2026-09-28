@@ -5,7 +5,6 @@
     <string name="apps_summary">%1$s · %2$s</string>
     <string name="apps_tab_all">सभी</string>
     <string name="apps_section_rest">बाकी सब</string>
-    <string name="apps_chip_space_hog">ज़्यादा जगह</string>
     <string name="apps_details_whats_using">जगह कौन ले रहा है</string>
     <string name="apps_details_unlock_teaser">देखें जगह कौन ले रहा है</string>
     <string name="apps_details_total_caption">कुल साइज़</string>

@@ -5,7 +5,6 @@
     <string name="apps_summary">%1$s · %2$s</string>
     <string name="apps_tab_all">Toutes</string>
     <string name="apps_section_rest">Tout le reste</string>
-    <string name="apps_chip_space_hog">Gourmande</string>
     <string name="apps_details_whats_using">Ce qui occupe l’espace</string>
     <string name="apps_details_unlock_teaser">Voir ce qui occupe l’espace</string>
     <string name="apps_details_total_caption">Taille totale</string>

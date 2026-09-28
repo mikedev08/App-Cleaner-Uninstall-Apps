@@ -23,8 +23,6 @@
     <string name="home_storage_unavailable">Storage details aren\'t available on this device.</string>
 
     <!-- Tabs -->
-    <string name="home_tab_unused">Unused</string>
-    <string name="home_tab_large">Large</string>
 
     <!-- All apps list -->
     <plurals name="home_list_count">
@@ -110,7 +108,6 @@
     <!-- Design review 2026-09: Home categories and the Scan result CTAs -->
     <string name="home_hero_new_title">See what you can remove</string>
     <string name="home_review">Review</string>
-    <string name="home_cat_cache">Cache</string>
     <string name="home_cat_none">None</string>
     <string name="home_cat_counted_above">Counted above</string>
     <plurals name="home_cat_more_apps">

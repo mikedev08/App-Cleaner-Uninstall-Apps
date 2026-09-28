@@ -5,7 +5,6 @@
     <string name="apps_summary">%1$s · %2$s</string>
     <string name="apps_tab_all">Todas</string>
     <string name="apps_section_rest">Todo lo demás</string>
-    <string name="apps_chip_space_hog">Ocupa mucho</string>
     <string name="apps_details_whats_using">Qué ocupa espacio</string>
     <string name="apps_details_unlock_teaser">Ver qué ocupa espacio</string>
     <string name="apps_details_total_caption">Tamaño total</string>

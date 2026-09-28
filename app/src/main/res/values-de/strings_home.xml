@@ -15,8 +15,6 @@
     <string name="home_sort_last_updated">Zuletzt aktualisiert</string>
     <string name="home_sort_last_used">Zuletzt verwendet (am längsten ungenutzt zuerst)</string>
     <string name="home_storage_unavailable">Speicherdetails sind auf diesem Gerät nicht verfügbar.</string>
-    <string name="home_tab_unused">Ungenutzt</string>
-    <string name="home_tab_large">Groß</string>
     <plurals name="home_list_count">
         <item quantity="one">%d App</item>
         <item quantity="other">%d Apps</item>
@@ -90,7 +88,6 @@
     </plurals>
     <string name="home_hero_new_title">Sieh, was du entfernen kannst</string>
     <string name="home_review">Ansehen</string>
-    <string name="home_cat_cache">Cache</string>
     <string name="home_cat_none">Keine</string>
     <string name="home_cat_counted_above">Oben gezählt</string>
     <plurals name="home_cat_more_apps">

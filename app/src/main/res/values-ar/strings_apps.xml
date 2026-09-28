@@ -5,7 +5,6 @@
     <string name="apps_summary">%1$s · %2$s</string>
     <string name="apps_tab_all">الكل</string>
     <string name="apps_section_rest">كل ما تبقى</string>
-    <string name="apps_chip_space_hog">يستهلك مساحة كبيرة</string>
     <string name="apps_details_whats_using">ما الذي يستهلك المساحة</string>
     <string name="apps_details_unlock_teaser">اعرف ما الذي يستهلك المساحة</string>
     <string name="apps_details_total_caption">الحجم الإجمالي</string>
