@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Home (PRD §4 Screens 4 and 7). Owner: Home feature. -->
+
+    <!-- Top app bar -->
+    <string name="home_action_search">Search apps</string>
+    <string name="home_action_close_search">Close search</string>
+    <string name="home_action_clear_search">Clear search</string>
+    <string name="home_action_sort">Sort</string>
+    <string name="home_action_history">Uninstall history</string>
+    <string name="home_action_settings">Settings</string>
+    <string name="home_action_dismiss">Dismiss</string>
+    <string name="home_search_hint">Search by name or package</string>
+
+    <!-- Sort menu -->
+    <string name="home_sort_title">Sort by</string>
+    <string name="home_sort_size">Size (largest first)</string>
+    <string name="home_sort_name">Name (A–Z)</string>
+    <string name="home_sort_install_date">Install date (oldest first)</string>
+    <string name="home_sort_last_updated">Last updated</string>
+    <string name="home_sort_last_used">Last used (least recent first)</string>
+
+    <!-- Storage card. %1$s / %2$s are formatted sizes such as "96.2 GB". -->
+    <string name="home_storage_title">Storage</string>
+    <string name="home_storage_used">%1$s of %2$s used</string>
+    <string name="home_storage_apps">Apps: %1$s</string>
+    <string name="home_storage_other">Other: %1$s</string>
+    <string name="home_storage_free">Free: %1$s</string>
+    <string name="home_storage_breakdown">See full breakdown</string>
+    <string name="home_storage_unavailable">Storage details aren\'t available on this device.</string>
+
+    <!-- Tabs -->
+    <string name="home_tab_all">All apps</string>
+    <string name="home_tab_unused">Unused</string>
+    <string name="home_tab_large">Large</string>
+
+    <!-- All apps list -->
+    <plurals name="home_list_count">
+        <item quantity="one">%d app</item>
+        <item quantity="other">%d apps</item>
+    </plurals>
+    <string name="home_select_all">Select all</string>
+    <string name="home_deselect_all">Deselect all</string>
+    <!-- Row metadata: "248 MB · Installed Mar 2024". %1$s = size, %2$s = the date phrase. -->
+    <string name="home_row_meta">%1$s · %2$s</string>
+    <string name="home_row_installed">Installed %1$s</string>
+    <string name="home_row_updated">Updated %1$s</string>
+    <string name="home_row_opened">Opened %1$s</string>
+    <string name="home_row_not_opened">No recent use</string>
+    <string name="home_search_empty">No apps match “%1$s”</string>
+    <string name="home_search_empty_body">Try another name, or part of the package name.</string>
+    <string name="home_empty_title">No apps to show</string>
+
+    <!-- PRD §6 item 11 -->
+    <string name="home_incomplete_title">Some apps may be hidden from App Cleaner</string>
+    <string name="home_incomplete_body">This copy of App Cleaner can\'t see every app on your phone. Installing it from Google Play shows the full list.</string>
+
+    <!-- Selection bar: "3 selected · 1.2 GB (2 hidden by search)" -->
+    <plurals name="home_selection_count">
+        <item quantity="one">%d selected</item>
+        <item quantity="other">%d selected</item>
+    </plurals>
+    <string name="home_selection_summary">%1$s · %2$s</string>
+    <string name="home_selection_with_hidden">%1$s (%2$s)</string>
+    <plurals name="home_selection_hidden">
+        <item quantity="one">%d hidden by search</item>
+        <item quantity="other">%d hidden by search</item>
+    </plurals>
+    <string name="home_selection_clear">Clear selection</string>
+    <string name="home_uninstall">Uninstall</string>
+
+    <!-- PRD §6 item 18 -->
+    <string name="home_premium_ended">Your premium ended — renew to keep finding unused apps.</string>
+    <string name="home_premium_renew">Renew</string>
+
+    <!-- App Details sheet (Screen 7) -->
+    <string name="home_details_version">Version %1$s</string>
+    <string name="home_details_from_play">Installed from Google Play</string>
+    <string name="home_details_from_other">Installed from another source</string>
+    <string name="home_details_installed">Installed</string>
+    <string name="home_details_updated">Last updated</string>
+    <string name="home_details_last_opened">Last opened</string>
+    <string name="home_details_not_opened_since">Not since at least %1$s</string>
+    <string name="home_details_no_usage">No use recorded</string>
+    <string name="home_details_apk_size">APK size</string>
+    <string name="home_details_app_size">App</string>
+    <string name="home_details_data_size">Data</string>
+    <string name="home_details_cache_size">Cache</string>
+    <string name="home_details_total_size">Total</string>
+    <string name="home_details_data_cache_size">Data &amp; cache</string>
+    <string name="home_details_size_measuring">Measuring…</string>
+    <string name="home_details_size_unavailable">Size unavailable</string>
+    <string name="home_details_unlock_sizes">See data &amp; cache size</string>
+    <string name="home_details_allow_access">Allow usage access to see data &amp; cache size</string>
+    <string name="home_details_open">Open</string>
+    <string name="home_details_app_info">App info (clear cache here)</string>
+    <string name="home_details_play_store">View in Play Store</string>
+</resources>
