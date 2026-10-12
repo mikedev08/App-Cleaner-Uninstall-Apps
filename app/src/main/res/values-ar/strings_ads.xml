@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ad_badge">إعلان</string>
+    <string name="settings_privacy_choices_title">خيارات الخصوصية</string>
+    <string name="settings_privacy_choices_body">غيّر طريقة استخدام الإعلانات لبياناتك</string>
+</resources>

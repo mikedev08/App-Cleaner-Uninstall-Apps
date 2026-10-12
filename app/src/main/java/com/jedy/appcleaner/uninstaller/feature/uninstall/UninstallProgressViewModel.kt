@@ -5,11 +5,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jedy.appcleaner.uninstaller.data.local.UninstallItemEntity
 import com.jedy.appcleaner.uninstaller.data.uninstall.BatchSummary
+import com.jedy.appcleaner.uninstaller.data.uninstall.CancelStreak
 import com.jedy.appcleaner.uninstaller.data.uninstall.EngineRuntime
 import com.jedy.appcleaner.uninstaller.data.uninstall.ItemState
 import com.jedy.appcleaner.uninstaller.data.uninstall.PendingConfirmation
 import com.jedy.appcleaner.uninstaller.data.uninstall.UninstallEngine
 import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -19,7 +21,6 @@ import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 data class QueueRow(
     val item: UninstallItemEntity,
@@ -40,6 +41,10 @@ data class ProgressUiState(
     val stalled: Boolean = false,
     /** Three Cancels in a row: ask "Stop removing the rest?"; the value is how many apps are left. */
     val cancelStreakRemaining: Int? = null,
+    /** Asked again after Keep going: the red "Are you sure you want to keep going?". */
+    val cancelStreakEscalated: Boolean = false,
+    /** 0 green, 1 amber, 2 red: how many Cancels in a row the ring shows ([CancelStreak.warmth]). */
+    val cancelWarmth: Float = 0f,
     val isLoaded: Boolean = false,
 )
 
@@ -109,6 +114,8 @@ class UninstallProgressViewModel @Inject constructor(
             confirmation = rt?.confirmation?.takeIf { !it.launched },
             stalled = rt?.stalled == true,
             cancelStreakRemaining = rt?.cancelStreakPrompt?.takeIf { !isFinished && !batch.stoppedEarly },
+            cancelStreakEscalated = (rt?.keepGoings ?: 0) > 0,
+            cancelWarmth = rt?.let { CancelStreak.warmth(it.cancelStreak, it.keepGoings) } ?: 0f,
             isLoaded = true,
         )
 }

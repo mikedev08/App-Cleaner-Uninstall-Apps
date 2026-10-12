@@ -23,9 +23,14 @@ internal object InventoryRules {
      * PRD Feature 1: user-installed only. `FLAG_SYSTEM` stays set on *updated* system apps too, so
      * this one check also hides them, as V1 requires. App Cleaner itself is never listed — it can't
      * uninstall itself through the queue, and offering it would be a trap.
+     *
+     * Only apps with a launcher icon ([hasLauncher]): Play installs parts of Android as ordinary
+     * apps (Android System Key Verifier, Android Developer Verifier, SafetyCore) and phone makers
+     * ship widgets and lock-screen services the same way. None has an icon, and none is anything
+     * the user thinks of as an app they installed.
      */
-    fun isUserApp(appFlags: Int, packageName: String, ownPackage: String): Boolean =
-        (appFlags and ApplicationInfo.FLAG_SYSTEM) == 0 && packageName != ownPackage
+    fun isUserApp(appFlags: Int, packageName: String, ownPackage: String, hasLauncher: Boolean): Boolean =
+        (appFlags and ApplicationInfo.FLAG_SYSTEM) == 0 && packageName != ownPackage && hasLauncher
 
     /**
      * PRD Feature 1 apk_bytes: base APK plus every split. [lengthOf] is `File(path).length()` in

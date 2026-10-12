@@ -144,7 +144,8 @@ private fun ResumeBannerCard(
     onDiscard: () -> Unit,
 ) {
     AppCard(
-        modifier = Modifier.fillMaxWidth().padding(horizontal = Dimens.gutter, vertical = Dimens.space8),
+        // Home already applies the gutter; padding it again here squeezed the buttons.
+        modifier = Modifier.fillMaxWidth().padding(vertical = Dimens.space8),
         color = AppTheme.colors.warningSurface,
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {

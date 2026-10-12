@@ -98,6 +98,9 @@ data class EngineRuntime(
      * many apps are still to go (PRD §6 "Several dialogs cancelled in a row"). Null otherwise.
      */
     val cancelStreakPrompt: Int? = null,
+    /** Cancels in a row, and Keep goings since the last removal: the ring's colour ([CancelStreak.warmth]). */
+    val cancelStreak: Int = 0,
+    val keepGoings: Int = 0,
 )
 
 /** Injectable time source so the queue logic is testable. */

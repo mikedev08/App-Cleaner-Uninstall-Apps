@@ -7,7 +7,6 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.togetherWith
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -27,6 +26,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Close
@@ -54,7 +54,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.google.android.gms.ads.nativead.NativeAd
 import com.jedy.appcleaner.uninstaller.R
+import com.jedy.appcleaner.uninstaller.ads.PinnedNativeAd
+import com.jedy.appcleaner.uninstaller.ads.rememberNativeAd
+import com.jedy.appcleaner.uninstaller.core.analytics.AdPlacement
 import com.jedy.appcleaner.uninstaller.core.format.formatBytes
 import com.jedy.appcleaner.uninstaller.core.model.HomeTab
 import com.jedy.appcleaner.uninstaller.core.model.PaywallSource
@@ -88,6 +92,9 @@ fun ScanScreen(
 ) {
     val viewModel: ScanViewModel = hiltViewModel()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+    // One ad for the visit, pinned while scanning and on the result (AdMob PRD §6.2); never on the
+    // Usage access explanation, which is a permission disclosure.
+    val nativeAd = rememberNativeAd(AdPlacement.SCAN)
 
     LifecycleResumeEffect(Unit) {
         viewModel.onResume()
@@ -123,9 +130,10 @@ fun ScanScreen(
                         TextAction(stringResource(R.string.scan_intro_quick), onClick = viewModel::onQuickScan, modifier = Modifier.fillMaxWidth())
                     },
                 ) { IntroContent() }
-                is ScanPhase.Scanning -> PhaseLayout(actions = null, centered = true) { ScanProgressContent(phase) }
+                is ScanPhase.Scanning -> PhaseLayout(actions = null, centered = true, ad = nativeAd) { ScanProgressContent(phase) }
                 is ScanPhase.Result -> PhaseLayout(
                     actions = { ResultActions(phase.result, state.isPremium, viewModel, onOpenApps, onOpenPaywall, allowAccess) },
+                    ad = nativeAd,
                 ) {
                     ScanResultContent(
                         result = phase.result,
@@ -145,17 +153,23 @@ fun ScanScreen(
 
 /**
  * Scrollable content with the actions pinned above the navigation bar. [centered] content (the
- * scanning ring) sits in the middle of the free height instead of hugging the top.
+ * scanning ring) sits in the middle of the free height instead of hugging the top. A native [ad]
+ * is pinned just above the actions, or at the bottom when there are none.
  */
 @Composable
-private fun PhaseLayout(actions: (@Composable () -> Unit)?, centered: Boolean = false, content: @Composable () -> Unit) {
+private fun PhaseLayout(
+    actions: (@Composable () -> Unit)?,
+    centered: Boolean = false,
+    ad: NativeAd? = null,
+    content: @Composable () -> Unit,
+) {
     Column(Modifier.fillMaxSize()) {
-        // Without pinned actions the content itself must end above the navigation bar (+16dp).
+        // With nothing pinned below it, the content itself must end above the navigation bar (+16dp).
         BoxWithConstraints(
             Modifier
                 .weight(1f)
                 .fillMaxWidth()
-                .then(if (actions == null) Modifier.bottomContentPadding() else Modifier),
+                .then(if (actions == null && ad == null) Modifier.bottomContentPadding() else Modifier),
         ) {
             val viewport = maxHeight
             Box(
@@ -166,6 +180,13 @@ private fun PhaseLayout(actions: (@Composable () -> Unit)?, centered: Boolean = 
                     .padding(horizontal = Dimens.gutter, vertical = Dimens.space8),
                 contentAlignment = if (centered) Alignment.Center else Alignment.TopCenter,
             ) { content() }
+        }
+        if (ad != null) {
+            PinnedNativeAd(
+                ad = ad,
+                placement = AdPlacement.SCAN,
+                modifier = if (actions == null) Modifier.windowInsetsPadding(WindowInsets.safeDrawing.only(WindowInsetsSides.Bottom)) else Modifier,
+            )
         }
         if (actions != null) {
             Column(

@@ -6,6 +6,12 @@
         <item quantity="many">Tocaste Cancelar tres veces seguidas. Quedan %1$d apps.</item>
         <item quantity="other">Tocaste Cancelar tres veces seguidas. Quedan %1$d apps.</item>
     </plurals>
+    <string name="uninstall_cancel_streak_again_title">¿Seguro que quieres continuar?</string>
+    <plurals name="uninstall_cancel_streak_again_body">
+        <item quantity="one">Sigues tocando Cancelar. Queda %1$d app.</item>
+        <item quantity="many">Sigues tocando Cancelar. Quedan %1$d apps.</item>
+        <item quantity="other">Sigues tocando Cancelar. Quedan %1$d apps.</item>
+    </plurals>
 
     <string name="usage_still_off_title">El acceso a datos de uso sigue desactivado</string>
     <string name="usage_still_off_body">En la lista, toca App Cleaner y activa el interruptor.</string>

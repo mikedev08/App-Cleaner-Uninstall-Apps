@@ -14,6 +14,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -56,19 +57,26 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.style.LineBreak
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.jedy.appcleaner.uninstaller.R
+import com.jedy.appcleaner.uninstaller.ads.PinnedNativeAd
+import com.jedy.appcleaner.uninstaller.ads.rememberNativeAd
+import com.jedy.appcleaner.uninstaller.core.analytics.AdPlacement
 import com.jedy.appcleaner.uninstaller.core.ui.component.AppCard
 import com.jedy.appcleaner.uninstaller.core.ui.component.BigNumber
 import com.jedy.appcleaner.uninstaller.core.ui.component.IconBadge
@@ -88,7 +96,8 @@ import kotlinx.coroutines.delay
 
 /**
  * CONTRACT (frozen signature). PRD §4 Screen 10. [onRetry] receives a new batch (the "Try again"
- * apps) to run through the progress screen. No ads in this build.
+ * apps) to run through the progress screen. Free users get a native ad pinned above Done; leaving
+ * for Home is the in-session interstitial's moment (AdMob PRD §5.5, §6.2).
  */
 @Composable
 fun UninstallResultScreen(
@@ -105,51 +114,79 @@ fun UninstallResultScreen(
     BackHandler(onBack = onDone)
 
     val context = LocalContext.current
+    val density = LocalDensity.current
     Column(
         Modifier
             .fillMaxSize()
             .background(AppTheme.colors.background)
             .windowInsetsPadding(WindowInsets.safeDrawing),
     ) {
-        Column(
-            Modifier
-                .weight(1f)
-                .fillMaxWidth()
-                .verticalScroll(rememberScrollState())
-                .padding(horizontal = Dimens.gutter),
-            horizontalAlignment = Alignment.CenterHorizontally,
-        ) {
-            val summary = state.summary
-            if (summary != null) {
-                Spacer(Modifier.height(Dimens.space24))
-                if (summary.removedCount > 0) {
-                    FreedHero(summary, state.storageDrop)
-                } else {
-                    NothingRemovedHeader()
-                }
-                Notes(summary)
-                val notRemoved = summary.notRemoved
-                if (notRemoved.isNotEmpty()) {
+        BoxWithConstraints(Modifier.weight(1f).fillMaxWidth()) {
+            // A result that nearly fits is one page, not a few dp of scroll: the gauge gives up the
+            // overflow, plus 1dp for pixel rounding, but only when that is enough to fit (it never
+            // goes under HeroGaugeMin). A long result keeps the full gauge and scrolls. [naturalHeight]
+            // is the content at the full gauge size, so shrinking never feeds back into it.
+            val viewport = maxHeight
+            var naturalHeight by remember { mutableStateOf(0.dp) }
+            val overflow = (naturalHeight - viewport + 1.dp).coerceAtLeast(0.dp)
+            val gaugeSize = if (overflow <= HeroGaugeMax - HeroGaugeMin) HeroGaugeMax - overflow else HeroGaugeMax
+            val scroll = rememberScrollState()
+            Column(
+                Modifier
+                    .fillMaxWidth()
+                    .verticalScroll(scroll)
+                    .onSizeChanged { naturalHeight = with(density) { it.height.toDp() } + (HeroGaugeMax - gaugeSize) }
+                    .padding(horizontal = Dimens.gutter),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                val summary = state.summary
+                if (summary != null) {
                     Spacer(Modifier.height(Dimens.space24))
-                    NotRemovedCard(
-                        items = notRemoved,
-                        retryEnabled = !state.isRetrying,
-                        onRetry = viewModel::retry,
-                        onOpenSecuritySettings = { openSecuritySettings(context) },
-                    )
+                    if (summary.removedCount > 0) {
+                        FreedHero(summary, state.storageDrop, gaugeSize)
+                    } else {
+                        NothingRemovedHeader()
+                    }
+                    Notes(summary)
+                    val notRemoved = summary.notRemoved
+                    if (notRemoved.isNotEmpty()) {
+                        Spacer(Modifier.height(Dimens.space24))
+                        NotRemovedCard(
+                            items = notRemoved,
+                            retryEnabled = !state.isRetrying,
+                            onRetry = viewModel::retry,
+                            onOpenSecuritySettings = { openSecuritySettings(context) },
+                        )
+                    }
+                    if (state.teaser.count > 0) {
+                        Spacer(Modifier.height(if (notRemoved.isNotEmpty()) Dimens.cardGap else Dimens.space24))
+                        UnusedTeaserCard(state.teaser, onOpenUnused)
+                    }
+                    Spacer(Modifier.height(Dimens.gutter))
                 }
-                if (state.teaser.count > 0) {
-                    Spacer(Modifier.height(if (notRemoved.isNotEmpty()) Dimens.cardGap else Dimens.space24))
-                    UnusedTeaserCard(state.teaser, onOpenUnused)
-                }
-                Spacer(Modifier.height(Dimens.gutter))
+            }
+            // More below: the content fades out instead of being cut off above the ad and Done.
+            if (scroll.canScrollForward) {
+                val background = AppTheme.colors.background
+                Box(
+                    Modifier
+                        .align(Alignment.BottomCenter)
+                        .fillMaxWidth()
+                        .height(Dimens.space32)
+                        .background(Brush.verticalGradient(listOf(background.copy(alpha = 0f), background))),
+                )
             }
         }
-        PrimaryButton(
-            text = stringResource(R.string.action_done),
-            onClick = onDone,
-            modifier = Modifier.fillMaxWidth().padding(horizontal = Dimens.gutter, vertical = Dimens.gutterSmall),
-        )
+        // Free users: a native ad pinned just above Done (AdMob PRD §6.2); nothing until it loads.
+        val nativeAd = rememberNativeAd(AdPlacement.RESULT)
+        if (nativeAd != null) PinnedNativeAd(nativeAd, AdPlacement.RESULT)
+        val doneModifier = Modifier.fillMaxWidth().padding(horizontal = Dimens.gutter, vertical = Dimens.gutterSmall)
+        // Green says "it worked"; with nothing removed, Done is just the way out.
+        if (state.summary?.removedCount == 0) {
+            SecondaryButton(text = stringResource(R.string.action_done), onClick = onDone, modifier = doneModifier)
+        } else {
+            PrimaryButton(text = stringResource(R.string.action_done), onClick = onDone, modifier = doneModifier)
+        }
     }
 }
 
@@ -161,7 +198,7 @@ fun UninstallResultScreen(
  * motion, where the screen simply renders the final values.
  */
 @Composable
-private fun FreedHero(summary: BatchSummary, drop: StorageDrop?) {
+private fun FreedHero(summary: BatchSummary, drop: StorageDrop?, gaugeSize: Dp) {
     val colors = AppTheme.colors
     val reducedMotion = rememberReducedMotion()
     val target = summary.freedBytes
@@ -200,12 +237,13 @@ private fun FreedHero(summary: BatchSummary, drop: StorageDrop?) {
             StorageGauge(
                 usedFraction = fraction,
                 severity = SeverityRules.storage(fraction),
-                size = 220.dp,
+                size = gaugeSize,
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(
                         text = stringResource(R.string.uninstall_result_percent, ResultMath.percent(shownFraction)),
-                        style = MaterialTheme.typography.displaySmall,
+                        // Shrinks with the gauge, so it never crowds the arc.
+                        style = MaterialTheme.typography.displaySmall.let { it.copy(fontSize = it.fontSize * (gaugeSize / HeroGaugeMax)) },
                         color = colors.textPrimary,
                     )
                     Text(
@@ -216,7 +254,7 @@ private fun FreedHero(summary: BatchSummary, drop: StorageDrop?) {
                 }
             }
         } else {
-            Box(Modifier.size(220.dp), contentAlignment = Alignment.Center) {
+            Box(Modifier.size(gaugeSize), contentAlignment = Alignment.Center) {
                 IconBadge(icon = Icons.Rounded.CheckCircle, size = 96.dp)
             }
         }
@@ -267,7 +305,8 @@ private fun StatLine(icon: ImageVector, tint: Color, text: String, style: TextSt
 
 @Composable
 private fun NothingRemovedHeader() {
-    IconBadge(icon = Icons.Rounded.Info, size = 88.dp)
+    // Amber, like every "unfinished" state: green is kept for space actually freed.
+    IconBadge(icon = Icons.Rounded.Info, size = 88.dp, severity = Severity.WARNING)
     Spacer(Modifier.height(Dimens.gutter))
     Text(
         text = stringResource(R.string.uninstall_result_none_title),
@@ -471,3 +510,7 @@ private fun openSecuritySettings(context: Context) {
         }
     }
 }
+
+/** The Result gauge's full size, and the smallest it shrinks to so the screen fits without scrolling. */
+private val HeroGaugeMax = 220.dp
+private val HeroGaugeMin = 140.dp

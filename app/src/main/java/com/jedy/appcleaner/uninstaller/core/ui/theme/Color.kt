@@ -51,6 +51,8 @@ data class AppColors(
     val warningSurface: Color,
     /** Text and icons on [warningSurface]: a dark amber in light mode, a pale one in dark mode. */
     val onWarningSurface: Color,
+    /** Text on a solid [warning] fill (the amber button). */
+    val onWarning: Color,
     /** The destructive button fill; [onRemoveRed] on it is ≥4.5:1. */
     val removeRed: Color,
     val onRemoveRed: Color,
@@ -94,6 +96,7 @@ val LightAppColors = AppColors(
     warning = Color(0xFFF59E0B),
     warningSurface = Color(0xFFFEF3C7),
     onWarningSurface = Color(0xFF78350F), // 8.2:1
+    onWarning = Color(0xFF3A2A00), // 6.5:1 on warning
     removeRed = Color(0xFFDC2626), // white on it: 4.8:1
     onRemoveRed = Color(0xFFFFFFFF),
     removeRedSurface = Color(0xFFFEE2E2),
@@ -128,6 +131,7 @@ val DarkAppColors = AppColors(
     warning = Color(0xFFF59E0B),
     warningSurface = Color(0xFF33280E),
     onWarningSurface = Color(0xFFFDE68A), // 11.6:1
+    onWarning = Color(0xFF3A2A00), // 6.5:1 on warning
     removeRed = Color(0xFFF87171),
     onRemoveRed = Color(0xFF2A0707), // 6.7:1
     removeRedSurface = Color(0xFF401A1F),

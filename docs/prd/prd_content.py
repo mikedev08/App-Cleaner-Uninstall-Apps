@@ -7,6 +7,7 @@ HEADER = "App Cleaner  |  Product Requirements Document"
 
 INFO = [
     ("App Name", TITLE),
+    ("Bundle ID", "com.jedy.appcleaner.uninstaller"),
     ("Version", "1.2"),
     ("Date", "September 28, 2026"),
     ("Status", "In development (V1) — describes the current build"),

@@ -1,15 +1,18 @@
 package com.jedy.appcleaner.uninstaller.navigation
 
+import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInHorizontally
-import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.slideInVertically
+import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
@@ -18,21 +21,27 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import com.jedy.appcleaner.uninstaller.BuildConfig
 import com.jedy.appcleaner.uninstaller.MainViewModel
+import com.jedy.appcleaner.uninstaller.ads.AdSurface
+import com.jedy.appcleaner.uninstaller.ads.LocalAdManager
+import com.jedy.appcleaner.uninstaller.ads.PinnedAdLayout
+import com.jedy.appcleaner.uninstaller.core.analytics.AdPlacement
 import com.jedy.appcleaner.uninstaller.core.model.HomeTab
 import com.jedy.appcleaner.uninstaller.core.model.PaywallSource
 import com.jedy.appcleaner.uninstaller.core.model.UsageAccessTrigger
 import com.jedy.appcleaner.uninstaller.core.ui.theme.AppTheme
 import com.jedy.appcleaner.uninstaller.feature.apps.AppsScreen
 import com.jedy.appcleaner.uninstaller.feature.history.HistoryScreen
-import com.jedy.appcleaner.uninstaller.feature.scan.ScanScreen
 import com.jedy.appcleaner.uninstaller.feature.home.HomeScreen
 import com.jedy.appcleaner.uninstaller.feature.onboarding.OnboardingScreen
 import com.jedy.appcleaner.uninstaller.feature.paywall.PaywallScreen
+import com.jedy.appcleaner.uninstaller.feature.scan.ScanScreen
 import com.jedy.appcleaner.uninstaller.feature.settings.SettingsScreen
 import com.jedy.appcleaner.uninstaller.feature.uninstall.UninstallProgressScreen
 import com.jedy.appcleaner.uninstaller.feature.uninstall.UninstallResultScreen
 import com.jedy.appcleaner.uninstaller.feature.usageaccess.UsageAccessScreen
+import kotlinx.coroutines.launch
 
 @Composable
 fun AppCleanerNavHost(
@@ -43,6 +52,22 @@ fun AppCleanerNavHost(
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val openPaywall: (PaywallSource) -> Unit = { navController.navigate(Routes.paywall(it)) }
     val openUsageAccess: (UsageAccessTrigger) -> Unit = { navController.navigate(Routes.usageAccess(it)) }
+
+    // Ads (AdMob PRD §5): the current route decides where an interstitial may show, and arriving at
+    // Home from one of the screens below is the in-session show point (trigger C).
+    val ads = LocalAdManager.current
+    val activity = LocalActivity.current
+    val scope = rememberCoroutineScope()
+    LaunchedEffect(navController, ads, activity) {
+        if (ads == null || activity == null) return@LaunchedEffect
+        var previous: String? = null
+        navController.currentBackStackEntryFlow.collect { entry ->
+            val route = entry.destination.route
+            ads.surface = adSurfaceFor(route)
+            if (route == Routes.HOME && previous in ReturnsToHome) ads.tryShowInSession(activity)
+            previous = route
+        }
+    }
 
     NavHost(
         navController = navController,
@@ -59,23 +84,27 @@ fun AppCleanerNavHost(
                 onLanguageSelected = viewModel::onLanguageSelected,
                 onFinished = { skipped ->
                     viewModel.onOnboardingFinished(skipped)
-                    // PRD §3 step 3: the dismissible paywall follows onboarding, once.
-                    navController.navigate(Routes.paywall(PaywallSource.ONBOARDING)) {
+                    // PRD §3 step 3: the dismissible paywall follows onboarding, once; a build
+                    // without subscriptions goes straight Home.
+                    val next = if (BuildConfig.SUBSCRIPTIONS) Routes.paywall(PaywallSource.ONBOARDING) else Routes.HOME
+                    navController.navigate(next) {
                         popUpTo(Routes.ONBOARDING) { inclusive = true }
                     }
                 },
             )
         }
         composable(Routes.HOME) {
-            HomeScreen(
-                onOpenSettings = { navController.navigate(Routes.SETTINGS) },
-                onOpenHistory = { navController.navigate(Routes.HISTORY) },
-                onOpenPaywall = openPaywall,
-                onOpenUsageAccess = openUsageAccess,
-                onBatchStarted = { navController.navigate(Routes.uninstallProgress(it)) },
-                onOpenScan = { navController.navigate(Routes.SCAN) },
-                onOpenApps = { navController.navigate(Routes.apps(it)) },
-            )
+            PinnedAdLayout(AdPlacement.HOME) {
+                HomeScreen(
+                    onOpenSettings = { navController.navigate(Routes.SETTINGS) },
+                    onOpenHistory = { navController.navigate(Routes.HISTORY) },
+                    onOpenPaywall = openPaywall,
+                    onOpenUsageAccess = openUsageAccess,
+                    onBatchStarted = { navController.navigate(Routes.uninstallProgress(it)) },
+                    onOpenScan = { navController.navigate(Routes.SCAN) },
+                    onOpenApps = { navController.navigate(Routes.apps(it)) },
+                )
+            }
         }
         composable(Routes.SCAN) {
             ScanScreen(
@@ -111,10 +140,13 @@ fun AppCleanerNavHost(
             PaywallScreen(
                 source = source,
                 onClose = {
+                    // Trigger A (AdMob PRD §5.2): every close without buying. Pro just bought sees nothing.
                     if (source == PaywallSource.ONBOARDING) {
                         navController.navigate(Routes.HOME) { popUpTo(Routes.PAYWALL) { inclusive = true } }
+                        if (ads != null && activity != null) scope.launch { ads.showAfterLaunchOffer(activity) }
                     } else {
                         navController.popBackStack()
+                        if (activity != null) ads?.showAfterOffer(activity)
                     }
                 },
             )
@@ -129,16 +161,18 @@ fun AppCleanerNavHost(
             )
         }
         composable(Routes.SETTINGS) {
-            SettingsScreen(
-                language = state.language,
-                onLanguageSelected = viewModel::onLanguageSelected,
-                onBack = { navController.popBackStack() },
-                onOpenPaywall = openPaywall,
-                onOpenUsageAccess = openUsageAccess,
-            )
+            PinnedAdLayout(AdPlacement.SETTINGS) {
+                SettingsScreen(
+                    language = state.language,
+                    onLanguageSelected = viewModel::onLanguageSelected,
+                    onBack = { navController.popBackStack() },
+                    onOpenPaywall = openPaywall,
+                    onOpenUsageAccess = openUsageAccess,
+                )
+            }
         }
         composable(Routes.HISTORY) {
-            HistoryScreen(onBack = { navController.popBackStack() })
+            PinnedAdLayout(AdPlacement.HISTORY) { HistoryScreen(onBack = { navController.popBackStack() }) }
         }
         composable(
             route = Routes.UNINSTALL_PROGRESS,
@@ -173,4 +207,21 @@ fun AppCleanerNavHost(
             )
         }
     }
+}
+
+/** Leaving these for Home is a natural break: the in-session interstitial's moment. */
+private val ReturnsToHome = setOf(Routes.UNINSTALL_RESULT, Routes.APPS, Routes.HISTORY, Routes.SETTINGS)
+
+private fun adSurfaceFor(route: String?): AdSurface = when (route) {
+    Routes.HOME -> AdSurface.HOME
+    Routes.SCAN -> AdSurface.SCAN
+    Routes.APPS -> AdSurface.APPS
+    Routes.HISTORY -> AdSurface.HISTORY
+    Routes.SETTINGS -> AdSurface.SETTINGS
+    Routes.UNINSTALL_PROGRESS -> AdSurface.UNINSTALL
+    Routes.UNINSTALL_RESULT -> AdSurface.RESULT
+    Routes.PAYWALL -> AdSurface.PAYWALL
+    Routes.USAGE_ACCESS -> AdSurface.USAGE_ACCESS
+    // Onboarding, and anything unknown: no interstitial.
+    else -> AdSurface.ONBOARDING
 }

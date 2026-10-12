@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ad_badge">विज्ञापन</string>
+    <string name="settings_privacy_choices_title">निजता विकल्प</string>
+    <string name="settings_privacy_choices_body">बदलें कि विज्ञापन आपके डेटा का उपयोग कैसे करते हैं</string>
+</resources>

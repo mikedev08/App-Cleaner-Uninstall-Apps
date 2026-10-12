@@ -177,7 +177,8 @@ class PackageManagerAppInventory @Inject constructor(
     }
 
     private suspend fun patchChanged(packageName: String) = mutex.withLock {
-        val app = runCatching { packageInfo(packageName) }.getOrNull()?.toUserAppOrNull()
+        val hasLauncher = packageManager.getLaunchIntentForPackage(packageName) != null
+        val app = runCatching { packageInfo(packageName) }.getOrNull()?.toUserAppOrNull(hasLauncher)
         if (app == null) {
             removeLocked(packageName)
             return@withLock
@@ -219,7 +220,20 @@ class PackageManagerAppInventory @Inject constructor(
             packageManager.getInstalledPackages(0)
         }
         lastVisiblePackageCount = packages.size
-        return packages.mapNotNull { it.toUserAppOrNull() }
+        val launchable = launchablePackages()
+        return packages.mapNotNull { it.toUserAppOrNull(hasLauncher = it.packageName in launchable) }
+    }
+
+    /** Every package with a launcher icon, from one query rather than one per app. */
+    private fun launchablePackages(): Set<String> {
+        val launcher = Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER)
+        val activities = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            packageManager.queryIntentActivities(launcher, PackageManager.ResolveInfoFlags.of(0))
+        } else {
+            @Suppress("DEPRECATION")
+            packageManager.queryIntentActivities(launcher, 0)
+        }
+        return activities.mapTo(HashSet()) { it.activityInfo.packageName }
     }
 
     private fun packageInfo(packageName: String): PackageInfo =
@@ -230,9 +244,9 @@ class PackageManagerAppInventory @Inject constructor(
             packageManager.getPackageInfo(packageName, 0)
         }
 
-    private fun PackageInfo.toUserAppOrNull(): InstalledApp? {
+    private fun PackageInfo.toUserAppOrNull(hasLauncher: Boolean): InstalledApp? {
         val info = applicationInfo ?: return null
-        if (!InventoryRules.isUserApp(info.flags, packageName, ownPackage)) return null
+        if (!InventoryRules.isUserApp(info.flags, packageName, ownPackage, hasLauncher)) return null
         return toInstalledApp()
     }
 

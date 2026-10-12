@@ -21,4 +21,18 @@ object CancelStreak {
 
     /** Ask "Stop removing the rest?" instead of opening the next dialog — only if there is one. */
     fun shouldAsk(streak: Int, remaining: Int): Boolean = streak >= THRESHOLD && remaining > 0
+
+    /**
+     * How warm the Progress ring is: 0 is calm green, 1 amber (the first "Stop removing the
+     * rest?"), 2 red (asked again after Keep going). Each Cancel moves it a third of the way to
+     * the next colour; [keepGoings] is how many times the user chose Keep going since the last
+     * removal. A removal resets both, so the ring cools down to green.
+     */
+    fun warmth(streak: Int, keepGoings: Int): Float =
+        (keepGoings + streak.toFloat() / THRESHOLD).coerceIn(0f, MAX_WARMTH)
+
+    /** A removal cools everything down; any other outcome keeps the Keep-going count. */
+    fun nextKeepGoings(keepGoings: Int, outcome: Outcome): Int = if (outcome == Outcome.Removed) 0 else keepGoings
+
+    const val MAX_WARMTH = 2f
 }

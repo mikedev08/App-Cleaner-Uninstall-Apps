@@ -319,6 +319,7 @@ class UninstallEngineTest {
 
         assertEquals("no fourth dialog", listOf("p.a", "p.b", "p.c"), remover.requests.map { it.second })
         assertEquals(2, engine.runtime.value.cancelStreakPrompt)
+        assertEquals("the ring is amber", 3, engine.runtime.value.cancelStreak)
         assertNull(dao.getBatch(id)!!.finishedAt)
 
         engine.keepGoingAfterCancelStreak()
@@ -326,10 +327,35 @@ class UninstallEngineTest {
         assertNull(engine.runtime.value.cancelStreakPrompt)
         assertEquals(listOf("p.a", "p.b", "p.c", "p.d", "p.e"), remover.requests.map { it.second })
         assertEquals(ItemState.REMOVED, dao.state(id, "p.d"))
+        assertEquals("a removal cools the ring back to green", 0, engine.runtime.value.keepGoings)
+        assertEquals(0, engine.runtime.value.cancelStreak)
         val prompt = analytics.events.filterIsInstance<AnalyticsEvent.UninstallCancelStreakPrompt>().single()
         assertEquals(CancelStreakAction.KEEP_GOING, prompt.action)
         assertEquals(2, prompt.remainingCount)
         assertEquals(mapOf("action" to "keep_going", "remaining_count" to 2), prompt.params)
+    }
+
+    @Test
+    fun `three more Cancels after Keep going ask again, escalated`() = runTest {
+        val pkgs = listOf("p.a", "p.b", "p.c", "p.d", "p.e", "p.f", "p.g")
+        val inventory = FakeInventory(pkgs.map { app(it) })
+        val remover = FakeRemover(inventory).apply {
+            pkgs.take(6).forEach { script[it] = PackageInstaller.STATUS_FAILURE_ABORTED }
+        }
+        val engine = engine(inventory, remover)
+        val id = engine.createBatch(pkgs, HomeTab.ALL)
+        engine.attach(id)
+        engine.onScreenResumed()
+        settle()
+        assertEquals(0, engine.runtime.value.keepGoings)
+
+        engine.keepGoingAfterCancelStreak()
+        settle()
+        assertEquals("paused again after six Cancels", 1, engine.runtime.value.cancelStreakPrompt)
+        assertEquals(1, engine.runtime.value.keepGoings)
+        assertEquals(3, engine.runtime.value.cancelStreak)
+        assertEquals("red", 2f, CancelStreak.warmth(engine.runtime.value.cancelStreak, engine.runtime.value.keepGoings), 0f)
+        assertNull(dao.getBatch(id)!!.finishedAt)
     }
 
     @Test

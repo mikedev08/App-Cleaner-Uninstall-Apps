@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ad_badge">מודעה</string>
+    <string name="settings_privacy_choices_title">אפשרויות פרטיות</string>
+    <string name="settings_privacy_choices_body">שינוי האופן שבו מודעות משתמשות בנתונים שלך</string>
+</resources>

@@ -48,6 +48,24 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCleaner.Starting">
 
+        <!-- Crashlytics: on in release, off in debug unless -PcrashlyticsInDebug=true. -->
+        <meta-data
+            android:name="firebase_crashlytics_collection_enabled"
+            android:value="${crashlyticsEnabled}" />
+
+        <!-- AdMob (AdMob PRD §3.2). The app ID comes from app/build.gradle.kts. -->
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="${admobAppId}" />
+        <!-- No native ad validator popup over test ads: it outlived the screen its ad was on. -->
+        <meta-data
+            android:name="com.google.android.gms.ads.flag.NATIVE_AD_DEBUGGER_ENABLED"
+            android:value="false" />
+        <!-- Measurement waits until consent is resolved. -->
+        <meta-data
+            android:name="com.google.android.gms.ads.DELAY_APP_MEASUREMENT_INIT"
+            android:value="true" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true"

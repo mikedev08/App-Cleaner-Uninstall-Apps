@@ -7,6 +7,13 @@
         <item quantity="many">Вы нажали «Отмена» три раза подряд. Осталось %1$d приложений.</item>
         <item quantity="other">Вы нажали «Отмена» три раза подряд. Осталось %1$d приложения.</item>
     </plurals>
+    <string name="uninstall_cancel_streak_again_title">Точно продолжить?</string>
+    <plurals name="uninstall_cancel_streak_again_body">
+        <item quantity="one">Вы снова и снова нажимаете «Отмена». Осталось %1$d приложение.</item>
+        <item quantity="few">Вы снова и снова нажимаете «Отмена». Осталось %1$d приложения.</item>
+        <item quantity="many">Вы снова и снова нажимаете «Отмена». Осталось %1$d приложений.</item>
+        <item quantity="other">Вы снова и снова нажимаете «Отмена». Осталось %1$d приложения.</item>
+    </plurals>
 
     <string name="usage_still_off_title">Доступ к истории использования всё ещё выключен</string>
     <string name="usage_still_off_body">В списке нажмите App Cleaner и включите переключатель.</string>

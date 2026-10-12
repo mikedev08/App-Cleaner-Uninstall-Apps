@@ -77,16 +77,20 @@ fun PrimaryButton(
     icon: ImageVector? = null,
     enabled: Boolean = true,
     destructive: Boolean = false,
+    /** Amber: the main action when the screen is asking the user to pause, not to go. */
+    warning: Boolean = false,
 ) {
     val colors = AppTheme.colors
     val container = when {
         !enabled -> colors.surfaceMuted
         destructive -> colors.removeRed
+        warning -> colors.warning
         else -> colors.accent
     }
     val content = when {
         !enabled -> colors.textMuted
         destructive -> colors.onRemoveRed
+        warning -> colors.onWarning
         else -> colors.onAccent
     }
     PillSurface(

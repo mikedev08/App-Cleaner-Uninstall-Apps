@@ -3,15 +3,16 @@ package com.jedy.appcleaner.uninstaller.data.billing
 import com.jedy.appcleaner.uninstaller.BuildConfig
 import com.jedy.appcleaner.uninstaller.data.prefs.AppPreferences
 import com.jedy.appcleaner.uninstaller.di.ApplicationScope
+import javax.inject.Inject
+import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.runBlocking
-import javax.inject.Inject
-import javax.inject.Singleton
 
 /**
  * The app-wide premium flag (frozen [Premium] contract): the RevenueCat `premium` entitlement,
@@ -28,7 +29,11 @@ class RevenueCatPremium @Inject constructor(
     @ApplicationScope scope: CoroutineScope,
 ) : Premium {
 
-    override val isPremium: StateFlow<Boolean> = if (!BuildConfig.DEBUG) {
+    override val isPremium: StateFlow<Boolean> = if (!BuildConfig.SUBSCRIPTIONS) {
+        // A -Psubscriptions=false build: nothing to buy, so every Pro feature is simply on.
+        // Ads do not follow this flag there (AdManager.isAdFree).
+        MutableStateFlow(true)
+    } else if (!BuildConfig.DEBUG) {
         // Release: the override does not exist, so the entitlement *is* the answer.
         billing.entitlementActive
     } else {

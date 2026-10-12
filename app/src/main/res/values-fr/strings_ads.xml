@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ad_badge">Annonce</string>
+    <string name="settings_privacy_choices_title">Choix de confidentialité</string>
+    <string name="settings_privacy_choices_body">Modifier l\'utilisation de vos données par les annonces</string>
+</resources>

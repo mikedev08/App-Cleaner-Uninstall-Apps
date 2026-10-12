@@ -5,13 +5,14 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 /**
- * Analytics sink. Firebase Analytics/Crashlytics (PRD §2) plug in here once
- * `google-services.json` is added; until then [LogcatAnalytics] keeps every call site honest.
+ * Analytics sink, bound to [FirebaseAnalyticsSink] (PRD §2). Call sites only see this interface,
+ * so nothing outside `core/analytics` depends on a Firebase type and tests can swap in a fake.
  */
 interface Analytics {
     fun log(event: AnalyticsEvent)
 }
 
+/** The funnel in logcat (tag AppCleanerFunnel); debug builds echo every Firebase event through it. */
 @Singleton
 class LogcatAnalytics @Inject constructor() : Analytics {
     override fun log(event: AnalyticsEvent) {

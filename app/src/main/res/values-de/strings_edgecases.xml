@@ -5,6 +5,11 @@
         <item quantity="one">Du hast dreimal hintereinander auf Abbrechen getippt. %1$d App wartet noch.</item>
         <item quantity="other">Du hast dreimal hintereinander auf Abbrechen getippt. %1$d Apps warten noch.</item>
     </plurals>
+    <string name="uninstall_cancel_streak_again_title">Wirklich weitermachen?</string>
+    <plurals name="uninstall_cancel_streak_again_body">
+        <item quantity="one">Du tippst immer wieder auf Abbrechen. %1$d App wartet noch.</item>
+        <item quantity="other">Du tippst immer wieder auf Abbrechen. %1$d Apps warten noch.</item>
+    </plurals>
 
     <string name="usage_still_off_title">Der Zugriff auf Nutzungsdaten ist noch aus</string>
     <string name="usage_still_off_body">Tippe in der Liste auf App Cleaner und schalte den Schalter ein.</string>

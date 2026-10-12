@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ad_badge">广告</string>
+    <string name="settings_privacy_choices_title">隐私选项</string>
+    <string name="settings_privacy_choices_body">更改广告使用你数据的方式</string>
+</resources>

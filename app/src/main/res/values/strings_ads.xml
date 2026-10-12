@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- AdMob PRD §6.3: the badge on every native ad. -->
+    <string name="ad_badge">Ad</string>
+    <!-- AdMob PRD §8: Settings row, shown only when UMP requires privacy options. -->
+    <string name="settings_privacy_choices_title">Privacy choices</string>
+    <string name="settings_privacy_choices_body">Change how ads use your data</string>
+</resources>

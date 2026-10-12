@@ -150,6 +150,88 @@ sealed class AnalyticsEvent(val name: String) {
     data class InventoryIncomplete(val visibleCount: Int) : AnalyticsEvent("inventory_incomplete") {
         override val params get() = mapOf("visible_count" to visibleCount)
     }
+
+    // Ad lifecycle (AdMob PRD §9). Interstitial show rate is showed / (showed + missed_show),
+    // native show rate is showed / (showed + load_failed). Codes and enums only, like the rest.
+
+    data object InterstitialLoaded : AnalyticsEvent("interstitial_loaded")
+
+    data class InterstitialLoadFailed(val code: Int) : AnalyticsEvent("interstitial_load_failed") {
+        override val params get() = mapOf("code" to code)
+    }
+
+    data class InterstitialShowed(val trigger: AdTrigger) : AnalyticsEvent("interstitial_showed") {
+        override val params get() = mapOf("trigger" to trigger.value)
+    }
+
+    data object InterstitialImpression : AnalyticsEvent("interstitial_impression")
+
+    data object InterstitialClicked : AnalyticsEvent("interstitial_clicked")
+
+    /** A show point was reached with no ad ready. A cooldown skip is not a missed show. */
+    data class InterstitialMissedShow(val trigger: AdTrigger, val reason: MissedShowReason) :
+        AnalyticsEvent("interstitial_missed_show") {
+        override val params get() = mapOf("trigger" to trigger.value, "reason" to reason.value)
+    }
+
+    data class InterstitialShowFailed(val code: Int) : AnalyticsEvent("interstitial_show_failed") {
+        override val params get() = mapOf("code" to code)
+    }
+
+    data object NativeLoaded : AnalyticsEvent("native_loaded")
+
+    data class NativeLoadFailed(val code: Int) : AnalyticsEvent("native_load_failed") {
+        override val params get() = mapOf("code" to code)
+    }
+
+    data class NativeShowed(val placement: AdPlacement) : AnalyticsEvent("native_showed") {
+        override val params get() = mapOf("placement" to placement.value)
+    }
+
+    data object NativeImpression : AnalyticsEvent("native_impression")
+
+    data object NativeClicked : AnalyticsEvent("native_clicked")
+
+    /** A screen asked for a native ad before the preloaded one was ready. */
+    data object NativePreloadMiss : AnalyticsEvent("native_preload_miss")
+
+    /** The UMP error code, never its message text. */
+    data class ConsentError(val code: Int) : AnalyticsEvent("consent_error") {
+        override val params get() = mapOf("code" to code)
+    }
+
+    /** A placement skipped because the user is Pro, once per placement per screen visit; for QA. */
+    data class AdSuppressed(val format: AdFormat, val placement: String) : AnalyticsEvent("ad_suppressed") {
+        override val params get() = mapOf("format" to format.value, "placement" to placement)
+    }
+}
+
+/** What asked for an interstitial (AdMob PRD §5.2). */
+enum class AdTrigger(val value: String) {
+    AFTER_OFFER("after_offer"),
+    RESUME("resume"),
+    IN_SESSION("in_session"),
+}
+
+/** `interstitial_missed_show.reason`. */
+enum class MissedShowReason(val value: String) {
+    LOADING("loading"),
+    NOT_LOADED("not_loaded"),
+}
+
+/** Where a native ad sits (AdMob PRD §6.2): one per screen, pinned to its bottom. */
+enum class AdPlacement(val value: String) {
+    HOME("home"),
+    APPS("apps"),
+    HISTORY("history"),
+    SCAN("scan"),
+    RESULT("result"),
+    SETTINGS("settings"),
+}
+
+enum class AdFormat(val value: String) {
+    NATIVE("native"),
+    INTERSTITIAL("interstitial"),
 }
 
 /** `uninstall_cancel_streak_prompt.action`. */

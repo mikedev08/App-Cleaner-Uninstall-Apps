@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ad_badge">Реклама</string>
+    <string name="settings_privacy_choices_title">Настройки конфиденциальности</string>
+    <string name="settings_privacy_choices_body">Как реклама использует ваши данные</string>
+</resources>

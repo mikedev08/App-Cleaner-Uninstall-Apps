@@ -14,20 +14,20 @@ class InventoryRulesTest {
 
     @Test
     fun `user app without system flag is kept`() {
-        assertTrue(InventoryRules.isUserApp(appFlags = 0, packageName = "com.example.game", ownPackage = own))
+        assertTrue(InventoryRules.isUserApp(appFlags = 0, packageName = "com.example.game", ownPackage = own, hasLauncher = true))
     }
 
     @Test
     fun `system and updated system apps are hidden`() {
         val system = ApplicationInfo.FLAG_SYSTEM
         val updatedSystem = ApplicationInfo.FLAG_SYSTEM or ApplicationInfo.FLAG_UPDATED_SYSTEM_APP
-        assertFalse(InventoryRules.isUserApp(system, "com.android.chrome", own))
-        assertFalse(InventoryRules.isUserApp(updatedSystem, "com.google.android.youtube", own))
+        assertFalse(InventoryRules.isUserApp(system, "com.android.chrome", own, hasLauncher = true))
+        assertFalse(InventoryRules.isUserApp(updatedSystem, "com.google.android.youtube", own, hasLauncher = true))
     }
 
     @Test
     fun `our own package is always excluded`() {
-        assertFalse(InventoryRules.isUserApp(appFlags = 0, packageName = own, ownPackage = own))
+        assertFalse(InventoryRules.isUserApp(appFlags = 0, packageName = own, ownPackage = own, hasLauncher = true))
     }
 
     @Test
@@ -104,4 +104,10 @@ class InventoryRulesTest {
         storageUuid = null,
         uid = 10_000,
     )
+
+    @Test
+    fun `a user app with no launcher icon is a component, not an app, and is hidden`() {
+        // Android System Key Verifier, SafetyCore: installed by Play as user apps, with no icon.
+        assertFalse(InventoryRules.isUserApp(appFlags = 0, packageName = "com.google.android.contactkeys", ownPackage = own, hasLauncher = false))
+    }
 }

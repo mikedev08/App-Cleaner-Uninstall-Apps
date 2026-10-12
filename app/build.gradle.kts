@@ -5,6 +5,9 @@ plugins {
     alias(libs.plugins.kotlin.compose)
     alias(libs.plugins.ksp)
     alias(libs.plugins.hilt)
+    // Firebase project app-cleaner-jedy; app/google-services.json holds its client config.
+    alias(libs.plugins.google.services)
+    alias(libs.plugins.firebase.crashlytics)
 }
 
 // The RevenueCat public SDK key lives in local.properties (never committed):
@@ -31,6 +34,14 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables { useSupportLibrary = true }
 
+        // Google's sample AdMob app ID, which only ever serves test ads. It and the unit IDs in
+        // ads/AdConfig.kt are replaced with App Cleaner's real ones before publishing (AdMob PRD §2.2).
+        manifestPlaceholders["admobAppId"] = "ca-app-pub-3940256099942544~3347511713"
+
+        // -Psubscriptions=false builds the app with no subscription at all: no paywall and no Pro
+        // entry points, every Pro feature free, and ads for everyone. RevenueCat stays in the build.
+        buildConfigField("boolean", "SUBSCRIPTIONS", (findProperty("subscriptions") != "false").toString())
+
         buildConfigField(
             "String",
             "REVENUECAT_API_KEY",
@@ -44,7 +55,14 @@ android {
     }
 
     buildTypes {
+        debug {
+            // Crash reports from development builds would drown out real ones. Pass
+            // -PcrashlyticsInDebug=true to send them, e.g. to check the Crashlytics setup.
+            manifestPlaceholders["crashlyticsEnabled"] =
+                (project.findProperty("crashlyticsInDebug") ?: "false").toString()
+        }
         release {
+            manifestPlaceholders["crashlyticsEnabled"] = "true"
             optimization {
                 enable = false
             }
@@ -106,6 +124,15 @@ dependencies {
     ksp(libs.room.compiler)
 
     implementation(libs.revenuecat.purchases)
+
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.crashlytics)
+
+    implementation(libs.play.services.ads)
+    implementation(libs.user.messaging.platform)
+    // Mediation adapters: added with production IDs (AdMob PRD §2.2), pinned to versions
+    // certified for play-services-ads 25.5.0.
 
     testImplementation(libs.junit)
     testImplementation(libs.kotlinx.coroutines.test)

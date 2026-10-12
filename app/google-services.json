@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "584381574170",
+    "project_id": "app-cleaner-jedy",
+    "storage_bucket": "app-cleaner-jedy.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:584381574170:android:8260293dc30291055df5a3",
+        "android_client_info": {
+          "package_name": "com.jedy.appcleaner.uninstaller"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCusngux1hrSD_eZD3QJ15qD1W_RLU_Wz8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

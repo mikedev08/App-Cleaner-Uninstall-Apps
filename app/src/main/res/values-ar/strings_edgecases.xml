@@ -9,6 +9,15 @@
         <item quantity="many">ضغطت على «إلغاء» ثلاث مرات متتالية. بقي %1$d تطبيقًا.</item>
         <item quantity="other">ضغطت على «إلغاء» ثلاث مرات متتالية. بقي %1$d تطبيق.</item>
     </plurals>
+    <string name="uninstall_cancel_streak_again_title">هل أنت متأكد أنك تريد المتابعة؟</string>
+    <plurals name="uninstall_cancel_streak_again_body">
+        <item quantity="zero">ما زلت تضغط على «إلغاء». لم يبقَ أي تطبيق.</item>
+        <item quantity="one">ما زلت تضغط على «إلغاء». بقي تطبيق واحد.</item>
+        <item quantity="two">ما زلت تضغط على «إلغاء». بقي تطبيقان.</item>
+        <item quantity="few">ما زلت تضغط على «إلغاء». بقيت %1$d تطبيقات.</item>
+        <item quantity="many">ما زلت تضغط على «إلغاء». بقي %1$d تطبيقًا.</item>
+        <item quantity="other">ما زلت تضغط على «إلغاء». بقي %1$d تطبيق.</item>
+    </plurals>
 
     <string name="usage_still_off_title">الوصول إلى بيانات الاستخدام ما زال متوقفًا</string>
     <string name="usage_still_off_body">في القائمة، اضغط على App Cleaner ثم شغّل المفتاح.</string>

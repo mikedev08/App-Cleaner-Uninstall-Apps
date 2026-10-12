@@ -3,7 +3,7 @@ package com.jedy.appcleaner.uninstaller.di
 import android.content.Context
 import androidx.room.Room
 import com.jedy.appcleaner.uninstaller.core.analytics.Analytics
-import com.jedy.appcleaner.uninstaller.core.analytics.LogcatAnalytics
+import com.jedy.appcleaner.uninstaller.core.analytics.FirebaseAnalyticsSink
 import com.jedy.appcleaner.uninstaller.data.local.AppCleanerDatabase
 import com.jedy.appcleaner.uninstaller.data.local.AppSizeDao
 import com.jedy.appcleaner.uninstaller.data.local.HistoryDao
@@ -15,12 +15,12 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Qualifier
+import javax.inject.Singleton
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
-import javax.inject.Qualifier
-import javax.inject.Singleton
 
 @Qualifier @Retention(AnnotationRetention.BINARY) annotation class IoDispatcher
 @Qualifier @Retention(AnnotationRetention.BINARY) annotation class DefaultDispatcher
@@ -60,7 +60,6 @@ object DatabaseModule {
 @Module
 @InstallIn(SingletonComponent::class)
 abstract class AnalyticsModule {
-    /** Swap for a Firebase-backed implementation once google-services.json is added (PRD §2). */
     @Binds @Singleton
-    abstract fun bindAnalytics(impl: LogcatAnalytics): Analytics
+    abstract fun bindAnalytics(impl: FirebaseAnalyticsSink): Analytics
 }

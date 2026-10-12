@@ -53,4 +53,27 @@ class CancelStreakTest {
         assertFalse(CancelStreak.shouldAsk(afterKeepGoing, remaining = 4))
         assertTrue(CancelStreak.shouldAsk(CancelStreak.next(afterKeepGoing, Outcome.Skipped), remaining = 3))
     }
+
+    @Test
+    fun `each Cancel warms the ring a third of the way, amber at the first ask`() {
+        assertEquals(0f, CancelStreak.warmth(streak = 0, keepGoings = 0), 0f)
+        assertEquals(1f / 3, CancelStreak.warmth(streak = 1, keepGoings = 0), 1e-6f)
+        assertEquals(2f / 3, CancelStreak.warmth(streak = 2, keepGoings = 0), 1e-6f)
+        assertEquals(1f, CancelStreak.warmth(streak = 3, keepGoings = 0), 0f)
+    }
+
+    @Test
+    fun `after Keep going the ring stays amber and heads for red, and never past it`() {
+        assertEquals(1f, CancelStreak.warmth(streak = 0, keepGoings = 1), 0f)
+        assertEquals(4f / 3, CancelStreak.warmth(streak = 1, keepGoings = 1), 1e-6f)
+        assertEquals(2f, CancelStreak.warmth(streak = 3, keepGoings = 1), 0f)
+        assertEquals(2f, CancelStreak.warmth(streak = 3, keepGoings = 4), 0f)
+    }
+
+    @Test
+    fun `only a removal forgets the Keep goings`() {
+        assertEquals(0, CancelStreak.nextKeepGoings(2, Outcome.Removed))
+        assertEquals(2, CancelStreak.nextKeepGoings(2, Outcome.Skipped))
+        assertEquals(2, CancelStreak.nextKeepGoings(2, Outcome.NotShown))
+    }
 }

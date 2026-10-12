@@ -8,6 +8,13 @@
         <item quantity="one">You tapped Cancel three times in a row. %1$d app is still waiting.</item>
         <item quantity="other">You tapped Cancel three times in a row. %1$d apps are still waiting.</item>
     </plurals>
+    <!-- Asked again after Keep going and three more Cancels: the ring has turned red. -->
+    <string name="uninstall_cancel_streak_again_title">Are you sure you want to keep going?</string>
+    <!-- %1$d = apps not handled yet. -->
+    <plurals name="uninstall_cancel_streak_again_body">
+        <item quantity="one">You keep tapping Cancel. %1$d app is still waiting.</item>
+        <item quantity="other">You keep tapping Cancel. %1$d apps are still waiting.</item>
+    </plurals>
 
     <!-- PRD v1.1 §6 "OEM without the package-specific Usage Access page": back from Settings, access still off.
          The button reuses action_retry ("Try again"). -->

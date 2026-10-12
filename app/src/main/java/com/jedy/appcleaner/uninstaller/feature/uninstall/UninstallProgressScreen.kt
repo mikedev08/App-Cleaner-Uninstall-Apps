@@ -3,8 +3,11 @@ package com.jedy.appcleaner.uninstaller.feature.uninstall
 import androidx.activity.compose.BackHandler
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.keyframes
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -44,7 +47,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberUpdatedState
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
@@ -55,7 +60,11 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.graphics.lerp
+import androidx.compose.ui.hapticfeedback.HapticFeedbackType
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.pluralStringResource
 import androidx.compose.ui.res.stringResource
@@ -74,7 +83,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.jedy.appcleaner.uninstaller.R
 import com.jedy.appcleaner.uninstaller.core.ui.component.AppCard
 import com.jedy.appcleaner.uninstaller.core.ui.component.AppRow
-import com.jedy.appcleaner.uninstaller.core.ui.component.IconBadge
 import com.jedy.appcleaner.uninstaller.core.ui.component.PrimaryButton
 import com.jedy.appcleaner.uninstaller.core.ui.component.SecondaryButton
 import com.jedy.appcleaner.uninstaller.core.ui.theme.AppTheme
@@ -164,6 +172,7 @@ private fun ProgressContent(
         if (state.position > 0) listState.animateScrollToItem((state.position - 2).coerceAtLeast(0))
     }
     val current = state.currentRow()
+    CancelHaptics(state.cancelWarmth)
 
     Column(
         Modifier
@@ -181,7 +190,11 @@ private fun ProgressContent(
                 color = AppTheme.colors.textSecondary,
             )
             Spacer(Modifier.height(Dimens.gutter))
-            ProgressRing(progress = state.progress, current = current, position = state.position, total = state.total)
+            ProgressRing(
+                progress = state.progress, current = current, position = state.position, total = state.total,
+                warmth = state.cancelWarmth,
+                paused = state.cancelStreakRemaining != null,
+            )
             Spacer(Modifier.height(Dimens.gutter))
             AnimatedContent(
                 targetState = current?.item?.label.orEmpty(),
@@ -219,7 +232,12 @@ private fun ProgressContent(
         Box(Modifier.fillMaxWidth().padding(vertical = 4.dp), contentAlignment = Alignment.Center) {
             if (streakRemaining != null) {
                 // Pinned where the Stop link is, so it is on screen however long the list is.
-                CancelStreakCard(remaining = streakRemaining, onStop = onStreakStop, onKeepGoing = onStreakKeepGoing)
+                CancelStreakCard(
+                    remaining = streakRemaining,
+                    escalated = state.cancelStreakEscalated,
+                    onStop = onStreakStop,
+                    onKeepGoing = onStreakKeepGoing,
+                )
             } else if (state.isStopping) {
                 Text(
                     text = stringResource(R.string.uninstall_stopping),
@@ -243,6 +261,31 @@ private fun ProgressContent(
     }
 }
 
+/**
+ * Every Cancel in a row is felt, and it escalates with the ring's colour ([warmth]): a light tick,
+ * a firmer one once past amber, and a "reject" buzz on reaching amber ("Stop removing the rest?")
+ * and red ("Are you sure?"). A removal cools the ring, and that is silent. The phone's own
+ * touch-feedback setting still decides whether anything vibrates.
+ */
+@Composable
+private fun CancelHaptics(warmth: Float) {
+    val haptics = LocalHapticFeedback.current
+    var last by remember { mutableFloatStateOf(warmth) }
+    LaunchedEffect(warmth) {
+        val previous = last
+        last = warmth
+        if (warmth <= previous) return@LaunchedEffect
+        val reachedAsk = (previous < 1f && warmth >= 1f) || (previous < 2f && warmth >= 2f)
+        haptics.performHapticFeedback(
+            when {
+                reachedAsk -> HapticFeedbackType.Reject
+                warmth > 1f -> HapticFeedbackType.LongPress
+                else -> HapticFeedbackType.ContextClick
+            },
+        )
+    }
+}
+
 /** The app Android is asking about now; else the next in line; else the last (all done). */
 private fun ProgressUiState.currentRow(): QueueRow? =
     rows.firstOrNull { it.state == ItemState.IN_PROGRESS }
@@ -253,15 +296,42 @@ private fun ProgressUiState.currentRow(): QueueRow? =
  * The hero: a full ring filling with finished apps, the current app's icon large in the middle
  * (swapping with a scale + fade as the queue advances) and "2 of 5" under it. The ring starts at
  * 12 o'clock and runs clockwise in LTR, counter-clockwise in RTL (PRD §6 item 23).
+ *
+ * Every Cancel in a row warms the fill ([warmth], see `CancelStreak.warmth`): a third of the way
+ * from green to amber each time, amber at "Stop removing the rest?", then on to red if the user
+ * keeps going and keeps cancelling. A removal cools it back to green. [paused] (the cancel-streak
+ * card is up): one short shake.
  */
 @Composable
-private fun ProgressRing(progress: Float, current: QueueRow?, position: Int, total: Int) {
+private fun ProgressRing(progress: Float, current: QueueRow?, position: Int, total: Int, warmth: Float, paused: Boolean) {
     val colors = AppTheme.colors
     val animated by animateFloatAsState(
         progress.coerceIn(0f, 1f), tween(700, easing = FastOutSlowInEasing), label = "ring",
     )
+    val warmColor = if (warmth <= 1f) lerp(colors.accent, colors.warning, warmth)
+    else lerp(colors.warning, colors.removeRed, warmth - 1f)
+    val fill by animateColorAsState(warmColor, tween(400), label = "ringColor")
+    val shake = remember { Animatable(0f) }
+    LaunchedEffect(paused) {
+        if (paused) {
+            shake.animateTo(
+                0f,
+                keyframes {
+                    durationMillis = 480
+                    -12f at 60
+                    12f at 140
+                    -8f at 220
+                    8f at 300
+                    -4f at 380
+                },
+            )
+        }
+    }
     val rtl = LocalLayoutDirection.current == LayoutDirection.Rtl
-    Box(Modifier.size(212.dp), contentAlignment = Alignment.Center) {
+    Box(
+        Modifier.size(212.dp).graphicsLayer { translationX = shake.value.dp.toPx() },
+        contentAlignment = Alignment.Center,
+    ) {
         Canvas(Modifier.fillMaxSize()) {
             val stroke = 14.dp.toPx()
             val inset = stroke / 2
@@ -272,7 +342,7 @@ private fun ProgressRing(progress: Float, current: QueueRow?, position: Int, tot
             )
             if (animated > 0f) {
                 drawArc(
-                    colors.accent, startAngle = -90f, sweepAngle = (if (rtl) -360f else 360f) * animated,
+                    fill, startAngle = -90f, sweepAngle = (if (rtl) -360f else 360f) * animated,
                     useCenter = false, topLeft = Offset(inset, inset), size = arcSize,
                     style = Stroke(stroke, cap = StrokeCap.Round),
                 )
@@ -355,41 +425,62 @@ private fun StalledCard(onShowAgain: () -> Unit) {
 /**
  * PRD §6 "Several dialogs cancelled in a row": after three Cancels the queue does not open the next
  * dialog and asks this instead. In-app and calm — the user is not in trouble, just probably done.
- * Stop comes first because three Cancels mostly mean "stop"; neither choice is destructive, so
- * nothing here is red.
+ * Amber, like the other "unfinished" states. [escalated]: they chose Keep going and cancelled
+ * three more — red, and "Are you sure you want to keep going?", because going on is the path that
+ * removes apps.
  */
 @Composable
-private fun CancelStreakCard(remaining: Int, onStop: () -> Unit, onKeepGoing: () -> Unit) {
+private fun CancelStreakCard(remaining: Int, escalated: Boolean, onStop: () -> Unit, onKeepGoing: () -> Unit) {
+    val colors = AppTheme.colors
     AppCard(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = Dimens.gutter, vertical = Dimens.space8)
             .semantics { liveRegion = LiveRegionMode.Polite },
+        color = if (escalated) colors.dangerSurface else colors.warningSurface,
     ) {
         Row(verticalAlignment = Alignment.Top) {
-            IconBadge(icon = Icons.Outlined.PanTool, size = 44.dp)
+            Box(
+                Modifier.size(44.dp).clip(RoundedCornerShape(14.dp)).background(colors.background),
+                contentAlignment = Alignment.Center,
+            ) {
+                Icon(
+                    Icons.Outlined.PanTool, contentDescription = null,
+                    tint = if (escalated) colors.onDangerSurface else colors.onWarningSurface,
+                    modifier = Modifier.size(24.dp),
+                )
+            }
             Spacer(Modifier.width(14.dp))
             Column(Modifier.weight(1f)) {
                 Text(
-                    text = stringResource(R.string.uninstall_cancel_streak_title),
+                    text = stringResource(
+                        if (escalated) R.string.uninstall_cancel_streak_again_title else R.string.uninstall_cancel_streak_title,
+                    ),
                     style = MaterialTheme.typography.titleMedium,
                     color = AppTheme.colors.textPrimary,
                     modifier = Modifier.semantics { heading() },
                 )
                 Spacer(Modifier.height(4.dp))
                 Text(
-                    text = pluralStringResource(R.plurals.uninstall_cancel_streak_body, remaining, remaining),
+                    text = pluralStringResource(
+                        if (escalated) R.plurals.uninstall_cancel_streak_again_body else R.plurals.uninstall_cancel_streak_body,
+                        remaining,
+                        remaining,
+                    ),
                     style = MaterialTheme.typography.bodyMedium,
                     color = AppTheme.colors.textSecondary,
                 )
             }
         }
         Spacer(Modifier.height(Dimens.space16))
-        // Green means "go", so it belongs on Keep going; Stop is the calm, neutral way out.
+        // Amber, not green: three Cancels are a pause, so nothing here says "go". Red the second
+        // time: Keep going is what removes apps.
         PrimaryButton(
             text = stringResource(R.string.uninstall_stop_keep_going),
             onClick = onKeepGoing,
             modifier = Modifier.fillMaxWidth(),
+            warning = !escalated,
+            destructive = escalated,
         )
         Spacer(Modifier.height(Dimens.stackedButtonGap))
         SecondaryButton(

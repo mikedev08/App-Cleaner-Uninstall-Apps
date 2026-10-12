@@ -31,6 +31,7 @@ import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
@@ -51,6 +52,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.jedy.appcleaner.uninstaller.R
+import com.jedy.appcleaner.uninstaller.ads.LocalAdManager
 import com.jedy.appcleaner.uninstaller.core.model.HomeTab
 import com.jedy.appcleaner.uninstaller.core.ui.component.AppIcon
 import com.jedy.appcleaner.uninstaller.core.ui.component.PrimaryButton
@@ -80,6 +82,12 @@ fun UninstallConfirmSheet(
     val state by viewModel.uiState.collectAsStateWithLifecycle()
     val latestOnStarted by rememberUpdatedState(onStarted)
     LaunchedEffect(viewModel) { viewModel.started.collect { latestOnStarted(it) } }
+    // The start of the uninstall path: no interstitial while this is open (AdMob PRD §5.3).
+    val ads = LocalAdManager.current
+    DisposableEffect(ads) {
+        ads?.isReviewOpen = true
+        onDispose { ads?.isReviewOpen = false }
+    }
 
     val sheetState = rememberModalBottomSheetState(skipPartiallyExpanded = true)
     val scope = rememberCoroutineScope()

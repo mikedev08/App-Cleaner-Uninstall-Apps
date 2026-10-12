@@ -109,6 +109,9 @@ class UninstallEngine @Inject constructor(
      */
     @Volatile private var cancelStreak = 0
 
+    /** Keep goings since the last removal: a second "are you sure" turns the ring red. */
+    @Volatile private var keepGoings = 0
+
     /** Writes a full disk refused, laid over Room until they can be written (PRD §6 "Storage almost full"). */
     private val held = MutableStateFlow(HeldWrites())
     private val flushLock = Mutex()
@@ -218,6 +221,7 @@ class UninstallEngine @Inject constructor(
             stopRequestedFor = null
             awaitingPackage = null
             cancelStreak = 0
+            keepGoings = 0
             _runtime.value = EngineRuntime(activeBatchId = batchId)
             ownedBatches.update { it + batchId }
             runJob = scope.launch { runLoop(batchId) }
@@ -305,7 +309,8 @@ class UninstallEngine @Inject constructor(
         val remaining = _runtime.value.cancelStreakPrompt ?: return
         analytics.log(AnalyticsEvent.UninstallCancelStreakPrompt(CancelStreakAction.KEEP_GOING, remaining))
         cancelStreak = 0
-        _runtime.update { it.copy(cancelStreakPrompt = null) }
+        keepGoings++
+        _runtime.update { it.copy(cancelStreakPrompt = null, cancelStreak = cancelStreak, keepGoings = keepGoings) }
     }
 
     // ------------------------------------------------------------------ Home banner
@@ -365,6 +370,13 @@ class UninstallEngine @Inject constructor(
         }
     }
 
+    /** Moves the streak on and publishes it, so the ring warms (or cools) as the user answers. */
+    private fun onOutcome(outcome: Outcome) {
+        cancelStreak = CancelStreak.next(cancelStreak, outcome)
+        keepGoings = CancelStreak.nextKeepGoings(keepGoings, outcome)
+        _runtime.update { it.copy(cancelStreak = cancelStreak, keepGoings = keepGoings) }
+    }
+
     private suspend fun process(batch: UninstallBatchEntity, item: UninstallItemEntity) {
         val live = inventory.find(item.packageName)
         when (UninstallRules.preflight(ItemState.of(item.state), installed = live != null)) {
@@ -374,7 +386,7 @@ class UninstallEngine @Inject constructor(
             }
             Preflight.REMOVED_BY_US -> {
                 recordRemoval(item)
-                cancelStreak = CancelStreak.next(cancelStreak, Outcome.Removed)
+                onOutcome(Outcome.Removed)
                 return
             }
             Preflight.REQUEST -> Unit
@@ -416,7 +428,7 @@ class UninstallEngine @Inject constructor(
             isDeviceAdmin = isFailure && runCatching { remover.isDeviceAdmin(pkg) }.getOrDefault(false),
         )
         val now = clock.now()
-        cancelStreak = CancelStreak.next(cancelStreak, outcome)
+        onOutcome(outcome)
         when (outcome) {
             Outcome.Removed -> recordRemoval(current)
             Outcome.Skipped -> saveItem(

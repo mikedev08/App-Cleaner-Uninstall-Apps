@@ -1,5 +1,6 @@
 package com.jedy.appcleaner.uninstaller.feature.settings
 
+import androidx.activity.compose.LocalActivity
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandVertically
 import androidx.compose.animation.fadeIn
@@ -29,6 +30,7 @@ import androidx.compose.material.icons.rounded.Language
 import androidx.compose.material.icons.rounded.ManageAccounts
 import androidx.compose.material.icons.rounded.NotificationsActive
 import androidx.compose.material.icons.rounded.NotificationsOff
+import androidx.compose.material.icons.rounded.PrivacyTip
 import androidx.compose.material.icons.rounded.QueryStats
 import androidx.compose.material.icons.rounded.Restore
 import androidx.compose.material.icons.rounded.StarRate
@@ -58,6 +60,7 @@ import androidx.lifecycle.compose.LifecycleResumeEffect
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.jedy.appcleaner.uninstaller.BuildConfig
 import com.jedy.appcleaner.uninstaller.R
+import com.jedy.appcleaner.uninstaller.ads.LocalAdManager
 import com.jedy.appcleaner.uninstaller.core.locale.AppLanguage
 import com.jedy.appcleaner.uninstaller.core.model.PaywallSource
 import com.jedy.appcleaner.uninstaller.core.model.UsageAccessTrigger
@@ -109,6 +112,10 @@ fun SettingsScreen(
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
     var languageSheetVisible by rememberSaveable { mutableStateOf(false) }
+    val ads = LocalAdManager.current
+    val activity = LocalActivity.current
+    val privacyOptionsRequired = ads?.privacyOptionsRequired?.collectAsStateWithLifecycle()?.value == true
+    val privacyChoices = privacyOptionsRequired && !state.isPremium
 
     LifecycleResumeEffect(viewModel) {
         viewModel.onResume()
@@ -181,6 +188,11 @@ fun SettingsScreen(
                             BillingLinks.playListingWeb(context.packageName),
                         )
                     },
+                    onPrivacyChoices = if (privacyChoices && activity != null && ads != null) {
+                        { ads.showPrivacyOptions(activity) }
+                    } else {
+                        null
+                    },
                 )
 
                 RemindersGroup(
@@ -195,57 +207,62 @@ fun SettingsScreen(
                     onAllowUsageAccess = { onOpenUsageAccess(UsageAccessTrigger.SETTINGS) },
                 )
 
-                // Settings first, the sell second (design review §2.6): the Pro card leads the
-                // Subscription section instead of opening the screen.
-                SettingsGroup(
-                    title = stringResource(R.string.settings_section_subscription),
-                    lead = {
-                        if (state.isPremium) {
-                            ProActiveCard(hasStoreSubscription = state.hasStoreSubscription)
-                        } else {
-                            ProHeroCard(
-                                trialAvailable = state.trialAvailable,
-                                onUpgrade = { onOpenPaywall(PaywallSource.SETTINGS) },
-                            )
-                        }
-                    },
-                ) {
-                    SettingsRow(
-                        icon = Icons.Rounded.ManageAccounts,
-                        title = stringResource(R.string.settings_manage_subscription),
-                        onClick = { openUrl(viewModel.manageSubscriptionUrl(), null) },
-                    )
-                    SettingsRow(
-                        icon = Icons.Rounded.Restore,
-                        title = stringResource(R.string.settings_restore),
-                        onClick = viewModel::restore,
-                        enabled = !state.restoring,
-                        trailing = if (state.restoring) {
-                            {
-                                CircularProgressIndicator(
-                                    color = AppTheme.colors.accent,
-                                    strokeWidth = 2.dp,
-                                    modifier = Modifier.size(20.dp),
+                // No subscription in a -Psubscriptions=false build, so no Subscription section.
+                if (BuildConfig.SUBSCRIPTIONS) {
+                    // Settings first, the sell second (design review §2.6): the Pro card leads the
+                    // Subscription section instead of opening the screen.
+                    SettingsGroup(
+                        title = stringResource(R.string.settings_section_subscription),
+                        lead = {
+                            if (state.isPremium) {
+                                ProActiveCard(hasStoreSubscription = state.hasStoreSubscription)
+                            } else {
+                                ProHeroCard(
+                                    trialAvailable = state.trialAvailable,
+                                    onUpgrade = { onOpenPaywall(PaywallSource.SETTINGS) },
                                 )
                             }
-                        } else {
-                            null
                         },
-                        showChevron = !state.restoring,
-                    )
+                    ) {
+                        SettingsRow(
+                            icon = Icons.Rounded.ManageAccounts,
+                            title = stringResource(R.string.settings_manage_subscription),
+                            onClick = { openUrl(viewModel.manageSubscriptionUrl(), null) },
+                        )
+                        SettingsRow(
+                            icon = Icons.Rounded.Restore,
+                            title = stringResource(R.string.settings_restore),
+                            onClick = viewModel::restore,
+                            enabled = !state.restoring,
+                            trailing = if (state.restoring) {
+                                {
+                                    CircularProgressIndicator(
+                                        color = AppTheme.colors.accent,
+                                        strokeWidth = 2.dp,
+                                        modifier = Modifier.size(20.dp),
+                                    )
+                                }
+                            } else {
+                                null
+                            },
+                            showChevron = !state.restoring,
+                        )
+                    }
                 }
 
                 // Debug builds only: BuildConfig.DEBUG is a compile-time false in release, so R8
                 // drops this whole group (and the force-premium switch) from the shipped app.
                 if (BuildConfig.DEBUG) {
                     SettingsGroup(title = stringResource(R.string.settings_section_debug)) {
-                        SettingsSwitchRow(
-                            icon = Icons.Rounded.BugReport,
-                            title = stringResource(R.string.settings_debug_force_premium),
-                            subtitle = null,
-                            checked = state.debugForcePremium,
-                            onCheckedChange = viewModel::setDebugForcePremium,
-                        )
+                        if (BuildConfig.SUBSCRIPTIONS) {
+                            SettingsSwitchRow(
+                                icon = Icons.Rounded.BugReport,
+                                title = stringResource(R.string.settings_debug_force_premium),
+                                subtitle = null,
+                                checked = state.debugForcePremium,
+                                onCheckedChange = viewModel::setDebugForcePremium,
+                            )
+                        }
                         SettingsRow(
                             icon = Icons.Rounded.Cloud,
                             title = stringResource(R.string.settings_debug_revenuecat),
@@ -286,6 +303,7 @@ private fun PreferencesGroup(
     onThemeSelected: (ThemeMode) -> Unit,
     onUsageAccess: () -> Unit,
     onRate: () -> Unit,
+    onPrivacyChoices: (() -> Unit)?,
 ) {
     // First group: the large title above already ends in 12dp, so 12 more (not a 32dp section gap).
     SettingsGroup(title = stringResource(R.string.settings_section_preferences), topSpacing = Dimens.space12) {
@@ -310,6 +328,15 @@ private fun PreferencesGroup(
             // Status under the title, not in a trailing column, so the description keeps the width.
             status = { UsageAccessStatus(granted = state.usageAccessGranted) },
         )
+        // Only when UMP says the user must be able to reopen the consent form (AdMob PRD §8).
+        if (onPrivacyChoices != null) {
+            SettingsRow(
+                icon = Icons.Rounded.PrivacyTip,
+                title = stringResource(R.string.settings_privacy_choices_title),
+                subtitle = stringResource(R.string.settings_privacy_choices_body),
+                onClick = onPrivacyChoices,
+            )
+        }
         SettingsRow(
             icon = Icons.Rounded.StarRate,
             title = stringResource(R.string.settings_rate),
